@@ -16,81 +16,42 @@ ActiveRecord::Schema.define(version: 20161016215940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "admins", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-  end
-
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
-
-  create_table "businesses", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "address"
-    t.string   "company_name"
-    t.integer  "phone"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-  end
-
-  add_index "businesses", ["email"], name: "index_businesses_on_email", unique: true, using: :btree
-  add_index "businesses", ["reset_password_token"], name: "index_businesses_on_reset_password_token", unique: true, using: :btree
-
   create_table "locations", force: :cascade do |t|
+    t.string   "number"
+    t.string   "street"
+    t.string   "city"
+    t.string   "country"
+    t.string   "addr_name"
+    t.string   "apt_number"
+    t.string   "state"
+    t.string   "zip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "market_users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "phone"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-  end
-
-  add_index "market_users", ["email"], name: "index_market_users_on_email", unique: true, using: :btree
-  add_index "market_users", ["reset_password_token"], name: "index_market_users_on_reset_password_token", unique: true, using: :btree
-
   create_table "recurrences", force: :cascade do |t|
+    t.integer  "day"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.integer  "frequency"
+    t.boolean  "has_sent"
+    t.datetime "startdate"
+    t.integer  "exception"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title"
+    t.integer  "food_type"
+    t.string   "caterer"
+    t.text     "comments"
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
+  add_index "requests", ["location_id"], name: "index_requests_on_location_id", using: :btree
+
+  add_foreign_key "requests", "locations"
 end

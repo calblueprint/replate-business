@@ -1,0 +1,143 @@
+/* Styles for buttons go here
+ * Every button should have the .button class,
+ * and can be modified using additional styles */
+
+.button {
+  @include appearance(none);
+  background: $green;
+  border: 1px solid $green;
+  border-radius: 2px;
+  color: $snow;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  outline: none;
+  padding: 8px 18px;
+  text-transform: uppercase;
+  transition: 100ms;
+
+  &:hover {
+    box-shadow: 0 2px 8px $black-20;
+    text-decoration: none;
+  }
+
+  &:active {
+    box-shadow: none;
+    opacity: 0.8;
+  }
+}
+
+.button--lg {
+  font-size: 16px;
+  padding: 12px 25px;
+}
+
+.button--sm {
+  font-size: 12px;
+  padding: 5px 14px;
+}
+
+/* Button colors */
+.button--black {
+  background: $black;
+  border-color: $black;
+  color: $snow;
+}
+
+.button--white {
+  background: $snow;
+  border-color: $snow;
+  color: $green;
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+.button--blue {
+  background: $blue-dark;
+  border-color: $blue-dark;
+  color: $snow;
+  font-weight: 700;
+  opacity: 0.95
+}
+
+.button--outline {
+  background: transparent;
+  border-color: $green-60;
+  color: $green;
+
+  &:hover {
+    border-color: $green;
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: $green-20;
+  }
+}
+
+.button--ghost {
+  background: transparent;
+  border-color: $snow-40;
+  color: $snow;
+  font-weight: 500;
+
+  &:hover {
+    border-color: $snow;
+    color: white;
+  }
+}
+
+.button--text-green {
+  background: transparent;
+  border-color: transparent;
+  color: $green;
+  font-weight: 700;
+  opacity: 0.8;
+
+  &:hover {
+    background: $green-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.button--text-black {
+  background: transparent;
+  border-color: transparent;
+  color: $black;
+  font-weight: 700;
+  opacity: 0.8;
+
+  &:hover {
+    background: $black-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.button--text-white {
+  background: transparent;
+  border-color: transparent;
+  color: white;
+  font-weight: 600;
+  opacity: 0.85;
+
+  &:hover {
+    background: $snow-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}

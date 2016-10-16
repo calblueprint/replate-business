@@ -1,0 +1,49 @@
+.container.marginTop-xl
+  h1.heading.marginBot-md Style Guide
+  h1.h3.marginBot-xs Spacing
+  p.marginBot-sm In <code>partials/_layouts.scss</code>, you can see how the spacing works. There are 7 different spacing values: <code>xxs</code>, <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>xxl</code>. Attach these to the classes below to specify margin spacing:
+  p.marginBot-lg Use classes for spacing: <code>marginTop-{size}</code>, <code>marginBot-{size}</code>, <code>marginLeft-{size}</code>, <code>marginRight-{size}</code>, <code>marginTopBot-{size}</code>, <code>marginLeftRight-{size}</code>, <code>margin-{size}</code>
+  h1.h3.marginBot-xs Colors
+  .color-style-container.marginBot-xl
+    p.marginBot-md The colors are defined in <code>variables.scss</code>. Each color can be "lightened" by appending an alpha value to the variable name. For example, <code>background: $green-40</code> will use the <code>green</code> color with an alpha value of 0.4.
+    .color-style.green Green<br>#4B9560
+    .color-style.light-blue Light Blue<br>#3498DB
+    .color-style.black Black<br>#30404D
+    .color-style.silver Silver<br>#8492A6
+    .color-style.gray Gray<br>#E1E1E1
+    .color-style.snow Snow<br>#F0F2F4
+  h1.h3 Buttons
+  p.marginTopBot-xs There are lots of button styles. Every button needs to have the class <code>.button</code>, then you can extend with modifiers. For example, the outlined button can be defined as <code>.button.button--outline</code> Inspect the page to see all the styles!
+  .button-style-container.marginBot-sm
+    button.margin-sm.button Button
+    button.margin-sm.button.button--black Black Button
+    button.margin-sm.button.button--outline Outlined Button
+    button.margin-sm.button.button--white White Button
+  .button-style-container.marginBot-md
+    button.margin-sm.button.button--text-green Text Button
+    button.margin-sm.button.button--text-black Text Button
+
+  h1.h3 Sizes
+  .button-style-container.marginBot-md
+    p.marginTopBot-xs Customize button sizes using <code>.button--lg</code> and <code>.button--sm</code>
+    button.margin-sm.button Default
+    button.margin-sm.button.button--lg Large
+    button.margin-sm.button.button--sm Small
+
+  p.marginTopBot-lg Lorem ipsum dolor sit amet, <a href="http://facebook.com">Facebook</a> consectetur adipisicing elit. Odit tenetur delectus voluptatem nostrum rerum incidunt, eos eaque nesciunt, id impedit facilis, quia molestias blanditiis eum veritatis, in minus assumenda numquam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, asperiores at ex dolorum a repellendus animi ducimus eligendi odit deserunt, voluptatem, non laborum aut ad aperiam reprehenderit mollitia molestias quod.
+
+  div: a.link href="http://facebook.com" Link with underline
+  div: a.link.link--no-underline href="http://facebook.com" Link without underline
+
+  h1.h3.marginTop-md Inputs
+  form.marginTopBot-sm
+    input.input.marginRight-xs placeholder="Email" type="email"
+    input.button type="submit"
+
+  form.marginTopBot-sm
+    input.input.input--lg.marginRight-xs placeholder="Email" type="email"
+    input.button.button--lg type="submit"
+
+  form.marginTopBot-sm
+    input.input.input--sm.marginRight-xs placeholder="Email" type="email"
+    input.button.button--sm type="submit"

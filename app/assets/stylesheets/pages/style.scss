@@ -1,0 +1,44 @@
+.heading {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.color-style {
+  border-radius: 2px;
+  color: $snow;
+  display: inline-block;
+  font-weight: 500;
+  padding: 10px 20px;
+
+  &.green { background: $green; }
+  &.light-blue { background: $blue-light; }
+  &.black { background: $black; }
+  &.silver { background: $silver; }
+  &.gray { background: $gray; color: $black; }
+  &.snow { background: $snow; color: $black; }
+}
+
+code {
+  background: $silver-20;
+  border-radius: 2px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  padding: 0 7px;
+}

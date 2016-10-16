@@ -1,0 +1,55 @@
+.input-container {
+  label.label--newline {
+    color: $black-60;
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+}
+
+
+.input {
+  @include appearance(none);
+  background: $black-10;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  color: $black;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  padding: 8px 15px;
+  transition: 50ms;
+
+  &:focus {
+    background: $green-20;
+    border-color: $green-40;
+  }
+}
+
+.input--lg {
+  font-size: 16px;
+  padding: 12px 18px;
+}
+
+.input--sm {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.input--fullwidth {
+  width: 100%;
+}
+
+
+.input--light {
+  background: $snow-20;
+  border: 1px solid $snow-40;
+  color: $snow;
+
+  &:focus {
+    border-color: $snow-80;
+  }
+}

@@ -10,6 +10,19 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+@import "bootstrap/grid";
+
+@import 'partials/reset';
+
+@import 'partials/variables';
+@import 'partials/mixins';
+@import 'partials/fonts';
+@import 'partials/layouts';
+
+@import 'components/*';
+@import 'pages/*';

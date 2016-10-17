@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.2.5'
 
+# Onfleet
+gem 'onfleet-ruby'
+
 # Rails
 gem 'rails', '4.2.4'
 

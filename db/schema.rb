@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20161016215940) do
   enable_extension "plpgsql"
 
   create_table "locations", force: :cascade do |t|
-    t.string   "number"
-    t.string   "street"
-    t.string   "city"
-    t.string   "country"
+    t.string   "number",     null: false
+    t.string   "street",     null: false
+    t.string   "city",       null: false
+    t.string   "country",    null: false
     t.string   "addr_name"
     t.string   "apt_number"
     t.string   "state"
@@ -30,28 +30,32 @@ ActiveRecord::Schema.define(version: 20161016215940) do
   end
 
   create_table "recurrences", force: :cascade do |t|
-    t.integer  "day"
-    t.datetime "starttime"
-    t.datetime "endtime"
-    t.integer  "frequency"
-    t.boolean  "has_sent"
-    t.datetime "startdate"
+    t.integer  "day",                        null: false
+    t.datetime "start_time",                 null: false
+    t.datetime "end_time",                   null: false
+    t.integer  "frequency",                  null: false
+    t.boolean  "has_sent",   default: false
+    t.datetime "start_date",                 null: false
     t.integer  "exception"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "request_id"
   end
 
+  add_index "recurrences", ["request_id"], name: "index_recurrences_on_request_id", using: :btree
+
   create_table "requests", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "food_type"
-    t.string   "caterer"
+    t.string   "title",       null: false
+    t.integer  "food_type",   null: false
+    t.string   "caterer",     null: false
     t.text     "comments"
-    t.integer  "location_id"
+    t.integer  "location_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   add_index "requests", ["location_id"], name: "index_requests_on_location_id", using: :btree
 
+  add_foreign_key "recurrences", "requests"
   add_foreign_key "requests", "locations"
 end

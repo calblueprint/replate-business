@@ -3,15 +3,16 @@
 # Table name: recurrences
 #
 #  id         :integer          not null, primary key
-#  day        :integer
-#  starttime  :datetime
-#  endtime    :datetime
-#  frequency  :integer
-#  has_sent   :boolean
-#  startdate  :datetime
+#  day        :integer          not null
+#  start_time :datetime         not null
+#  end_time   :datetime         not null
+#  frequency  :integer          not null
+#  has_sent   :boolean          default(FALSE)
+#  start_date :datetime         not null
 #  exception  :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  request_id :integer
 #
 
 class Recurrence < ActiveRecord::Base

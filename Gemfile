@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.2.5'
 
+# Onfleet
+gem 'onfleet-ruby'
+
 # Rails
 gem 'rails', '4.2.4'
 
@@ -21,7 +24,7 @@ gem 'react-rails', '1.5.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'font-awesome-rails', '4.5.0'
 gem 'jquery-rails', '3.1.4'
-gem 'react-bootstrap-rails', '0.30.2'
+# gem 'react-bootstrap-rails', '0.30.2'
 gem 'sass-rails', '5.0.6'
 gem 'slim', '~> 3.0.6'
 gem 'slim-rails', '~> 3.0.1'

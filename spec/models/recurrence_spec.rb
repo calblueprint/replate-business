@@ -9,7 +9,7 @@
 #  frequency  :integer          not null
 #  has_sent   :boolean          default(FALSE)
 #  start_date :datetime         not null
-#  exception  :integer
+#  exception  :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  request_id :integer

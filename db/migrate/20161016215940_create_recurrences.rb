@@ -7,7 +7,7 @@ class CreateRecurrences < ActiveRecord::Migration
       t.integer :frequency, null: false
       t.boolean :has_sent, default: false
       t.datetime :start_date, null: false
-      t.integer :exception
+      t.integer :exception, null: false, default: 0
       t.timestamps null: false
       t.references :request, index: true, foreign_key: true
     end

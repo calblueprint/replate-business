@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20161016215940) do
     t.integer  "frequency",                  null: false
     t.boolean  "has_sent",   default: false
     t.datetime "start_date",                 null: false
-    t.integer  "exception"
+    t.integer  "exception",  default: 0,     null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "request_id"

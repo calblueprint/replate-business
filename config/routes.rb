@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   	resources :admins
     resources :businesses
     resources :locations
-    resources :requests
+    resources :requests, :only => [:show, :create, :update, :destroy]
     resources :recurrences
   end
 end

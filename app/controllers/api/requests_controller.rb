@@ -4,16 +4,16 @@ class API::RequestsController < ApplicationController
 	def create
 	    request = Request.new(request_params)
 	    if request.save
-	      render json: request, status: 201, location: [:api, request]
-	    else
-	      render json: { errors: request.errors.full_messages }, status: 422
-	    end
+        render_json_message(:ok, message: 'Request successfully created!')
+      else
+        render_json_message(:forbidden, errors: request.errors.full_messages)
+      end
 	end
 
 	def destroy
      	request = Request.find(params[:id])
 		if request.destroy
-			render_json_message(:ok, message: 'Student successfully deleted!')
+			render_json_message(:ok, message: 'Request successfully deleted!')
 		else
 			render_json_message(:forbidden, errors: request.errors.full_messages)
 		end
@@ -24,9 +24,9 @@ class API::RequestsController < ApplicationController
 		request = Request.find(params[:id])
 
 		if request.update(request_params)
-			render json: request, status: 200, location: [:api, request]
+			render_json_message(:ok, message: 'Request successfully updated!')
 		else
-			render json: { errors: request.errors }, status: 422
+			render_json_message(:forbidden, errors: request.errors.full_messages)
 		end
 	end
 

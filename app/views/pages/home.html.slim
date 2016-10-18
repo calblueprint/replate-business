@@ -1,0 +1,128 @@
+nav.nav.nav-splash
+  .container
+    a href="/": .logo
+    ul.nav-items-container
+      li.nav-item: button.button.button--text-white.marginRight-sm Sign Up
+      li.nav-item
+        = react_component "HomeLogin", { btnClasses: "button--white" }
+.hero-container
+  .hero-background
+    img.hero-image src=image_path("splash/hero.jpg") alt=""/
+  .container.hero-text-container
+    h1.hero-title
+      | Everyone Eats!
+    p.hero-description
+      | Replate matches extra food with communities in need instantly. Our platform enables charities and hungry individuals to recover food donations based on their need and location.
+    div.hero-button-container
+      button.button.button--white.marginRight-sm.button--lg.learn-more-button
+        | Learn More
+      = react_component "HomeLogin", { btnClasses: "button--text-white button--lg" }
+
+section.splash-video-container.container
+  = react_component "HomeVideo", {               \
+      playBtn: image_url("splash/play-btn.svg"), \
+      thumbnail: image_url("splash/video.jpg"),  \
+    }
+
+section.splash-description
+  .container
+    h1.splash-section-title.marginBot-md
+      | About Us
+    p.splash-section-description.marginBot-xxxl
+      | Re-Plate is a technology company that matches extra food with communities in need instantly! Our platform enables businesses to donate extra food to charities and hungry people based on their need and location.
+    .container.about-us-container
+      .col-md-6.col-sm-5
+        .img-container: img src=image_url("splash/about_us.jpg") alt=""/
+      .col-md-6.col-sm-7.about-us-details
+        h2.about-us-title
+          | Replate helps you
+        ul.about-us-list
+          li.about-us-point
+            img src=image_url("splash/icons/cart.svg") /
+            h3.point-title Feed the Hungry
+            p.point-description  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non tenetur sequi impedit earum ad illo nihil blanditiis dolores quia.
+          li.about-us-point
+            img src=image_url("splash/icons/trash.svg") /
+            h3.point-title Reduce Food Waste
+            p.point-description  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non tenetur sequi impedit earum ad illo nihil blanditiis dolores quia.
+          li.about-us-point
+            img src=image_url("splash/icons/tax.svg") /
+            h3.point-title Receive Tax Cuts
+            p.point-description  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non tenetur sequi impedit earum ad illo nihil blanditiis dolores quia.
+
+section.splash-how-it-works.marginBot-xxl
+  .container
+    h1.splash-section-title.marginBot-lg
+      | How It Works
+    .row
+      .col-md-5.col-md-offset-1.how-it-works-col.businesses-col
+        .how-it-works-icon: img src=image_url("splash/icons/business.svg") alt="Business icon"/
+        h1.splash-section-title
+          | For Businesses
+        p.how-it-works-description
+          | Our drivers will clean up, package, and deliver your donation to a local nonprofit. All donations are tax-deductible!
+        a.button.button--blue.marginTop-lg.marginBot-xs href=""
+          | Continue as a business
+        br
+        = link_to business_path, { class: "link learn-more-link link--no-underline" }
+          | or learn more
+      .col-md-5.how-it-works-col.individuals-col
+        .how-it-works-icon: img src=image_url("splash/icons/individual.svg") alt="Individual icon"/
+        h1.splash-section-title
+          | For Individuals
+        p.how-it-works-description
+          | Have extra food you aren’t using? Post your donation to the marketplace and help out your community!
+        a.button.marginTop-lg.marginBot-xs href=""
+          | Continue as an individual
+
+section.splash-companies
+  .container
+    h1.splash-section-title.marginBot-xxl
+      | Join a community fighting hunger
+    .company-container
+      - @companies.each do | name |
+        img src=image_url("splash/logos/#{name}.png") alt="#{name} logo"
+
+section.subscribe-section
+  .container
+    h1.splash-section-title.marginBot-xs
+      | Love what we do?
+    p.splash-section-description.marginBot-xl
+      | Let's stay in touch! Enter your email below to receive updates.
+    form action=""
+      input.input.input--lg.marginRight-xs placeholder="email@example.com" type="email"/
+      input.button.button--green.button--lg value="Submit" type="submit"/
+
+footer.splash-footer
+  .container
+    h1.footer-title Replate
+    ul.footer-links-container
+      li.footer-link
+        = link_to root_path, { class: "link link--white link--no-underline" }
+          | Home
+      li.footer-link
+        = link_to business_path, { class: "link link--white link--no-underline" }
+          | Businesses
+      li.footer-link: a.link.link--white.link--no-underline href="" Help
+
+javascript:
+  $(document).ready(function() {
+    if ($(this).scrollTop() >= 450) {
+      $(".nav-splash").addClass("nav-splash-active");
+    }
+
+    $(".learn-more-button").on("click", () => {
+      $("html, body").animate({
+        scrollTop: $(".splash-description").offset().top - 100,
+      }, 300, "swing");
+    })
+
+    $(window).scroll(function() {
+      var top = $(this).scrollTop();
+      if (top >= 450) {
+        $(".nav-splash").addClass("nav-splash-active");
+      } else {
+        $(".nav-splash").removeClass("nav-splash-active");
+      }
+    });
+  })

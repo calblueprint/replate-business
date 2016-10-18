@@ -15,5 +15,5 @@
 class Request < ActiveRecord::Base
   belongs_to :location
   has_many :recurrences
-  enum food_type: []
+  enum food_type: [:raw, :catered, :baked_goods, :packaged]
 end

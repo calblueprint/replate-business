@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017194021) do
+ActiveRecord::Schema.define(version: 20161018070952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,17 +58,20 @@ ActiveRecord::Schema.define(version: 20161017194021) do
   add_index "businesses", ["reset_password_token"], name: "index_businesses_on_reset_password_token", unique: true, using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "number",     null: false
-    t.string   "street",     null: false
-    t.string   "city",       null: false
-    t.string   "country",    null: false
+    t.string   "number",      null: false
+    t.string   "street",      null: false
+    t.string   "city",        null: false
+    t.string   "country",     null: false
     t.string   "addr_name"
     t.string   "apt_number"
     t.string   "state"
     t.string   "zip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "business_id"
   end
+
+  add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
 
   create_table "recurrences", force: :cascade do |t|
     t.integer  "day",                        null: false
@@ -97,6 +100,7 @@ ActiveRecord::Schema.define(version: 20161017194021) do
 
   add_index "requests", ["location_id"], name: "index_requests_on_location_id", using: :btree
 
+  add_foreign_key "locations", "businesses"
   add_foreign_key "recurrences", "requests"
   add_foreign_key "requests", "locations"
 end

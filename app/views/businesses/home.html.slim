@@ -1,0 +1,11 @@
+= @business.company_name
+- unless @business.locations.empty?
+  .locations-container
+    - @business.locations.each do |l|
+      = link_to(l)
+        .location
+          h1 = l.addr_name
+          h2 = "#{l.number} #{l.street}, #{l.city}, #{l.state}"
+- else
+  p You don't have a location! Click here to add one.
+

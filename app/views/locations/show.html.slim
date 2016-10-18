@@ -1,0 +1,10 @@
+h1 Current Location: #{@location.addr_name}
+h2 #{@location.number} #{@location.street}, #{@location.city}, #{@location.state}
+
+p You have #{@location.requests.length()} requests
+
+h1 REACT STUFF HERE:
+= react_component "LocationHome", { \
+    location: @location,            \
+    requests: @location.requests    \
+  }

@@ -1,17 +1,23 @@
 class API::RequestsController < ApplicationController
 	respond_to :json
 
+	def show
+		@request = Request.find(params[:id])
+		render json: @request, root: false
+	end
+
 	def create
-	    request = Request.new(request_params)
-	    if request.save
-        render_json_message(:ok, message: 'Request successfully created!')
-      else
-        render_json_message(:forbidden, errors: request.errors.full_messages)
-      end
+    request = Request.new(request_params)
+    if request.save
+      render_json_message(:ok, message: 'Request successfully created!')
+    else
+      render_json_message(:forbidden, errors: request.errors.full_messages)
+    end
 	end
 
 	def destroy
-     	request = Request.find(params[:id])
+   	request = Request.find(params[:id])
+
 		if request.destroy
 			render_json_message(:ok, message: 'Request successfully deleted!')
 		else
@@ -34,13 +40,13 @@ class API::RequestsController < ApplicationController
 
 	def request_params
 	  params.require(:request).permit(
-	  	:day, 
-	  	:start_time, 
-	  	:end_time, 
-	  	:frequency, 
-	  	:has_sent, 
-	  	:start_date, 
-	  	:exception, 
+	  	:day,
+	  	:start_time,
+	  	:end_time,
+	  	:frequency,
+	  	:has_sent,
+	  	:start_date,
+	  	:exception,
 	  	:location_id
 	  	)
 	end

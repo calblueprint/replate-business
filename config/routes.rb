@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   # Api definition
   namespace :api, defaults: { format: :json },
-                              path: '/api/'  do
-    # We are going to list our resources here
+                              constraints: { subdomain: 'api' }, path: '/'  do
+  	resources :admins
+    resources :businesses
+    resources :locations
+    resources :requests
+    resources :recurrences
   end
 end

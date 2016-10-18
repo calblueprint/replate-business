@@ -1,10 +1,6 @@
 class API::RequestsController < ApplicationController
 	respond_to :json
 
-	def show
-		respond_with Request.find(params[:id])
-	end
-
 	def create
 	    request = Request.new(request_params)
 	    if request.save
@@ -38,6 +34,6 @@ class API::RequestsController < ApplicationController
 
 	def request_params
 	  params.require(:request).permit(:day, :start_time, :end_time, :frequency, :has_sent, :start_date, 
-	  								  :exception, :created_at, :updated_at, :request_id)
+	  								  :exception, :location_id)
 	end
 end

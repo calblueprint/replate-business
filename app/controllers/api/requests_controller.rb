@@ -33,7 +33,15 @@ class API::RequestsController < ApplicationController
 	private
 
 	def request_params
-	  params.require(:request).permit(:day, :start_time, :end_time, :frequency, :has_sent, :start_date, 
-	  								  :exception, :location_id)
+	  params.require(:request).permit(
+	  	:day, 
+	  	:start_time, 
+	  	:end_time, 
+	  	:frequency, 
+	  	:has_sent, 
+	  	:start_date, 
+	  	:exception, 
+	  	:location_id
+	  	)
 	end
 end

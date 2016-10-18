@@ -1,0 +1,2 @@
+class RecurrencesController < ApplicationController
+end

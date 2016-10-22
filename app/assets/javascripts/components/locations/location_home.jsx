@@ -11,9 +11,9 @@ class LocationHome extends React.Component {
   }
 
   render() {
-    let requests = this.props.requests.map((request) => {
+    let requests = this.props.requests.map( (request) => {
       return (
-        <div>{request.title}</div>
+        <div onClick={this._sample}>{request.title}</div>
       )
     })
 

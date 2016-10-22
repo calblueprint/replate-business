@@ -13,4 +13,8 @@ class DefaultForm extends React.Component {
     let target = $(e.target);
     this.setState({ [target.attr('name')]: target.val() });
   }
+
+  _attemptAction(route, params, resolve, reject) {
+    request.post(route, params, resolve, reject);
+  }
 }

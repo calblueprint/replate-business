@@ -1,4 +1,6 @@
-= react_component "LocationHome", { \
-    location: @location,            \
-    requests: @location.requests    \
-  }
+.container
+  = react_component "LocationHome", {           \
+      company: @location.business.company_name, \
+      location: @location,                      \
+      requests: @location.requests              \
+    }

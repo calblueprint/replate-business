@@ -3,7 +3,7 @@
     initialize(type, route, content='application/json') {
       const request = new XMLHttpRequest();
       request.open(type, route);
-      request.setRequestHeader('Accept', content);
+      request.setRequestHeader('Accept', "text/javascript, text/html, application/xml, text/xml, */*");
       request.setRequestHeader('Content-Type', content);
       request.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
       return request;
@@ -37,12 +37,17 @@
 
     post(route, params, resolve, reject) {
       const request = this.initialize('POST', route);
+      
       request.onreadystatechange = () => {
         if (request.readyState === XMLHttpRequest.DONE) {
           if (request.status === 201 && resolve) {
-            resolve(JSON.parse(request.response));
+            debugger;
+            console.log(JSON.parse(request.response));
+            console.log('hi');
+            resolve(JSON.parse(request.response));    
           } else if (reject) {
-            reject(JSON.parse(request.response));
+            console.log(JSON.parse(request.response));
+            reject(JSON.parse(request.response));    
           }
         }
       };

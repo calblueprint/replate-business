@@ -21,6 +21,9 @@ class HomeLogin extends DefaultForm {
   _handleLogin = (e) => {
     /* Write code to handle login here */
     console.log("Handling login...");
+    console.log(Requester);
+    Requester.post('http://localhost:3000/businesses/sign_in', {'email':this.state.email, 'password':this.state.password},alert,alert);
+    console.log(Requester);
   }
 
   _handleKeydown = (e) => {

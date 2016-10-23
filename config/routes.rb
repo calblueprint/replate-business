@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   devise_for :businesses
+  devise_scope :business do
+    get 'businesses/sign_out', to: 'devise/sessions#destroy'
+  end
+  devise_scope :business do
+    post 'businesses', to: 'business/sessions#new'
+  end
   devise_for :admins
 
   # Static Pages

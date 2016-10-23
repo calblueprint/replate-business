@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :admins
 	resources :businesses
 	resources :locations, :only => [:show]
+  get '/locations', to: 'locations#index'
 	resources :requests, :only => [:show]
 	resources :recurrences, :only => [:show]
 

@@ -7,28 +7,41 @@ class RequestCreationForm extends DefaultForm {
     constructor(props) {
         super(props);
         this.state = { location_id : this.props.location_id };
-        this._focusInputField()
     }
 
     _attemptCreate = (e) => {
-        // const success = (msg) => {
-        //     // Hacky workaround to clear component state
-        //     $(".modal-dialog input").reactClear();
-        //     $(React.findDOMNode(this.refs.modal)).modal("hide");
-        //     this.props.success();
-        // }
-        // this._attemptAction(APIConstants.requests.create, this._formFields(),
-        //     success);
+    	const success = (data) => {
+            this.props.success();
+            this.close();
+        }
+        this._attemptAction(APIConstants.requests.create, this.state, success, success);
     }
+
+    open = (e) => {
+    	this.setState({ showModal: true });
+	}
+
+	close = (e) => {
+	    this.setState({ showModal: false });
+	}
 
     render() {
         return (
             <div className="action-item create-item">
-                <div data-toggle="modal" data-target="#newRequestModal" >
-                    <form className="modal-content">
-                        <div className="modal-header">
-                            <h4 className="modal-title">Create New Request</h4>
-                        </div>
+                <div data-toggle="modal fade" data-target="#newRequestModal" >
+                    <button onClick={this.open} type="button" className="submit-button-o button-small">
+                        <span className="fa fa-plus" />
+                        Create a new request
+                    </button>
+                </div>
+                <Modal show={this.state.showModal} onHide={this.close}>
+		          <Modal.Header closeButton>
+		            <div className="modal-header">
+                        <h4 className="modal-title">Create New Request</h4>
+                    </div>
+		          </Modal.Header>
+		          <Modal.Body>
+		            <form className="modal-content">
                         <div className="modal-body">
                             <fieldset className="input-container name-container">
                                 <label>Title</label>
@@ -37,33 +50,35 @@ class RequestCreationForm extends DefaultForm {
 
                             <fieldset className="input-container name-container">
                                 <label>Caterer</label>
-                                <input type="text" placeholder="Add a caterer" name="comment" onChange={this._handleChange} />
+                                <input type="text" placeholder="Add a caterer" name="caterer" onChange={this._handleChange} />
                             </fieldset>
 
                             <fieldset className="input-container name-container">
                                 <label>Food Type</label>
-                                <select name="food-type" onChange={this._handleChange}>
-                                    <option value="" disabled defaultValue>Add a food type</option>
-                                    <option value="0">Raw</option>
-                                    <option value="1">Catered</option>
-                                    <option value="2">Baked Goods</option>
-                                    <option value="3">Packaged</option>
+                                <select name="food_type" onChange={this._handleChange}>
+                                    <option value="" disabled selected>Add a food type</option>
+                                    <option value="raw">Raw</option>
+                                    <option value="catered">Catered</option>
+                                    <option value="baked_goods">Baked Goods</option>
+                                    <option value="packaged">Packaged</option>
                                 </select>
                             </fieldset>
 
-                            <RecurrenceCreationModule recurrence    = {this.state} />
+                            <RecurrenceCreationModule/>
 
                             <fieldset className="input-container name-container">
                                 <label>Comments</label>
-                                <textarea placeholder="Add a comment" name="comment" rows="10" cols="50" onChange={this._handleChange} />
+                                <textarea placeholder="Add a comment" name="comments" rows="10" cols="50" onChange={this._handleChange} />
                             </fieldset>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="button" data-dismiss="modal">Cancel</button>
-                            <button type="submit" name="submit" value="Create Request" className="submit-button" onClick={this._attemptCreate}>Create</button>
-                        </div>
                     </form>
-                </div>
+		          </Modal.Body>
+		          <Modal.Footer>
+		            <div className="modal-footer">
+	                    <button type="submit" name="submit" value="Create Request" className="submit-button" onClick={this._attemptCreate}>Create</button>
+	                </div>
+		          </Modal.Footer>
+		        </Modal>
             </div>
         );
     }
@@ -71,5 +86,5 @@ class RequestCreationForm extends DefaultForm {
 
 RequestCreationForm.propTypes = {
     location_id : React.PropTypes.number.isRequired,
-    // success      : React.PropTypes.func.isRequired
+    success      : React.PropTypes.func.isRequired
 };

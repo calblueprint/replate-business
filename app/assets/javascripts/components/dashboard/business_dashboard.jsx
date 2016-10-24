@@ -39,7 +39,7 @@ class BusinessDashboard extends React.Component {
 
         <div className="section-header header--buttons marginBot-sm">
           <h3 className="dashboard-section-title marginRight-sm">Office Locations</h3>
-          <button className="button button--sm new-location-button">Add new Location</button>
+          <button className="button new-location-button">Add new Location</button>
         </div>
         <div className="dashboard-locations-container">
           {locs}

@@ -141,3 +141,21 @@
     opacity: 0.5;
   }
 }
+
+.button--text-blue {
+  background: transparent;
+  border-color: transparent;
+  color: $blue-dark;
+  font-weight: 700;
+  opacity: 0.8;
+
+  &:hover {
+    background: $blue-dark-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}

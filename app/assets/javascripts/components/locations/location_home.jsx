@@ -5,8 +5,9 @@
 class LocationHome extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.state.requests = this.props.requests;
+    this.state = {
+      requests: this.props.requests,
+    }
   }
 
   _fullAddress = () => {

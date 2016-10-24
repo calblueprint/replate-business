@@ -220,6 +220,59 @@
   }
 }
 
+
+.splash-business-section {
+  background: $gray-60;
+  position: relative;
+  min-height: 400px;
+
+  .splash-section-title {
+    color: $blue-dark;
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .splash-section-description {
+    text-align: left;
+    margin-bottom: 70px;
+    max-width: none;
+  }
+}
+
+.splash-business-skew {
+  background: $blue-dark;
+  position: absolute;
+  height: 100%;
+  right: 0;
+  width: 42%;
+  transform-origin: bottom;
+  z-index: 1;
+  @include transform(skewX(-20deg));
+}
+
+.splash-business-img {
+  border-radius: 3px;
+  box-shadow: -10px 0 20px $black-10;
+  left: -100px;
+  overflow: hidden;
+  position: absolute;
+  height: 80%;
+  top: 50%;
+  width: 550px;
+  @include transform(skewX(20deg) translateY(-50%));
+}
+
+.splash-business-text-container {
+  max-width: 50%;
+  padding: 70px 40px 70px 60px;
+}
+
+.splash-business-icon {
+  display: block;
+  margin-bottom: 10px;
+  width: 35px;
+}
+
 .splash-how-it-works {
   background: $gray-60;
   padding-top: 80px;

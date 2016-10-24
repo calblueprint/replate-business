@@ -50,6 +50,23 @@ section.splash-description
             h3.point-title Receive Tax Cuts
             p.point-description  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non tenetur sequi impedit earum ad illo nihil blanditiis dolores quia.
 
+section.splash-business-section.marginBot-xxl
+  .splash-business-skew
+    .splash-business-img.img-container: img src=image_url("splash/trays.jpg") alt=""/
+  .container
+    .splash-business-text-container
+      h1.splash-section-title
+        img.splash-business-icon src=image_url("splash/icons/business.svg") alt="Business icon"/
+        | For Businesses
+      p.splash-section-description
+        | Our drivers will clean up, package, and deliver your donation to a local nonprofit. We offer flexible pricing, and all donations are tax-deductible!
+      .splash-business-button-container.marginTopBot-xl
+        a.button.button--blue.marginRight-xs href=""
+          | Business Sign up
+        = link_to business_path, { class: "button button--text-blue" }
+          | learn more
+
+
 section.splash-how-it-works.marginBot-xxl
   .container
     h1.splash-section-title.marginBot-lg

@@ -35,9 +35,9 @@ class RequestCreationForm extends DefaultForm {
 					</button>
 				</div>
 				<Modal show={this.state.showModal} onHide={this.close}>
-				  <Modal.Header closeButton>
+				  <Modal.Header>
 					<div className="modal-header">
-						<h4 className="modal-title">Create New Request</h4>
+						<h3 className="modal-title">Create New Request</h3>
 					</div>
 				  </Modal.Header>
 				  <Modal.Body>
@@ -75,6 +75,7 @@ class RequestCreationForm extends DefaultForm {
 				  </Modal.Body>
 				  <Modal.Footer>
 					<div className="modal-footer">
+						<button type="button" className="button" onClick={this.close}>Cancel</button>
 						<button type="submit" name="submit" value="Create Request" className="submit-button" onClick={this._attemptCreate}>Create</button>
 					</div>
 				  </Modal.Footer>

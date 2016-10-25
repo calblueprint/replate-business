@@ -25,14 +25,7 @@ class HomeLogin extends DefaultForm {
 
   _handleLogin = (e) => {
     /* Write code to handle login here */
-    console.log("Handling login...");
-    console.log(Requester);
-    var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
-    token = token.replace(/\+/g, "%2B");
-    console.log(token);
-    p = 'utf8='+'✓&'+'business[email]='+this.state.email+'&'+'business[password]='+this.state.password+'&'+'business[remember_me]=0'+'&'+'commit=Log in&'+'authenticity_token='+token.toString();
-    Requester.post('http://localhost:3000/businesses/sign_in',p,alert,alert);
-    console.log(Requester);
+    
   }
 
   _handleKeydown = (e) => {

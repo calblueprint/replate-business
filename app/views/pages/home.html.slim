@@ -50,7 +50,7 @@ section.splash-description
             h3.point-title Receive Tax Cuts
             p.point-description  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non tenetur sequi impedit earum ad illo nihil blanditiis dolores quia.
 
-section.splash-business-section.marginBot-xxl
+section.splash-business-section
   .splash-business-skew
     .splash-business-img.img-container: img src=image_url("splash/trays.jpg") alt=""/
   .container
@@ -65,6 +65,20 @@ section.splash-business-section.marginBot-xxl
           | Business Sign up
         = link_to business_path, { class: "button button--text-blue" }
           | learn more
+
+section.splash-marketplace-section
+  .splash-marketplace-skew
+    .splash-marketplace-img.img-container: img src=image_url("splash/trays.jpg") alt=""/
+  .container
+    .splash-marketplace-text-container
+      h1.splash-section-title
+        | Replate Marketplace
+      p.splash-section-description
+        | Our drivers will clean up, package, and deliver your donation to a local nonprofit. We offer flexible pricing, and all donations are tax-deductible!
+      .splash-business-button-container.marginTopBot-xl
+        form
+          input.input.input--lg.marginRight-xs type="email" placeholder="email@example.com"
+          input.button.button--lg type="submit"
 
 
 section.splash-how-it-works.marginBot-xxl

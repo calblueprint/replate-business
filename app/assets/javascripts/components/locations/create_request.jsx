@@ -87,5 +87,5 @@ class RequestCreationForm extends DefaultForm {
 
 RequestCreationForm.propTypes = {
   location_id : React.PropTypes.number.isRequired,
-  success      : React.PropTypes.func.isRequired
+  success     : React.PropTypes.func.isRequired
 };

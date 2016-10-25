@@ -44,5 +44,5 @@ class RecurrenceCreationModule extends DefaultForm {
 
 RecurrenceCreationModule.propTypes = {
   request_id : React.PropTypes.number.isRequired,
-  success      : React.PropTypes.func.isRequired
+  success    : React.PropTypes.func.isRequired
 };

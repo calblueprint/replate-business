@@ -1,15 +1,6 @@
 class API::RequestsController < ApplicationController
 	respond_to :json
 
-	def render_json_message(status, options = {})
-		render json: {
-		  data: options[:data],
-		  message: options[:message],
-		  to: options[:to],
-		  errors: options[:errors]
-		}, status: status
-	end
-
 	def show
 		@request = Request.find(params[:id])
 		render json: @request, root: false

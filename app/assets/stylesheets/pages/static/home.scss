@@ -1,5 +1,5 @@
 .hero-container {
-  height: 730px;
+  height: 670px;
   position: relative;
 }
 
@@ -39,7 +39,7 @@
 .hero-title {
   animation: slideUpShow 500ms both;
   color: white;
-  font-size: 48px;
+  font-size: 44px;
   font-weight: 800;
   letter-spacing: 1px;
   margin-bottom: 20px;
@@ -50,7 +50,7 @@
   animation: slideUpShow 500ms both;
   animation-delay: 100ms;
   color: $snow;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 1.5;
   margin: 0 auto 60px;
@@ -223,6 +223,7 @@
 
 .splash-business-section {
   background: $gray-60;
+  overflow: hidden;
   position: relative;
   min-height: 400px;
 
@@ -272,6 +273,51 @@
   margin-bottom: 10px;
   width: 35px;
 }
+
+.splash-marketplace-section {
+  height: 400px;
+  position: relative;
+
+  .splash-section-title {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .splash-section-description {
+    text-align: left;
+  }
+}
+
+.splash-marketplace-skew {
+  background: $green;
+  position: absolute;
+  height: 100%;
+  left: 0;
+  width: 42%;
+  transform-origin: bottom;
+  z-index: 1;
+  @include transform(skewX(20deg));
+}
+
+.splash-marketplace-img {
+  border-radius: 3px;
+  box-shadow: 10px 0 20px $black-10;
+  left: 100px;
+  overflow: hidden;
+  position: absolute;
+  height: 80%;
+  top: 50%;
+  width: 550px;
+  @include transform(skewX(-20deg) translateY(-50%));
+}
+
+.splash-marketplace-text-container {
+  margin-left: auto;
+  max-width: 50%;
+  padding: 70px 60px 70px 40px;
+  text-align: left;
+}
+
 
 .splash-how-it-works {
   background: $gray-60;

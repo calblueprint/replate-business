@@ -6,7 +6,7 @@ class LocationHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      requests: this.props.requests;
+      requests: this.props.requests,
     }
   }
 
@@ -41,8 +41,8 @@ class LocationHome extends React.Component {
         <br />
         {requests}
         <br />
-        <RequestCreationForm 
-                location_id  = {this.props.location.id} 
+        <RequestCreationForm
+                location_id  = {this.props.location.id}
                 success = {this._fetchLocation} />
       </div>
     )

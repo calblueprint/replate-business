@@ -7,35 +7,44 @@ class RecurrenceCreationModule extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = {
-      monday    : "day-item",
-      tuesday   : "day-item",
-      wednesday : "day-item",
-      thursday  : "day-item",
-      friday    : "day-item"
+      monday    : false,
+      tuesday   : false,
+      wednesday : false,
+      thursday  : false,
+      friday    : false
     }
   }
 
-  _toggleDay = (e) => {
-    var day = e.target.id;
+  _toggleDay = (day) => {
+    let val;
     if (this.state[day] === "day-item day-active") {
-      var val = "day-item";
+      val = "day-item";
     } else {
-      var val = "day-item day-active";
+      val = "day-item day-active";
     }
     var state  = {};
     state[day] = val;
     this.setState( state );
   }
 
+  _capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   render() {
+
+    let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+      return <div className={`day-item day-` + (this.state[day] ? "active" : "inactive")}
+                  onClick={this._toggleDay.bind(this, day)}
+                  key={i} >
+                  {this._capitalize(day)}
+      </div>
+    });
+
     return (
       <div className="action-item create-item recurrence-container">
         <div className="week-container">
-          <div className={this.state.monday} id="monday" onClick={this._toggleDay}>Monday</div>
-          <div className={this.state.tuesday} id="tuesday" onClick={this._toggleDay}>Tuesday</div>
-          <div className={this.state.wednesday} id="wednesday" onClick={this._toggleDay}>Wednesday</div>
-          <div className={this.state.thursday} id="thursday" onClick={this._toggleDay}>Thursday</div>
-          <div className={this.state.friday} id="friday" onClick={this._toggleDay}>Friday</div>
+          {days}
         </div>
       </div>
     );

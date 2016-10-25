@@ -1,6 +1,6 @@
 /**
  * @prop location - current location object of page
- * @prop requests  - collection (array) of requests attached to location
+ * @prop requests - collection (array) of requests attached to location
  */
 class LocationHome extends React.Component {
   constructor(props) {

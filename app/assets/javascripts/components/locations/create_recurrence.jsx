@@ -1,6 +1,6 @@
 /**
  * @prop request_id - id associated with the current request
- * @prop success      - function handler for successful recurrence creation
+ * @prop success    - function handler for successful recurrence creation
  */
 class RecurrenceCreationModule extends DefaultForm {
 

@@ -1,6 +1,6 @@
 /**
  * @prop location_id - id associated with the current location
- * @prop success      - function handler for successful student creation
+ * @prop success     - function handler for successful student creation
  */
 class RequestCreationForm extends DefaultForm {
 

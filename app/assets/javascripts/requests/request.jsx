@@ -2,7 +2,14 @@
   class Requester {
     initialize(type, route, content='application/json') {
       const request = new XMLHttpRequest();
+      if (type === 'POST') {
+        console.log('bop');
+        request.open(type, route, true);
+        console.log(request);
+      }
+      else {
       request.open(type, route);
+      }
       request.setRequestHeader('Accept', "text/javascript, text/html, application/xml, text/xml, */*");
       request.setRequestHeader('Content-Type', content);
       request.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -36,8 +43,8 @@
     }
 
     post(route, params, resolve, reject) {
-      const request = this.initialize('POST', route);
-      
+      const request = this.initialize('POST', route, 'application/x-www-form-urlencoded');
+      //var params = 'utf8=%E2%9C%93&authenticity_token=H4gA0Kp3s4aG4UVgD1fNeGQenLm2FqrqUUr7JHimP3Y6Un8fQu9noD78OfTjW1GFZDr%2BlT5Ided1xQBd%2BqEFJg%3D%3D&business%5Bemail%5D=user%40name.com&business%5Bpassword%5D=password&business%5Bremember_me%5D=0&commit=Log+in';
       request.onreadystatechange = () => {
         if (request.readyState === XMLHttpRequest.DONE) {
           if (request.status === 201 && resolve) {
@@ -52,6 +59,7 @@
         }
       };
       request.send(JSON.stringify(params));
+      //request.send(params);
     }
 
     update(route, params, resolve, reject) {

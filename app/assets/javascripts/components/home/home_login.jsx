@@ -18,11 +18,20 @@ class HomeLogin extends DefaultForm {
     this.setState({ showModal: false });
   }
 
+  _getToken = () =>{
+    var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
+    return token;
+  }
+
   _handleLogin = (e) => {
     /* Write code to handle login here */
     console.log("Handling login...");
     console.log(Requester);
-    Requester.post('http://localhost:3000/businesses/sign_in', {'email':this.state.email, 'password':this.state.password},alert,alert);
+    var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
+    token = token.replace(/\+/g, "%2B");
+    console.log(token);
+    p = 'utf8='+'✓&'+'business[email]='+this.state.email+'&'+'business[password]='+this.state.password+'&'+'business[remember_me]=0'+'&'+'commit=Log in&'+'authenticity_token='+token.toString();
+    Requester.post('http://localhost:3000/businesses/sign_in',p,alert,alert);
     console.log(Requester);
   }
 
@@ -48,7 +57,8 @@ class HomeLogin extends DefaultForm {
           <Modal.Header>
             <Modal.Title>Log In</Modal.Title>
           </Modal.Header>
-          <form>
+          <form
+            action="businesses/sign_in" method="post">
             <Modal.Body>
               <div className="input-container marginBot-sm">
                 <label
@@ -58,7 +68,7 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="email-input"
-                  name="email"
+                  name="business[email]"
                   type="email"
                   placeholder="example@email.com"
                   onChange={this._handleChange}
@@ -73,10 +83,15 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="password-input"
-                  name="password"
+                  name="business[password]"
                   type="password"
                   onChange={this._handleChange}
                   onKeyDown={this._handleKeydown}
+                />
+                <input
+                type = "hidden"
+                name = "authenticity_token"
+                value = {this._getToken()}
                 />
               </div>
             </Modal.Body>
@@ -86,11 +101,11 @@ class HomeLogin extends DefaultForm {
                 className="button button--text-black"
                 onClick={this._closeModal}
               >Close</button>
-              <button
+              <input
                 type="submit"
                 className="button marginLeft-sm"
-                onClick={this._handleLogin}
-              >Log In</button>
+                //onClick={this._handleLogin}
+              >Log In</input>
             </Modal.Footer>
           </form>
         </Modal>

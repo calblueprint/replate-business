@@ -21,6 +21,6 @@ class Location < ActiveRecord::Base
   belongs_to :business
 
   def address
-		[self.number, self.street, self.city, self.state, self.zip].join(" ")
+    [self.number, self.street, self.city, self.state, self.zip].join(" ")
   end
 end

@@ -7,12 +7,12 @@ class API::RequestsController < ApplicationController
 	end
 
 	def create
-    request = Request.new(request_params)
-    if request.save
-      render_json_message(:ok, message: 'Request successfully created!')
-    else
-      render_json_message(:forbidden, errors: request.errors.full_messages)
-    end
+	    request = Request.new(request_params)
+	    if request.save
+	      render_json_message(:ok, message: 'Request successfully created!')
+	    else
+	      render_json_message(:forbidden, errors: request.errors.full_messages)
+	    end
 	end
 
 	def destroy
@@ -40,13 +40,10 @@ class API::RequestsController < ApplicationController
 
 	def request_params
 	  params.require(:request).permit(
-	  	:day,
-	  	:start_time,
-	  	:end_time,
-	  	:frequency,
-	  	:has_sent,
-	  	:start_date,
-	  	:exception,
+	  	:title,
+	  	:food_type,
+	  	:caterer,
+	  	:comments,
 	  	:location_id
 	  	)
 	end

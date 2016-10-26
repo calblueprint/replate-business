@@ -16,14 +16,8 @@ class RecurrenceCreationModule extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    let val;
-    if (this.state[day] === "day-item day-active") {
-      val = "day-item";
-    } else {
-      val = "day-item day-active";
-    }
-    var state  = {};
-    state[day] = val;
+    let state  = {};
+    state[day] = !this.state[day];
     this.setState( state );
   }
 

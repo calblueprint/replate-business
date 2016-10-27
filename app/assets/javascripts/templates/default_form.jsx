@@ -15,6 +15,6 @@ class DefaultForm extends React.Component {
   }
 
   _attemptAction(route, params, resolve, reject) {
-    request.post(route, params, resolve, reject);
+    Requester.post(route, params, resolve, reject);
   }
 }

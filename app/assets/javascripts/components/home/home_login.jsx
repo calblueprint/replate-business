@@ -92,7 +92,8 @@ class HomeLogin extends DefaultForm {
               <input
                 type="submit"
                 className="button marginLeft-sm"
-              >Log In</input>
+                value="Log In"
+              />
             </Modal.Footer>
           </form>
         </Modal>

@@ -6,9 +6,8 @@ class BusinessesController < ApplicationController
   end
 
   def index
-    if business_signed_in?
-      #do something
-    end
-
+    
   end
+
+  
 end

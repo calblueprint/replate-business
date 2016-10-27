@@ -18,14 +18,9 @@ class HomeLogin extends DefaultForm {
     this.setState({ showModal: false });
   }
 
-  _getToken = () =>{
+  _getToken = () => {
     var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
     return token;
-  }
-
-  _handleLogin = (e) => {
-    /* Write code to handle login here */
-    
   }
 
   _handleKeydown = (e) => {
@@ -82,9 +77,9 @@ class HomeLogin extends DefaultForm {
                   onKeyDown={this._handleKeydown}
                 />
                 <input
-                type = "hidden"
-                name = "authenticity_token"
-                value = {this._getToken()}
+                  type="hidden"
+                  name="authenticity_token"
+                  value={this._getToken()}
                 />
               </div>
             </Modal.Body>
@@ -97,7 +92,6 @@ class HomeLogin extends DefaultForm {
               <input
                 type="submit"
                 className="button marginLeft-sm"
-                //onClick={this._handleLogin}
               >Log In</input>
             </Modal.Footer>
           </form>

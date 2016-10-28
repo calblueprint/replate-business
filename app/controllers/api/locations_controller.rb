@@ -5,7 +5,7 @@ class API::LocationsController < ApplicationController
   end
 
   def create
-  ###### TODO: create a location. Remember to use location_params! #######
+  ##### TODO: create a new location. Remember to use location params! hint: look at api/requests_controller ######
   end
 
   def location_params

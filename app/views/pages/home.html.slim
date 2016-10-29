@@ -2,7 +2,7 @@ nav.nav.nav-splash
   .container
     a href="/": .logo
     ul.nav-items-container
-      li.nav-item: button.button.button--text-white.marginRight-sm Sign Up
+      li.nav-item: button.button.button--text-white.marginRight-sm onclick="window.location='http://localhost:3000/businesses/sign_up';" Sign Up
       li.nav-item
         = react_component "HomeLogin", { btnClasses: "button--white" }
 .hero-container

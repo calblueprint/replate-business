@@ -11,16 +11,19 @@ Rails.application.routes.draw do
   get 'business' => 'pages#business'
   get 'styles' => 'pages#style'
 
+  get 'dashboard' => 'businesses#home'
+
   resources :admins
-	resources :businesses
-	resources :locations, :only => [:show]
-	resources :requests, :only => [:show]
-	resources :recurrences, :only => [:show]
+  resources :businesses
+  resources :locations, :only => [:show]
+  get '/locations', to: 'locations#index'
+  resources :requests, :only => [:show]
+  resources :recurrences, :only => [:show]
 
   # Api definition
   namespace :api, defaults: { format: :json } do
-    resources :locations, :only => [:create, :update, :destroy]
-    resources :requests, :only => [:create, :update, :destroy]
+    resources :locations, :only => [:show, :create, :update, :destroy]
+    resources :requests, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
   end
 end

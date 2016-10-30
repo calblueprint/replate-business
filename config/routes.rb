@@ -4,10 +4,7 @@ Rails.application.routes.draw do
     get '/businesses/sign_out', to: 'devise/sessions#destroy'
     post '/businesses', to: 'devise/sessions#new'
   end
-  authenticated :business do
-    root 'businesses#home', as: :authenticated_root
-  end
-  
+
   devise_for :admins
 
   # Static Pages

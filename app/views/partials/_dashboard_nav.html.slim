@@ -1,6 +1,6 @@
 nav.nav.dashboard-nav
   .container
-    a.home-link href="/" Replate Dashboard
+    a.home-link href="/" Replate
     .nav-right
       - if current_business
         = link_to "Your Dashboard", dashboard_path, class: "marginRight-sm"
@@ -13,4 +13,3 @@ nav.nav.dashboard-nav
             li.dropdown-item: a Help
             li.divider role="separator"
             li.dropdown-item = link_to "Sign Out", destroy_business_session_path, method: :delete
-

@@ -13,9 +13,8 @@ class ApplicationController < ActionController::Base
 	end
 
 	def after_sign_in_path_for(resource)
-  		if resource.is_a?(Business)
-  			"http://localhost:3000/dashboard"
-  		end
-
+		if resource.is_a?(Business)
+      dashboard_path
+		end
 	end
 end

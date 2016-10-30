@@ -2,9 +2,12 @@ nav.nav.nav-splash
   .container
     a href="/": .logo
     ul.nav-items-container
-      li.nav-item: button.button.button--text-white.marginRight-sm Sign Up
-      li.nav-item
-        = react_component "HomeLogin", { btnClasses: "button--white" }
+      - if !current_business
+        li.nav-item: button.button.button--text-white.marginRight-sm Sign Up
+        li.nav-item
+          = react_component "HomeLogin", { btnClasses: "button--white" }
+      - else
+        li.nav-item = link_to "Go to Dashboard", dashboard_path, class: "button button--text-white"
 .hero-container
   .hero-background
     img.hero-image src=image_path("splash/hero.jpg") alt=""/

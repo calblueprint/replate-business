@@ -5,8 +5,6 @@ Rails.application.routes.draw do
     post '/businesses', to: 'devise/sessions#new'
   end
 
-  
-
   devise_for :admins
 
   # Static Pages

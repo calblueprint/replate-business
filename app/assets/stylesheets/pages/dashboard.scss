@@ -44,37 +44,16 @@
 }
 
 .location {
+  background: transparent;
   border: 1px solid transparent;
   border-radius: 2px;
   overflow: hidden;
   padding-bottom: 10px;
   position: relative;
 
-  &:before {
-    background: white;
-    content: '';
-    height: 100%;
-    left: 50%;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transition: 100ms;
-    width: 100%;
-    z-index: -1;
-    @include transform(translateX(-50%) translateY(-50%) scale(0.94))
-  }
-
-  &:hover:before {
-    opacity: 1;
-    @include transform(translateX(-50%) translateY(-50%) scale(1));
-  }
-
   &:hover {
+    background: white;
     border-color: $black-10;
-
-    .location-title {
-      color: $green;
-    }
 
     .location-photo {
       border-bottom-left-radius: 0;

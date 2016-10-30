@@ -95,7 +95,7 @@
 }
 
 .dashboard-nav {
-  padding: 8px 0;
+  margin-bottom: 50px;
 
   a {
     color: $snow-80;
@@ -121,7 +121,7 @@
   }
 
   .dropdown-menu {
-    box-shadow: 0 0 10px $black-20;
+    box-shadow: 0 0 10px $black-10;
     border: 1px solid $gray;
     border-radius: 2px;
     left: auto;

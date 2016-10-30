@@ -5,9 +5,7 @@ Rails.application.routes.draw do
     post '/businesses', to: 'devise/sessions#new'
   end
 
-  authenticated :business do
-    root 'businesses#home', as: :authenticated_root
-  end
+  
 
   devise_for :admins
 

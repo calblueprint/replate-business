@@ -14,7 +14,8 @@ def make_businesses
       password_confirmation: "password",
       address: "1 Hacker Way, Menlo Park, CA",
       company_name: "Facebook",
-      phone: "626-215-4676"
+      phone: "626-215-4676",
+      onfleet_id: "siouhasdfo"
     )
     business.id = n
     business.save

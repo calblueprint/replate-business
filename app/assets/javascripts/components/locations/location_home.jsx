@@ -31,7 +31,7 @@ class LocationHome extends React.Component {
     let num_requests = this.state.requests.length;
 
     return (
-      <div className="marginTop-xl">
+      <div>
         <h1 className="dashboard-title">{this.props.company} | Replate Dashboard</h1>
         <div className="location-page-title">
           <span className="name">{this.props.location.addr_name}</span>

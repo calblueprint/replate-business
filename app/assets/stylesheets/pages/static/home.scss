@@ -254,6 +254,7 @@
 .splash-business-img {
   border-radius: 3px;
   box-shadow: -10px 0 20px $black-10;
+  fill: $blue-dark;
   left: -100px;
   overflow: hidden;
   position: absolute;
@@ -275,12 +276,25 @@
 }
 
 .splash-marketplace-section {
-  height: 400px;
   position: relative;
 
   .splash-section-title {
     margin-bottom: 30px;
     text-align: left;
+
+    &:after {
+      background: $green-80;
+      border-radius: 2px;
+      color: white;
+      content: 'beta';
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin: 0 0 5px 10px;
+      padding: 2px 5px;
+      vertical-align: middle;
+    }
   }
 
   .splash-section-description {
@@ -318,56 +332,21 @@
   text-align: left;
 }
 
-
-.splash-how-it-works {
-  background: $gray-60;
-  padding-top: 80px;
-  padding-bottom: 80px;
+.splash-marketplace-icon {
+  display: block;
+  margin-bottom: 10px;
+  width: 35px;
 }
 
-.how-it-works-col {
-  text-align: center;
-
-  .splash-section-title {
-    font-size: 20px;
-    text-transform: none;
-    margin-bottom: 20px;
-  }
-
-  .learn-more-link {
-    opacity: 0.75;
-    transition: 150ms;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
-.how-it-works-icon {
-  margin: 0 auto 10px;
-  width: 40px;
-}
-
-.how-it-works-description {
+.marketplace-beta-notification {
   color: $silver;
-  font-size: 18px;
-  margin: 0 auto;
-  max-width: 400px;
-}
-
-.businesses-col {
-  .splash-section-title {
-    color: $blue-dark;
-  }
-
-  .link {
-    color: $blue-dark;
-  }
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .splash-companies {
-  margin-bottom: 70px;
+  padding: 100px 0 70px 0;
 }
 
 .company-container {

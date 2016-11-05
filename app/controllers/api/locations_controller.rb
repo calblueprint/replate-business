@@ -48,4 +48,21 @@ class API::LocationsController < ApplicationController
     )
 
   end
+
+  def update
+    location = Location.find(params[:id]).update(upload_params)
+
+    if location.save
+      render_json_message(:ok, message: 'Uploaded Photo!')
+    else
+
+    end
+
+  end
+
+  private
+
+  def upload_params
+    params.permit(:photo)
+  end
 end

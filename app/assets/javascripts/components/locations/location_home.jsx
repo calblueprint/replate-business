@@ -11,6 +11,8 @@ class LocationHome extends React.Component {
     this.state = {
       pickups: this.props.pickups,
     };
+
+    this._setFile = this._setFile.bind(this);
   }
 
   _fullAddress = () => {
@@ -24,6 +26,34 @@ class LocationHome extends React.Component {
     }
     Requester.get(APIConstants.locations.update(
       this.props.location.id), success);
+  }
+
+  _setFile = (e) => {
+    const files = e.target.files;
+    if (!files || !files[0]) {
+      return
+    }
+
+    const reader = new FileReader();
+    reader.onload = (file) => {
+      this.setState({ photo: file.target.result })
+      // that.setState({ imageUrl: reader.result, imageFile: file });
+    }
+
+    reader.readAsDataURL(files[0]);
+  }
+
+  _uploadFile = (e) => {
+    e.preventDefault();
+    const success = (data) => {
+      console.log("successful!");
+    }
+
+    let params = {
+      photo: this.state.photo
+    }
+
+    Requester.update(APIConstants.locations.update(this.props.location.id), params, success);
   }
 
   render() {

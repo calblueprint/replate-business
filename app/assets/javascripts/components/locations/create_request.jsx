@@ -2,19 +2,28 @@
  * @prop location_id - id associated with the current location
  * @prop success     - function handler for successful student creation
  */
-class RequestCreationForm extends DefaultForm {
+class RequestCreationModal extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = { location_id : this.props.location_id };
+    this.state = { location_id      : this.props.location_id,
+                   step             : 1,
+                   basicForm        : {},
+                   recurrenceForm   : {},
+                   confirmationForm : {},
+                 };
   }
 
-  _attemptCreate = (e) => {
+  _attemptCreate = (initData) => {
     const success = (data) => {
       this.props.success();
       this.close();
+      this.setState({ basicForm: {} });
+      this.setState({ step: 1 });
     }
-    this._attemptAction(APIConstants.requests.create, this.state, success, success);
+    this.state.basicForm = initData;
+    this.state.basicForm.location_id = this.state.location_id;
+    this._attemptAction(APIConstants.requests.create, this.state.basicForm, success, success);
   }
 
   open = (e) => {
@@ -25,67 +34,57 @@ class RequestCreationForm extends DefaultForm {
     this.setState({ showModal: false });
   }
 
+  _nextStep = (data, key) => {
+    if (data && key){
+      this.setState({ [key]: data });
+    }
+    this.setState({ step: this.state.step + 1 });
+  }
+
+  _prevStep = (data, key) => {
+    this.setState({ [key]: data });
+    this.setState({ step: this.state.step - 1 });
+  }
+
+  _getStep = () => {
+    switch (this.state.step) {
+      case 0:
+        return "";
+      case 1:
+        return <BasicRequestForm
+                  initData = {this.state.basicForm}
+                  nextStep = {this._nextStep} />
+      case 2:
+        return <RecurrenceForm
+                  initData = {this.state.recurrenceForm}
+                  nextStep = {this._nextStep}
+                  prevStep = {this._prevStep} />
+      case 3:
+        return <ConfirmationForm
+                  initData      = {this.state.basicForm}
+                  prevStep      = {this._prevStep}
+                  attemptCreate = {this._attemptCreate} />
+    }
+  }
+
   render() {
+     let step = this._getStep();
+
     return (
-      <div className="action-item create-item">
-        <div data-toggle="modal fade" data-target="#newRequestModal" >
-          <button onClick={this.open} type="button" className="submit-button-o button-small">
-            <span className="fa fa-plus" />
-            Create a new request
-          </button>
-        </div>
+      <div className="request-form-container">
+        <button onClick={this.open} type="button" className="submit-button-o button-small">
+          <span className="fa fa-plus" />
+          Create a new request
+        </button>
         <Modal show={this.state.showModal} onHide={this.close}>
-          <Modal.Header>
-          <div className="modal-header">
-            <h3 className="modal-title">Create New Request</h3>
-          </div>
-          </Modal.Header>
-          <Modal.Body>
-          <form className="modal-content">
-            <div className="modal-body">
-              <fieldset className="input-container name-container">
-                <label>Title</label>
-                <input type="text" placeholder="Add a title" ref="focus" name="title" onChange={this._handleChange} />
-              </fieldset>
-
-              <fieldset className="input-container name-container">
-                <label>Caterer</label>
-                <input type="text" placeholder="Add a caterer" name="caterer" onChange={this._handleChange} />
-              </fieldset>
-
-              <fieldset className="input-container name-container">
-                <label>Food Type</label>
-                <select name="food_type" onChange={this._handleChange}>
-                  <option value="" disabled selected>Add a food type</option>
-                  <option value="raw">Raw</option>
-                  <option value="catered">Catered</option>
-                  <option value="baked_goods">Baked Goods</option>
-                  <option value="packaged">Packaged</option>
-                </select>
-              </fieldset>
-
-              <RecurrenceCreationModule/>
-
-              <fieldset className="input-container name-container">
-                <label>Comments</label>
-                <textarea placeholder="Add a comment" name="comments" rows="10" cols="50" onChange={this._handleChange} />
-              </fieldset>
-            </div>
-          </form>
-          </Modal.Body>
-          <Modal.Footer>
-          <div className="modal-footer">
-            <button type="button" className="button" onClick={this.close}>Cancel</button>
-            <button type="submit" name="submit" value="Create Request" className="submit-button" onClick={this._attemptCreate}>Create</button>
-          </div>
-          </Modal.Footer>
+          {step}
         </Modal>
       </div>
     );
   }
 }
 
-RequestCreationForm.propTypes = {
+RequestCreationModal.propTypes = {
   location_id : React.PropTypes.number.isRequired,
-  success     : React.PropTypes.func.isRequired
+  success     : React.PropTypes.func.isRequired,
 };

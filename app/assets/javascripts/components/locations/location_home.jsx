@@ -41,7 +41,7 @@ class LocationHome extends React.Component {
         <br />
         {requests}
         <br />
-        <RequestCreationForm
+        <RequestCreationModal
                 location_id  = {this.props.location.id}
                 success = {this._fetchLocation} />
       </div>

@@ -78,6 +78,13 @@ class LocationHome extends React.Component {
         <PickupCreationModal
                 location_id = {this.props.location.id}
                 success     = {this._fetchLocation} />
+
+        <h2>Upload!</h2>
+        <form onSubmit={this._uploadFile}>
+          <input type="file" onChange={this._setFile} />
+          <input type="submit" />
+
+        </form>
       </div>
     )
   }

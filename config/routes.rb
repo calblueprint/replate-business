@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :businesses
+  devise_for :businesses, :controllers => { registrations: 'registrations' }
   devise_scope :business do
     get '/businesses/sign_out', to: 'devise/sessions#destroy'
     post '/businesses', to: 'devise/sessions#new'
+    get '/signup', to: 'devise/registrations#new'
   end
 
   devise_for :admins

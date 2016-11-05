@@ -7,3 +7,10 @@ class LocationsController < ApplicationController
         @location = Location.find(params[:id])
     end
 end
+
+
+#class LocationsController < ApplicationController
+#    def show
+  #      respond_with Location.find(params[:id])
+#    end
+#end

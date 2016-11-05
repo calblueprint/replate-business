@@ -16,7 +16,7 @@ class BusinessDashboard extends React.Component {
     const success = (data) => {
       this.setState({ locations: data });
     }
-    Requester.get(APIConstants.business.update(
+    Requester.get(APIConstants.businesses.update(
       this.props.business.id), success);
   }
 

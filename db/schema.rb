@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101040617) do
+ActiveRecord::Schema.define(version: 20161105204051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,17 +59,21 @@ ActiveRecord::Schema.define(version: 20161101040617) do
   add_index "businesses", ["reset_password_token"], name: "index_businesses_on_reset_password_token", unique: true, using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "number",      null: false
-    t.string   "street",      null: false
-    t.string   "city",        null: false
-    t.string   "country",     null: false
+    t.string   "number",             null: false
+    t.string   "street",             null: false
+    t.string   "city",               null: false
+    t.string   "country",            null: false
     t.string   "addr_name"
     t.string   "apt_number"
     t.string   "state"
     t.string   "zip"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "business_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree

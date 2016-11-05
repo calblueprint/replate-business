@@ -1,0 +1,24 @@
+.sign-up-container
+  h1.title Sign up
+  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    = devise_error_messages!
+    .field
+      = f.label :email
+      = f.email_field :email, autofocus: true
+    .field
+      = f.label :company_name
+      = text_field(:business, :company_name)
+    .field
+      = f.label :phone
+      = telephone_field(:business, :phone)
+    .field
+      = f.label :address
+      = text_field(:business, :address)
+    .field
+      = f.label :password
+      = f.password_field :password, autocomplete: "off"
+    .field
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: "off"
+    .actions
+      = f.submit "Sign up"

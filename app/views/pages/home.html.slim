@@ -3,7 +3,7 @@ nav.nav.nav-splash
     a href="/": .logo
     ul.nav-items-container
       - if !current_business
-        li.nav-item: button.button.button--text-white.marginRight-sm onclick="window.location='http://localhost:3000/signup';" Sign Up
+        li.nav-item = button_to "Sign Up", signup_path, :method => "get", :class => "button button--text-white marginRight-sm"
         li.nav-item
           = react_component "HomeLogin", { btnClasses: "button--white" }
       - else

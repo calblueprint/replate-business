@@ -15,7 +15,7 @@ def make_businesses
       address: "1 Hacker Way, Menlo Park, CA",
       company_name: "Facebook",
       phone: "626-215-4676",
-      onfleet_id: "siouhasdfo"
+      onfleet_id: "siouhasdfo",
     )
     business.id = n
     business.save

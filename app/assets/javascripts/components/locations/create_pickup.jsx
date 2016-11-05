@@ -2,7 +2,7 @@
  * @prop location_id - id associated with the current location
  * @prop success     - function handler for successful student creation
  */
-class RequestCreationModal extends DefaultForm {
+class PickupCreationModal extends DefaultForm {
 
   constructor(props) {
     super(props);
@@ -23,7 +23,7 @@ class RequestCreationModal extends DefaultForm {
     }
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;
-    this._attemptAction(APIConstants.requests.create, this.state.basicForm, success, success);
+    this._attemptAction(APIConstants.pickups.create, this.state.basicForm, success, success);
   }
 
   open = (e) => {
@@ -51,7 +51,7 @@ class RequestCreationModal extends DefaultForm {
       case 0:
         return "";
       case 1:
-        return <BasicRequestForm
+        return <BasicPickupForm
                   initData = {this.state.basicForm}
                   nextStep = {this._nextStep} />
       case 2:
@@ -71,10 +71,10 @@ class RequestCreationModal extends DefaultForm {
      let step = this._getStep();
 
     return (
-      <div className="request-form-container">
+      <div className="pickup-form-container">
         <button onClick={this.open} type="button" className="submit-button-o button-small">
           <span className="fa fa-plus" />
-          Create a new request
+          Create a new pickup
         </button>
         <Modal show={this.state.showModal} onHide={this.close}>
           {step}
@@ -84,7 +84,7 @@ class RequestCreationModal extends DefaultForm {
   }
 }
 
-RequestCreationModal.propTypes = {
+PickupCreationModal.propTypes = {
   location_id : React.PropTypes.number.isRequired,
   success     : React.PropTypes.func.isRequired,
 };

@@ -1,6 +1,6 @@
 /**
- * @prop initData - saved data associated with the basic portion of the requestion form
- * @prop prevStep - function handler to move back to prev step of request creation
+ * @prop initData - saved data associated with the basic portion of the pickup form
+ * @prop prevStep - function handler to move back to prev step of pickup creation
  */
 class ConfirmationForm extends DefaultForm {
 
@@ -31,7 +31,7 @@ class ConfirmationForm extends DefaultForm {
     return (
       <div>
         <Modal.Header closeButton>
-          <h3 className="modal-title">New Request</h3>
+          <h3 className="modal-title">New Pickup</h3>
         </Modal.Header>
         <Modal.Body>
           <div className="confirmation-container">
@@ -55,7 +55,7 @@ class ConfirmationForm extends DefaultForm {
         </Modal.Body>
         <Modal.Footer>
           <button type="submit" name="submit" value="Next Step" className="submit-button" onClick={this._prevStep}>Back</button>
-          <button type="submit" name="submit" value="Create Request" className="submit-button" onClick={this._attemptCreate}>Create Request</button>
+          <button type="submit" name="submit" value="Create Pickup" className="submit-button" onClick={this._attemptCreate}>Create Pickup</button>
         </Modal.Footer>
       </div>
     );

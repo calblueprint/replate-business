@@ -1,9 +1,9 @@
 /**
- * @prop request_id - id associated with the current request
+ * @prop pickup_id - id associated with the current pickup
  * @prop success    - function handler for successful recurrence creation
- * @prop initData - saved data associated with the basic portion of the requestion form
- * @prop nextStep - function handler to move on to next step of request creation
- * @prop prevStep - function handler to move back to prev step of request creation
+ * @prop initData - saved data associated with the basic portion of the pickup form
+ * @prop nextStep - function handler to move on to next step of pickup creation
+ * @prop prevStep - function handler to move back to prev step of pickup creation
  */
 class RecurrenceForm extends DefaultForm {
 
@@ -59,7 +59,7 @@ class RecurrenceForm extends DefaultForm {
     return (
       <div>
         <Modal.Header closeButton>
-          <h3 className="modal-title">New Request</h3>
+          <h3 className="modal-title">New Pickup</h3>
         </Modal.Header>
         <Modal.Body>
           <div className="week-container">
@@ -79,6 +79,6 @@ class RecurrenceForm extends DefaultForm {
 }
 
 RecurrenceForm.propTypes = {
-  request_id : React.PropTypes.number.isRequired,
+  pickup_id : React.PropTypes.number.isRequired,
   success    : React.PropTypes.func.isRequired
 };

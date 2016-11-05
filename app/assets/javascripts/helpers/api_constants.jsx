@@ -7,10 +7,10 @@ class ApiConstants {
     }
   }
 
-  get requests() {
+  get pickups() {
     return {
-      update : (id) => `/api/requests/${id}`,
-      create : `/api/requests`, 
+      update : (id) => `/api/pickups/${id}`,
+      create : `/api/pickups`,
     }
   }
 

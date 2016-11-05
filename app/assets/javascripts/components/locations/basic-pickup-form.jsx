@@ -1,8 +1,8 @@
 /**
- * @prop initData - saved data associated with the basic portion of the requestion form
- * @prop nextStep - function handler to move on to next step of request creation
+ * @prop initData - saved data associated with the basic portion of the pickup form
+ * @prop nextStep - function handler to move on to next step of pickup creation
  */
-class BasicRequestForm extends DefaultForm {
+class BasicPickupForm extends DefaultForm {
 
   constructor(props) {
     super(props);
@@ -18,10 +18,10 @@ class BasicRequestForm extends DefaultForm {
     return (
       <div>
         <Modal.Header closeButton>
-          <h3 className="modal-title">New Request</h3>
+          <h3 className="modal-title">New Pickup</h3>
         </Modal.Header>
         <Modal.Body>
-          <form className="modal-request-form">
+          <form className="modal-pickup-form">
             <fieldset className="input-container name-container">
               <label>Title</label>
               <input type="text" placeholder="Add a title" defaultValue={this.state.title} ref="focus" name="title" onChange={this._handleChange} />

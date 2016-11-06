@@ -1,6 +1,6 @@
-class CreateRequests < ActiveRecord::Migration
+class CreatePickups < ActiveRecord::Migration
   def change
-    create_table :requests do |t|
+    create_table :pickups do |t|
       t.string :title, null: false
       t.integer :food_type, null: false
       t.string :caterer, null: false

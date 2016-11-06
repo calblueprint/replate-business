@@ -16,6 +16,6 @@
 #
 
 class Recurrence < ActiveRecord::Base
-  belongs_to :request
+  belongs_to :pickup
   enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
 end

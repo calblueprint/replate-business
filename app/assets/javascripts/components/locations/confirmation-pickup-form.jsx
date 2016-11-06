@@ -10,7 +10,6 @@ class ConfirmationForm extends DefaultForm {
   }
 
   _prevStep = (e) => {
-    console.log(this.props);
     this.props.prevStep();
   }
 

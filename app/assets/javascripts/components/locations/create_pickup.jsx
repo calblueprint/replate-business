@@ -6,7 +6,8 @@ class PickupCreationModal extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = { location_id      : this.props.location_id,
+    this.state = {
+                   location_id      : this.props.location_id,
                    step             : 1,
                    basicForm        : {},
                    recurrenceForm   : {},
@@ -18,8 +19,10 @@ class PickupCreationModal extends DefaultForm {
     const success = (data) => {
       this.props.success();
       this.close();
-      this.setState({ basicForm: {} });
-      this.setState({ step: 1 });
+      this.setState({
+                      basicForm : {},
+                      step      : 1,
+                    });
     }
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;

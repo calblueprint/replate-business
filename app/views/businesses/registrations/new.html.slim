@@ -1,24 +1,29 @@
 .sign-up-container
-  h1.title Sign up
+  h1.title Business sign up
   = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
     = devise_error_messages!
-    .field
-      = f.label :email
-      = f.email_field :email, autofocus: true
-    .field
-      = f.label :company_name
-      = text_field(:business, :company_name)
-    .field
-      = f.label :phone
-      = telephone_field(:business, :phone)
-    .field
-      = f.label :address
-      = text_field(:business, :address)
-    .field
-      = f.label :password
-      = f.password_field :password, autocomplete: "off"
-    .field
-      = f.label :password_confirmation
-      = f.password_field :password_confirmation, autocomplete: "off"
+    .field.input-container
+      = f.label :company_name, class: "label--newline"
+      = text_field(:business, :company_name, class: "input", autofocus: true)
+    .field.input-container
+      = react_component "PhoneInput", {       \
+          form_token: form_authenticity_token \
+        }
+    / .field.input-container
+    /   = f.label :phone, class: "label--newline"
+    /   = telephone_field(:business, :phone, class: "input")
+    .field.input-container
+      = f.label :address, class: "label--newline"
+      = text_field(:business, :address, class: "input")
+
+    .field.input-container
+      = f.label :email, class: "label--newline"
+      = f.email_field :email, class: "input"
+    .field.input-container
+      = f.label :password, class: "label--newline"
+      = f.password_field :password, autocomplete: "off", class: "input"
+    .field.input-container
+      = f.label :password_confirmation, class: "label--newline"
+      = f.password_field :password_confirmation, autocomplete: "off", class: "input"
     .actions
-      = f.submit "Sign up"
+      = f.submit "Sign up", class: "button marginTop-lg"

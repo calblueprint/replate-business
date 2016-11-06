@@ -1,8 +1,18 @@
 .sign-up-container {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 450px;
+  padding: 50px 15px;
 
   .title {
     font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .input-container {
+    margin-bottom: 20px;
+  }
+
+  .input {
+    width: 100%;
   }
 }

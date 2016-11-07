@@ -1,5 +1,7 @@
 .sign-up-container
-  h1.title Business sign up
+  .title-container
+    img.signup-img src=image_url("logo-color.png")
+    h1.title Business sign up
   = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
     = devise_error_messages!
     .field.input-container
@@ -25,5 +27,6 @@
     .field.input-container
       = f.label :password_confirmation, class: "label--newline"
       = f.password_field :password_confirmation, autocomplete: "off", class: "input"
-    .actions
-      = f.submit "Sign up", class: "button marginTop-lg"
+    .actions.marginTop-lg
+      = link_to "Cancel", root_path, class: "button button--text-black marginRight-sm"
+      = f.submit "Sign up", class: "button signup-button"

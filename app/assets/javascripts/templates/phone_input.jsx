@@ -1,3 +1,7 @@
+/**
+ * Component to format phone inputs
+ * @prop form_token - Rails token for form submission
+ */
 class PhoneInput extends React.Component {
 
   constructor(props) {
@@ -57,3 +61,5 @@ class PhoneInput extends React.Component {
     )
   }
 }
+
+PhoneInput.propTypes = { form_token: React.PropTypes.string };

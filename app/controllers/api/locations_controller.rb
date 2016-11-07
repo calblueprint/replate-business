@@ -7,7 +7,7 @@ class API::LocationsController < ApplicationController
   end
 
   def create
-      location = Location.new(location_params)
+    location = Location.new(location_params)
       if location.save
         render_json_message(:ok, message: 'Location successfully created!')
       else
@@ -16,10 +16,9 @@ class API::LocationsController < ApplicationController
   end
 
   def destroy
-   	location = Location.find(params[:id])
-
+    location = Location.find(params[:id])
 		if location.destroy
-			render_json_message(:ok, message: 'Location successfully deleted!')
+		  render_json_message(:ok, message: 'Location successfully deleted!')
 		else
 			render_json_message(:forbidden, errors: location.errors.full_messages)
 		end
@@ -28,9 +27,8 @@ class API::LocationsController < ApplicationController
 
   def update
 		location = Location.find(params[:id])
-
 		if location.update(location_params)
-			render_json_message(:ok, message: 'Request successfully updated!')
+	    render_json_message(:ok, message: 'Request successfully updated!')
 		else
 			render_json_message(:forbidden, errors: locations.errors.full_messages)
 		end

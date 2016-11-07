@@ -26,7 +26,6 @@ class API::RequestsController < ApplicationController
 		head 204
 	end
 
-
 	def update
 		request = Request.find(params[:id])
 

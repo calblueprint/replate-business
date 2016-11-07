@@ -48,8 +48,8 @@ class BusinessDashboard extends React.Component {
         <div className="section-header header--buttons marginBot-sm">
           <h3 className="dashboard-section-title marginRight-sm">Office Locations</h3>
           <LocationCreationForm
-                business_id  = {this.props.business.id}
-                success = {this._fetchBusiness} />
+                business_id = {this.props.business.id}
+                success     = {this._fetchBusiness} />
         </div>
         <div className="dashboard-locations-container">
           {locs}

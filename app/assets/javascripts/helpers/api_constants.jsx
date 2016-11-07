@@ -1,7 +1,4 @@
 class ApiConstants {
-  // When looking at the routes, the route names describe which api controller it sends the params to!
-  // Whether it is a post, put, or get request is determined by the Requester class in requests/request.jsx
-  // ie /api/locations will send the params to the controllers/api/locations_controller.rb
   get locations() {
     return {
       update : (id) => `/api/locations/${id}`,

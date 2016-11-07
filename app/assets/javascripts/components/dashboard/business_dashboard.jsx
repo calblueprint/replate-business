@@ -1,7 +1,3 @@
-/**
- * @prop business  - the current business that is signed in
- * @prop locations - collection (array) of locations attached to business
- */
 class BusinessDashboard extends React.Component {
   constructor(props) {
     super(props);

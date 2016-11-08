@@ -78,6 +78,18 @@ ActiveRecord::Schema.define(version: 20161105204051) do
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
 
+  create_table "pickups", force: :cascade do |t|
+    t.string   "title",       null: false
+    t.integer  "food_type",   null: false
+    t.string   "caterer",     null: false
+    t.text     "comments"
+    t.integer  "location_id", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "pickups", ["location_id"], name: "index_pickups_on_location_id", using: :btree
+
   create_table "recurrences", force: :cascade do |t|
     t.integer  "day",                        null: false
     t.datetime "start_time",                 null: false
@@ -88,24 +100,12 @@ ActiveRecord::Schema.define(version: 20161105204051) do
     t.integer  "exception",  default: 0,     null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.integer  "request_id"
+    t.integer  "pickup_id"
   end
 
-  add_index "recurrences", ["request_id"], name: "index_recurrences_on_request_id", using: :btree
-
-  create_table "requests", force: :cascade do |t|
-    t.string   "title",       null: false
-    t.integer  "food_type",   null: false
-    t.string   "caterer",     null: false
-    t.text     "comments"
-    t.integer  "location_id", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "requests", ["location_id"], name: "index_requests_on_location_id", using: :btree
+  add_index "recurrences", ["pickup_id"], name: "index_recurrences_on_pickup_id", using: :btree
 
   add_foreign_key "locations", "businesses"
-  add_foreign_key "recurrences", "requests"
-  add_foreign_key "requests", "locations"
+  add_foreign_key "pickups", "locations"
+  add_foreign_key "recurrences", "pickups"
 end

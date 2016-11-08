@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   resources :admins
   resources :businesses
   resources :locations, :only => [:show]
-  resources :requests, :only => [:show]
+  get '/locations', to: 'locations#index'
+  resources :pickups, :only => [:show]
   resources :recurrences, :only => [:show]
 
   #Export
@@ -27,7 +28,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :businesses, :only => [:show, :create, :update, :destroy]
     resources :locations, :only => [:show, :create, :update, :destroy]
-    resources :requests, :only => [:show, :create, :update, :destroy]
+    resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
   end
 end

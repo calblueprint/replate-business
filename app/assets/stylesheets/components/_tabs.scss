@@ -1,0 +1,47 @@
+.nav-tabs {
+  background: transparent;
+  border-bottom: 1px solid $silver-40;
+  padding: 0;
+
+  li {
+    color: $silver;
+    display: inline-block;
+    margin: 0 5px;
+    transition: 100ms color;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  .active {
+    border-bottom: 3px solid $green;
+    color: $green;
+
+    &:hover {
+      color: $green;
+    }
+  }
+
+  a {
+    color: inherit;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    padding: 8px;
+    text-decoration: none;
+  }
+}
+
+.tab-pane {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

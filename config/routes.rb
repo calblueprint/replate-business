@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   root 'pages#home'
   get 'business' => 'pages#business'
   get 'styles' => 'pages#style'
-
   get 'dashboard' => 'businesses#home'
 
   resources :admins
@@ -22,8 +21,12 @@ Rails.application.routes.draw do
   resources :pickups, :only => [:show]
   resources :recurrences, :only => [:show]
 
+  #Export
+  get 'export' => 'recurrences#export'
+
   # Api definition
   namespace :api, defaults: { format: :json } do
+    resources :businesses, :only => [:show, :create, :update, :destroy]
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]

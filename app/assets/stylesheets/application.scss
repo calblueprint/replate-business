@@ -16,6 +16,7 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 @import "bootstrap/grid";
+@import "bootstrap/dropdowns";
 
 @import 'partials/reset';
 
@@ -25,4 +26,5 @@
 @import 'partials/layouts';
 
 @import 'components/*';
+@import 'pages/static/*';
 @import 'pages/*';

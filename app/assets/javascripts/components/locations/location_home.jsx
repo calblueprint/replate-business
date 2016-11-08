@@ -1,3 +1,6 @@
+var Tabs = ReactBootstrap.Tabs;
+var Tab = ReactBootstrap.Tab;
+
 /**
  * @prop location - current location object of page
  * @prop requests - collection (array) of requests attached to location
@@ -24,27 +27,33 @@ class LocationHome extends React.Component {
   }
 
   render() {
-    let requests = this.state.requests.map((request, i) => {
-      return <div key={i}>{request.title}</div>
-    })
-
-    let num_requests = this.state.requests.length;
 
     return (
-      <div className="marginTop-xl">
+      <div>
         <h1 className="dashboard-title">{this.props.company} | Replate Dashboard</h1>
         <div className="location-page-title">
           <span className="name">{this.props.location.addr_name}</span>
           <span className="addr">{this._fullAddress()}</span>
         </div>
-        <h1>You have {num_requests} requests</h1>
+
+        <Tabs defaultActiveKey={1} animation={false} id={1}>
+          <Tab eventKey={1} title="Requests">
+            <LocationRequests requests = {this.state.requests} />
+          </Tab>
+          <Tab eventKey={2} title="History">Add donation history here</Tab>
+          <Tab eventKey={3} title="Settings">Add location settings here</Tab>
+        </Tabs>
+
         <br />
-        {requests}
-        <br />
-        <RequestCreationModal
-                location_id  = {this.props.location.id}
-                success = {this._fetchLocation} />
+        <RequestCreationForm
+                location_id = {this.props.location.id}
+                success     = {this._fetchLocation} />
       </div>
     )
   }
 }
+
+LocationHome.propTypes = {
+  location : React.PropTypes.object.isRequired,
+  requests : React.PropTypes.array.isRequired
+};

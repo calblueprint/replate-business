@@ -18,9 +18,9 @@ class HomeLogin extends DefaultForm {
     this.setState({ showModal: false });
   }
 
-  _handleLogin = (e) => {
-    /* Write code to handle login here */
-    console.log("Handling login...");
+  _getToken = () => {
+    var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
+    return token;
   }
 
   _handleKeydown = (e) => {
@@ -45,7 +45,8 @@ class HomeLogin extends DefaultForm {
           <Modal.Header>
             <Modal.Title>Log In</Modal.Title>
           </Modal.Header>
-          <form>
+          <form
+            action="businesses/sign_in" method="post">
             <Modal.Body>
               <div className="input-container marginBot-sm">
                 <label
@@ -55,7 +56,7 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="email-input"
-                  name="email"
+                  name="business[email]"
                   type="email"
                   placeholder="example@email.com"
                   onChange={this._handleChange}
@@ -70,10 +71,15 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="password-input"
-                  name="password"
+                  name="business[password]"
                   type="password"
                   onChange={this._handleChange}
                   onKeyDown={this._handleKeydown}
+                />
+                <input
+                  type="hidden"
+                  name="authenticity_token"
+                  value={this._getToken()}
                 />
               </div>
             </Modal.Body>
@@ -83,11 +89,11 @@ class HomeLogin extends DefaultForm {
                 className="button button--text-black"
                 onClick={this._closeModal}
               >Close</button>
-              <button
+              <input
                 type="submit"
                 className="button marginLeft-sm"
-                onClick={this._handleLogin}
-              >Log In</button>
+                value="Log In"
+              />
             </Modal.Footer>
           </form>
         </Modal>

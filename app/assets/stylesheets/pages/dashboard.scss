@@ -6,12 +6,12 @@
 }
 
 .company-title {
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 600;
 }
 
 .dashboard-section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -21,6 +21,8 @@
 }
 
 .header--buttons {
+  overflow: hidden;
+
   .dashboard-section-title {
     display: inline-block;
     vertical-align: middle;
@@ -35,14 +37,6 @@
   width: 25%;
   padding: 9px;
 
-  &:nth-child(4n+1) {
-    padding-left: 0;
-  }
-
-  &:nth-child(4n+4) {
-    padding-right: 0;
-  }
-
   a {
     color: inherit;
     text-decoration: none;
@@ -50,31 +44,17 @@
 }
 
 .location {
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 2px;
   overflow: hidden;
   padding-bottom: 10px;
   position: relative;
 
-  &:before {
-    background: white;
-    content: '';
-    height: 100%;
-    left: 50%;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transition: 100ms;
-    width: 100%;
-    z-index: -1;
-    @include transform(translateX(-50%) translateY(-50%) scale(0.94))
-  }
-
-  &:hover:before {
-    opacity: 1;
-    @include transform(translateX(-50%) translateY(-50%) scale(1));
-  }
-
   &:hover {
+    background: white;
+    border-color: $black-10;
+
     .location-photo {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -83,7 +63,8 @@
 }
 
 .location-photo {
-  background: $gray;
+  background: image_url("dashboard/fb.jpg");
+  background-size: cover;
   border-radius: 2px;
   height: 110px;
   margin-bottom: 14px;
@@ -107,7 +88,7 @@
 
 .location-page-title {
   font-size: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 
   .name {
     font-weight: 600;

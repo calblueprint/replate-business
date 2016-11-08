@@ -11,4 +11,10 @@ class ApplicationController < ActionController::Base
 		  errors: options[:errors]
 		}, status: status
 	end
+
+	def after_sign_in_path_for(resource)
+		if resource.is_a?(Business)
+      dashboard_path
+		end
+	end
 end

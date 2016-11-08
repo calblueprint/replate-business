@@ -1,5 +1,5 @@
 .hero-container {
-  height: 730px;
+  height: 670px;
   position: relative;
 }
 
@@ -39,7 +39,7 @@
 .hero-title {
   animation: slideUpShow 500ms both;
   color: white;
-  font-size: 48px;
+  font-size: 44px;
   font-weight: 800;
   letter-spacing: 1px;
   margin-bottom: 20px;
@@ -50,7 +50,7 @@
   animation: slideUpShow 500ms both;
   animation-delay: 100ms;
   color: $snow;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 1.5;
   margin: 0 auto 60px;
@@ -220,55 +220,133 @@
   }
 }
 
-.splash-how-it-works {
-  background: $gray-60;
-  padding-top: 80px;
-  padding-bottom: 80px;
-}
 
-.how-it-works-col {
-  text-align: center;
+.splash-business-section {
+  background: $gray-60;
+  overflow: hidden;
+  position: relative;
+  min-height: 400px;
 
   .splash-section-title {
-    font-size: 20px;
-    text-transform: none;
-    margin-bottom: 20px;
+    color: $blue-dark;
+    margin-bottom: 30px;
+    text-align: left;
   }
 
-  .learn-more-link {
-    opacity: 0.75;
-    transition: 150ms;
+  .splash-section-description {
+    text-align: left;
+    margin-bottom: 70px;
+    max-width: none;
+  }
+}
 
-    &:hover {
-      opacity: 1;
+.splash-business-skew {
+  background: $blue-dark;
+  position: absolute;
+  height: 100%;
+  right: 0;
+  width: 42%;
+  transform-origin: bottom;
+  z-index: 1;
+  @include transform(skewX(-20deg));
+}
+
+.splash-business-img {
+  border-radius: 3px;
+  box-shadow: -10px 0 20px $black-10;
+  fill: $blue-dark;
+  left: -100px;
+  overflow: hidden;
+  position: absolute;
+  height: 80%;
+  top: 50%;
+  width: 550px;
+  @include transform(skewX(20deg) translateY(-50%));
+}
+
+.splash-business-text-container {
+  max-width: 50%;
+  padding: 70px 40px 70px 60px;
+}
+
+.splash-business-icon {
+  display: block;
+  margin-bottom: 10px;
+  width: 35px;
+}
+
+.splash-marketplace-section {
+  position: relative;
+
+  .splash-section-title {
+    margin-bottom: 30px;
+    text-align: left;
+
+    &:after {
+      background: $green-80;
+      border-radius: 2px;
+      color: white;
+      content: 'beta';
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin: 0 0 5px 10px;
+      padding: 2px 5px;
+      vertical-align: middle;
     }
   }
+
+  .splash-section-description {
+    text-align: left;
+  }
 }
 
-.how-it-works-icon {
-  margin: 0 auto 10px;
-  width: 40px;
+.splash-marketplace-skew {
+  background: $green;
+  position: absolute;
+  height: 100%;
+  left: 0;
+  width: 42%;
+  transform-origin: bottom;
+  z-index: 1;
+  @include transform(skewX(20deg));
 }
 
-.how-it-works-description {
+.splash-marketplace-img {
+  border-radius: 3px;
+  box-shadow: 10px 0 20px $black-10;
+  left: 100px;
+  overflow: hidden;
+  position: absolute;
+  height: 80%;
+  top: 50%;
+  width: 550px;
+  @include transform(skewX(-20deg) translateY(-50%));
+}
+
+.splash-marketplace-text-container {
+  margin-left: auto;
+  max-width: 50%;
+  padding: 70px 60px 70px 40px;
+  text-align: left;
+}
+
+.splash-marketplace-icon {
+  display: block;
+  margin-bottom: 10px;
+  width: 35px;
+}
+
+.marketplace-beta-notification {
   color: $silver;
-  font-size: 18px;
-  margin: 0 auto;
-  max-width: 400px;
-}
-
-.businesses-col {
-  .splash-section-title {
-    color: $blue-dark;
-  }
-
-  .link {
-    color: $blue-dark;
-  }
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .splash-companies {
-  margin-bottom: 70px;
+  padding: 100px 0 70px 0;
 }
 
 .company-container {

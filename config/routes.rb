@@ -12,13 +12,11 @@ Rails.application.routes.draw do
   root 'pages#home'
   get 'business' => 'pages#business'
   get 'styles' => 'pages#style'
-
   get 'dashboard' => 'businesses#home'
 
   resources :admins
   resources :businesses
   resources :locations, :only => [:show]
-  get '/locations', to: 'locations#index'
   resources :requests, :only => [:show]
   resources :recurrences, :only => [:show]
 
@@ -27,6 +25,7 @@ Rails.application.routes.draw do
 
   # Api definition
   namespace :api, defaults: { format: :json } do
+    resources :businesses, :only => [:show, :create, :update, :destroy]
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :requests, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]

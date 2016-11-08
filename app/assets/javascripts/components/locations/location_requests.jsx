@@ -23,3 +23,7 @@ class LocationRequests extends React.Component {
     )
   }
 }
+
+LocationRequests.propTypes = {
+  requests : React.PropTypes.array.isRequired,
+}

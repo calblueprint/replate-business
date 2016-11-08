@@ -7,7 +7,6 @@ class BasicPickupForm extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = this.props.initData;
-
   }
 
   _nextStep = (e) => {

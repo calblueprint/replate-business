@@ -56,9 +56,9 @@ def make_locations
   end
 end
 
-def make_requests
+def make_pickups
   1.upto(10) do |n|
-    request = Request.create(
+    pickup = Pickup.create(
       title: "Lunchtime Pickup",
       food_type: 0,
       caterer: "Eat Club",
@@ -66,13 +66,13 @@ def make_requests
       location_id: n
     )
 
-    request.id = n
-    request.location = Location.find(n)
-    request.save
+    pickup.id = n
+    pickup.location = Location.find(n)
+    pickup.save
   end
 
   1.upto(10) do |n|
-    request = Request.create(
+    pickup = Pickup.create(
       title: "Dinner Pickup",
       food_type: 2,
       caterer: "Zesty",
@@ -80,12 +80,12 @@ def make_requests
       location_id: n
     )
 
-    request.id = n + 10
-    request.location = Location.find(n)
-    request.save
+    pickup.id = n + 10
+    pickup.location = Location.find(n)
+    pickup.save
   end
 end
 
 make_businesses
 make_locations
-make_requests
+make_pickups

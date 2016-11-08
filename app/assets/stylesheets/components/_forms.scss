@@ -53,3 +53,25 @@
     border-color: $snow-80;
   }
 }
+
+.select {
+  @include appearance(none);
+  background-image: image_url("icons/menulist.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 30px;
+  background-color: $black-10;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  color: $black;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  padding: 8px 15px;
+  transition: 50ms;
+
+  &:focus {
+    background-color: $green-20;
+    border-color: $green-40;
+  }
+}

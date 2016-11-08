@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   resources :requests, :only => [:show]
   resources :recurrences, :only => [:show]
 
+  #Export
+  get 'export' => 'recurrences#export'
+
+  # Api definition
   namespace :api, defaults: { format: :json } do
     resources :businesses, :only => [:show, :create, :update, :destroy]
     resources :locations, :only => [:show, :create, :update, :destroy]

@@ -29,9 +29,9 @@ class RequestCreationForm extends DefaultForm {
     return (
       <div className="action-item create-item">
         <div data-toggle="modal fade" data-target="#newRequestModal" >
-          <button onClick={this.open} type="button" className="submit-button-o button-small">
+          <button onClick={this.open} type="button" className="button submit-button-o button-small">
             <span className="fa fa-plus" />
-            Create a new request
+            New request
           </button>
         </div>
         <Modal show={this.state.showModal} onHide={this.close}>

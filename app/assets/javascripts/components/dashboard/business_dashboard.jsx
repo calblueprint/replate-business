@@ -6,6 +6,7 @@ class BusinessDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { locations : this.props.locations };
+    console.log(this.props.locations)
   }
 
   _fullAddress = (loc) => {
@@ -28,7 +29,9 @@ class BusinessDashboard extends React.Component {
           <div className="location-item-col" key={i}>
             <a href={`/locations/` + location.id}>
               <div className="location">
-                <div className="location-photo"></div>
+                <div className="location-photo">
+                  <img src={location.url} />
+                </div>
                 <h4 className="location-title">{location.addr_name}</h4>
                 <p className="location-addr">{this._fullAddress(location)}</p>
               </div>

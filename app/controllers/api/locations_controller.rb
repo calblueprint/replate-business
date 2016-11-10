@@ -36,7 +36,7 @@ class API::LocationsController < ApplicationController
 
   def location_params
   ##### TODO: permit the fields allowed when building a new location ######
-    params.require(:location).permit(
+    params.permit(
     :addr_name,
     :number,
     :street,
@@ -44,25 +44,12 @@ class API::LocationsController < ApplicationController
     :country,
     :state,
     :zip,
-    :business_id
+    :business_id,
+    :photo
     )
-
-  end
-
-  def update
-    location = Location.find(params[:id]).update(upload_params)
-
-    if location.save
-      render_json_message(:ok, message: 'Uploaded Photo!')
-    else
-
-    end
 
   end
 
   private
 
-  def upload_params
-    params.permit(:photo)
-  end
 end

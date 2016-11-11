@@ -1,21 +1,23 @@
 /**
  * @prop business  - the current business that is signed in
- * @prop locations - collection (array) of locations attached to business
  */
 class BusinessDashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { locations : this.props.locations };
-    console.log(this.props.locations)
+    this.state = { locations : [] };
+  }
+
+  componentDidMount() {
+    this._fetchBusinessLocations();
   }
 
   _fullAddress = (loc) => {
     return `${loc.number} ${loc.street} ${loc.city}, ${loc.state} ${loc.zip}`;
   }
 
-  _fetchBusiness = () => {
+  _fetchBusinessLocations = () => {
     const success = (data) => {
-      this.setState({ locations: data });
+      this.setState({ locations: data.businesses });
     }
     Requester.get(APIConstants.businesses.update(
       this.props.business.id), success);
@@ -52,7 +54,7 @@ class BusinessDashboard extends React.Component {
           <h3 className="dashboard-section-title marginRight-sm">Office Locations</h3>
           <LocationCreationForm
                 business_id = {this.props.business.id}
-                success     = {this._fetchBusiness} />
+                success     = {this._fetchBusinessLocations} />
         </div>
         <div className="dashboard-locations-container">
           {locs}

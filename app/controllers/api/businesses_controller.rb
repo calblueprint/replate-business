@@ -1,6 +1,6 @@
 class API::BusinessesController < ApplicationController
   def show
-    @business = Business.find(params[:id])
-    render json: @business.locations, root: false
+    @locations = Location.where("business_id =?", params[:id])
+    render json: @locations, each_serializer: LocationSerializer
   end
 end

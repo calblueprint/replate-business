@@ -14,7 +14,21 @@ class DefaultForm extends React.Component {
     this.setState({ [target.attr('name')]: target.val() });
   }
 
-  _attemptAction(route, params, resolve, reject) {
-    Requester.post(route, params, resolve, reject);
+  // route is accessed through api constants ie: APIConstants.requests.update returns
+  //  /api/requests/${id}
+  // params is a dictionary where key = object attribute, value = attribute value
+  // resolve is a success function you pass in
+
+  _attemptAction(route, params, success, reject) {
+    Requester.post(route, params, success, reject);
+  }
+
+  _formFields() {
+    // Necessary because bootstrap-select does not fire onChange events
+    const extraFields = { };
+    $('.selectpicker').each((index, element) => {
+        extraFields[$(element).attr("name")] = $(element).val();
+    });
+    return $.extend({}, this.state, extraFields);
   }
 }

@@ -1,5 +1,4 @@
 class ApiConstants {
-
   get locations() {
     return {
       update : (id) => `/api/locations/${id}`,
@@ -7,10 +6,10 @@ class ApiConstants {
     }
   }
 
-  get requests() {
+  get pickups() {
     return {
-      update : (id) => `/api/requests/${id}`,
-      create : `/api/requests`, 
+      update : (id) => `/api/pickups/${id}`,
+      create : `/api/pickups`,
     }
   }
 
@@ -18,6 +17,13 @@ class ApiConstants {
     return {
       update : (id) => `/api/recurrences/${id}`,
       create : `/api/recurrences`
+    }
+  }
+
+  // fetchBusiness uses this route!
+  get businesses() {
+    return {
+      update : (id) => `/api/businesses/${id}`
     }
   }
 }

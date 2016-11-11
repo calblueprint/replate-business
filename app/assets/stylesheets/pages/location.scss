@@ -15,3 +15,67 @@
 .day-active {
   background-color: $green;
 }
+
+.new-location-component {
+  float: right;
+}
+
+.location-creation-modal {
+  .modal-dialog {
+    max-width: 550px;
+    padding: 10px;
+  }
+
+  .modal-header {
+    padding-top: 30px;
+  }
+
+  .input-container {
+    margin-bottom: 24px;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.location-create-form-row {
+  @include clearAfter;
+
+  .addr-num {
+    float: left;
+    padding-right: 20px;
+    width: 20%;
+  }
+
+  .addr-street {
+    float: left;
+    width: 80%;
+  }
+
+  .addr-city {
+    float: left;
+    padding-right: 20px;
+    width: 60%;
+  }
+
+  .addr-state {
+    float: left;
+    width: 40%;
+
+    select {
+      width: 100%;
+    }
+  }
+
+  .addr-country {
+    float: left;
+    padding-right: 20px;
+    width: 50%;
+  }
+
+  .addr-zip {
+    float: left;
+    width: 50%;
+  }
+}

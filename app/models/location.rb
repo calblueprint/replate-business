@@ -17,7 +17,7 @@
 #
 
 class Location < ActiveRecord::Base
-  has_many :requests
+  has_many :pickups
   belongs_to :business
 
   def address

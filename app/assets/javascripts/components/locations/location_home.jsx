@@ -1,12 +1,15 @@
+var Tabs = ReactBootstrap.Tabs;
+var Tab = ReactBootstrap.Tab;
+
 /**
  * @prop location - current location object of page
- * @prop requests - collection (array) of requests attached to location
+ * @prop pickups - collection (array) of pickups attached to location
  */
 class LocationHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      requests: this.props.requests,
+      pickups: this.props.pickups,
     };
   }
 
@@ -17,18 +20,13 @@ class LocationHome extends React.Component {
 
   _fetchLocation = () => {
     const success = (data) => {
-      this.setState({ requests: data });
+      this.setState({ pickups: data });
     }
     Requester.get(APIConstants.locations.update(
       this.props.location.id), success);
   }
 
   render() {
-    let requests = this.state.requests.map((request, i) => {
-      return <div key={i}>{request.title}</div>
-    })
-
-    let num_requests = this.state.requests.length;
 
     return (
       <div>
@@ -37,14 +35,25 @@ class LocationHome extends React.Component {
           <span className="name">{this.props.location.addr_name}</span>
           <span className="addr">{this._fullAddress()}</span>
         </div>
-        <h1>You have {num_requests} requests</h1>
+
+        <Tabs defaultActiveKey={1} animation={false} id={1}>
+          <Tab eventKey={1} title="Pickups">
+            <LocationPickups pickups = {this.state.pickups} />
+          </Tab>
+          <Tab eventKey={2} title="History">Add donation history here</Tab>
+          <Tab eventKey={3} title="Settings">Add location settings here</Tab>
+        </Tabs>
+
         <br />
-        {requests}
-        <br />
-        <RequestCreationForm
-                location_id  = {this.props.location.id}
-                success = {this._fetchLocation} />
+        <PickupCreationModal
+                location_id = {this.props.location.id}
+                success     = {this._fetchLocation} />
       </div>
     )
   }
 }
+
+LocationHome.propTypes = {
+  location : React.PropTypes.object.isRequired,
+  pickups : React.PropTypes.array.isRequired
+};

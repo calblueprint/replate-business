@@ -12,7 +12,7 @@
 #  updated_at  :datetime         not null
 #
 
-class Request < ActiveRecord::Base
+class Pickup < ActiveRecord::Base
   belongs_to :location
   has_many :recurrences
   enum food_type: [:raw, :catered, :baked_goods, :packaged]

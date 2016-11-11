@@ -9,7 +9,7 @@ class CreateRecurrences < ActiveRecord::Migration
       t.datetime :start_date, null: false
       t.integer :exception, null: false, default: 0
       t.timestamps null: false
-      t.references :request, index: true, foreign_key: true
+      t.references :pickup, index: true, foreign_key: true
     end
   end
 end

@@ -57,17 +57,23 @@ class LocationSettings extends React.Component {
     }
 
     return (
-      <div>
-        <h2>Location Image</h2>
-        <div className="location-setting-img">
-          <img src={this.state.location.url} />
+      <div className="location-settings">
+        <div className="location-settings-img-col">
+          <h2 className="settings-title">Location Image</h2>
+          <div className="location-setting-img">
+            <img src={this.state.location.url} />
+          </div>
+          <h2>Upload a new image</h2>
+          <form onSubmit={this._uploadFile}>
+            <input type="file" onChange={this._setFile} />
+            <input type="submit" />
+          </form>
+          {uploadMsg}
         </div>
-        <h2>Upload a new image</h2>
-        <form onSubmit={this._uploadFile}>
-          <input type="file" onChange={this._setFile} />
-          <input type="submit" />
-        </form>
-        {uploadMsg}
+
+        <div className="location-settings-input-col">
+          Other settings for location go here
+        </div>
       </div>
     )
   }

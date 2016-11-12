@@ -3,7 +3,7 @@ class API::LocationsController < ApplicationController
 
   def show
     @location = Location.find(params[:id])
-    render json: @location.pickups, root: false
+    render json: @location, each_serializer: LocationSerializer, root: false
   end
 
   def create

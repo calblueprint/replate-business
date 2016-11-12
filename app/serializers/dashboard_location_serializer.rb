@@ -1,4 +1,4 @@
-class LocationSerializer < ActiveModel::Serializer
+class DashboardLocationSerializer < ActiveModel::Serializer
   attributes :id,
              :url,
              :number,
@@ -8,8 +8,6 @@ class LocationSerializer < ActiveModel::Serializer
              :addr_name,
              :state,
              :zip
-
-  has_many :pickups
 
   def url
     object.photo.url

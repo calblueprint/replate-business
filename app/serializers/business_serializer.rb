@@ -4,5 +4,5 @@ class BusinessSerializer < ActiveModel::Serializer
              :company_name,
              :phone
 
-  has_many :locations, serializer: LocationSerializer
+  has_many :locations, serializer: DashboardLocationSerializer
 end

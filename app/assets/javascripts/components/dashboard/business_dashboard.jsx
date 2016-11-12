@@ -1,4 +1,5 @@
 /**
+ * Renders the home business dashboard view
  * @prop business - the current business that is signed in
  */
 class BusinessDashboard extends React.Component {

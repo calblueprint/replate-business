@@ -1,12 +1,20 @@
 /**
  * Component to render requests for a location
- * @prop id - location ID to update
+ * @prop location      - location object to update
+ * @prop fetchLocation - callback function to retrieve location
  */
 class LocationSettings extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { uploadSuccess: false }
+    this.state = {
+      location: {},
+      uploadSuccess: false,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ location: nextProps.location })
   }
 
   _setFile = (e) => {
@@ -17,9 +25,7 @@ class LocationSettings extends React.Component {
 
     const reader = new FileReader();
     reader.onload = (file) => {
-      this.setState({
-        photo: file.target.result,
-      })
+      this.setState({ photo: file.target.result, })
     }
 
     reader.readAsDataURL(files[0]);
@@ -29,16 +35,18 @@ class LocationSettings extends React.Component {
     e.preventDefault();
 
     const success = (data) => {
+      this.props.fetchLocation();
+
       this.setState({
+        location: data,
         uploadSuccess: true,
       })
     }
 
-    let params = {
-      photo: this.state.photo
-    }
+    let params = { photo: this.state.photo, }
 
-    Requester.update(APIConstants.locations.update(this.props.id), params, success);
+    Requester.update(APIConstants.locations.update(this.props.location.id),
+      params, success, success);
   }
 
   render() {
@@ -50,7 +58,11 @@ class LocationSettings extends React.Component {
 
     return (
       <div>
-        <h2>Upload!</h2>
+        <h2>Location Image</h2>
+        <div className="location-setting-img">
+          <img src={this.state.location.url} />
+        </div>
+        <h2>Upload a new image</h2>
         <form onSubmit={this._uploadFile}>
           <input type="file" onChange={this._setFile} />
           <input type="submit" />
@@ -62,5 +74,5 @@ class LocationSettings extends React.Component {
 }
 
 LocationSettings.propTypes = {
-  id : React.PropTypes.number.isRequired,
+  location : React.PropTypes.object.isRequired,
 }

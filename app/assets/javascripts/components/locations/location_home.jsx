@@ -6,13 +6,12 @@ var Tab = ReactBootstrap.Tab;
  * @prop pickups - collection (array) of pickups attached to location
  */
 class LocationHome extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       pickups: this.props.pickups,
     };
-
-    this._setFile = this._setFile.bind(this);
   }
 
   _fullAddress = () => {
@@ -26,34 +25,6 @@ class LocationHome extends React.Component {
     }
     Requester.get(APIConstants.locations.update(
       this.props.location.id), success);
-  }
-
-  _setFile = (e) => {
-    const files = e.target.files;
-    if (!files || !files[0]) {
-      return
-    }
-
-    const reader = new FileReader();
-    reader.onload = (file) => {
-      this.setState({ photo: file.target.result })
-      // that.setState({ imageUrl: reader.result, imageFile: file });
-    }
-
-    reader.readAsDataURL(files[0]);
-  }
-
-  _uploadFile = (e) => {
-    e.preventDefault();
-    const success = (data) => {
-      console.log("successful!");
-    }
-
-    let params = {
-      photo: this.state.photo
-    }
-
-    Requester.update(APIConstants.locations.update(this.props.location.id), params, success);
   }
 
   render() {
@@ -71,20 +42,15 @@ class LocationHome extends React.Component {
             <LocationPickups pickups = {this.state.pickups} />
           </Tab>
           <Tab eventKey={2} title="History">Add donation history here</Tab>
-          <Tab eventKey={3} title="Settings">Add location settings here</Tab>
+          <Tab eventKey={3} title="Settings">
+            <LocationSettings id = {this.props.location.id} />
+          </Tab>
         </Tabs>
 
         <br />
         <PickupCreationModal
                 location_id = {this.props.location.id}
                 success     = {this._fetchLocation} />
-
-        <h2>Upload!</h2>
-        <form onSubmit={this._uploadFile}>
-          <input type="file" onChange={this._setFile} />
-          <input type="submit" />
-
-        </form>
       </div>
     )
   }

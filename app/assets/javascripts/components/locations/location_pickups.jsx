@@ -3,6 +3,7 @@
  * @prop requests - list of requests to render
  */
 class LocationPickups extends React.Component {
+
   constructor(props) {
     super(props);
   }

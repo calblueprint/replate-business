@@ -1,5 +1,13 @@
 class LocationSerializer < ActiveModel::Serializer
-  attributes :id, :url, :number, :street, :city, :country, :addr_name, :state, :zip
+  attributes :id,
+             :url,
+             :number,
+             :street,
+             :city,
+             :country,
+             :addr_name,
+             :state,
+             :zip
 
   def url
     object.photo.url

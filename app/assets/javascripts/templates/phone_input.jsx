@@ -5,12 +5,8 @@
  */
 class PhoneInput extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   _checkTextSelected = (input) => {
-    return input.selectionStart != input.selectionEnd;
+    return input.selectionStart !== input.selectionEnd;
   }
 
   _handleInput = (e) => {
@@ -46,7 +42,7 @@ class PhoneInput extends React.Component {
       formattedNum = rawNum;
     }
 
-    this._setInputVal(e.target, formattedNum)
+    this._setInputVal(e.target, formattedNum);
   }
 
   _setInputVal = (input, value) => {
@@ -64,4 +60,7 @@ class PhoneInput extends React.Component {
   }
 }
 
-PhoneInput.propTypes = { form_token: React.PropTypes.string };
+PhoneInput.propTypes = {
+  form_name: React.PropTypes.string.isRequired,
+  input_id : React.PropTypes.string.isRequired
+};

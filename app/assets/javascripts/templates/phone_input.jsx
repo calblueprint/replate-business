@@ -1,6 +1,7 @@
 /**
  * Component to format phone inputs
- * @prop form_token - Rails token for form submission
+ * @prop form_name - Name for integration with Rails form submission
+ * @prop input_id  - ID for the HTML input element
  */
 class PhoneInput extends React.Component {
 
@@ -55,9 +56,9 @@ class PhoneInput extends React.Component {
   render() {
     return (
       <div className="field input-container">
-        <label className="label--newline">Phone</label>
-        <input type='hidden' name='authenticity_token' value={this.props.form_token} />
-        <input type="tel" className="input" onKeyPress={this._handleInput} />
+        <label className="label--newline" for={this.props.input_id}>Phone</label>
+        <input type="tel" name={this.props.form_name} id={this.props.input_id}
+          className="input" onKeyPress={this._handleInput} />
       </div>
     )
   }

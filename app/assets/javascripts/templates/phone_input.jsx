@@ -15,7 +15,8 @@ class PhoneInput extends React.Component {
   _handleInput = (e) => {
 
     // Validate the input to allow numbers only
-    if (!parseInt(e.key)) {
+    let entry = parseInt(e.key);
+    if (!entry && entry != 0) {
       e.preventDefault();
     }
 

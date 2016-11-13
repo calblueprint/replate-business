@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101040617) do
+ActiveRecord::Schema.define(version: 20161111235515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,8 +88,6 @@ ActiveRecord::Schema.define(version: 20161101040617) do
 
   create_table "recurrences", force: :cascade do |t|
     t.integer  "day",                        null: false
-    t.datetime "start_time",                 null: false
-    t.datetime "end_time",                   null: false
     t.integer  "frequency",                  null: false
     t.boolean  "has_sent",   default: false
     t.datetime "start_date",                 null: false
@@ -97,6 +95,8 @@ ActiveRecord::Schema.define(version: 20161101040617) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "pickup_id"
+    t.string   "start_time"
+    t.string   "end_time"
   end
 
   add_index "recurrences", ["pickup_id"], name: "index_recurrences_on_pickup_id", using: :btree

@@ -6,7 +6,7 @@ class BusinessDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      business: {}
+      business: {},
     };
   }
 
@@ -65,4 +65,8 @@ class BusinessDashboard extends React.Component {
       </div>
     )
   }
+}
+
+BusinessDashboard.propTypes = {
+  business: React.PropTypes.object,
 }

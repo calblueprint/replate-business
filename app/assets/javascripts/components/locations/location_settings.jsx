@@ -14,7 +14,7 @@ class LocationSettings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ location: nextProps.location })
+    this.setState({ location: nextProps.location });
   }
 
   _setFile = (e) => {
@@ -25,7 +25,7 @@ class LocationSettings extends React.Component {
 
     const reader = new FileReader();
     reader.onload = (file) => {
-      this.setState({ photo: file.target.result, })
+      this.setState({ photo: file.target.result, });
     }
 
     reader.readAsDataURL(files[0]);
@@ -40,10 +40,10 @@ class LocationSettings extends React.Component {
       this.setState({
         location: data,
         uploadSuccess: true,
-      })
+      });
     }
 
-    let params = { photo: this.state.photo, }
+    let params = { photo: this.state.photo, };
 
     Requester.update(APIConstants.locations.update(this.props.location.id),
       params, success, success);
@@ -81,5 +81,5 @@ class LocationSettings extends React.Component {
 
 LocationSettings.propTypes = {
   location      : React.PropTypes.object.isRequired,
-  fetchLocation : React.PropTypes.func.isRequred,
+  fetchLocation : React.PropTypes.func.isRequired,
 }

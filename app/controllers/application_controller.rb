@@ -15,18 +15,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-	def render_json_message(status, options = {})
-		render json: {
-		  data: options[:data],
-		  message: options[:message],
-		  to: options[:to],
-		  errors: options[:errors]
-		}, status: status
-	end
+  def render_json_message(status, options = {})
+    render json: {
+      data: options[:data],
+      message: options[:message],
+      to: options[:to],
+      errors: options[:errors]
+    }, status: status
+  end
 
-	def after_sign_in_path_for(resource)
-		if resource.is_a?(Business)
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(Business)
       dashboard_path
-		end
-	end
+    end
+  end
 end

@@ -1,18 +1,26 @@
 /**
  * Component to render requests for a location
- * @prop requests - list of requests to render
+ * @prop pickups - list of requests to render
  */
 class LocationPickups extends React.Component {
+
   constructor(props) {
     super(props);
   }
 
   render() {
-    let pickups = this.props.pickups.map((pickup, i) => {
-      return <div key={i}>{pickup.title}</div>
-    })
+    let pickups = 0;
+    let num_pickups = 0;
 
-    let num_pickups = this.props.pickups.length;
+    if (this.props.pickups) {
+      pickups = this.props.pickups.map((pickup, i) => {
+        return <div key={i}>{pickup.title}</div>
+      });
+
+      num_pickups = this.props.pickups.length;
+    } else {
+      pickups = "Loading Your Pickups";
+    }
 
     return (
       <div>
@@ -25,5 +33,5 @@ class LocationPickups extends React.Component {
 }
 
 LocationPickups.propTypes = {
-  pickups : React.PropTypes.array.isRequired,
+  pickups : React.PropTypes.array,
 }

@@ -20,6 +20,11 @@ gem 'pg', '0.18.4'
 gem 'pg_search', '1.0.5'
 gem 'react-rails', '1.5.0'
 
+
+# Uploading
+gem 'paperclip', '5.1.0'
+gem 'aws-sdk', '~> 2.3'
+
 # Client
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'font-awesome-rails', '4.5.0'

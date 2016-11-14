@@ -147,17 +147,17 @@
 
 .week-container {
   display: flex;
+  border: 1px solid $gray;
   margin-bottom: 50px;
-  max-width: 1000px;
 }
 
 .day-column {
   border-right: 1px solid $gray;
   flex: 1;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.5);
   }
 
   &:last-of-type {
@@ -169,7 +169,7 @@
   }
 
   &.currentDay .day-header {
-    color: $black;
+    color: $green;
     font-weight: 800;
   }
 
@@ -188,7 +188,7 @@
   font-weight: 700;
   margin-bottom: 15px;
   letter-spacing: 0.5px;
-  padding-left: 14px;
+  padding: 10px 14px 0;
   text-transform: uppercase;
 }
 

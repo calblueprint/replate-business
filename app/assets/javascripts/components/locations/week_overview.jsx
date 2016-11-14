@@ -4,7 +4,7 @@ class WeekOverview extends React.Component {
     super(props);
 
     this.state = {
-      today: 3,
+      today: new Date().getDay(),
       schedule: {
         1: [{
           name: 'Lunch Pickup',

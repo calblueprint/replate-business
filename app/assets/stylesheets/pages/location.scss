@@ -155,6 +155,11 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.5);
+
+    .new-pickup-button {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   &:last-of-type {
@@ -180,13 +185,32 @@
 }
 
 .day-header {
+  border-bottom: 1px solid $gray;
+  display: flex;
   color: $silver;
   font-size: 14px;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   letter-spacing: 0.5px;
-  padding: 10px 14px 0;
+  padding: 10px 14px;
   text-transform: uppercase;
+
+  h3 {
+    flex: 1;
+  }
+
+  .new-pickup-button {
+    appearance: none;
+    background: none;
+    border: none;
+    color: $green;
+    font-weight: 600;
+    outline: none;
+    transition: 100ms;
+    opacity: 0;
+    padding: 0;
+    visibility: hidden;
+  }
 }
 
 .pickup-item {

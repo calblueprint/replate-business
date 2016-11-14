@@ -92,16 +92,14 @@
 }
 
 .location-page-title {
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.location-page-addr {
+  color: $black-60;
+  font-size: 16px;
+  font-weight: 500;
   margin-bottom: 36px;
-
-  .name {
-    font-weight: 600;
-    margin-right: 8px;
-  }
-
-  .addr {
-    color: $silver;
-    font-weight: 400;
-  }
 }

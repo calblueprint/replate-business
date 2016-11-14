@@ -36,11 +36,10 @@ class LocationHome extends React.Component {
 
     return (
       <div>
-        <h1 className="dashboard-title">{this.props.company} | Replate Dashboard</h1>
-        <div className="location-page-title">
-          <span className="name">{this.props.location.addr_name}</span>
-          <span className="addr">{this._fullAddress()}</span>
-        </div>
+        <h1 className="location-page-title">
+          {this.props.location.addr_name}
+        </h1>
+        <h2 className="location-page-addr">{this._fullAddress()}</h2>
 
         <Tabs defaultActiveKey={1} animation={false} id={1}>
           <Tab eventKey={1} title="Pickups">

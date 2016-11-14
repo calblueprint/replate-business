@@ -64,33 +64,29 @@ class WeekOverview extends React.Component {
 
     return days.map((day, index) => {
       const dayNum = index + 1;
-      const isCurrentDay = dayNum == this.state.today;
-
-      // Generate the schedule header with day
-      const dayHeader = (
-        <div className="day-header">
-          <h3>{day}</h3>
-        </div>
-      )
+      const isCurrentDay = (dayNum == this.state.today);
+      const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
+      let columnContents;
 
       if (this.state.schedule[dayNum]) {
-        return (
-          <div className={`day-column ` + (isCurrentDay ? 'currentDay' : '')}
-            key={index}>
-            {dayHeader}
-            {this._generatePickupItems(this.state.schedule[dayNum], dayNum)}
-          </div>
-        )
+        columnContents = this._generatePickupItems(this.state.schedule[dayNum], dayNum);
       } else {
-        return (
-          <div className="day-column" key={index}>
-            {dayHeader}
-            <div className="pickup-item">
-              <p className="name no-pickup-label">No pickups today</p>
-            </div>
+        columnContents = (
+          <div className="pickup-item">
+            <p className="name no-pickup-label">No pickups today</p>
           </div>
         )
       }
+
+      return (
+        <div className={columnClass} key={index}>
+          <div className="day-header">
+            <h3>{day}</h3>
+            <button className="new-pickup-button">new pickup</button>
+          </div>
+          {columnContents}
+        </div>
+      )
     })
   }
 

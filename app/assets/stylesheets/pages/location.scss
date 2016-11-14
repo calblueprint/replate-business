@@ -114,4 +114,117 @@
     object-fit: cover;
     vertical-align: middle;
   }
+
+
+.pickup-section-title {
+  color: $black;
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.week-overview-container {
+
+}
+
+.week-overview-title {
+  font-size: 22px;
+  margin-bottom: 30px;
+
+  .title {
+    color: $black;
+    display: inline-block;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+
+  .day-range {
+    color: $silver;
+    display: inline-block;
+    font-weight: 400;
+  }
+}
+
+.week-container {
+  display: flex;
+  margin-bottom: 50px;
+  max-width: 1000px;
+}
+
+.day-column {
+  border-right: 1px solid $gray;
+  flex: 1;
+  padding: 10px 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  &:last-of-type {
+    border-right: none;
+  }
+
+  &.currentDay {
+    background: white;
+  }
+
+  &.currentDay .day-header {
+    color: $black;
+    font-weight: 800;
+  }
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.day-header {
+  color: $silver;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+  padding-left: 14px;
+  text-transform: uppercase;
+}
+
+.pickup-item {
+  padding: 10px 14px;
+  margin-bottom: 4px;
+
+  &.past {
+    background: transparent;
+    opacity: 0.7;
+  }
+
+  .name {
+    color: $black;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .time {
+    color: $black-60;
+    font-size: 13px;
+  }
+
+  .repeating {
+    color: $black-60;
+    font-size: 13px;
+  }
+
+  .cancelButton {
+    color: $alert;
+    display: inline-block;
+    font-size: 13px;
+    margin-top: 6px;
+  }
+}
+
+.no-pickup-label {
+  color: $black-60;
 }

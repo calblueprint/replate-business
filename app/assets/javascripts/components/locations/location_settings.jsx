@@ -80,5 +80,6 @@ class LocationSettings extends React.Component {
 }
 
 LocationSettings.propTypes = {
-  location : React.PropTypes.object.isRequired,
+  location      : React.PropTypes.object.isRequired,
+  fetchLocation : React.PropTypes.func.isRequred,
 }

@@ -35,17 +35,16 @@ class API::LocationsController < ApplicationController
 	end
 
   def location_params
-  ##### TODO: permit the fields allowed when building a new location ######
     params.permit(
-    :addr_name,
-    :number,
-    :street,
-    :city,
-    :country,
-    :state,
-    :zip,
-    :business_id,
-    :photo
+      :addr_name,
+      :number,
+      :street,
+      :city,
+      :country,
+      :state,
+      :zip,
+      :business_id,
+      :photo
     )
 
   end

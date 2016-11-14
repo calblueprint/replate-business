@@ -36,10 +36,17 @@ class LocationHome extends React.Component {
 
     return (
       <div>
-        <h1 className="location-page-title">
-          {this.props.location.addr_name}
-        </h1>
-        <h2 className="location-page-addr">{this._fullAddress()}</h2>
+        <div className="location-page-header">
+          <div className="image img-container">
+            <img src={this.state.location.url} />
+          </div>
+          <div className="name">
+            <h1 className="location-page-title">
+              {this.props.location.addr_name}
+            </h1>
+            <h2 className="location-page-addr">{this._fullAddress()}</h2>
+          </div>
+        </div>
 
         <Tabs defaultActiveKey={1} animation={false} id={1}>
           <Tab eventKey={1} title="Pickups">

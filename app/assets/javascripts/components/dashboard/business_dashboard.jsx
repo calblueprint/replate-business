@@ -1,20 +1,26 @@
 /**
- * @prop business  - the current business that is signed in
- * @prop locations - collection (array) of locations attached to business
+ * Renders the home business dashboard view
+ * @prop business - the current business that is signed in
  */
 class BusinessDashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { locations : this.props.locations };
+    this.state = {
+      business: {},
+    };
+  }
+
+  componentDidMount() {
+    this._fetchBusinessData();
   }
 
   _fullAddress = (loc) => {
     return `${loc.number} ${loc.street} ${loc.city}, ${loc.state} ${loc.zip}`;
   }
 
-  _fetchBusiness = () => {
+  _fetchBusinessData = () => {
     const success = (data) => {
-      this.setState({ locations: data });
+      this.setState({ business: data });
     }
     Requester.get(APIConstants.businesses.update(
       this.props.business.id), success);
@@ -22,13 +28,15 @@ class BusinessDashboard extends React.Component {
 
   render() {
     let locs;
-    if (this.state.locations) {
-      locs = this.state.locations.map((location, i) => {
+    if (this.state.business.locations) {
+      locs = this.state.business.locations.map((location, i) => {
         return (
           <div className="location-item-col" key={i}>
             <a href={`/locations/` + location.id}>
               <div className="location">
-                <div className="location-photo"></div>
+                <div className="location-photo">
+                  <img src={location.url} />
+                </div>
                 <h4 className="location-title">{location.addr_name}</h4>
                 <p className="location-addr">{this._fullAddress(location)}</p>
               </div>
@@ -49,7 +57,7 @@ class BusinessDashboard extends React.Component {
           <h3 className="dashboard-section-title marginRight-sm">Office Locations</h3>
           <LocationCreationForm
                 business_id = {this.props.business.id}
-                success     = {this._fetchBusiness} />
+                success     = {this._fetchBusinessData} />
         </div>
         <div className="dashboard-locations-container">
           {locs}
@@ -57,4 +65,8 @@ class BusinessDashboard extends React.Component {
       </div>
     )
   }
+}
+
+BusinessDashboard.propTypes = {
+  business: React.PropTypes.object,
 }

@@ -64,8 +64,7 @@ section.splash-business-section
       p.splash-section-description
         | Our drivers will clean up, package, and deliver your donation to a local nonprofit. We offer flexible pricing, and all donations are tax-deductible!
       .splash-business-button-container.marginTopBot-xl
-        a.button.button--blue.marginRight-xs href=""
-          | Business Sign up
+        = link_to "Business Sign Up", signup_path, :method => "get", :class => "button button--blue marginRight-xs"
         = link_to business_path, { class: "button button--text-blue" }
           | learn more
 

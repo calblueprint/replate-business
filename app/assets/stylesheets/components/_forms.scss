@@ -2,14 +2,11 @@
   label.label--newline {
     color: $black-60;
     display: block;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-size: 16px;
+    font-weight: 700;
     margin-bottom: 5px;
-    text-transform: uppercase;
   }
 }
-
 
 .input {
   @include appearance(none);
@@ -42,7 +39,6 @@
 .input--fullwidth {
   width: 100%;
 }
-
 
 .input--light {
   background: $snow-20;

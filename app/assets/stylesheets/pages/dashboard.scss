@@ -63,13 +63,18 @@
 }
 
 .location-photo {
-  background: image_url("dashboard/fb.jpg");
   background-size: cover;
   border-radius: 2px;
-  height: 110px;
+  height: 150px;
   margin-bottom: 14px;
   overflow: hidden;
   width: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .location-title {

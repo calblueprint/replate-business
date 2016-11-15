@@ -86,6 +86,30 @@ def make_pickups
   end
 end
 
+def randomtime
+  times = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",\
+                 "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]
+  start_time = rand(0..7)
+  end_time = start_time + 1
+  {:start_time => times[start_time], :end_time => times[end_time]}
+end
+
+def make_recurrences
+  pickups = Pickup.all
+  pickups.each do |pickup|
+    1.upto(3) do |n|
+      pickup.recurrences.create(
+        day: n,
+        frequency: 1,
+        start_date: Time.now,
+        start_time: randomtime[:start_time],
+        end_time: randomtime[:end_time],
+      )
+    end
+  end
+end
+
 make_businesses
 make_locations
 make_pickups
+make_recurrences

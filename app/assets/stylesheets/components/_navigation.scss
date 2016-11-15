@@ -1,6 +1,5 @@
 .nav {
   background: $black;
-  margin-bottom: 30px;
   padding: 10px 0;
   width: 100%;
   transition: 100ms;
@@ -94,9 +93,11 @@
   }
 }
 
-.dashboard-nav {
-  margin-bottom: 50px;
+.static-nav {
+  margin-bottom: 30px;
+}
 
+.dashboard-nav {
   a {
     color: $snow-80;
     text-decoration: none;

@@ -1,9 +1,9 @@
 nav.nav.dashboard-nav
   .container
-    a.home-link href="/" Replate
+    = link_to "Replate Dashboard", dashboard_path, class: "home-link"
     .nav-right
       - if current_business
-        = link_to "Your Dashboard", dashboard_path, class: "marginRight-sm"
+        = link_to "Replate Homepage", root_path, class: "marginRight-sm"
         span.dropdown
           a.dropdown-toggle role="button" data-toggle="dropdown" href="#"
             span #{current_business.company_name}

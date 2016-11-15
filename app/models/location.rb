@@ -23,4 +23,8 @@ class Location < ActiveRecord::Base
   def address
     [self.number, self.street, self.city, self.state, self.zip].join(" ")
   end
+
+  def line_1
+    [self.number, self.street].join(" ")
+  end
 end

@@ -1,3 +1,6 @@
-
-<%- headers = ['Recipient_Notes', 'Recipient_Name', 'Recipient_Phone', 'Address_Line1', 'Address_Line2', 'City/Town', 'Postal_Code', 'State/Province', 'Country', 'Latitude', 'Longitude', 'Task_Details', 'Pickup', 'completeAfter (Local)', 'completeBefore (Local)', 'Organization'] -%>
+<%- headers = ['Recipient_Notes', 'Recipient_Name', 'Recipient_Phone', 'Address_Line1', 'Address_Line2', 'City/Town', 'Postal_Code', 'State/Province', 'Country', 'Latitude', 'Longitude', 'Task_Details', 'Pickup', 'completeAfter (Local)', 'completeBefore (Local)', 'Organization', 'Driver'] -%>
 <%= CSV.generate_line headers %>
+<%= @recurrences.where(day: 1).each do |r| %>
+  <%= CSV.generate_line([nil, r.business.company_name, r.business.phone, r.location.line_1, r.location.apt_number, r.location.city, r.location.zip, r.location.state, r.location.country, nil, nil, r.pickup.comments, "True", r.start_time, r.end_time, nil, nil])%>
+<%end%>
+

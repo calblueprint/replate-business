@@ -80,10 +80,22 @@
   }
 }
 
-.tab-icon:before {
+.location-page-tabs .nav-tabs:after {
+    background: $body-gray;
+    content: '';
+    position: absolute;
+    height: 43px;
+    width: 100%;
+    z-index: -1;
+    left: 0;
+}
+
+.tab-icon a:before {
   content: '';
   display: inline-block;
   height: 16px;
+  margin-bottom: 2px;
+  margin-right: 8px;
   width: 16px;
   opacity: 0.7;
   vertical-align: middle;
@@ -91,31 +103,31 @@
 
 .tab-icon.active {
 
-  &.pickup-tab:before {
+  &.pickup-tab a:before {
     background: image_url('icons/pickup-active.svg');
     opacity: 1;
   }
 
-  &.history-tab:before {
+  &.history-tab a:before {
     background: image_url('icons/history-active.svg');
     opacity: 1;
   }
 
-  &.settings-tab:before {
+  &.settings-tab a:before {
     background: image_url('icons/settings-active.svg');
     opacity: 1;
   }
 }
 
-.pickup-tab:before {
+.pickup-tab a:before {
   background: image_url('icons/pickup.svg');
 }
 
-.history-tab:before {
+.history-tab a:before {
   background: image_url('icons/history.svg');
 }
 
-.settings-tab:before {
+.settings-tab a:before {
   background: image_url('icons/settings.svg');
 }
 

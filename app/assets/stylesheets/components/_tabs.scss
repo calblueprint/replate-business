@@ -1,12 +1,11 @@
 .nav-tabs {
-  background: transparent;
   padding: 0;
   margin-bottom: 50px;
 
   li {
     color: $silver;
     display: inline-block;
-    margin: 0 9px;
+    margin: 0 5px;
     transition: 100ms color;
 
     &:first-of-type {
@@ -19,7 +18,8 @@
   }
 
   .active {
-    border-bottom: 3px solid $green;
+    background: white;
+    border-top: 2px solid $green;
     color: $green;
 
     &:hover {
@@ -33,7 +33,7 @@
     font-size: 18px;
     font-weight: 600;
     outline: none;
-    padding: 8px;
+    padding: 8px 15px;
     text-decoration: none;
     vertical-align: middle;
   }

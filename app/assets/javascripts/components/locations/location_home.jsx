@@ -2,7 +2,6 @@ var Tabs = ReactBootstrap.Tabs;
 var Tab = ReactBootstrap.Tab;
 
 /**
- * @prop company  - the location's company name
  * @prop location - current location object of page
  * @prop pickups  - collection (array) of pickups attached to location
  */
@@ -37,18 +36,20 @@ class LocationHome extends React.Component {
     return (
       <div>
         <div className="location-page-header">
-          <div className="image img-container">
-            <img src={this.state.location.url} />
-          </div>
-          <div className="name">
-            <h1 className="location-page-title">
-              {this.props.location.addr_name}
-            </h1>
-            <h2 className="location-page-addr">{this._fullAddress()}</h2>
+          <div className="container">
+            <div className="image img-container">
+              <img src={this.state.location.url} />
+            </div>
+            <div className="name">
+              <h1 className="location-page-title">
+                {this.props.location.addr_name}
+              </h1>
+              <h2 className="location-page-addr">{this._fullAddress()}</h2>
+            </div>
           </div>
         </div>
 
-        <Tabs defaultActiveKey={1} animation={false} id={1}>
+        <Tabs defaultActiveKey={1} animation={false} id={1} className="location-page-tabs container">
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
             <WeekOverview />
             <h2 className="pickup-section-title">All Pickups</h2>

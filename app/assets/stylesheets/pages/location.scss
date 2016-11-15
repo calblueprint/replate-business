@@ -80,6 +80,45 @@
   }
 }
 
+.tab-icon:before {
+  content: '';
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  opacity: 0.7;
+  vertical-align: middle;
+}
+
+.tab-icon.active {
+
+  &.pickup-tab:before {
+    background: image_url('icons/pickup-active.svg');
+    opacity: 1;
+  }
+
+  &.history-tab:before {
+    background: image_url('icons/history-active.svg');
+    opacity: 1;
+  }
+
+  &.settings-tab:before {
+    background: image_url('icons/settings-active.svg');
+    opacity: 1;
+  }
+}
+
+.pickup-tab:before {
+  background: image_url('icons/pickup.svg');
+}
+
+.history-tab:before {
+  background: image_url('icons/history.svg');
+}
+
+.settings-tab:before {
+  background: image_url('icons/settings.svg');
+}
+
 .location-settings {
   overflow: hidden;
 

@@ -29,5 +29,4 @@ class ApplicationController < ActionController::Base
       dashboard_path
     end
   end
->>>>>>> 4ebcc770612a8b65a24d6103d8811fe4d2f6e74a
 end

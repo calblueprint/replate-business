@@ -1,13 +1,11 @@
-class EditForm extends React.Component {
+class EditForm extends DefaultForm {
   constructor(props) {
     super(props);  
     this.state = props;
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+  
 
   handleButtonPress(event) {
     var profileattributes = document.getElementsByClassName("attribute");

@@ -25,9 +25,9 @@ end
 def make_locations
   1.upto(5) do |n|
     location = Location.create(
-      number: "1",
-      street: "Hacker Way",
-      city: "Menlo Park",
+      number: "140",
+      street: "New Montgomery Street",
+      city: "San Francisco",
       state: "CA",
       zip: "94025",
       country: "USA",

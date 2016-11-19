@@ -18,4 +18,21 @@
 class Recurrence < ActiveRecord::Base
   belongs_to :pickup
   enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
+
+  def location
+    self.pickup.location
+  end
+
+  def business
+    self.pickup.location.business
+  end
+
+  def post_daily_task
+    today = Time.now.wday - 1
+    recurrences = Recurrence.where(day: today, exception: 0)
+    recurrences.each do |r|
+      resp = OnfleetAPI.post_task(r)
+      sleep 0.2
+    end
+  end
 end

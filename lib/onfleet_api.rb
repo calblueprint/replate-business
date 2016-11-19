@@ -5,9 +5,6 @@ require 'httparty'
 module OnfleetAPI
   @url = "https://onfleet.com/api/v2/tasks"
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
-  def self.test
-    'hello'
-  end
 
   def self.make_time(time)
     now = Time.now
@@ -46,14 +43,15 @@ module OnfleetAPI
     :notes => p.comments,
     :container => {
       :type => 'WORKER',
-      :worker => 'Wxi7dpU3VBVSQoEnG3CgMRjG'
+      # carlos
+      :worker => 'XQFOAulEVucASO3PVZLGRwrN'
     }
     }
   end
 
   def self.post_task(recurrence)
     data = build_data(recurrence)
-    resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth)
+    resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
   end
 end
 

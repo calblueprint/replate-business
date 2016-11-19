@@ -41,11 +41,11 @@ def make_locations
 
   1.upto(5) do |n|
     location = Location.create(
-      number: "770",
-      street: "Broadway",
+      number: "28",
+      street: "West 25th Street",
       city: "New York",
       state: "NY",
-      zip: "10003",
+      zip: "10010",
       country: "USA",
       addr_name: "NYC Office",
     )
@@ -87,11 +87,9 @@ def make_pickups
 end
 
 def randomtime
-  times = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",\
-                 "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]
-  start_time = rand(0..7)
-  end_time = start_time + 1
-  {:start_time => times[start_time], :end_time => times[end_time]}
+  start_time = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM"].sample
+  end_time = ["1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"].sample
+  [start_time, end_time]
 end
 
 def make_recurrences
@@ -102,8 +100,8 @@ def make_recurrences
         day: n,
         frequency: 1,
         start_date: Time.now,
-        start_time: randomtime[:start_time],
-        end_time: randomtime[:end_time],
+        start_time: randomtime[0],
+        end_time: randomtime[1],
       )
     end
   end

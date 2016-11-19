@@ -27,12 +27,30 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def post_daily_task
-    today = Time.now.wday - 1
-    recurrences = Recurrence.where(day: today, exception: 0)
+  def self.post_batch_task(day)
+    recurrences = Recurrence.where(day: 1)
+    s = []
+    f = []
     recurrences.each do |r|
-      resp = OnfleetAPI.post_task(r)
+      if r.cancel
+        r.update(cancel: false)
+        next
+      else
+        resp = OnfleetAPI.post_task(r)
+      end
+      if resp.key?('id')
+        s << {:success => r, :id => resp['id']}
+      else
+        puts '#{r.id} #{resp["message"]}'
+        f << {:failed => r, :message => resp["message"]}
+      end
       sleep 0.2
     end
+    { succes: s, failure: f }
+  end
+
+  def self.post_daily_task
+    today = Time.now.wday - 1
+    post_batch_task(today)
   end
 end

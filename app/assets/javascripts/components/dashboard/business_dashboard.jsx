@@ -50,7 +50,7 @@ class BusinessDashboard extends React.Component {
 
     return (
       <div>
-        <h1 className="dashboard-title marginTop-xxl">Dashboard Home</h1>
+        <h1 className="dashboard-title marginTop-xxl">Dashboard</h1>
         <h2 className="company-title marginBot-xl">Welcome, {this.props.business.company_name}. Thank you for Replating with us!</h2>
 
         <div className="section-header header--buttons marginBot-sm">

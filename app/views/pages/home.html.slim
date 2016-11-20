@@ -2,8 +2,9 @@ nav.nav.nav-splash
   .container
     a href="/": .logo
     ul.nav-items-container
+      li.nav-item = link_to "Pricing", business_path, class: "button button--text-white"
       - if !current_business
-        li.nav-item = button_to "Sign Up", signup_path, :method => "get", :class => "button button--text-white marginRight-sm"
+        li.nav-item = button_to "Create Account", signup_path, :method => "get", :class => "button button--text-white marginRight-sm"
         li.nav-item
           = react_component "HomeLogin", { btnClasses: "button--white" }
       - else
@@ -65,7 +66,7 @@ section.splash-business-section
         | Our drivers will clean up, package, and deliver your donation to a local nonprofit. We offer flexible pricing, and all donations are tax-deductible!
       .splash-business-button-container.marginTopBot-xl
         = link_to "Business Sign Up", signup_path, :method => "get", :class => "button button--blue marginRight-xs"
-        = link_to business_path, { class: "button button--text-blue" }
+        = link_to business_path, class: "button button--text-blue"
           | learn more
 
 section.splash-marketplace-section

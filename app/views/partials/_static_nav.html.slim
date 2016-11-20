@@ -2,6 +2,10 @@ nav.nav.static-nav
   .container
     a href="/": .logo
     ul.nav-items-container
-      li.nav-item: button.button.button--text-white.marginRight-sm Sign Up
-      li.nav-item
-        = react_component "HomeLogin", { btnClasses: "button--text-white" }
+      li.nav-item = link_to "Pricing", business_path, class: "button button--text-white"
+      - if !current_business
+        li.nav-item = button_to "Create Account", signup_path, :method => "get", :class => "button button--text-white"
+        li.nav-item
+          = react_component "HomeLogin", { btnClasses: "button--text-white" }
+      - else
+        li.nav-item = link_to "Go to Dashboard", dashboard_path, class: "button button--text-white"

@@ -23,6 +23,10 @@ class DefaultForm extends React.Component {
     Requester.post(route, params, success, reject);
   }
 
+   _toggleEdit = () => {
+        this.setState({ editable : !this.state.editable });
+    }
+
   _formFields() {
     // Necessary because bootstrap-select does not fire onChange events
     const extraFields = { };

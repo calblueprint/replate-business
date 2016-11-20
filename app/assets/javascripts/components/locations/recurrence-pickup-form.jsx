@@ -1,7 +1,6 @@
 /**
  * @prop pickup_id - id associated with the current pickup
- * @prop success   - function handler for successful recurrence creation
- * @prop initData  - saved data associated with the basic portion of the pickup form
+ * @prop initData  - saved data associated with the recurrence portion of the pickup form
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
  */
@@ -9,25 +8,21 @@ class RecurrenceForm extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = {
-      monday    : false,
-      tuesday   : false,
-      wednesday : false,
-      thursday  : false,
-      friday    : false,
-      active    : {},
+    if (jQuery.isEmptyObject(this.props.initData)) {
+      let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+        this.state[day] = {
+                           active: false,
+                           input: {},
+                          };
+      });
+    } else {
+      this.state = this.props.initData;
     }
-    // let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day)) => {
-    //   let state  = {};
-    //   state[day] = !this.state[day];
-    //   this.setState( state );
-    // }
   }
 
   _toggleDay = (day) => {
-    let state  = {};
-    state[day] = !this.state[day];
-    this.setState( state );
+    this.setState({ [day]: { active: !this.state[day].active,
+                             input: this.state[day].input } });
   }
 
   _capitalize = (str) => {
@@ -35,25 +30,36 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _nextStep = (e) => {
-    this.props.nextStep(this.state);
+    this.props.nextStep(this.state, "recurrenceForm");
   }
 
   _prevStep = (e) => {
     this.props.prevStep(this.state);
   }
 
-  // _generateDaySelection => {
-
-  // }
+  _updateState = (key, value, day) => {
+    let newState = React.addons.update(this.state, { [day]: { input: { [key]: { $set: value } } }
+    });
+    this.setState(newState);
+  }
 
   render() {
 
     let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
-      return <div className={`day-item day-` + (this.state[day] ? "active" : "inactive")}
+      return <div className={`day-item day-` + (this.state[day].active ? "active" : "inactive")}
                   onClick={this._toggleDay.bind(this, day)}
                   key={i} >
                   {this._capitalize(day)}
       </div>
+    });
+
+    let day_inputs = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+      return (this.state[day].active ? <RecurrenceDayInput
+                                         day      = {day}
+                                         update   = {this._updateState}
+                                         initData = {this.state[day].input}
+                                         key      = {i} />
+                                     : undefined)
     });
 
     return (
@@ -65,8 +71,8 @@ class RecurrenceForm extends DefaultForm {
           <div className="week-container">
             {days}
           </div>
-          <div className="day-selection-container">
-            {this.state.daySelections}
+          <div className="day-input-container">
+            {day_inputs}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -80,5 +86,4 @@ class RecurrenceForm extends DefaultForm {
 
 RecurrenceForm.propTypes = {
   pickup_id : React.PropTypes.number.isRequired,
-  success    : React.PropTypes.func.isRequired
 };

@@ -11,7 +11,6 @@ class PickupCreationModal extends DefaultForm {
                    step             : 1,
                    basicForm        : {},
                    recurrenceForm   : {},
-                   confirmationForm : {},
                  };
   }
 
@@ -20,8 +19,9 @@ class PickupCreationModal extends DefaultForm {
       this.props.success();
       this.close();
       this.setState({
-                      basicForm : {},
-                      step      : 1,
+                      basicForm      : {},
+                      recurrenceForm : {},
+                      step           : 1,
                     });
     }
     this.state.basicForm = initData;

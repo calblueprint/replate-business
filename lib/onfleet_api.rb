@@ -7,7 +7,8 @@ module OnfleetAPI
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
   def self.make_time(time)
-    now = Time.now
+    # now = Time.now
+    now = Time.new(2016, 11, 20)
     t = Time.parse(time, now).to_i
     t * 1000
   end
@@ -44,7 +45,7 @@ module OnfleetAPI
     :container => {
       :type => 'WORKER',
       # carlos
-      :worker => 'XQFOAulEVucASO3PVZLGRwrN'
+      :worker => recurrence.driver_id
     }
     }
   end
@@ -52,6 +53,10 @@ module OnfleetAPI
   def self.post_task(recurrence)
     data = build_data(recurrence)
     resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.get_task(id)
+    resp = HTTParty.get("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
   end
 end
 

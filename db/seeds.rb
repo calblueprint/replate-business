@@ -102,6 +102,8 @@ def make_recurrences
         start_date: Time.now,
         start_time: randomtime[0],
         end_time: randomtime[1],
+        #(this is carlos)
+        driver_id: 'XQFOAulEVucASO3PVZLGRwrN'
       )
     end
   end

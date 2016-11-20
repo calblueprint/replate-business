@@ -28,10 +28,10 @@ class Recurrence < ActiveRecord::Base
   end
 
   def self.post_batch_task(day)
-    recurrences = Recurrence.where(day: 1)
-    s = []
+    recurrences = Recurrence.where(day: day)
     f = []
     recurrences.each do |r|
+      r.update(task_id: nil)
       if r.cancel
         r.update(cancel: false)
         next
@@ -39,14 +39,23 @@ class Recurrence < ActiveRecord::Base
         resp = OnfleetAPI.post_task(r)
       end
       if resp.key?('id')
-        s << {:success => r, :id => resp['id']}
+        task_id = resp["id"]
+        r.update(task_id: task_id)
       else
-        puts '#{r.id} #{resp["message"]}'
-        f << {:failed => r, :message => resp["message"]}
+        f << {:failed => r.id, :message => resp["message"]}
       end
       sleep 0.2
     end
-    { succes: s, failure: f }
+    f
+  end
+
+  def self.get_daily_task
+    recurrences = Recurrence.where(day: day)
+    recurrences.each do |r|
+      if r.task_id
+        resp = self.get_task(r.task_id)
+      end
+    end
   end
 
   def self.post_daily_task

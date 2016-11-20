@@ -50,6 +50,8 @@ class TimeInput extends React.Component {
 
     if (elem && (elem.selectionStart || elem.selectionStart == 0)) { // Standard.
       caretPos = elem.selectionStart;
+      // Make selectionEnd match selectionStart
+      elem.setSelectionRange(caretPos, caretPos);
     } else if (document.selection) { // Legacy IE
       elem.focus ();
       var sel = document.selection.createRange();
@@ -60,13 +62,16 @@ class TimeInput extends React.Component {
   }
 
   _specialInput = (e) => {
+    // Backspace key press handling
     if (e.keyCode == 8) {
       e.preventDefault();
+      // Move back caret
       if (this.state.caret == 3 || this.state.caret == 6 || this.state.caret == 8) {
         this.state.caret -= 2;
       } else if (this.state.caret > 0) {
         this.state.caret -= 1;
       }
+      // If within time substring (ex. '12:00'), backspace sets index to '0'
       if (this.state.caret < 6) {
         let time = e.target.value;
         let index = this.state.caret;
@@ -88,8 +93,8 @@ class TimeInput extends React.Component {
 
     let time = e.target.value;
     let index = this.state.caret;
-    // Validate the input to allow numbers only
     if (index < 2 || (index > 2 && index < 5)) {
+      // Validate the input to allow numbers only within time substring
       let entry = parseInt(e.key);
       if (entry || entry == 0) {
         if (index == 0 && entry > 1 || (entry == 1 && parseInt(time.substr(1, 2)) > 2)) {
@@ -102,13 +107,15 @@ class TimeInput extends React.Component {
         time = time.substr(0, index) + entry + time.substr(index + 1);
         this.state.caret += 1;
       }
-    } else if (index > 5 && index < 7) { // Validate the input to allow "A", "P" only
+    } else if (index > 5 && index < 7) {
+      // Validate the input to allow "A", "P" only within "AM"/"PM" substring
       if (e.key == "A" || e.key == "P") {
         time = time.substr(0, index) + e.key + time.substr(index + 1);
         this.state.caret += 1;
       }
     }
 
+    // Move caret to ignore ":", " ", and "M"
     if (this.state.caret == 2) {
       this.state.caret += 1;
     } else if (this.state.caret == 5) {
@@ -124,7 +131,7 @@ class TimeInput extends React.Component {
 
     this._setInputVal(e.target, time);
     this._setCaretPosition(e, this.state.caret);
-    this.props.update(e);
+    this.props.update(e); // Update state
   }
 
   _setInputVal = (input, value) => {

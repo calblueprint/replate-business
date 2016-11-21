@@ -23,7 +23,8 @@ class ApiConstants {
   // fetchBusiness uses this route!
   get businesses() {
     return {
-      update : (id) => `/api/businesses/${id}`
+      update : (id) => `/api/businesses/${id}`,
+      edit : '/businesses'
     }
   }
 }

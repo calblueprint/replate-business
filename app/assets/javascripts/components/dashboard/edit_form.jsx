@@ -1,35 +1,12 @@
 class EditForm extends DefaultForm {
   constructor(props) {
     super(props); 
-    business = {};
-    business.email = props["business[email]"];
-    business.company_name = props["business[company_name]"];
-    business.phone  =props["business[phone]"];
-    business.address = props["business[address]"];
+    
     this.state = {
-    business:business,
-   
-
+      business:this.props.business,
       editable: false,
     }    
-  }
-
-  
-
-  handleButtonPress(event) {
-    var profileattributes = document.getElementsByClassName("attribute");
-    for (var a = 0; a < profileattributes.length;a++) {
-      var attribute = profileattributes[a];
-      if (attribute.hasAttribute("disabled")) {
-        attribute.removeAttribute("disabled");
-      }
-      else {
-        attribute.setAttribute("disabled","true");
-      }
-    }
-  }
-
-  
+  } 
 
   _getToken = () => {
     var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
@@ -73,7 +50,6 @@ class EditForm extends DefaultForm {
     var s = this.state; //following 4 lines makes sure the form is sending the right object to update business
     s.editable = undefined;
     s = this._refactorState(s);
-    console.log(s);
     return $.extend({}, s, extraFields);
   }
 
@@ -81,7 +57,7 @@ class EditForm extends DefaultForm {
       const success = (msg) => {
           this.setState({ editable: false });     
       };
-      Requester.update('/businesses',
+      Requester.update(APIConstants.businesses.edit,
           this._formFields(), success);
     }
 
@@ -96,34 +72,26 @@ class EditForm extends DefaultForm {
       );
   }
 
-
   render() {
-    return (
-    
-        
-     <div>
-        
+    return ( 
+     <div> 
         { this._showInput("Email", "email", this.state.business.email) }
         { this._showInput("Company name", "company_name", this.state.business.company_name) }
         { this._showInput("Phone", "phone", this.state.business.phone) }
-        { this._showInput("Address", "address", this.state.business.address) }
-        
+        { this._showInput("Address", "address", this.state.business.address) } 
         Password
-        <input type="password" name="current_password" id="business_current_password" onChange={this._handleChange}/>
-        
+        <input type="password" name="current_password" id="business_current_password" onChange={this._handleChange}/>  
         <input className="selectpicker" type="hidden" name="_method" value="put"/>
-
         <input
-                  className="selectpicker" 
-                  type="hidden"
-                  name="authenticity_token"
-                  value={this._getToken()}
-           />
-        
-        <input className="selectpicker" type="submit" name="commit" value="update"/>
-        <FormEditToggle editable = { this.state.editable }
-                                update   = { this._toggleEdit }
-                                save     = { this._attemptSave } />
+          className="selectpicker" 
+          type="hidden"
+          name="authenticity_token"
+          value={ this._getToken() }
+        />
+        <FormEditToggle 
+          editable={ this.state.editable }
+          update={ this._toggleEdit }
+          save={ this._attemptSave } />
       </div>
     );
   }

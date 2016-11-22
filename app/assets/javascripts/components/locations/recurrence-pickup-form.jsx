@@ -1,5 +1,4 @@
 /**
- * @prop pickup_id - id associated with the current pickup
  * @prop initData  - saved data associated with the recurrence portion of the pickup form
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
@@ -109,5 +108,7 @@ class RecurrenceForm extends DefaultForm {
 }
 
 RecurrenceForm.propTypes = {
-  pickup_id : React.PropTypes.number.isRequired,
+  initData: React.PropTypes.object.isRequired,
+  nextStep: React.PropTypes.func.isRequired,
+  prevStep: React.PropTypes.func.isRequired,
 };

@@ -55,3 +55,9 @@ class BasicPickupForm extends DefaultForm {
     );
   }
 }
+
+BasicPickupForm.propTypes = {
+  initData: React.PropTypes.object.isRequired,
+  nextStep: React.PropTypes.func.isRequired,
+  prevStep: React.PropTypes.func.isRequired,
+};

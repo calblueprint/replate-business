@@ -151,6 +151,9 @@ class TimeInput extends React.Component {
 }
 
 TimeInput.propTypes = {
+  label    : React.PropTypes.string.isRequired,
   form_name: React.PropTypes.string.isRequired,
   input_id : React.PropTypes.string.isRequired
+  update   : React.PropTypes.func.isRequired,
+  initData : React.PropTypes.object.isRequired,
 };

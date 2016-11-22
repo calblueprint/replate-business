@@ -6,9 +6,9 @@ class API::BusinessesController < ApplicationController
 
   def update
     business = Business.find(params[:id])
-  	if business.update business_params
+    if business.update business_params
       render_json_message(:ok, message: 'Business successfully updated!')
-  	else
+    else
       render_json_message(:forbidden)
     end
   end

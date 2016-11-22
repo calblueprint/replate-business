@@ -50,9 +50,10 @@
   overflow: hidden;
   padding-bottom: 10px;
   position: relative;
+  transition: 100ms;
 
   &:hover {
-    background: white;
+    box-shadow: 0 0 15px $silver-10;
     border-color: $black-10;
 
     .location-photo {

@@ -48,15 +48,17 @@ class EditForm extends DefaultForm {
       <div className="edit-profile-container">
         <h1 className="edit-profile-title">Your Business Profile</h1>
         <p className="edit-profile-desc">To change any of this information, click on the "edit" button below.</p>
-        { this._showInput("Email", "email", this.state.email) }
-        { this._showInput("Company name", "company_name", this.state.company_name) }
-        { this._showPhoneInput("Phone", "phone", this.state.phone) }
-        { this._showInput("Address", "address", this.state.address) }
-        <FormEditToggle
-          editable={ this.state.editable }
-          update={ this._toggleEdit }
-          save={ this._attemptSave }
-          className={ "marginTop-md" } />
+        <form>
+          { this._showInput("Company name", "company_name", this.state.company_name) }
+          { this._showInput("Email", "email", this.state.email) }
+          { this._showPhoneInput("Phone", "phone", this.state.phone) }
+          { this._showInput("Address", "address", this.state.address) }
+          <FormEditToggle
+            editable={ this.state.editable }
+            update={ this._toggleEdit }
+            save={ this._attemptSave }
+            className={ "marginTop-md" } />
+        </form>
       </div>
     );
   }

@@ -19,17 +19,17 @@ class PickupCreationModal extends DefaultForm {
       this.props.success();
       this.close();
       this.setState({
-                      pickupId       : data.id,
-                    });
+        pickupId       : data.id,
+      });
     }
     const failure = (data) => {
       // TODO: Add validation checking
       this.setState({
-                      pickupId       : data.id,
-                      basicForm      : {},
-                      recurrenceForm : {},
-                      step           : 1,
-                    });
+        pickupId       : data.id,
+        basicForm      : {},
+        recurrenceForm : {},
+        step           : 1,
+      });
     }
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;

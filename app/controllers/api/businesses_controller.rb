@@ -6,8 +6,7 @@ class API::BusinessesController < ApplicationController
 
   def update
   	business = Business.find(params[:id])
-  	if business.valid_password? params[:current_password]
-  		business.update business_params
+  	if business.update business_params
   		render_json_message(:ok, message: 'Business successfully updated!')
   	else
   		render_json_message(:forbidden)

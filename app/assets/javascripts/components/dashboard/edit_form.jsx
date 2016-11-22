@@ -47,8 +47,6 @@ class EditForm extends DefaultForm {
         { this._showInput("Company name", "company_name", this.state.company_name) }
         { this._showInput("Phone", "phone", this.state.phone) }
         { this._showInput("Address", "address", this.state.address) } 
-        Password
-        <input type="password" name="current_password" id="business_current_password" onChange={this._handleChange}/>  
         <input className="selectpicker" type="hidden" name="_method" value="put"/>
         <input
           className="selectpicker" 

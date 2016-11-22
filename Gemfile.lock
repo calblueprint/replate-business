@@ -122,6 +122,8 @@ GEM
     mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.9.1)
+    momentjs-rails (2.15.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -271,6 +273,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails (= 3.1.4)
   kaminari (= 0.16.3)
+  momentjs-rails
   nokogiri
   onfleet-ruby
   paperclip (= 5.1.0)

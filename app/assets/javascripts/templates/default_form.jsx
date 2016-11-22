@@ -9,6 +9,10 @@ class DefaultForm extends React.Component {
     this.state = { };
   }
 
+  _capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   _handleChange = (e) => {
     let target = $(e.target);
     this.setState({ [target.attr('name')]: target.val() });

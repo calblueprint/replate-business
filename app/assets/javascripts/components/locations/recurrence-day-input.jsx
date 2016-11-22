@@ -8,39 +8,57 @@ class RecurrenceDayInput extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = this.props.initData;
+    this.state.day = this.props.day;
+    if (!this.state.start_time) {
+      this.state.start_time = "12:00 AM"; // Default to midnight
+    }
   }
 
   _updateState = (e) => {
     this._handleChange(e);
     let target = $(e.target);
-    this.props.update(target.attr('name'), target.val(), this.props.day);
+    this.props.update(target.attr('name'), target.val(), this.state.day);
+  }
+
+  _oneTimePickup = (e) => {
+    this.setState({frequency : 0});
+    this.props.update('frequency', 0, this.state.day);
+  }
+
+  _recurringPickup = (e) => {
+    this.setState({frequency : 1});
+    this.props.update('frequency', 1, this.state.day);
   }
 
   render() {
+    let pickupTypeBtns = ["One Time Pickup", "Recurring Pickup"].map((title, i) => {
+      if (this.state.frequency == undefined ||
+         (this.state.frequency == 0 && title == "Recurring Pickup") ||
+         (this.state.frequency == 1 && title == "One Time Pickup")) {
+        return <div className="pickup-type-btn pickup-btn-inactive"
+                    onClick={title == "One Time Pickup" ? this._oneTimePickup : this._recurringPickup}
+                    key={i}>{title}</div>
+      } else {
+        return <div className="pickup-type-btn pickup-btn-active"
+                    onClick={title == "One Time Pickup" ? this._oneTimePickup : this._recurringPickup}
+                    key={i}>{title}</div>
+      }
+    });
     return (
-      <div>
+      <div className="day-input-container">
+      <label>{this._capitalize(this.state.day)}</label>
         <form className="day-input-form">
-          <TimeInput label = "Start Time"
-                     input_id = "start"
-                     form_name = "start_time"
-                     update = {this._updateState}
-                     initData = {this.state.start_time} />
-
-          <TimeInput label = "End Time"
-                     input_id = "end"
-                     form_name = "end_time"
-                     update = {this._updateState}
-                     initData = {this.state.end_time} />
-
           <fieldset className="input-container name-container">
-            <label>How often?</label>
-            <select defaultValue={this.state.frequency} name="frequency" onChange={this._updateState}>
-              <option value="" disabled selected>Add a recurrence</option>
-              <option value="1">Every week</option>
-              <option value="2">Every other week</option>
-              <option value="4">Every month</option>
-            </select>
+            <label>Pickup Type</label>
+            {pickupTypeBtns}
           </fieldset>
+
+          <TimeInput
+            label = "Pickup Time"
+            input_id = "start"
+            form_name = "start_time"
+            update = {this._updateState}
+            initData = {this.state.start_time} />
 
           <fieldset className="input-container name-container">
             <label>Start Pickups on</label>

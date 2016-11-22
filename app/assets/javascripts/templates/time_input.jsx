@@ -64,6 +64,7 @@ class TimeInput extends React.Component {
   _specialInput = (e) => {
     // Backspace key press handling
     if (e.keyCode == 8) {
+      this.state.caret = this._getCaretPosition(e);
       e.preventDefault();
       // Move back caret
       if (this.state.caret == 3 || this.state.caret == 6 || this.state.caret == 8) {
@@ -109,8 +110,8 @@ class TimeInput extends React.Component {
       }
     } else if (index > 5 && index < 7) {
       // Validate the input to allow "A", "P" only within "AM"/"PM" substring
-      if (e.key == "A" || e.key == "P") {
-        time = time.substr(0, index) + e.key + time.substr(index + 1);
+      if (e.key.toUpperCase() == "A" || e.key.toUpperCase() == "P") {
+        time = time.substr(0, index) + e.key.toUpperCase() + time.substr(index + 1);
         this.state.caret += 1;
       }
     }

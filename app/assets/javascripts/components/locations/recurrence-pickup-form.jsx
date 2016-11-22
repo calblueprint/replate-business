@@ -11,9 +11,9 @@ class RecurrenceForm extends DefaultForm {
     if (jQuery.isEmptyObject(this.props.initData)) {
       let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
         this.state[day] = {
-                           active: false,
-                           input: {},
-                          };
+          active: false,
+          input: {},
+        };
       });
     } else {
       this.state = this.props.initData;
@@ -25,11 +25,34 @@ class RecurrenceForm extends DefaultForm {
                              input: this.state[day].input } });
   }
 
-  _capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  _addTwoHours = (time) => {
+    let formattedTime = "";
+    let hour = parseInt(time.substring(0, 2));
+    let isAM = time.substring(6, 8) === "AM";
+    if (isAM && hour === 12) {
+      formattedTime = '00' + time.substring(2, 6);
+    } else if (!isAM) {
+      hour += 11;
+      formattedTime = "" + hour + time.substring(2, 6);
+    } else {
+      formattedTime = time.substring(0, 6);
+    }
+    momentTime = moment("01-01-1970 " + formattedTime);
+    console.log(formattedTime);
+    console.log(momentTime);
+    if (momentTime.isValid()) {
+      momentTime.add(2, 'hours');
+      return momentTime.format('hh:mm A');
+    }
+    return undefined;
   }
 
   _nextStep = (e) => {
+    let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+        if (this.state[day].input.start_time) {
+          this.state[day].input.end_time = this._addTwoHours(this.state[day].input.start_time);
+        }
+      });
     this.props.nextStep(this.state, "recurrenceForm");
   }
 
@@ -53,13 +76,14 @@ class RecurrenceForm extends DefaultForm {
       </div>
     });
 
-    let day_inputs = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
-      return (this.state[day].active ? <RecurrenceDayInput
-                                         day      = {day}
-                                         update   = {this._updateState}
-                                         initData = {this.state[day].input}
-                                         key      = {i} />
-                                     : undefined)
+    let dayInputs = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+      if (this.state[day].active) {
+        return <RecurrenceDayInput
+                  day      = {day}
+                  update   = {this._updateState}
+                  initData = {this.state[day].input}
+                  key      = {i} />
+      }
     });
 
     return (
@@ -72,7 +96,7 @@ class RecurrenceForm extends DefaultForm {
             {days}
           </div>
           <div className="day-input-container">
-            {day_inputs}
+            {dayInputs}
           </div>
         </Modal.Body>
         <Modal.Footer>

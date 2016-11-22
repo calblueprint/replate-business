@@ -24,7 +24,6 @@ class ApiConstants {
   get businesses() {
     return {
       update : (id) => `/api/businesses/${id}`,
-      edit : '/businesses'
     }
   }
 }

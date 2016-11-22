@@ -1,10 +1,14 @@
 class EditForm extends DefaultForm {
   constructor(props) {
     super(props); 
-    
+    console.log(this.props.business)
     this.state = {
-      business:this.props.business,
-      editable: false,
+      address:this.props.business.address,
+      company_name:this.props.business.company_name,
+      email:this.props.business.email,
+      phone:this.props.business.phone,
+      id:this.props.business.id,
+      editable: false
     }    
   } 
 
@@ -13,52 +17,16 @@ class EditForm extends DefaultForm {
     return token;
   }
 
-  _refactorState(s) {
-    if (s.email) {
-      s.business.email = s.email;
-      s.email = undefined;
-    }
-    if (s.company_name) {
-      s.business.company_name = s.company_name;
-      s.company_name = undefined;
-    }
-    if (s.phone) {
-      s.business.phone = s.phone;
-      s.phone = undefined;
-    }
-    if (s.address) {
-      s.business.address = s.address;
-      s.address = undefined;
-    }
-    if (s.current_password) {
-      s.business.current_password = s.current_password;
-      s.current_password = undefined;
-    }
-    var refactored = {
-      business:s.business
-    };
-    return refactored;
-  }
-
-
-  _formFields() {
-    // Necessary because bootstrap-select does not fire onChange events
-    const extraFields = { };
-    $('.selectpicker').each((index, element) => {
-        extraFields[$(element).attr("name")] = $(element).val();
-    });
-    var s = this.state; //following 4 lines makes sure the form is sending the right object to update business
-    s.editable = undefined;
-    s = this._refactorState(s);
-    return $.extend({}, s, extraFields);
-  }
 
   _attemptSave = (e) => {
       const success = (msg) => {
           this.setState({ editable: false });     
       };
-      Requester.update(APIConstants.businesses.edit,
-          this._formFields(), success);
+      const fail = (msg) => {
+          this.setState({ editable: true });     
+      };
+      Requester.update(APIConstants.businesses.update(this.props.business.id),
+          this._formFields(), success, fail);
     }
 
 
@@ -75,10 +43,10 @@ class EditForm extends DefaultForm {
   render() {
     return ( 
      <div> 
-        { this._showInput("Email", "email", this.state.business.email) }
-        { this._showInput("Company name", "company_name", this.state.business.company_name) }
-        { this._showInput("Phone", "phone", this.state.business.phone) }
-        { this._showInput("Address", "address", this.state.business.address) } 
+        { this._showInput("Email", "email", this.state.email) }
+        { this._showInput("Company name", "company_name", this.state.company_name) }
+        { this._showInput("Phone", "phone", this.state.phone) }
+        { this._showInput("Address", "address", this.state.address) } 
         Password
         <input type="password" name="current_password" id="business_current_password" onChange={this._handleChange}/>  
         <input className="selectpicker" type="hidden" name="_method" value="put"/>

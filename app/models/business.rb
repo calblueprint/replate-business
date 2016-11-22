@@ -27,4 +27,5 @@ class Business < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :locations
+  validates_presence_of :company_name, :phone, :address
 end

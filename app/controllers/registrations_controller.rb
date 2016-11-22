@@ -24,4 +24,14 @@ class RegistrationsController < Devise::RegistrationsController
     	:current_password,
     )
   end
+
+  def after_update_path_for(resource)
+    if resource.is_a?(Business)
+      dashboard_path
+    end
+  end
+
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
 end

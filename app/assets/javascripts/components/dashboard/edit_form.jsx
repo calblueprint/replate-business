@@ -1,7 +1,6 @@
 class EditForm extends DefaultForm {
   constructor(props) {
     super(props); 
-    console.log(this.props.business)
     this.state = {
       address:this.props.business.address,
       company_name:this.props.business.company_name,
@@ -11,12 +10,6 @@ class EditForm extends DefaultForm {
       editable: false
     }    
   } 
-
-  _getToken = () => {
-    var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
-    return token;
-  }
-
 
   _attemptSave = (e) => {
       const success = (msg) => {
@@ -47,13 +40,6 @@ class EditForm extends DefaultForm {
         { this._showInput("Company name", "company_name", this.state.company_name) }
         { this._showInput("Phone", "phone", this.state.phone) }
         { this._showInput("Address", "address", this.state.address) } 
-        <input className="selectpicker" type="hidden" name="_method" value="put"/>
-        <input
-          className="selectpicker" 
-          type="hidden"
-          name="authenticity_token"
-          value={ this._getToken() }
-        />
         <FormEditToggle 
           editable={ this.state.editable }
           update={ this._toggleEdit }

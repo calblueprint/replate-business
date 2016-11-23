@@ -44,6 +44,8 @@ class Recurrence < ActiveRecord::Base
       else
         f << {:failed => r.id, :message => resp["message"]}
       end
+      # Throttling requires max 10 requests per second
+      # pausing every .2 to prevent API key lock since sleep is not exact
       sleep 0.2
     end
     f

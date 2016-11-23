@@ -1,0 +1,21 @@
+.edit-profile-title {
+  color: $black;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.edit-profile-desc {
+  color: $silver;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.edit-profile-container {
+  max-width: 600px;
+  margin: 40px auto 0;
+  padding: 30px;
+
+  .input-container input {
+    width: 100%;
+  }
+}

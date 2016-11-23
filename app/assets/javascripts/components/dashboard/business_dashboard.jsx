@@ -30,12 +30,14 @@ class BusinessDashboard extends React.Component {
     let locs;
     if (this.state.business.locations) {
       locs = this.state.business.locations.map((location, i) => {
+        const imgAltText = `location photo for ${location.addr_name}`;
+
         return (
           <div className="location-item-col" key={i}>
             <a href={`/locations/` + location.id}>
               <div className="location">
                 <div className="location-photo">
-                  <img src={location.url} />
+                  <img src={location.url} alt={imgAltText} />
                 </div>
                 <h4 className="location-title">{location.addr_name}</h4>
                 <p className="location-addr">{this._fullAddress(location)}</p>

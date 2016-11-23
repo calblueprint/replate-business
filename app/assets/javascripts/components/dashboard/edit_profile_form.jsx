@@ -1,3 +1,7 @@
+/**
+ * Business profile view and edit
+ * @prop business - business model object
+ */
 class EditForm extends DefaultForm {
   constructor(props) {
     super(props);
@@ -62,4 +66,8 @@ class EditForm extends DefaultForm {
       </div>
     );
   }
+}
+
+EditForm.propTypes = {
+  business: React.PropTypes.object.isRequired,
 }

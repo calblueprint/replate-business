@@ -1,1 +1,7 @@
-.container.edit-container = react_component("EditForm", {"business":current_business})
+= render "partials/dashboard_nav"
+= page_heading "Edit Profile"
+
+.container.edit-container
+  = react_component "EditForm", { \
+    business: current_business    \
+  }

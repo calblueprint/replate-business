@@ -13,6 +13,11 @@ class DefaultForm extends React.Component {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  _formatTitle = (str) => {
+    str = str.split("_").join(" ");
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   _handleChange = (e) => {
     let target = $(e.target);
     this.setState({ [target.attr('name')]: target.val() });

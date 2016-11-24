@@ -155,5 +155,5 @@ TimeInput.propTypes = {
   form_name: React.PropTypes.string.isRequired,
   input_id : React.PropTypes.string.isRequired,
   update   : React.PropTypes.func.isRequired,
-  initData : React.PropTypes.object.isRequired,
+  initData : React.PropTypes.string.isRequired,
 };

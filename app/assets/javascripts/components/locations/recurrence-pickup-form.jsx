@@ -37,8 +37,6 @@ class RecurrenceForm extends DefaultForm {
       formattedTime = time.substring(0, 6);
     }
     momentTime = moment("01-01-1970 " + formattedTime);
-    console.log(formattedTime);
-    console.log(momentTime);
     if (momentTime.isValid()) {
       momentTime.add(2, 'hours');
       return momentTime.format('hh:mm A');
@@ -47,12 +45,34 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _nextStep = (e) => {
+    let validated = true;
+    let requiredKeys = ["frequency", "start_time", "start_date"];
     let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
-        if (this.state[day].input.start_time) {
-          this.state[day].input.end_time = this._addTwoHours(this.state[day].input.start_time);
+      // Validate fields
+      let validations = {};
+      if (this.state[day].active) {
+        for (i = 0; i < requiredKeys.length; i++) {
+          let requiredKey = requiredKeys[i];
+          if (this.state[day].input[requiredKey] == undefined || this.state[[day].inputrequiredKey] == "") {
+            let validationMsg = this._formatTitle(requiredKey) + " field must have a value.";
+            validations[requiredKey] = validationMsg;
+            validated = false;
+          }
         }
-      });
-    this.props.nextStep(this.state, "recurrenceForm");
+        // Set end time - two hours after start time
+        let start_time = this.state[day].input.start_time;
+        if (start_time) {
+          this.state[day].input.end_time = this._addTwoHours(start_time);
+        }
+      }
+      // Hack for propogating validations to RecurrenceDayInput children
+      this.state[day].validations = validations;
+      let newState = React.addons.update(this.state, { [day]: { validations: { $set: validations } } });
+      this.setState(newState);
+    });
+    if (validated) {
+      this.props.nextStep(this.state, "recurrenceForm");
+    }
   }
 
   _prevStep = (e) => {
@@ -60,13 +80,11 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _updateState = (key, value, day) => {
-    let newState = React.addons.update(this.state, { [day]: { input: { [key]: { $set: value } } }
-    });
+    let newState = React.addons.update(this.state, { [day]: { input: { [key]: { $set: value } } } });
     this.setState(newState);
   }
 
   render() {
-
     let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
       return <div className={`day-item day-` + (this.state[day].active ? "active" : "inactive")}
                   onClick={this._toggleDay.bind(this, day)}
@@ -78,10 +96,11 @@ class RecurrenceForm extends DefaultForm {
     let dayInputs = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
       if (this.state[day].active) {
         return <RecurrenceDayInput
-                  day      = {day}
-                  update   = {this._updateState}
-                  initData = {this.state[day].input}
-                  key      = {i} />
+                  day         = {day}
+                  update      = {this._updateState}
+                  initData    = {this.state[day].input}
+                  key         = {i}
+                  validations = {this.state[day].validations}/>
       }
     });
 

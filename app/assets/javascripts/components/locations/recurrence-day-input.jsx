@@ -1,7 +1,8 @@
 /**
- * @prop day      - String day associated with day input
- * @prop initData - saved data associated with this day input
- * @prop update   - function for updating day input state in parent
+ * @prop day         - String day associated with day input
+ * @prop update      - function for updating day input state in parent
+ * @prop initData    - saved data associated with this day input
+ * @prop validations - object containing validation messages
  */
 class RecurrenceDayInput extends DefaultForm {
 
@@ -10,7 +11,11 @@ class RecurrenceDayInput extends DefaultForm {
     this.state = this.props.initData;
     this.state.day = this.props.day;
     if (!this.state.start_time) {
-      this.state.start_time = "12:00 AM"; // Default to midnight
+      this.state.start_time = "09:00 AM"; // Default to midnight
+    }
+    this.state.validations = {};
+    if (this.props.validations) {
+      this.state.validations = this.props.validations;
     }
   }
 
@@ -31,6 +36,9 @@ class RecurrenceDayInput extends DefaultForm {
   }
 
   render() {
+    if (this.props.validations) {
+      this.state.validations = this.props.validations;
+    }
     let pickupTypeBtns = ["One Time Pickup", "Recurring Pickup"].map((title, i) => {
       if (this.state.frequency == undefined ||
          (this.state.frequency == 0 && title == "Recurring Pickup") ||
@@ -51,6 +59,7 @@ class RecurrenceDayInput extends DefaultForm {
           <fieldset className="input-container name-container">
             <label>Pickup Type</label>
             {pickupTypeBtns}
+            {this.state.validations.frequency}
           </fieldset>
 
           <TimeInput
@@ -59,10 +68,12 @@ class RecurrenceDayInput extends DefaultForm {
             form_name = "start_time"
             update = {this._updateState}
             initData = {this.state.start_time} />
+            {this.state.validations.start_time}
 
           <fieldset className="input-container name-container">
             <label>Start Pickups on</label>
             <input type="datetime-local" defaultValue={this.state.start_date} ref="focus" name="start_date" onChange={this._updateState} />
+            {this.state.validations.start_date}
           </fieldset>
         </form>
       </div>

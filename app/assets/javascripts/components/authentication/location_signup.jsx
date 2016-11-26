@@ -1,8 +1,6 @@
 /**
- * Initial location creation form during signup
- * @prop businessID - business ID to associate location with
- * @prop success    - callback function on successful create
- *
+ * Component for Location creation during signup
+ * @prop save - callback function to save location data to parent
  */
 class LocationSignup extends DefaultForm {
 
@@ -11,16 +9,6 @@ class LocationSignup extends DefaultForm {
     this.state = {
       business_id: this.props.businessID,
     };
-  }
-
-  _attemptCreate = () => {
-    const success = () => {
-      console.log("success!");
-      this.props.success();
-    };
-
-    this._attemptAction(APIConstants.locations.create,
-      this.state, success.bind(this));
   }
 
   _renderInputField = (name, label, inputType, placeholder) => {
@@ -34,6 +22,11 @@ class LocationSignup extends DefaultForm {
     )
   }
 
+  _saveLocationData = () => {
+    const data = this._formFields();
+    this.props.save(data);
+  }
+
   render() {
     return (
       <div>
@@ -45,7 +38,8 @@ class LocationSignup extends DefaultForm {
         { this._renderInputField("state", "State", "text") }
         { this._renderInputField("country","Country", "text") }
         { this._renderInputField("zip","ZIP", "text") }
-        <button onClick={this._attemptCreate}>Continue</button>
+        <button className="button"
+          onClick={this._saveLocationData}>Continue</button>
       </div>
     );
   }

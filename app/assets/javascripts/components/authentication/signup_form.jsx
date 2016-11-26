@@ -8,42 +8,49 @@ class SignupForm extends DefaultForm {
     super(props);
     this.state = {
       view: 1,
-      businessID: null,
     };
   }
 
-  _renderInputField = (name, label, inputType, placeholder) => {
-    return (
-      <fieldset className="input-container">
-        <label htmlFor={name} className="label--newline">{label}</label>
-        <input type={inputType} className="input" name={name}
-          placeholder={placeholder} id={name}
-          onChange={this._handleChange} />
-      </fieldset>
-    )
-  }
-
-  _onBusinessCreate = (id) => {
-    console.log(id);
+  _saveBusiness = (b) => {
     this.setState({
+      business: b,
       view: 2,
-      businessID: id.data,
-    });
+    })
   }
 
-  _onSuccessfulSignup = () => {
-    window.location = "/dashboard";
+  _createBusiness = () => {
+    const success = (id) => {
+      this._createLocation(id.data)
+    };
+
+    this._attemptAction(APIConstants.sessions.signup,
+      { business: this.state.business }, success.bind(this));
   }
 
+  _saveLocation = (l) => {
+    // After saving the location, create business
+    this.setState({ location: l }, this._createBusiness)
+  }
+
+  _createLocation = (businessID) => {
+    const success = () => {
+      window.location = "/dashboard";
+    };
+
+    let params = this.state.location;
+    params["business_id"] = businessID;
+
+    this._attemptAction(APIConstants.locations.create,
+      params, success.bind(this));
+  }
 
   render() {
     let renderedForm;
 
     if (this.state.view == 1) {
-      renderedForm = <BusinessSignup success = {this._onBusinessCreate}/>
+      renderedForm = <BusinessSignup save = {this._saveBusiness}/>
     } else {
-      renderedForm = <LocationSignup businessID = {this.state.businessID}
-                                     success = {this._onSuccessfulSignup} />
+      renderedForm = <LocationSignup save = {this._saveLocation} />
     }
 
     return (

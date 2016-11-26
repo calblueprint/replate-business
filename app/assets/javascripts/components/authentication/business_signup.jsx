@@ -1,6 +1,6 @@
 /**
  * Component for Business Signup
- * @prop success - callback function on successful business create
+ * @prop save - callback function to save business data to parent
  */
 class BusinessSignup extends DefaultForm {
 
@@ -15,20 +15,14 @@ class BusinessSignup extends DefaultForm {
         <label htmlFor={name} className="label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
           placeholder={placeholder} id={name}
-          onChange={this._handleChange} />
+          onChange={this._handleChange} value={this.state[name]}/>
       </fieldset>
     )
   }
 
-  _attemptCreate = () => {
-
-    const success = (data) => {
-      this.props.success(data)
-    };
-
-    this._attemptAction(APIConstants.sessions.signup,
-      { business: this._formFields() }, success.bind(this));
-
+  _saveBusinessData = () => {
+    const data = this._formFields();
+    this.props.save(data);
   }
 
   render() {
@@ -41,7 +35,8 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
 
-        <button onClick={this._attemptCreate}>Create</button>
+        <button className="button"
+          onClick={this._saveBusinessData}>Continue</button>
       </div>
     );
   }

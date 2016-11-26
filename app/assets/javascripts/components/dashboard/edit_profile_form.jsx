@@ -13,10 +13,26 @@ class EditForm extends DefaultForm {
       id:this.props.business.id,
       editable: false
     }
+    this.state.initialstate = {
+      address:this.props.business.address,
+      company_name:this.props.business.company_name,
+      email:this.props.business.email,
+      phone:this.props.business.phone,
+      id:this.props.business.id,
+      editable: false
+    }
   }
 
   _attemptSave = (e) => {
     const success = (msg) => {
+      var newinitialstate = {
+        address:this.state.address,
+        company_name:this.state.company_name,
+        email:this.state.email,
+        phone:this.state.phone,
+        id:this.state.id,
+      };
+      this.setState({initialstate: newinitialstate});
       this.setState({ editable: false });
     };
     const fail = (msg) => {
@@ -26,7 +42,15 @@ class EditForm extends DefaultForm {
       this._formFields(), success, fail);
   }
 
-
+  _toggleEdit = () => {
+    this.setState({ editable : !this.state.editable });
+    this.setState({ company_name : this.state.initialstate.company_name, 
+      address : this.state.initialstate.address,
+      email : this.state.initialstate.email,
+      phone : this.state.initialstate.phone
+    });
+    
+  }
   _showInput = (label, name, data) => {
     return (
       <EditableInput label        = { label }

@@ -35,11 +35,18 @@ class SignupBusinessForm extends DefaultForm {
   _renderInputField = (name, label, inputType, placeholder) => {
     return (
       <fieldset className="input-container">
-        <label htmlFor={name}>{label}</label>
+        <label htmlFor={name} className="label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
-          placeholder={placeholder} id={name} />
+          placeholder={placeholder} id={name} onChange={this._handleChange} />
       </fieldset>
     )
+  }
+
+  _attemptCreate = () => {
+    this._attemptAction(APIConstants.sessions.signup,
+      { business: this._formFields() });
+
+    console.log(this.state)
   }
 
   render() {
@@ -49,18 +56,20 @@ class SignupBusinessForm extends DefaultForm {
                                  "Company Name",
                                  "text",
                                  "Your Awesome Company") }
-        { this._renderInputField("business_email",
+        { this._renderInputField("email",
                                  "Email",
                                  "email",
                                  "example@business.com") }
-        { this._renderInputField("company_name",
-                                 "Company Name",
-                                 "text",
-                                 "Your Awesome Company") }
-        { this._renderInputField("company_name",
-                                 "Company Name",
-                                 "text",
-                                 "Your Awesome Company") }
+        { this._renderInputField("password",
+                                 "Password",
+                                 "password") }
+        { this._renderInputField("password_confirmation",
+                                 "Confirm Password",
+                                 "password") }
+
+        <button className="button" onClick={this._attemptCreate}>
+          Sign Up
+        </button>
       </div>
     );
   }

@@ -1,4 +1,10 @@
 class ApiConstants {
+  get sessions() {
+    return {
+      signup : `/signup`,
+    }
+  }
+
   get locations() {
     return {
       update : (id) => `/api/locations/${id}`,

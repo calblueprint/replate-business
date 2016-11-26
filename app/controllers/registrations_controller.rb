@@ -6,8 +6,8 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     if resource.save
       sign_in(resource_name, resource)
-      render_json_message(:ok, message: 'Account created!', to:
-                          redirect_user_path(resource))
+      puts resource
+      render_json_message(:ok, data: resource.id)
     else
       render_json_message(:forbidden, errors: resource.errors.full_messages)
     end
@@ -18,7 +18,6 @@ class RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:business).permit(
     	:company_name,
-    	:address,
     	:phone,
     	:email,
     	:password,
@@ -29,7 +28,6 @@ class RegistrationsController < Devise::RegistrationsController
   def account_update_params
     params.require(:business).permit(
     	:company_name,
-    	:address,
     	:phone,
     	:email,
     	:password,

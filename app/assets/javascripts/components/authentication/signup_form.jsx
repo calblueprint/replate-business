@@ -6,30 +6,10 @@ class SignupForm extends DefaultForm {
 
   constructor(props) {
     super(props);
-
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div>
-        <SignupBusinessForm />
-        <SignupLocationForm />
-      </div>
-    );
-  }
-}
-
-/**
- * Initial Business creation form during signup
- *
- */
-class SignupBusinessForm extends DefaultForm {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {};
+    this.state = {
+      view: 1,
+      businessID: null,
+    };
   }
 
   _renderInputField = (name, label, inputType, placeholder) => {
@@ -37,60 +17,39 @@ class SignupBusinessForm extends DefaultForm {
       <fieldset className="input-container">
         <label htmlFor={name} className="label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
-          placeholder={placeholder} id={name} onChange={this._handleChange} />
+          placeholder={placeholder} id={name}
+          onChange={this._handleChange} />
       </fieldset>
     )
   }
 
-  _attemptCreate = () => {
-    this._attemptAction(APIConstants.sessions.signup,
-      { business: this._formFields() });
-
-    console.log(this.state)
+  _onBusinessCreate = (id) => {
+    console.log(id);
+    this.setState({
+      view: 2,
+      businessID: id.data,
+    });
   }
 
+  _onSuccessfulSignup = () => {
+    window.location = "/dashboard";
+  }
+
+
   render() {
+    let renderedForm;
+
+    if (this.state.view == 1) {
+      renderedForm = <BusinessSignup success = {this._onBusinessCreate}/>
+    } else {
+      renderedForm = <LocationSignup businessID = {this.state.businessID}
+                                     success = {this._onSuccessfulSignup} />
+    }
+
     return (
       <div>
-        { this._renderInputField("company_name",
-                                 "Company Name",
-                                 "text",
-                                 "Your Awesome Company") }
-        { this._renderInputField("email",
-                                 "Email",
-                                 "email",
-                                 "example@business.com") }
-        { this._renderInputField("password",
-                                 "Password",
-                                 "password") }
-        { this._renderInputField("password_confirmation",
-                                 "Confirm Password",
-                                 "password") }
-
-        <button className="button" onClick={this._attemptCreate}>
-          Sign Up
-        </button>
+        {renderedForm}
       </div>
-    );
-  }
-}
-
-
-/**
- * Initial location creation form during signup
- *
- */
-class SignupLocationForm extends DefaultForm {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div>First Location Create</div>
     );
   }
 }

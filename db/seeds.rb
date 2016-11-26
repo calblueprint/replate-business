@@ -12,7 +12,6 @@ def make_businesses
       email: "b#{n}@example.com",
       password: "password",
       password_confirmation: "password",
-      address: "1 Hacker Way, Menlo Park, CA",
       company_name: "Facebook",
       phone: "626-215-4676",
       onfleet_id: "siouhasdfo",

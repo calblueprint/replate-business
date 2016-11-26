@@ -7,12 +7,12 @@ class API::PickupsController < ApplicationController
 	end
 
 	def create
-	    pickup = Pickup.new(pickup_params)
-	    if pickup.save
-	      render_json_message(:ok, message: 'Pickup successfully created!')
-	    else
-	      render_json_message(:forbidden, errors: pickup.errors.full_messages)
-	    end
+    pickup = Pickup.new(pickup_params)
+    if pickup.save
+      render_json_message(:ok, message: 'Pickup successfully created!')
+    else
+      render_json_message(:forbidden, errors: pickup.errors.full_messages)
+    end
 	end
 
 	def destroy

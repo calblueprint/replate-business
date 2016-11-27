@@ -26,6 +26,7 @@ gem 'paperclip', '5.1.0'
 gem 'aws-sdk', '~> 2.3'
 
 # Client
+gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'font-awesome-rails', '4.5.0'
 gem 'jquery-rails', '3.1.4'

@@ -17,6 +17,7 @@
 //= require react_bootstrap
 //= require bootstrap/dropdown
 //= require moment
+//= require bootstrap-datepicker
 //= require components
 //= require_tree .
 //= require vimeoplayer

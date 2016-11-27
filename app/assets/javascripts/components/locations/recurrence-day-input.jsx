@@ -22,6 +22,7 @@ class RecurrenceDayInput extends DefaultForm {
   _updateState = (e) => {
     this._handleChange(e);
     let target = $(e.target);
+    console.log(target.val());
     this.props.update(target.attr('name'), target.val(), this.state.day);
   }
 
@@ -72,7 +73,7 @@ class RecurrenceDayInput extends DefaultForm {
 
           <fieldset className="input-container name-container">
             <label>Start Pickups on</label>
-            <input type="datetime-local" defaultValue={this.state.start_date} ref="focus" name="start_date" onChange={this._updateState} />
+            <input type="text" data-provide='datepicker' defaultValue={this.state.start_date} name="start_date" onSelect={this._updateState}/>
             {this.state.validations.start_date}
           </fieldset>
         </form>

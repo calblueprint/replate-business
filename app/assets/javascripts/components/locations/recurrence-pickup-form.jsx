@@ -44,6 +44,14 @@ class RecurrenceForm extends DefaultForm {
     return undefined;
   }
 
+  _formatDate = (date) => {
+    let formattedDate = "";
+    date = date.split("/");
+    formattedDate += date[2] + "-" + date[0] + "-" + date[1];
+    formattedDate += " 00:00:00";
+    return formattedDate;
+  }
+
   _nextStep = (e) => {
     let validated = true;
     let requiredKeys = ["frequency", "start_time", "start_date"];
@@ -64,6 +72,13 @@ class RecurrenceForm extends DefaultForm {
         if (start_time) {
           this.state[day].input.end_time = this._addTwoHours(start_time);
         }
+        // Format start date
+        let start_date = this.state[day].input.start_date;
+        if (start_date) {
+          this.state[day].input.start_date = this._formatDate(start_date);
+        }
+        console.log(this.state[day].input.start_date);
+        console.log(this.state[day].input);
       }
       // Hack for propogating validations to RecurrenceDayInput children
       this.state[day].validations = validations;

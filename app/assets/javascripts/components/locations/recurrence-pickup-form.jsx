@@ -45,6 +45,7 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _formatDate = (date) => {
+    //to format YYYY-mm-dd HH:mm:ss
     let formattedDate = "";
     date = date.split("/");
     formattedDate += date[2] + "-" + date[0] + "-" + date[1];

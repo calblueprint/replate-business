@@ -7,9 +7,6 @@ class BasicPickupForm extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = this.props.initData;
-    if (this.state.food_type == undefined) {
-      this.state.food_type = "Raw";
-    }
   }
 
   _nextStep = (e) => {

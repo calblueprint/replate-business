@@ -15,29 +15,30 @@ class PickupCreationModal extends DefaultForm {
   }
 
   _attemptCreate = (initData) => {
-    const success = (data) => {
+    const pickupSuccess = (data) => {
       this.props.success();
       this.close();
       this.setState({
         pickupId       : data.id,
       });
     }
-    const failure = (data) => {
-      // TODO: Add validation checking
+    const recurrenceSuccess = (data) => {
       this.setState({
-        pickupId       : data.id,
         basicForm      : {},
         recurrenceForm : {},
         step           : 1,
       });
     }
+
+    const failure = (data) => {} // do not clear form
+
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;
-    this._attemptAction(APIConstants.pickups.create, this.state.basicForm, success, failure);
+    this._attemptAction(APIConstants.pickups.create, this.state.basicForm, pickupSuccess, failure);
     let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
         if (this.state.recurrenceForm[day].active) {
           this.state.recurrenceForm[day].input.request_id = this.state.pickupId;
-          this._attemptAction(APIConstants.recurrences.create, this.state.recurrenceForm[day].input, failure, failure);
+          this._attemptAction(APIConstants.recurrences.create, this.state.recurrenceForm[day].input, recurrenceSuccess, failure);
         }
       });
   }

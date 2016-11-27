@@ -36,7 +36,7 @@ class RecurrenceForm extends DefaultForm {
     } else {
       formattedTime = time.substring(0, 6);
     }
-    momentTime = moment("01-01-1970 " + formattedTime);
+    momentTime = moment("01-01-1970 " + formattedTime); // arbitrary date
     if (momentTime.isValid()) {
       momentTime.add(2, 'hours');
       return momentTime.format('hh:mm A');
@@ -78,8 +78,6 @@ class RecurrenceForm extends DefaultForm {
         if (start_date) {
           this.state[day].input.start_date = this._formatDate(start_date);
         }
-        console.log(this.state[day].input.start_date);
-        console.log(this.state[day].input);
       }
       // Hack for propogating validations to RecurrenceDayInput children
       this.state[day].validations = validations;

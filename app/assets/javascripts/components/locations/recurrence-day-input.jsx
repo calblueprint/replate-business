@@ -22,7 +22,6 @@ class RecurrenceDayInput extends DefaultForm {
   _updateState = (e) => {
     this._handleChange(e);
     let target = $(e.target);
-    console.log(target.val());
     this.props.update(target.attr('name'), target.val(), this.state.day);
   }
 

@@ -7,11 +7,11 @@ class PickupCreationModal extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = {
-                   location_id      : this.props.location_id,
-                   step             : 1,
-                   basicForm        : {},
-                   recurrenceForm   : {},
-                 };
+      location_id      : this.props.location_id,
+      step             : 1,
+      basicForm        : {},
+      recurrenceForm   : {},
+    };
   }
 
   _attemptCreate = (initData) => {

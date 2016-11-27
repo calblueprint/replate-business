@@ -72,7 +72,7 @@ class RecurrenceDayInput extends DefaultForm {
 
           <fieldset className="input-container name-container">
             <label>Start Pickups on</label>
-            <input type="text" data-provide='datepicker' data-date-start-date="today" defaultValue={this.state.start_date} name="start_date" onSelect={this._updateState}/>
+            <input type="text" data-provide='datepicker' data-date-start-date="today" defaultValue={this.state.start_date_display} name="start_date_display" onSelect={this._updateState}/>
             {this.state.validations.start_date}
           </fieldset>
         </form>

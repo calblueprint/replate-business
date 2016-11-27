@@ -7,15 +7,14 @@ class RecurrenceForm extends DefaultForm {
 
   constructor(props) {
     super(props);
-    if (jQuery.isEmptyObject(this.props.initData)) {
+    this.state = this.props.initData;
+    if (jQuery.isEmptyObject(this.state)) {
       let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
         this.state[day] = {
           active: false,
           input: {},
         };
       });
-    } else {
-      this.state = this.props.initData;
     }
   }
 
@@ -60,6 +59,16 @@ class RecurrenceForm extends DefaultForm {
       // Validate fields
       let validations = {};
       if (this.state[day].active) {
+        // Set end time - two hours after start time
+        let start_time = this.state[day].input.start_time;
+        if (start_time) {
+          this.state[day].input.end_time = this._addTwoHours(start_time);
+        }
+        // Format start date
+        let start_date_display = this.state[day].input.start_date_display;
+        if (start_date_display) {
+          this.state[day].input.start_date = this._formatDate(start_date_display);
+        }
         for (i = 0; i < requiredKeys.length; i++) {
           let requiredKey = requiredKeys[i];
           if (this.state[day].input[requiredKey] == undefined || this.state[[day].inputrequiredKey] == "") {
@@ -67,16 +76,6 @@ class RecurrenceForm extends DefaultForm {
             validations[requiredKey] = validationMsg;
             validated = false;
           }
-        }
-        // Set end time - two hours after start time
-        let start_time = this.state[day].input.start_time;
-        if (start_time) {
-          this.state[day].input.end_time = this._addTwoHours(start_time);
-        }
-        // Format start date
-        let start_date = this.state[day].input.start_date;
-        if (start_date) {
-          this.state[day].input.start_date = this._formatDate(start_date);
         }
       }
       // Hack for propogating validations to RecurrenceDayInput children

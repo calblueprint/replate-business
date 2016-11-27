@@ -70,12 +70,11 @@ class RecurrenceForm extends DefaultForm {
       let newState = React.addons.update(this.state, { [day]: { validations: { $set: validations } } });
       this.setState(newState);
     });
-    if (validated) {
-      this.props.nextStep(this.state, "recurrenceForm");
-    }
+    this.props.nextStep(this.state, "recurrenceForm", validated);
   }
 
   _prevStep = (e) => {
+    this.props.nextStep(this.state, "recurrenceForm", false);
     this.props.prevStep(this.state);
   }
 

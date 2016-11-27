@@ -41,8 +41,6 @@ class API::PickupsController < ApplicationController
 	def pickup_params
 	  params.require(:pickup).permit(
 	  	:title,
-	  	:food_type,
-	  	:caterer,
 	  	:comments,
 	  	:location_id
 	  	)

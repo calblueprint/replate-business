@@ -50,11 +50,13 @@ class PickupCreationModal extends DefaultForm {
     this.setState({ showModal: false });
   }
 
-  _nextStep = (data, key) => {
+  _nextStep = (data, key, validated) => {
     if (data && key){
       this.setState({ [key]: data });
     }
-    this.setState({ step: this.state.step + 1 });
+    if (validated) {
+      this.setState({ step: this.state.step + 1 });
+    }
   }
 
   _prevStep = (data, key) => {

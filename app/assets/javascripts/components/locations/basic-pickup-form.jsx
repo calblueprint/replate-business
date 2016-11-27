@@ -13,7 +13,7 @@ class BasicPickupForm extends DefaultForm {
   }
 
   _nextStep = (e) => {
-    let requiredKeys = ["title", "caterer", "food_type", "comments"];
+    let requiredKeys = ["title", "comments"];
     let validated = true;
     for (i = 0; i < requiredKeys.length; i++) {
       let requiredKey = requiredKeys[i];
@@ -25,9 +25,7 @@ class BasicPickupForm extends DefaultForm {
         delete this.state[requiredKey + "Validation"];
       }
     }
-    if (validated) {
-      this.props.nextStep(this.state, "basicForm");
-    }
+    this.props.nextStep(this.state, "basicForm", validated);
   }
 
   render() {
@@ -49,23 +47,6 @@ class BasicPickupForm extends DefaultForm {
               <label>Title</label>
               <input type="text" placeholder="Add a title" defaultValue={this.state.title} ref="focus" name="title" onChange={this._handleChange} />
               {this.state.titleValidation}
-            </fieldset>
-
-            <fieldset className="input-container name-container">
-              <label>Caterer</label>
-              <input type="text" placeholder="Add a caterer" defaultValue={this.state.caterer} name="caterer" onChange={this._handleChange} />
-              {this.state.catererValidation}
-            </fieldset>
-
-            <fieldset className="input-container name-container">
-              <label>Food Type</label>
-              <select defaultValue={this.state.food_type} name="food_type" onChange={this._handleChange}>
-                <option value="true" disabled>Add a food type</option>
-                <option value="raw">Raw</option>
-                <option value="catered">Catered</option>
-                <option value="baked_goods">Baked Goods</option>
-                <option value="packaged">Packaged</option>
-              </select>
             </fieldset>
 
             <fieldset className="input-container name-container">

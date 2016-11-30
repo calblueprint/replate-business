@@ -39,7 +39,6 @@ class SignupForm extends DefaultForm {
     };
 
     let params = this.state.location;
-    console.log(params)
     params["business_id"] = businessID;
 
     this._attemptAction(APIConstants.locations.create,

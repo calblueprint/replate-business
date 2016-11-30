@@ -17,7 +17,6 @@ class API::BusinessesController < ApplicationController
     params.permit(
       :company_name,
       :phone,
-      :address,
       :email
     )
   end

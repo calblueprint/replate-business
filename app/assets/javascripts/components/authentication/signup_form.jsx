@@ -16,6 +16,7 @@ class SignupForm extends DefaultForm {
       business: b,
       view: 2,
     })
+    window.scrollTo(0, 0);
   }
 
   _createBusiness = () => {
@@ -38,6 +39,7 @@ class SignupForm extends DefaultForm {
     };
 
     let params = this.state.location;
+    console.log(params)
     params["business_id"] = businessID;
 
     this._attemptAction(APIConstants.locations.create,
@@ -50,7 +52,8 @@ class SignupForm extends DefaultForm {
     if (this.state.view == 1) {
       renderedForm = <BusinessSignup save = {this._saveBusiness}/>
     } else {
-      renderedForm = <LocationSignup save = {this._saveLocation} />
+      renderedForm = <LocationSignup save        = {this._saveLocation}
+                                     updatePhoto = {this._setPhotoFile} />
     }
 
     return (

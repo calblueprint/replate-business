@@ -28,15 +28,23 @@ class BusinessSignup extends DefaultForm {
   render() {
     return (
       <div>
-        <h2>Basic Information</h2>
+        <div className="marginTop-xl signup-section-title-num">1</div>
+        <h2 className="signup-section-title">Basic Information</h2>
+        <p className="marginBot-lg">We'll need to collect some basic information about your business.</p>
         { this._renderInputField("company_name", "Company Name", "text", "Your Awesome Company") }
         { this._renderInputField("phone", "Phone", "text", "(123) 456-7890") }
         { this._renderInputField("email", "Email", "email", "example@business.com") }
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
 
-        <button className="button"
-          onClick={this._saveBusinessData}>Continue</button>
+        <div className="marginTopBot-xl">
+          <button className="button button--text-black marginRight-xs">Cancel</button>
+          <button className="button button--outline signup-btn-right"
+            onClick={this._saveBusinessData}>
+              Continue
+              <span className="fa fa-angle-right marginLeft-xxs"></span>
+          </button>
+        </div>
       </div>
     );
   }

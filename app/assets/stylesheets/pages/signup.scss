@@ -1,0 +1,32 @@
+.signup-section-title-num {
+  background: $green;
+  border-radius: 50%;
+  color: white;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 30px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.signup-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.signup-btn-right {
+  float: right;
+}
+
+.signup-image-empty {
+  background: $black-10;
+  border-radius: 2px;
+  width: 100%;
+  height: 150px;
+}

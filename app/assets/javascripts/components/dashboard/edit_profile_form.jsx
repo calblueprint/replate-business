@@ -25,6 +25,15 @@ class EditForm extends DefaultForm {
 
   _attemptSave = (e) => {
     const success = (msg) => {
+      var keys = Object.keys(this.state);
+      for (key of keys) {
+        if (key === 'editable')
+          continue;
+        if (document.getElementsByName(key).length) {
+          document.getElementsByName(key)[0].parentNode.className = "";
+          document.getElementsByName(key)[0].style.border = "";
+        }
+      }
       var newinitialstate = {
         address:this.state.address,
         company_name:this.state.company_name,
@@ -32,10 +41,25 @@ class EditForm extends DefaultForm {
         phone:this.state.phone,
         id:this.state.id,
       };
-      this.setState({initialstate: newinitialstate});
+      this.setState({ initialstate: newinitialstate });
       this.setState({ editable: false });
     };
     const fail = (msg) => {
+      var keys = Object.keys(this.state);
+      for (key of keys) {
+        if (key === 'editable')
+          continue;
+        if (!this.state[key]) {
+          document.getElementsByName(key)[0].parentNode.className += " blank";
+          document.getElementsByName(key)[0].style.border = "1px solid red";
+        }
+        else {
+          if (document.getElementsByName(key).length) {
+            document.getElementsByName(key)[0].parentNode.className = "";
+            document.getElementsByName(key)[0].style.border = "";
+          }
+        }
+      }
       this.setState({ editable: true });
     };
     Requester.update(APIConstants.businesses.update(this.props.business.id),
@@ -43,6 +67,13 @@ class EditForm extends DefaultForm {
   }
 
   _toggleEdit = () => {
+    var keys = Object.keys(this.state);
+    for (key of keys) {
+      if (document.getElementsByName(key).length) {
+        document.getElementsByName(key)[0].parentNode.className = "";
+        document.getElementsByName(key)[0].style.border = "";
+      }
+    }
     this.setState({ editable : !this.state.editable });
     this.setState({ company_name : this.state.initialstate.company_name, 
       address : this.state.initialstate.address,

@@ -23,6 +23,16 @@ class EditForm extends DefaultForm {
     }
   }
 
+  _addRedBorder = (input) => {
+    input.parentNode.classList.add("blank");
+    input.classList.add("red-border");
+  }
+
+  _removeRedBorder = (input) => {
+    input.parentNode.classList.remove("blank");
+    input.classList.remove("red-border");
+  }
+
   _attemptSave = (e) => {
     const success = (msg) => {
       var keys = Object.keys(this.state);
@@ -30,8 +40,7 @@ class EditForm extends DefaultForm {
         if (key === 'editable')
           continue;
         if (document.getElementsByName(key).length) {
-          document.getElementsByName(key)[0].parentNode.className = "";
-          document.getElementsByName(key)[0].style.border = "";
+          this._removeRedBorder(document.getElementsByName(key)[0]);
         }
       }
       var newinitialstate = {
@@ -50,13 +59,11 @@ class EditForm extends DefaultForm {
         if (key === 'editable')
           continue;
         if (!this.state[key]) {
-          document.getElementsByName(key)[0].parentNode.className += " blank";
-          document.getElementsByName(key)[0].style.border = "1px solid red";
+          this._addRedBorder(document.getElementsByName(key)[0]);
         }
         else {
           if (document.getElementsByName(key).length) {
-            document.getElementsByName(key)[0].parentNode.className = "";
-            document.getElementsByName(key)[0].style.border = "";
+            this._removeRedBorder(document.getElementsByName(key)[0]);
           }
         }
       }
@@ -70,8 +77,8 @@ class EditForm extends DefaultForm {
     var keys = Object.keys(this.state);
     for (key of keys) {
       if (document.getElementsByName(key).length) {
-        document.getElementsByName(key)[0].parentNode.className = "";
-        document.getElementsByName(key)[0].style.border = "";
+        document.getElementsByName(key)[0].parentNode.classList.remove("blank");
+        document.getElementsByName(key)[0].classList.remove("red-border");
       }
     }
     this.setState({ editable : !this.state.editable });

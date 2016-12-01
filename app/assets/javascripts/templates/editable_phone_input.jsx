@@ -69,7 +69,7 @@ class EditablePhoneInput extends React.Component {
     if (this.props.label) {
       labelVal = (
         <label htmlFor={this.props.label}
-          className="label--newline">
+          className="label label--newline">
           { this.props.label }:
         </label>
       );

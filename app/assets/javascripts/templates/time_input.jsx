@@ -142,7 +142,7 @@ class TimeInput extends React.Component {
   render() {
     return (
       <div className="field input-container">
-        <label className="label--newline" for={this.props.input_id}>{this.props.label}</label>
+        <label className="label label--newline" htmlFor={this.props.input_id}>{this.props.label}</label>
         <input type="text" defaultValue={this.state.val} name={this.props.form_name} id={this.props.input_id}
           className="input" onKeyPress={this._handleInput} onKeyDown={this._specialInput} />
       </div>

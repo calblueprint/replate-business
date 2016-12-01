@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 20161127065957) do
     t.integer  "frequency",                  null: false
     t.boolean  "has_sent",   default: false
     t.datetime "start_date",                 null: false
-    t.integer  "exception",  default: 0,     null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "pickup_id"
     t.string   "start_time"
     t.string   "end_time"
+    t.boolean  "cancel",     default: false, null: false
+    t.string   "driver_id",  default: "",    null: false
+    t.string   "task_id"
   end
 
   add_index "recurrences", ["pickup_id"], name: "index_recurrences_on_pickup_id", using: :btree

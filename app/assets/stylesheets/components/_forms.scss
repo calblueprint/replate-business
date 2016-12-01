@@ -50,6 +50,10 @@
   }
 }
 
+.editable-input-box-container {
+  margin-bottom: 15px;
+}
+
 .select {
   @include appearance(none);
   background-image: image_url("icons/menulist.svg");

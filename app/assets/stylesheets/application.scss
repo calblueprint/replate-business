@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require bootstrap-datepicker
+ *= require font-awesome
  */
 
 @import "bootstrap-sprockets";
@@ -29,3 +30,4 @@
 @import 'components/*';
 @import 'pages/static/*';
 @import 'pages/*';
+@import 'pages/dashboard/*';

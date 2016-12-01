@@ -34,12 +34,12 @@ class LocationCreationForm extends DefaultForm {
         </button>
         <Modal show={this.state.showModal} onHide={this.close} className="location-creation-modal">
           <Modal.Header>
-            <h3 className="modal-title">Create New Location</h3>
+            <h3 className="modal-title">Add New Location</h3>
           </Modal.Header>
           <Modal.Body>
             <form className="modal-content">
               <fieldset className="input-container">
-                <label className="label--newline">Office Title</label>
+                <label className="label--newline">Office Name</label>
                 <input type="text" placeholder="New York Office" name="addr_name"
                        onChange={this._handleChange} className="input" />
               </fieldset>

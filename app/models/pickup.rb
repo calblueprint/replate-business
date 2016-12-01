@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: requests
+# Table name: pickups
 #
 #  id          :integer          not null, primary key
 #  title       :string           not null

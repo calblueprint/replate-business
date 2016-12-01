@@ -1,13 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.2.5'
 
-# Onfleet
-gem 'onfleet-ruby'
-
 # Rails
 gem 'rails', '4.2.4'
 
 # Core
+gem 'httparty'
 gem 'cancancan', '1.15.0'
 gem 'active_model_serializers', '0.9.4'
 gem 'devise', '3.5.2'
@@ -19,7 +17,7 @@ gem 'nokogiri'
 gem 'pg', '0.18.4'
 gem 'pg_search', '1.0.5'
 gem 'react-rails', '1.5.0'
-
+gem 'json'
 
 # Uploading
 gem 'paperclip', '5.1.0'

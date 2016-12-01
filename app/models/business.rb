@@ -13,11 +13,11 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  address                :string
 #  company_name           :string
-#  phone                  :integer
+#  phone                  :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  onfleet_id             :string
 #
 
 class Business < ActiveRecord::Base
@@ -27,4 +27,5 @@ class Business < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :locations
+  validates_presence_of :company_name, :phone
 end

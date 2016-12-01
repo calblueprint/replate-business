@@ -52,10 +52,15 @@ class RecurrenceDayInput extends DefaultForm {
       }
 
       const id = `${this.state.day}-radio-${title}`;
+      let freqToTitle = {
+        0 : "One Time Pickup",
+        1 : "Recurring Pickup",
+      };
       return (
         <span key={i} className="pickup-radio-item marginRight-xs">
           <input type="radio" name={name} value={title} id={id}
-            onChange={_onClickFunction.bind(this)}/>
+            onChange={_onClickFunction.bind(this)}
+            checked={title == freqToTitle[this.state.frequency] ? "checked" : undefined}/>
           <label htmlFor={id}>{title}</label>
         </span>
       )

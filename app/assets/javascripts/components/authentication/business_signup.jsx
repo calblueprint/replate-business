@@ -40,7 +40,8 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
 
         <div className="marginTopBot-xl">
-          <button className="button button--text-black marginRight-xs">Cancel</button>
+          <button onClick={ () => { window.location = "/" } }
+            className="button button--text-black marginRight-xs">Cancel</button>
           <button className="button button--outline signup-btn-right"
             onClick={this._saveBusinessData}>
               Continue

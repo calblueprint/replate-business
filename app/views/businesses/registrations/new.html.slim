@@ -1,11 +1,13 @@
 = page_heading "Create Account"
 
-.sign-up-container
-  .title-container
-    img.signup-img src=image_url("logo-color.png")
-    h1.title
-     | Sign up
-    p
-     | Thank you for your interest in Replate! Your generous donations help reduce food waste and hunger in the community.
-
-  = react_component "SignupForm"
+.container
+  .sign-up-container.row
+    .col-md-6.col-sm-5
+      .title-container
+        img.signup-img src=image_url("logo-color.png")
+        h1.title
+         | Donor Sign Up
+        p
+         | Thank you for your interest in Replate! Your generous donations help reduce food waste and hunger in the community.
+    .col-md-6.col-sm-7
+      = react_component "SignupForm"

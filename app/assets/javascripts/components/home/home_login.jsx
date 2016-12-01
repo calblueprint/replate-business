@@ -23,12 +23,6 @@ class HomeLogin extends DefaultForm {
     return token;
   }
 
-  _handleKeydown = (e) => {
-    if (e.which == 13) {
-      this._handleLogin();
-    }
-  }
-
   render() {
     return (
       <div>
@@ -41,6 +35,7 @@ class HomeLogin extends DefaultForm {
           className="login-modal"
           show={this.state.showModal}
           onHide={this._closeModal}
+          onEntered={() => {this.emailInput.focus()}}
         >
           <Modal.Header>
             <Modal.Title>Log In</Modal.Title>
@@ -61,6 +56,7 @@ class HomeLogin extends DefaultForm {
                   placeholder="example@email.com"
                   onChange={this._handleChange}
                   onKeyDown={this._handleKeydown}
+                  ref={(input) => { this.emailInput = input; }}
                 />
               </div>
               <div className="input-container">

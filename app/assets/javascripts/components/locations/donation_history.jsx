@@ -28,10 +28,8 @@ class DonationHistory extends React.Component {
   }
 
   _retrieveHistory = () => {
-
+    //TODO: implement actual retrieval of history here
   }
-
-
 
   render() {
     let emptyState;

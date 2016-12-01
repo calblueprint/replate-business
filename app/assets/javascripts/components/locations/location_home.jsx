@@ -9,13 +9,35 @@ class LocationHome extends React.Component {
 
   constructor(props) {
     super(props);
+    const tabMapping = {
+      pickups: 1,
+      history: 2,
+      settings: 3,
+    }
+
+    let active = 1;
+    const hash = window.location.hash.replace("#", "");
+
+    if (hash) {
+      active = tabMapping[hash]
+    } else {
+      window.location.hash = Object.keys(tabMapping)[0];
+    }
+
     this.state = {
       location: {},
+      activeTab: active,
+      tabMapping: tabMapping,
     };
   }
 
   componentDidMount() {
     this._fetchLocation();
+  }
+
+  _onTabChange = (eventKey) => {
+    window.location.hash = Object.keys(this.state.tabMapping)[eventKey - 1]
+    this.setState({activeTab: eventKey})
   }
 
   _fullAddress = () => {
@@ -49,14 +71,18 @@ class LocationHome extends React.Component {
           </div>
         </div>
 
-        <Tabs defaultActiveKey={1} animation={false} id={1} className="location-page-tabs container">
+        <Tabs defaultActiveKey={this.state.activeTab}
+              onSelect={this._onTabChange}
+              className="location-page-tabs container"
+              animation={false}
+              id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
             <WeekOverview />
             <h2 className="pickup-section-title">All Pickups</h2>
             <LocationPickups pickups = {this.state.location.pickups} />
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
-            Add donation history here
+            <DonationHistory location = {this.state.location} />
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}

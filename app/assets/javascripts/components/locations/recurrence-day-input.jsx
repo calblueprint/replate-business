@@ -4,6 +4,8 @@
  * @prop initData    - saved data associated with this day input
  * @prop validations - object containing validation messages
  */
+var STARTTIME = "09:00 AM";
+var RECURRENCEFIELDS = ["One Time Pickup", "Recurring Pickup"];
 class RecurrenceDayInput extends DefaultForm {
 
   constructor(props) {
@@ -11,7 +13,7 @@ class RecurrenceDayInput extends DefaultForm {
     this.state = this.props.initData;
     this.state.day = this.props.day;
     if (!this.state.start_time) {
-      this.state.start_time = "09:00 AM"; // Default to midnight
+      this.state.start_time = STARTTIME; // Default to 9AM
     }
     this.state.validations = {};
     if (this.props.validations) {
@@ -39,7 +41,7 @@ class RecurrenceDayInput extends DefaultForm {
     if (this.props.validations) {
       this.state.validations = this.props.validations;
     }
-    let pickupTypeBtns = ["One Time Pickup", "Recurring Pickup"].map((title, i) => {
+    let pickupTypeBtns = RECURRENCEFIELDS.map((title, i) => {
       if (this.state.frequency == undefined ||
          (this.state.frequency == 0 && title == "Recurring Pickup") ||
          (this.state.frequency == 1 && title == "One Time Pickup")) {

@@ -3,13 +3,14 @@
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
  */
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class RecurrenceForm extends DefaultForm {
 
   constructor(props) {
     super(props);
     this.state = this.props.initData;
     if (jQuery.isEmptyObject(this.state)) {
-      let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+      let days = DAYSOFWEEK.map((day, i) => {
         this.state[day] = {
           active: false,
           input: {},
@@ -55,7 +56,7 @@ class RecurrenceForm extends DefaultForm {
   _nextStep = (e) => {
     let validated = true;
     let requiredKeys = ["frequency", "start_time", "start_date"];
-    let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+    let days = DAYSOFWEEK.map((day, i) => {
       // Validate fields
       let validations = {};
       if (this.state[day].active) {
@@ -97,7 +98,7 @@ class RecurrenceForm extends DefaultForm {
   }
 
   render() {
-    let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+    let days = DAYSOFWEEK.map((day, i) => {
       return <div className={`day-item day-` + (this.state[day].active ? "active" : "inactive")}
                   onClick={this._toggleDay.bind(this, day)}
                   key={i} >
@@ -105,7 +106,7 @@ class RecurrenceForm extends DefaultForm {
       </div>
     });
 
-    let dayInputs = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+    let dayInputs = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         return <RecurrenceDayInput
                   day         = {day}

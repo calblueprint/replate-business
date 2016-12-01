@@ -2,15 +2,16 @@
  * @prop location_id - id associated with the current location
  * @prop success     - function handler for successful student creation
  */
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class PickupCreationModal extends DefaultForm {
 
   constructor(props) {
     super(props);
     this.state = {
-      location_id      : this.props.location_id,
-      step             : 1,
-      basicForm        : {},
-      recurrenceForm   : {},
+      location_id: this.props.location_id,
+      step: 1,
+      basicForm: {},
+      recurrenceForm: {},
     };
   }
 
@@ -19,26 +20,32 @@ class PickupCreationModal extends DefaultForm {
       this.props.success();
       this.close();
       this.setState({
-        pickupId       : data.id,
+        pickupId: data.id,
       });
     }
     const recurrenceSuccess = (data) => {
       this.setState({
-        basicForm      : {},
-        recurrenceForm : {},
-        step           : 1,
+        basicForm: {},
+        recurrenceForm: {},
+        step: 1,
       });
     }
 
-    const failure = (data) => {} // do not clear form
+    const failure = (data) => {}; // do not clear form
 
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;
-    this._attemptAction(APIConstants.pickups.create, this.state.basicForm, pickupSuccess, failure);
-    let days = ["monday", "tuesday", "wednesday", "thursday", "friday"].map((day, i) => {
+    this._attemptAction(APIConstants.pickups.create,
+                        this.state.basicForm,
+                        pickupSuccess,
+                        failure);
+    let days = DAYSOFWEEK.map((day, i) => {
         if (this.state.recurrenceForm[day].active) {
           this.state.recurrenceForm[day].input.request_id = this.state.pickupId;
-          this._attemptAction(APIConstants.recurrences.create, this.state.recurrenceForm[day].input, recurrenceSuccess, failure);
+          this._attemptAction(APIConstants.recurrences.create,
+                              this.state.recurrenceForm[day].input,
+                              recurrenceSuccess,
+                              failure);
         }
       });
   }

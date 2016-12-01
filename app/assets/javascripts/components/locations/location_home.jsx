@@ -68,6 +68,13 @@ class LocationHome extends React.Component {
               </h1>
               <h2 className="location-page-addr">{this._fullAddress()}</h2>
             </div>
+
+            <div className="location-page-buttons">
+              <button className="button button--outline feedback-btn">Leave Feedback</button>
+              <PickupCreationModal
+                  location_id = {this.props.location.id}
+                  success     = {this._fetchLocation} />
+            </div>
           </div>
         </div>
 
@@ -89,11 +96,6 @@ class LocationHome extends React.Component {
                               fetchLocation = {this._fetchLocation} />
           </Tab>
         </Tabs>
-
-        <br />
-        <PickupCreationModal
-                location_id = {this.props.location.id}
-                success     = {this._fetchLocation} />
       </div>
     )
   }

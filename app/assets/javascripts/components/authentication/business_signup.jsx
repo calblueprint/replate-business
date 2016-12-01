@@ -12,7 +12,7 @@ class BusinessSignup extends DefaultForm {
   _renderInputField = (name, label, inputType, placeholder) => {
     return (
       <fieldset className="input-container">
-        <label htmlFor={name} className="label--newline">{label}</label>
+        <label htmlFor={name} className="label label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
           placeholder={placeholder} id={name}
           onChange={this._handleChange} value={this.state[name]}/>

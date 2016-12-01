@@ -45,7 +45,7 @@ class HomeLogin extends DefaultForm {
             <Modal.Body>
               <div className="input-container marginBot-sm">
                 <label
-                  className="label--newline"
+                  className="label label--newline"
                   htmlFor="email-input"
                 >Email Address</label>
                 <input
@@ -61,7 +61,7 @@ class HomeLogin extends DefaultForm {
               </div>
               <div className="input-container">
                 <label
-                  className="label--newline"
+                  className="label label--newline"
                   htmlFor="password-input"
                 >Password</label>
                 <input

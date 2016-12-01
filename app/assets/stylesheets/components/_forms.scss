@@ -75,3 +75,14 @@
     border-color: $green-40;
   }
 }
+
+.blank::after {
+  content: "cannot be blank";
+}
+.blank {
+  color: red;
+}
+
+.red-border {
+  border: 1px solid red;
+}

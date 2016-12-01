@@ -9,7 +9,7 @@ class API::BusinessesController < ApplicationController
     if business.update business_params
       render_json_message(:ok, message: 'Business successfully updated!')
     else
-      render_json_message(:forbidden)
+      render_json_message(:forbidden, errors: business.errors.full_messages)
     end
   end
 

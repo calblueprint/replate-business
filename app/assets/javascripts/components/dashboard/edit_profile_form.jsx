@@ -13,20 +13,81 @@ class EditForm extends DefaultForm {
       id:this.props.business.id,
       editable: false
     }
+    this.state.initialstate = {
+      address:this.props.business.address,
+      company_name:this.props.business.company_name,
+      email:this.props.business.email,
+      phone:this.props.business.phone,
+      id:this.props.business.id,
+      editable: false
+    }
+  }
+
+  _addRedBorder = (input) => {
+    input.parentNode.classList.add("blank");
+    input.classList.add("red-border");
+  }
+
+  _removeRedBorder = (input) => {
+    input.parentNode.classList.remove("blank");
+    input.classList.remove("red-border");
   }
 
   _attemptSave = (e) => {
     const success = (msg) => {
+      var keys = Object.keys(this.state);
+      for (key of keys) {
+        if (key === 'editable')
+          continue;
+        if (document.getElementsByName(key).length) {
+          this._removeRedBorder(document.getElementsByName(key)[0]);
+        }
+      }
+      var newinitialstate = {
+        address:this.state.address,
+        company_name:this.state.company_name,
+        email:this.state.email,
+        phone:this.state.phone,
+        id:this.state.id,
+      };
+      this.setState({ initialstate: newinitialstate });
       this.setState({ editable: false });
     };
     const fail = (msg) => {
+      var keys = Object.keys(this.state);
+      for (key of keys) {
+        if (key === 'editable')
+          continue;
+        if (!this.state[key]) {
+          this._addRedBorder(document.getElementsByName(key)[0]);
+        }
+        else {
+          if (document.getElementsByName(key).length) {
+            this._removeRedBorder(document.getElementsByName(key)[0]);
+          }
+        }
+      }
       this.setState({ editable: true });
     };
     Requester.update(APIConstants.businesses.update(this.props.business.id),
       this._formFields(), success, fail);
   }
 
-
+  _toggleEdit = () => {
+    var keys = Object.keys(this.state);
+    for (key of keys) {
+      if (document.getElementsByName(key).length) {
+        this._removeRedBorder(document.getElementsByName(key)[0]);
+      }
+    }
+    this.setState({ editable : !this.state.editable });
+    this.setState({ company_name : this.state.initialstate.company_name, 
+      address : this.state.initialstate.address,
+      email : this.state.initialstate.email,
+      phone : this.state.initialstate.phone
+    });
+    
+  }
   _showInput = (label, name, data) => {
     return (
       <EditableInput label        = { label }

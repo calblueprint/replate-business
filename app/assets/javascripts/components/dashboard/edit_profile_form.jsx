@@ -77,8 +77,7 @@ class EditForm extends DefaultForm {
     var keys = Object.keys(this.state);
     for (key of keys) {
       if (document.getElementsByName(key).length) {
-        document.getElementsByName(key)[0].parentNode.classList.remove("blank");
-        document.getElementsByName(key)[0].classList.remove("red-border");
+        this._removeRedBorder(document.getElementsByName(key)[0]);
       }
     }
     this.setState({ editable : !this.state.editable });

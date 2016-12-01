@@ -1,6 +1,7 @@
 /**
- * @prop initData - saved data associated with the basic portion of the pickup form
- * @prop prevStep - function handler to move back to prev step of pickup creation
+ * @prop initData      - saved data associated with the basic portion of the pickup form
+ * @prop prevStep      - function handler to move back to prev step of pickup creation
+ * @prop attemptCreate - function handler for creating Pickups and Recurrences
  */
 class ConfirmationForm extends DefaultForm {
 

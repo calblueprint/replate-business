@@ -2,31 +2,52 @@
  * @prop location_id - id associated with the current location
  * @prop success     - function handler for successful student creation
  */
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class PickupCreationModal extends DefaultForm {
 
   constructor(props) {
     super(props);
     this.state = {
-                   location_id      : this.props.location_id,
-                   step             : 1,
-                   basicForm        : {},
-                   recurrenceForm   : {},
-                   confirmationForm : {},
-                 };
+      location_id: this.props.location_id,
+      step: 1,
+      basicForm: {},
+      recurrenceForm: {},
+    };
   }
 
   _attemptCreate = (initData) => {
-    const success = (data) => {
+    const pickupSuccess = (data) => {
       this.props.success();
       this.close();
       this.setState({
-                      basicForm : {},
-                      step      : 1,
-                    });
+        pickupId: data.id,
+      });
     }
+    const recurrenceSuccess = (data) => {
+      this.setState({
+        basicForm: {},
+        recurrenceForm: {},
+        step: 1,
+      });
+    }
+
+    const failure = (data) => {}; // do not clear form
+
     this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;
-    this._attemptAction(APIConstants.pickups.create, this.state.basicForm, success, success);
+    this._attemptAction(APIConstants.pickups.create,
+                        this.state.basicForm,
+                        pickupSuccess,
+                        failure);
+    let days = DAYSOFWEEK.map((day, i) => {
+        if (this.state.recurrenceForm[day].active) {
+          this.state.recurrenceForm[day].input.request_id = this.state.pickupId;
+          this._attemptAction(APIConstants.recurrences.create,
+                              this.state.recurrenceForm[day].input,
+                              recurrenceSuccess,
+                              failure);
+        }
+      });
   }
 
   open = (e) => {
@@ -37,11 +58,13 @@ class PickupCreationModal extends DefaultForm {
     this.setState({ showModal: false });
   }
 
-  _nextStep = (data, key) => {
+  _nextStep = (data, key, validated) => {
     if (data && key){
       this.setState({ [key]: data });
     }
-    this.setState({ step: this.state.step + 1 });
+    if (validated) {
+      this.setState({ step: this.state.step + 1 });
+    }
   }
 
   _prevStep = (data, key) => {

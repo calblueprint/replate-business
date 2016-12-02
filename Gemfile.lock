@@ -271,7 +271,7 @@ DEPENDENCIES
   cancancan (= 1.15.0)
   devise (= 3.5.2)
   factory_girl_rails
-  faker
+  faker (= 1.6.6)
   figaro (= 1.1.1)
   font-awesome-rails (= 4.5.0)
   has_scope (= 0.6.0)

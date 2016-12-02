@@ -128,6 +128,19 @@
   font-weight: 500;
 }
 
+.location-page-buttons {
+  margin-left: auto;
+  padding-top: 40px;
+  align-items: flex-end;
+  display: flex;
+  flex-flow: column;
+}
+
+.feedback-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 .location-page-tabs .nav-tabs {
   background: $body-gray;
 }

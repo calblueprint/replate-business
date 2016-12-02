@@ -1,0 +1,67 @@
+.pickup-creation-modal .modal-dialog {
+  padding: 10px;
+}
+
+.pickup-form-week {
+  display: flex;
+  margin-bottom: 30px;
+
+  .pickup-btn {
+    width: 20%;
+  }
+}
+
+.pickup-btn {
+  @include appearance(none);
+  background: white;
+  border: 1px solid $gray;
+  color: $black;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+  padding: 5px 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-align: center;
+  -webkit-user-select: none;
+}
+
+.pickup-btn--active {
+  border: 1px solid $green-60;
+  color: $green;
+}
+
+.pickup-day-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.pickup-type-btn {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color: #ffffff;
+  -webkit-user-select: none;
+}
+
+.day-input-container {
+  margin-bottom: 40px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.pickup-radio-item {
+  label, input {
+    vertical-align: middle;
+  }
+
+  label {
+    margin-left: 4px;
+  }
+}

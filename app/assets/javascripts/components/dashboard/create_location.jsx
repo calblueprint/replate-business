@@ -39,20 +39,20 @@ class LocationCreationForm extends DefaultForm {
           <Modal.Body>
             <form className="modal-content">
               <fieldset className="input-container">
-                <label className="label--newline">Office Name</label>
+                <label className="label label--newline">Office Name</label>
                 <input type="text" placeholder="New York Office" name="addr_name"
                        onChange={this._handleChange} className="input" />
               </fieldset>
 
               <div className="location-create-form-row">
                 <fieldset className="input-container addr-num">
-                  <label className="label--newline">Number</label>
+                  <label className="label label--newline">Number</label>
                   <input type="text" placeholder="1234" name="number"
                          onChange={this._handleChange} className="input" />
                 </fieldset>
 
                 <fieldset className="input-container addr-street">
-                  <label className="label--newline">Street</label>
+                  <label className="label label--newline">Street</label>
                   <input type="text" placeholder="Grand Avenue" name="street"
                          onChange={this._handleChange} className="input" />
                 </fieldset>
@@ -60,13 +60,13 @@ class LocationCreationForm extends DefaultForm {
 
               <div className="location-create-form-row">
                 <fieldset className="input-container addr-city">
-                  <label className="label--newline">City</label>
+                  <label className="label label--newline">City</label>
                   <input type="text" placeholder="San Francisco" name="city"
                          onChange={this._handleChange} className="input" />
                 </fieldset>
 
                 <fieldset className="input-container addr-state">
-                  <label className="label--newline">State</label>
+                  <label className="label label--newline">State</label>
                   <select name="state" className="select"
                           onChange={this._handleChange}>
                     <option value="" disabled value>State</option>
@@ -126,13 +126,13 @@ class LocationCreationForm extends DefaultForm {
 
               <div className="location-create-form-row">
                 <fieldset className="input-container addr-country">
-                  <label className="label--newline">Country</label>
+                  <label className="label label--newline">Country</label>
                   <input type="text" placeholder="USA" name="country"
                          onChange={this._handleChange} className="input" />
                 </fieldset>
 
                 <fieldset className="input-container addr-zip">
-                  <label className="label--newline">Zip/Postal Code</label>
+                  <label className="label label--newline">Zip/Postal Code</label>
                   <input type="text" placeholder="94709" name="zip"
                          onChange={this._handleChange} className="input" />
                 </fieldset>
@@ -140,7 +140,7 @@ class LocationCreationForm extends DefaultForm {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <button type="button" className="button button--text-black marginRight-sm"
+            <button type="button" className="button button--text-alert pull-left"
                     onClick={this.close}>Cancel</button>
             <button type="submit" name="submit" value="Create Location"
                     className="button" onClick={this._attemptCreate}>Create</button>

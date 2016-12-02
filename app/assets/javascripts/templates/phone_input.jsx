@@ -53,7 +53,7 @@ class PhoneInput extends DefaultForm {
   render() {
     return (
       <div className="field input-container">
-        <label className="label--newline" htmlFor={this.props.input_id}>Phone</label>
+        <label className="label label--newline" htmlFor={this.props.input_id}>Phone</label>
         <input
           type="tel" name={this.props.form_name} id={this.props.input_id}
           className="input" onKeyPress={this._handleInput} placeholder="123-456-7890"

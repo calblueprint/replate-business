@@ -20,8 +20,21 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    this.setState({ [day]: { active: !this.state[day].active,
-                             input: this.state[day].input } });
+    this.setState({
+      [day]: { active: !this.state[day].active,
+               input: this.state[day].input }
+    });
+  }
+
+  _renderDirections = (days) => {
+    showDirections = true;
+    for (let i = 0; i < days.length; i += 1) {
+      if (days[i]) { showDirections = false; }
+    }
+
+    if (showDirections) {
+      return <p>Choose all the days that you'd like this pickup to occur</p>
+    }
   }
 
   _addTwoHours = (time) => {
@@ -72,16 +85,23 @@ class RecurrenceForm extends DefaultForm {
         }
         for (i = 0; i < requiredKeys.length; i++) {
           let requiredKey = requiredKeys[i];
-          if (this.state[day].input[requiredKey] == undefined || this.state[[day].inputrequiredKey] == "") {
-            let validationMsg = this._formatTitle(requiredKey) + " field must have a value.";
-            validations[requiredKey] = validationMsg;
+          if (this.state[day].input[requiredKey] == undefined ||
+              this.state[[day].inputrequiredKey] == "") {
+
+            let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
+            let validation = <p className="validation-msg marginTop-xxs"
+                    key={i}>{validationMsg}</p>
+            validations[requiredKey] = validation;
             validated = false;
           }
         }
       }
+
       // Hack for propogating validations to RecurrenceDayInput children
       this.state[day].validations = validations;
-      let newState = React.addons.update(this.state, { [day]: { validations: { $set: validations } } });
+      let newState = React.addons.update(this.state, {
+        [day]: { validations: { $set: validations } }
+      });
       this.setState(newState);
     });
     this.props.nextStep(this.state, "recurrenceForm", validated);
@@ -93,17 +113,24 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _updateState = (key, value, day) => {
-    let newState = React.addons.update(this.state, { [day]: { input: { [key]: { $set: value } } } });
+    let newState = React.addons.update(this.state, {
+      [day]: { input: { [key]: { $set: value } } }
+    });
     this.setState(newState);
   }
 
   render() {
     let days = DAYSOFWEEK.map((day, i) => {
-      return <div className={`day-item day-` + (this.state[day].active ? "active" : "inactive")}
-                  onClick={this._toggleDay.bind(this, day)}
-                  key={i} >
-                  {this._capitalize(day)}
-      </div>
+
+      const status = `pickup-btn--${this.state[day].active ? "active" : "inactive"}`;
+
+      return (
+        <div className={`pickup-btn ${status}`}
+             onClick={this._toggleDay.bind(this, day)}
+             key={i} >
+             {this._capitalize(day)}
+        </div>
+      )
     });
 
     let dayInputs = DAYSOFWEEK.map((day, i) => {
@@ -114,25 +141,34 @@ class RecurrenceForm extends DefaultForm {
                   initData    = {this.state[day].input}
                   key         = {i}
                   validations = {this.state[day].validations}/>
+      } else {
+        return null;
       }
     });
 
     return (
       <div>
-        <Modal.Header closeButton>
-          <h3 className="modal-title">New Pickup</h3>
-        </Modal.Header>
         <Modal.Body>
-          <div className="week-container">
-            {days}
+          <div className="pickup-form-week">
+            { days }
           </div>
           <div className="day-input-container">
-            {dayInputs}
+            { this._renderDirections(dayInputs) }
+            { dayInputs }
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button type="submit" name="submit" value="Prev Step" className="submit-button" onClick={this._prevStep}>Back</button>
-          <button type="submit" name="submit" value="Next Step" className="submit-button" onClick={this._nextStep}>Next</button>
+          <button type="submit" name="submit" value="Prev Step"
+            className="button button--text-black marginRight-xxs"
+            onClick={this._prevStep}>
+            <span className="fa fa-angle-left marginRight-xxs"></span>
+            Back
+          </button>
+          <button type="submit" name="submit" value="Next Step"
+            className="button" onClick={this._nextStep}>
+              Next
+              <span className="fa fa-angle-right marginLeft-xxs"></span>
+          </button>
         </Modal.Footer>
       </div>
     );

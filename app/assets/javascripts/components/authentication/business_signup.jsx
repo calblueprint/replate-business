@@ -12,7 +12,7 @@ class BusinessSignup extends DefaultForm {
   _renderInputField = (name, label, inputType, placeholder) => {
     return (
       <fieldset className="input-container">
-        <label htmlFor={name} className="label--newline">{label}</label>
+        <label htmlFor={name} className="label label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
           placeholder={placeholder} id={name}
           onChange={this._handleChange} value={this.state[name]}/>
@@ -41,8 +41,8 @@ class BusinessSignup extends DefaultForm {
 
         <div className="marginTopBot-xl">
           <button onClick={ () => { window.location = "/" } }
-            className="button button--text-black marginRight-xs">Cancel</button>
-          <button className="button button--outline signup-btn-right"
+            className="button button--text-alert marginRight-xs">Cancel</button>
+          <button className="button signup-btn-right"
             onClick={this._saveBusinessData}>
               Continue
               <span className="fa fa-angle-right marginLeft-xxs"></span>

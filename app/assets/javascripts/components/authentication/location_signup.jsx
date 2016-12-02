@@ -18,7 +18,7 @@ class LocationSignup extends DefaultForm {
   _renderInputField = (name, label, inputType, placeholder) => {
     return (
       <fieldset className="input-container">
-        <label htmlFor={name} className="label--newline">{label}</label>
+        <label htmlFor={name} className="label label--newline">{label}</label>
         <input type={inputType} className="input" name={name}
           placeholder={placeholder} id={name}
           onChange={this._handleChange} />
@@ -68,7 +68,7 @@ class LocationSignup extends DefaultForm {
         <p className="marginBot-lg">Let us know the location of your office. You'll be able to create more locations later!</p>
 
         <fieldset className="input-container">
-          <label htmlFor="upload" className="label--newline">Upload Office Image</label>
+          <label htmlFor="upload" className="label label--newline">Upload Office Image</label>
 
           <div className="signup-upload-container">
             <label htmlFor="location-photo-upload"

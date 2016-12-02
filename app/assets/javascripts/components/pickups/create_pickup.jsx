@@ -79,7 +79,8 @@ class PickupCreationModal extends DefaultForm {
       case 1:
         return <BasicPickupForm
                   initData = {this.state.basicForm}
-                  nextStep = {this._nextStep} />
+                  nextStep = {this._nextStep}
+                  close    = {this.close} />
       case 2:
         return <RecurrenceForm
                   initData = {this.state.recurrenceForm}
@@ -98,11 +99,15 @@ class PickupCreationModal extends DefaultForm {
 
     return (
       <div className="pickup-form-container">
-        <button onClick={this.open} type="button" className="submit-button-o button-small">
-          <span className="fa fa-plus" />
+        <button onClick={this.open} type="button" className="button">
+          <span className="fa fa-plus marginRight-xxs" />
           Create a new pickup
         </button>
-        <Modal show={this.state.showModal} onHide={this.close}>
+        <Modal show={this.state.showModal} onHide={this.close}
+          className="pickup-creation-modal">
+          <Modal.Header>
+            <h1 className="modal-title">Schedule New Pickup</h1>
+          </Modal.Header>
           {step}
         </Modal>
       </div>

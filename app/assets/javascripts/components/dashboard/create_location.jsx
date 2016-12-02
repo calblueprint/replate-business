@@ -140,7 +140,7 @@ class LocationCreationForm extends DefaultForm {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <button type="button" className="button button--text-black marginRight-sm"
+            <button type="button" className="button button--text-alert pull-left"
                     onClick={this.close}>Cancel</button>
             <button type="submit" name="submit" value="Create Location"
                     className="button" onClick={this._attemptCreate}>Create</button>

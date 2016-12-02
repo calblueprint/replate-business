@@ -45,23 +45,21 @@ class BasicPickupForm extends DefaultForm {
       <div>
         <Modal.Body>
           {validations ? validations : undefined}
-          <form className="modal-pickup-form">
-            <fieldset className="input-container marginBot-sm">
-              <label htmlFor="title" className="label label--newline">Title</label>
-              <input type="text" placeholder="Lunch Pickup" className="input"
-                defaultValue={this.state.title} name="title" id="title"
-                onChange={this._handleChange} />
-              {this.state.titleValidation}
-            </fieldset>
+          <fieldset className="input-container marginBot-sm">
+            <label htmlFor="title" className="label label--newline">Title</label>
+            <input type="text" placeholder="Lunch Pickup" className="input"
+              defaultValue={this.state.title} name="title" id="title"
+              onChange={this._handleChange} />
+            {this.state.titleValidation}
+          </fieldset>
 
-            <fieldset className="input-container name-container">
-              <label htmlFor="comments" className="label label--newline">Comments</label>
-              <textarea placeholder={placeholder} defaultValue={this.state.comments}
-                name="comments" rows="6" cols="50" onChange={this._handleChange}
-                id="comments" className="input" />
-              {this.state.commentsValidation}
-            </fieldset>
-          </form>
+          <fieldset className="input-container name-container">
+            <label htmlFor="comments" className="label label--newline">Comments</label>
+            <textarea placeholder={placeholder} defaultValue={this.state.comments}
+              name="comments" rows="6" cols="50" onChange={this._handleChange}
+              id="comments" className="input" />
+            {this.state.commentsValidation}
+          </fieldset>
         </Modal.Body>
         <Modal.Footer>
           <button className="button button--text-alert marginRight-xs pull-left"

@@ -18,6 +18,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  onfleet_id             :string
+#  website_url            :string
 #
 
 FactoryGirl.define do

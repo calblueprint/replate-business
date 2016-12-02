@@ -7,10 +7,4 @@ class BusinessesController < ApplicationController
 
     @business = current_business
   end
-
-  def index
-
-  end
-
-
 end

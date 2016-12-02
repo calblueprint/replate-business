@@ -30,6 +30,7 @@ class LocationCreationForm extends DefaultForm {
     return (
       <div className="new-location-component">
         <button onClick={this.open} type="button" className="button new-location-button">
+          <span className="fa fa-plus marginRight-xxs"></span>
           Add a new location
         </button>
         <Modal show={this.state.showModal} onHide={this.close} className="location-creation-modal">

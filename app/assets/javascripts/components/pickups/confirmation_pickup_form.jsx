@@ -38,6 +38,8 @@ class ConfirmationForm extends DefaultForm {
           </div>
         </Modal.Body>
         <Modal.Footer>
+          <button className="button button--text-alert marginRight-xs pull-left"
+            onClick={this.props.close}>Cancel</button>
           <button name="submit" value="Previous Step"
             className="button button--text-black marginRight-xxs"
             onClick={this._prevStep}>

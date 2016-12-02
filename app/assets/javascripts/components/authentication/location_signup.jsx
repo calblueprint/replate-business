@@ -10,7 +10,6 @@ class LocationSignup extends DefaultForm {
     super(props);
     this.state = {
       business_id: this.props.businessID,
-      photo: false,
       file: DEFAULT_FILE,
     };
   }

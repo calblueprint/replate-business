@@ -7,12 +7,14 @@
 #  frequency  :integer          not null
 #  has_sent   :boolean          default(FALSE)
 #  start_date :datetime         not null
-#  exception  :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  pickup_id  :integer
 #  start_time :string
 #  end_time   :string
+#  cancel     :boolean          default(FALSE), not null
+#  driver_id  :string           default(""), not null
+#  task_id    :string
 #
 
 FactoryGirl.define do

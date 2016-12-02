@@ -1,46 +1,13 @@
 = page_heading "Create Account"
 
-.sign-up-container
-  .title-container
-    img.signup-img src=image_url("logo-color.png")
-    h1.title Business sign up
-  = form_for(resource,
-             as: resource_name,
-             url: registration_path(resource_name)) do |f|
-    = devise_error_messages!
-    .field.input-container
-      = f.label :company_name, :class => "label--newline"
-      = text_field(:business,
-                   :company_name,
-                   :class => "input",
-                   :autofocus => true,
-                   :placeholder => "Your Awesome Company")
-    .field.input-container
-      = react_component "PhoneInput", {  \
-          form_name: 'business[phone]',  \
-          input_id:  'business_phone'    \
-        }
-    .field.input-container
-      = f.label :address, :class => "label--newline"
-      = text_field(:business,
-                   :address,
-                   :class => "input",
-                   :placeholder => "123 Grand Ave. San Francisco, CA 91110")
-    .field.input-container
-      = f.label :email, :class => "label--newline"
-      = f.email_field :email,
-                      :class => "input",
-                      :placeholder => "email@company.com"
-    .field.input-container
-      = f.label :password, :class => "label--newline"
-      = f.password_field :password,
-                         :autocomplete => "off",
-                         :class => "input"
-    .field.input-container
-      = f.label :password_confirmation, :class => "label--newline"
-      = f.password_field :password_confirmation,
-                         :autocomplete => "off",
-                         :class => "input"
-    .actions.marginTop-lg
-      = link_to "Cancel", root_path, :class => "button button--text-black marginRight-sm"
-      = f.submit "Sign up", :class => "button signup-button"
+.container
+  .sign-up-container.row
+    .col-md-6.col-sm-5
+      .title-container
+        img.signup-img src=image_url("logo-color.png")
+        h1.title
+         | Donor Sign Up
+        p
+         | Thank you for your interest in Replate! Your generous donations help reduce food waste and hunger in the community.
+    .col-md-6.col-sm-7
+      = react_component "SignupForm"

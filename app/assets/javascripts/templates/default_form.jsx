@@ -9,6 +9,15 @@ class DefaultForm extends React.Component {
     this.state = { };
   }
 
+  _capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  _formatTitle = (str) => {
+    str = str.split("_").join(" ");
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   _handleChange = (e) => {
     let target = $(e.target);
     this.setState({ [target.attr('name')]: target.val() });
@@ -23,9 +32,9 @@ class DefaultForm extends React.Component {
     Requester.post(route, params, success, reject);
   }
 
-   _toggleEdit = () => {
-        this.setState({ editable : !this.state.editable });
-    }
+  _toggleEdit = () => {
+    this.setState({ editable : !this.state.editable });
+  }
 
   _formFields() {
     // Necessary because bootstrap-select does not fire onChange events

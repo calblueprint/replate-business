@@ -8,6 +8,7 @@
   border: 1px solid $green;
   border-radius: 2px;
   color: $snow;
+  cursor: pointer;
   display: inline-block;
   font-size: 14px;
   font-weight: 700;
@@ -151,6 +152,24 @@
 
   &:hover {
     background: $blue-dark-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.button--text-alert {
+  background: transparent;
+  border-color: transparent;
+  color: $alert;
+  font-weight: 700;
+  opacity: 0.8;
+
+  &:hover {
+    background: $alert-10;
     box-shadow: none;
     opacity: 1;
   }

@@ -1,6 +1,7 @@
 /**
- * @prop initData - saved data associated with the basic portion of the pickup form
- * @prop prevStep - function handler to move back to prev step of pickup creation
+ * @prop initData      - saved data associated with the basic portion of the pickup form
+ * @prop prevStep      - function handler to move back to prev step of pickup creation
+ * @prop attemptCreate - function handler for creating Pickups and Recurrences
  */
 class ConfirmationForm extends DefaultForm {
 
@@ -13,15 +14,6 @@ class ConfirmationForm extends DefaultForm {
     this.props.prevStep();
   }
 
-  _displayFoodType = (name) => {
-    let food_type = { raw: "Raw",
-                      catered: "Catered",
-                      baked_goods: "Baked Goods",
-                      packaged: "Packaged",
-                    };
-    return food_type[name];
-  }
-
   _attemptCreate = (e) => {
     this.props.attemptCreate(this.state);
   }
@@ -29,9 +21,6 @@ class ConfirmationForm extends DefaultForm {
   render() {
     return (
       <div>
-        <Modal.Header closeButton>
-          <h3 className="modal-title">New Pickup</h3>
-        </Modal.Header>
         <Modal.Body>
           <div className="confirmation-container">
             <div className="name-container">
@@ -43,18 +32,23 @@ class ConfirmationForm extends DefaultForm {
               <p>{this.state.caterer}</p>
             </div>
             <div className="name-container">
-              <h3>Food Type</h3>
-              <p>{this._displayFoodType(this.state.food_type)}</p>
-            </div>
-            <div className="name-container">
               <h3>Comments</h3>
               <p>{this.state.comments}</p>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button type="submit" name="submit" value="Next Step" className="submit-button" onClick={this._prevStep}>Back</button>
-          <button type="submit" name="submit" value="Create Pickup" className="submit-button" onClick={this._attemptCreate}>Create Pickup</button>
+          <button className="button button--text-alert marginRight-xs pull-left"
+            onClick={this.props.close}>Cancel</button>
+          <button name="submit" value="Previous Step"
+            className="button button--text-black marginRight-xxs"
+            onClick={this._prevStep}>
+            <span className="fa fa-angle-left marginRight-xxs"></span>
+            Back
+          </button>
+          <button type="submit" name="submit" value="Create Pickup"
+            className="button"
+            onClick={this._attemptCreate}>Create Pickup</button>
         </Modal.Footer>
       </div>
     );

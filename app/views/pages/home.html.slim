@@ -20,7 +20,8 @@ nav.nav.nav-splash
     div.hero-button-container
       button.button.button--white.marginRight-sm.button--lg.learn-more-button
         | Learn More
-      = react_component "HomeLogin", { btnClasses: "button--text-white button--lg" }
+      - if !current_business
+        = react_component "HomeLogin", { btnClasses: "button--text-white button--lg" }
 
 section.splash-video-container.container
   = react_component "HomeVideo", {               \

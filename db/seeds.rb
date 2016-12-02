@@ -5,16 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+$offices = ["Main Office", "NYC Office", "SF Office"]
+NUM_BIZ = 5
 
 def make_businesses
-  1.upto(5) do |n|
+  0.upto(NUM_BIZ) do |n|
     business = Business.create(
       email: "b#{n}@example.com",
       password: "password",
       password_confirmation: "password",
-      address: "1 Hacker Way, Menlo Park, CA",
-      company_name: "Facebook",
-      phone: "626-215-4676",
+      company_name: Faker::Company.name,
+      website_url: Faker::Internet.url,
+      phone: Faker::PhoneNumber.phone_number,
       onfleet_id: "siouhasdfo",
     )
     business.id = n
@@ -23,35 +25,19 @@ def make_businesses
 end
 
 def make_locations
-  1.upto(5) do |n|
+  1.upto(10) do |n|
     location = Location.create(
-      number: "140",
-      street: "New Montgomery Street",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94025",
+      number: Faker::Address.building_number,
+      street: Faker::Address.street_name,
+      city: Faker::Address.city,
+      state: Faker::Address.state,
+      zip: Faker::Address.zip,
       country: "USA",
-      addr_name: "Facebook HQ",
+      addr_name: $offices.sample,
     )
 
     location.id = n
-    location.business = Business.find(n)
-    location.save
-  end
-
-  1.upto(5) do |n|
-    location = Location.create(
-      number: "28",
-      street: "West 25th Street",
-      city: "New York",
-      state: "NY",
-      zip: "10010",
-      country: "USA",
-      addr_name: "NYC Office",
-    )
-
-    location.id = n + 5
-    location.business = Business.find(n)
+    location.business = Business.find(n % NUM_BIZ)
     location.save
   end
 end
@@ -60,9 +46,7 @@ def make_pickups
   1.upto(10) do |n|
     pickup = Pickup.create(
       title: "Lunchtime Pickup",
-      food_type: 0,
-      caterer: "Eat Club",
-      comments: "The gate password is 1234.",
+      comments: Faker::Lorem.sentence,
       location_id: n
     )
 
@@ -74,8 +58,6 @@ def make_pickups
   1.upto(10) do |n|
     pickup = Pickup.create(
       title: "Dinner Pickup",
-      food_type: 2,
-      caterer: "Zesty",
       comments: "If you arrive after 6pm, enter 12345 on the keypad to enter.",
       location_id: n
     )

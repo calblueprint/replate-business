@@ -1,11 +1,24 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  respond_to :json
+
+  def create
+    build_resource(sign_up_params)
+    if resource.save
+      sign_in(resource_name, resource)
+      puts resource
+      render_json_message(:ok, data: resource.id)
+    else
+      render_json_message(:forbidden, errors: resource.errors.full_messages)
+    end
+  end
+
   private
 
   def sign_up_params
     params.require(:business).permit(
     	:company_name,
-    	:address,
+      :website_url,
     	:phone,
     	:email,
     	:password,
@@ -16,7 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
   def account_update_params
     params.require(:business).permit(
     	:company_name,
-    	:address,
+      :website_url,
     	:phone,
     	:email,
     	:password,

@@ -9,14 +9,14 @@ class API::PickupsController < ApplicationController
 	def create
 	    pickup = Pickup.new(pickup_params)
 	    if pickup.save
-	      render_json_message(:ok, message: 'Pickup successfully created!')
+	      render_json_message(:ok, message: pickup)
 	    else
 	      render_json_message(:forbidden, errors: pickup.errors.full_messages)
 	    end
 	end
 
 	def destroy
-   	pickup = Pickup.find(params[:id])
+   		pickup = Pickup.find(params[:id])
 
 		if pickup.destroy
 			render_json_message(:ok, message: 'Pickup successfully deleted!')
@@ -41,8 +41,6 @@ class API::PickupsController < ApplicationController
 	def pickup_params
 	  params.require(:pickup).permit(
 	  	:title,
-	  	:food_type,
-	  	:caterer,
 	  	:comments,
 	  	:location_id
 	  	)

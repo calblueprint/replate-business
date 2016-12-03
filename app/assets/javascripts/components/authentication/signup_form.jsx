@@ -8,6 +8,7 @@ class SignupForm extends DefaultForm {
     super(props);
     this.state = {
       view: 1,
+      loading: false,
     };
   }
 
@@ -24,12 +25,16 @@ class SignupForm extends DefaultForm {
       this._createLocation(id.data)
     };
 
+    this.setState({
+      loading: true,
+    });
+
     this._attemptAction(APIConstants.sessions.signup,
       { business: this.state.business }, success.bind(this));
   }
 
   _saveLocation = (l) => {
-    // After saving the location, create business
+    // After saving the location, callback to create business
     this.setState({ location: l }, this._createBusiness)
   }
 
@@ -46,7 +51,7 @@ class SignupForm extends DefaultForm {
   }
 
   render() {
-    let renderedForm;
+    let renderedForm, loadingContainer;
 
     if (this.state.view == 1) {
       renderedForm = <BusinessSignup save = {this._saveBusiness}/>
@@ -55,8 +60,15 @@ class SignupForm extends DefaultForm {
                                      updatePhoto = {this._setPhotoFile} />
     }
 
+    if (this.state.loading) {
+      loadingContainer = <div className="signup-loading-container">
+        <div className="loading"></div>
+      </div>
+    }
+
     return (
-      <div>
+      <div style={{position: "relative"}}>
+        {loadingContainer}
         {renderedForm}
       </div>
     );

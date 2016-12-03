@@ -77,3 +77,20 @@
 #location-photo-upload {
   display: none;
 }
+
+.signup-loading-container {
+  background: rgba(255, 255, 255, 0.70);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .loading {
+    @include transform(scale(0.7) translateX(-50%) translateY(-50%));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+}
+

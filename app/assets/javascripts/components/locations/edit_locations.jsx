@@ -55,7 +55,7 @@ _showInput = (label, name, data) => {
       <div className = "edit_location_container">
         <h1 className = "edit_location_title"> Location Information </h1>
         <form>
-         { this._showInput("Location name", "location_name", this.state.city) }
+         { this._showInput("Location Name", "location_name", this.state.city) }
          { this._showInput("Number", "number", this.state.number) }
          { this._showInput("Street", "street", this.state.street) }
          { this._showInput("City", "city", this.state.city) }

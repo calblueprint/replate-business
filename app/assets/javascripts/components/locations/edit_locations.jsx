@@ -39,6 +39,7 @@ class EditLocation extends DefaultForm {
           this._formFields(), success, fail);
 }
 
+
 _showInput = (label, name, data) => {
   return (
     <EditableInput label        = { label }

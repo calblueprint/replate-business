@@ -3,8 +3,7 @@
 * @prop location - location object
 * @prop location_id -id of the location
 */
-
-class EditLocation extends DefaultForm{
+class EditLocation extends DefaultForm {
   constructor(prop){
     super(prop);
     this.state = {
@@ -25,17 +24,19 @@ class EditLocation extends DefaultForm{
       zip: this.props.location.zip,
       editable: true
     }
+  }
 
 
   _attemptSave = (e)=> {
-    const success = (msg) =>
-    this.setState({ editable: false });
-  };
-    const fail = (msg) =>
-    this.setState({ editable: true });
-  };
-  Requester.update(APIConstants.location.update(this.props.location.id),
-      this._formFields(), success, fail);
+      const success = (msg) =>
+        this.setState({ editable: false });
+      };
+
+      const fail = (msg) =>
+        this.setState({ editable: true });
+      };
+      Requester.update(APIConstants.location.update(this.props.location.id),
+          this._formFields(), success, fail);
 }
 
 _showInput = (label, name, data) => {
@@ -45,7 +46,7 @@ _showInput = (label, name, data) => {
                    data         = { data }
                    editable     = { this.state.editable }
                    handleChange = { this._handleChange} />
- )
+    );
 }
 
   render() {
@@ -63,14 +64,14 @@ _showInput = (label, name, data) => {
        <FormEditToggle
            editable={ this.state.editable }
            update={ this._toggleEdit }
-           save={ this._attemptSave }
+           save={ this._attemptSave } />
        </form>
     </div>
-  );
+    );
   }
 }
 
-Editing_Location.propTypes = {
-  location: React.propTypes.object.isRequired
-  location_id: React.PropTypes.number.isRequired
+  EditLocation.propTypes = {
+    location: React.propTypes.object.isRequired,
+    location_id: React.PropTypes.number.isRequired,
 }

@@ -72,7 +72,7 @@ class LocationSettings extends React.Component {
         </div>
 
         <div className="location-settings-input-col">
-          Other settings for location go here
+          Edit Location
         </div>
       </div>
     )

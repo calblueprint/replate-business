@@ -28,11 +28,11 @@ class EditLocation extends DefaultForm {
 
 
   _attemptSave = (e)=> {
-      const success = (msg) =>
+      const success = (msg) => {
         this.setState({ editable: false });
       };
 
-      const fail = (msg) =>
+      const fail = (msg) => {
         this.setState({ editable: true });
       };
       Requester.update(APIConstants.location.update(this.props.location.id),

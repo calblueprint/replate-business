@@ -4,26 +4,16 @@
 * @prop location_id -id of the location
 */
 class EditLocation extends DefaultForm {
+
   constructor(prop){
     super(prop);
     this.state = {
-      name: this.props.location.city,
-      number: this.props.location.number,
-      street: this.props.location.street,
-      state: this.props.location.state,
-      country: this.props.location.country,
-      zip: this.props.location.zip,
-      editable: false
+      location: {},
     }
-    this.initialstate = {
-      name: this.props.location.city,
-      number: this.props.location.number,
-      street: this.props.location.street,
-      state: this.props.location.state,
-      country: this.props.location.country,
-      zip: this.props.location.zip,
-      editable: true
-    }
+  }
+
+  componentWillUpdate(data) {
+    this.setState({ location: data.location });
   }
 
 
@@ -38,7 +28,6 @@ class EditLocation extends DefaultForm {
       Requester.update(APIConstants.location.update(this.props.location.id),
           this._formFields(), success, fail);
 }
-
 
 _showInput = (label, name, data) => {
   return (
@@ -55,13 +44,13 @@ _showInput = (label, name, data) => {
       <div className = "edit_location_container">
         <h1 className = "edit_location_title"> Location Information </h1>
         <form>
-         { this._showInput("Location Name", "location_name", this.state.city) }
-         { this._showInput("Number", "number", this.state.number) }
-         { this._showInput("Street", "street", this.state.street) }
-         { this._showInput("City", "city", this.state.city) }
-         { this._showInput("State", "state", this.state.state) }
-         { this._showInput("Zip", "zip", this.state.zip) }
-         { this._showInput("Country", "country", this.state.country) }
+         { this._showInput("Location Name", "location_name", this.state.location.city) }
+         { this._showInput("Number", "number", this.state.location.number) }
+         { this._showInput("Street", "street", this.state.location.street) }
+         { this._showInput("City", "city", this.state.location.city) }
+         { this._showInput("State", "state", this.state.location.state) }
+         { this._showInput("Zip", "zip", this.state.location.zip) }
+         { this._showInput("Country", "country", this.state.location.country) }
        <FormEditToggle
            editable={ this.state.editable }
            update={ this._toggleEdit }

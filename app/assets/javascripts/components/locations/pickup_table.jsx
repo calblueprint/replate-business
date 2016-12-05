@@ -1,8 +1,8 @@
 /**
- + * @prop pickups   - list of saved data associated with the pickup form
- + * @prop pickup_id - id associated with the current pickup
- + * @prop success
- + */
+ * @prop pickups   - list of saved data associated with the pickup form
+ * @prop pickup_id - id associated with the current pickup
+ * @prop success
+  */
 
  class PickupTable extends React.Component {
 
@@ -57,9 +57,9 @@
  };
 
  /**
-  * @prop pickup_id - id associated with the current pickup
-  * @prop pickup  - pickup details
-  */
+ + * @prop pickup_id - id associated with the current pickup
+ + * @prop pickup  - pickup details
+ + */
 
   class Pickup extends React.Component {
 
@@ -82,7 +82,7 @@
 
 
  Pickup.propTypes = {
-   pickup: React.PropTypes.object.isRequired,
+   pickups: React.PropTypes.object.isRequired,
    pickup_id : React.PropTypes.number,
 
  }

@@ -13,41 +13,52 @@ module OnfleetAPI
     t * 1000
   end
 
+  def build_destination(location)
+    {
+      :address => {
+        :name => location.addr_name,
+        :number => location.number,
+        :street => location.street,
+        :apartment => location.apt_number ? location.apt_number : '',
+        :city => location.city,
+        :state => location.state,
+        :country => location.country
+      }
+    }
+  end
+
+  def build_recipients(business)
+    [
+      {
+        :name => business.company_name,
+        :phone => business.phone
+      }
+    ]
+  end
+
+  def build_container(recurrence)
+    {
+      :type => 'WORKER',
+      :worker => recurrence.driver_id
+    }
+  end
+
   def self.build_data(recurrence)
-    l = recurrence.location
-    b = recurrence.business
+    l = build_destination(recurrence.location)
+    b = build_recipients(recurrence.business)
     p = recurrence.pickup
+    c = build_container(recurrence)
     com_after = make_time(recurrence.start_time)
     com_before = make_time(recurrence.end_time)
     task = {
-    :destination => {
-      :address => {
-        :name => l.addr_name,
-        :number => l.number,
-        :street => l.street,
-        :apartment => l.apt_number ? l.apt_number : '',
-        :city => l.city,
-        :state => l.state,
-        :country => l.country
-        # :unparsed => "2333 Channing way, apartment #24, Berkeley, CA, USA"
-      }
-    },
-    :recipients => [
-      {
-        :name => b.company_name,
-        :phone => b.phone
-      }
-    ],
-    :completeAfter => com_after,
-    :completeBefore => com_before,
-    :pickupTask => true,
-    :notes => p.comments,
-    :container => {
-      :type => 'WORKER',
-      # carlos
-      :worker => recurrence.driver_id
+      :completeAfter => com_after,
+      :completeBefore => com_before,
+      :pickupTask => true,
+      :notes => p.comments
     }
-    }
+    task[:container] = c
+    task[:recipients] = b
+    task[:destination] = l
   end
 
   def self.post_task(recurrence)

@@ -29,6 +29,14 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
+  def assign_driver
+    if self.location == "California" or self.location "CA"
+      self.driver_id = "Wxi7dpU3VBVSQoEnG3CgMRjG"
+    else
+      self.driver_id = "fOx8*EM~ESLfxUhdVbDGu5jt"
+    end
+  end
+
   def self.post_batch_task(day)
     recurrences = Recurrence.where(day: day)
     f = []
@@ -50,7 +58,6 @@ class Recurrence < ActiveRecord::Base
       # pausing every .2 to prevent API key lock since sleep is not exact
       sleep 0.2
     end
-    f
   end
 
   def self.get_daily_task

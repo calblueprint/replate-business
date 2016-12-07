@@ -20,10 +20,10 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    this.setState({
-      [day]: { active: !this.state[day].active,
-               input: this.state[day].input }
-    });
+    let newState = React.addons.update(this.state, {
+        [day]: { active: { $set: !this.state[day].active } }
+      });
+    this.setState(newState);
   }
 
   _renderDirections = (days) => {

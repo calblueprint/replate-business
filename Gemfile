@@ -42,6 +42,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'letter_opener'
 end
 
 group :development do
@@ -55,4 +56,3 @@ end
 group :production do
   gem 'rails_12factor'
 end
-

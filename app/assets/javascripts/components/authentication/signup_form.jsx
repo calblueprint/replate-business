@@ -61,7 +61,7 @@ class SignupForm extends DefaultForm {
     }
 
     if (this.state.loading) {
-      loadingContainer = <div className="signup-loading-container">
+      loadingContainer = <div className="loading-container">
         <div className="loading"></div>
       </div>
     }

@@ -32,11 +32,38 @@
   animation: spin 1s infinite linear reverse;
 }
 
+.loading-container {
+  animation: fadeIn 500ms both;
+  background: rgba(255, 255, 255, 0.70);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+
+  .loading {
+    @include transform(scale(0.8) translateX(-50%) translateY(-50%));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotateZ(0deg);
   }
   100% {
     transform: rotateZ(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

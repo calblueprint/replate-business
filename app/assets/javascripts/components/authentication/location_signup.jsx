@@ -89,7 +89,7 @@ class LocationSignup extends DefaultForm {
         { this._renderInputField("country","Country", "text") }
         { this._renderInputField("zip","ZIP", "text") }
 
-        <div className="marginTopBot-xl">
+        <div className="marginTopBot-xl clearfix">
           <button className="button signup-btn-right"
             onClick={this._saveLocationData}>Sign Up</button>
         </div>

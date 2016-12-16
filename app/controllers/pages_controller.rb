@@ -11,9 +11,11 @@ class PagesController < ApplicationController
   end
 
   def terms
-    filename = "#{Rails.root}/public/privacy.md"
+    termsFile = "#{Rails.root}/public/tos.md"
+    privacyFile = "#{Rails.root}/public/privacy.md"
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 
-    @text = markdown.render(File.read(filename)).html_safe
+    @terms = markdown.render(File.read(termsFile)).html_safe
+    @privacy = markdown.render(File.read(privacyFile)).html_safe
   end
 end

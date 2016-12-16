@@ -2,6 +2,29 @@
 
 .container.terms-container
   .col-md-3
+    ul.terms-outline.marginTop-md
+     li.sidebar-link.tos-link.active Terms of Service
+     li.sidebar-link.privacy-link Privacy Policy
+  .col-md-8
+    .text#terms
+      = @terms
+    .text#privacy
+      = @privacy
 
-  .col-md-9
-    = @text
+javascript:
+  $terms = $("#terms");
+  $privacy = $("#privacy");
+
+  $(".tos-link").click(() => {
+    $(".sidebar-link").removeClass("active")
+    $(".tos-link").addClass("active");
+    $privacy.hide();
+    $terms.show();
+  })
+
+  $(".privacy-link").click(() => {
+    $(".sidebar-link").removeClass("active")
+    $(".privacy-link").addClass("active");
+    $privacy.show();
+    $terms.hide();
+  })

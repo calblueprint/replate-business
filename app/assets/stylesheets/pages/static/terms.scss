@@ -2,6 +2,24 @@
   font-size: 16px;
   line-height: 1.6;
 
+  .terms-outline {
+    font-size: 18px;
+
+    li {
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .active {
+      color: $green;
+      font-weight: 700;
+    }
+  }
+
+  #privacy {
+    display: none;
+  }
+
   h1 {
     font-size: 28px;
     font-weight: 700;

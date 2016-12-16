@@ -1,18 +1,28 @@
 .terms-container {
   font-size: 16px;
   line-height: 1.6;
+  margin-bottom: 50px;
 
   .terms-outline {
-    font-size: 18px;
+    font-size: 16px;
+    list-style: none;
 
     li {
       cursor: pointer;
       margin-bottom: 10px;
+
+      &:hover {
+        color: $black-60;
+      }
     }
 
     .active {
       color: $green;
       font-weight: 700;
+
+      &:hover {
+        color: $green;
+      }
     }
   }
 
@@ -46,6 +56,12 @@
 
   ol {
     list-style-position: inside;
+  }
+
+  ul {
+    list-style: initial;
+    margin-bottom: 20px;
+    -webkit-padding-start: 30px;
   }
 
   ol, ul {

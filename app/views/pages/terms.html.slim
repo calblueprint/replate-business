@@ -1,7 +1,7 @@
 = render "partials/static_nav"
 
 .container.terms-container
-  .col-md-3
+  .col-md-2
     ul.terms-outline.marginTop-md
      li.sidebar-link.tos-link.active Terms of Service
      li.sidebar-link.privacy-link Privacy Policy
@@ -10,6 +10,7 @@
       = @terms
     .text#privacy
       = @privacy
+    a href="#" Back to Top
 
 javascript:
   $terms = $("#terms");

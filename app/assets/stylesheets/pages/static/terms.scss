@@ -1,0 +1,38 @@
+.terms-container {
+  font-size: 16px;
+  line-height: 1.6;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: $black-80;
+    margin-bottom: 15px;
+  }
+
+  strong {
+    color: $black;
+    font-weight: 700;
+  }
+
+  ol {
+    list-style-position: inside;
+  }
+
+  ol, ul {
+    ol, ul {
+      padding-left: 20px;
+    }
+  }
+}

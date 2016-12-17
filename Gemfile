@@ -31,6 +31,7 @@ gem 'font-awesome-rails', '4.5.0'
 gem 'jquery-rails', '3.1.4'
 gem 'momentjs-rails'
 gem 'react-bootstrap-rails', '0.30.2'
+gem 'redcarpet', '3.3.4'
 gem 'sass-rails', '5.0.6'
 gem 'slim', '~> 3.0.6'
 gem 'slim-rails', '~> 3.0.1'
@@ -42,6 +43,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'letter_opener'
 end
 
 group :development do
@@ -55,4 +57,3 @@ end
 group :production do
   gem 'rails_12factor'
 end
-

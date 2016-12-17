@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   root 'pages#home'
   get 'business' => 'pages#business'
   get 'styles' => 'pages#style'
+  get 'terms' => 'pages#terms'
+
   get 'dashboard' => 'businesses#home'
 
   resources :admins

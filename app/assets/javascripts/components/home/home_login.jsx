@@ -1,4 +1,4 @@
-var Modal = ReactBootstrap.Modal;
+
 
 /**
  * @prop btnClasses - classes to customize button

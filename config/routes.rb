@@ -35,5 +35,6 @@ Rails.application.routes.draw do
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
+    resources :sessions, :only => [:create]
   end
 end

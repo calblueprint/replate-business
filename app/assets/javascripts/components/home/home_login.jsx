@@ -7,7 +7,7 @@ class HomeLogin extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = { showModal: false };
+    this.state = { showModal: false, hideErrors: true };
   }
 
   _openModal = () => {
@@ -21,6 +21,16 @@ class HomeLogin extends DefaultForm {
   _getToken = () => {
     var token = document.getElementsByName("csrf-token")[0].getAttribute("content");
     return token;
+  }
+
+  _handleLogin = () => {
+    const success = () => {
+      window.location = "/dashboard";
+    }
+    const failure = () => {
+      this.setState({hideErrors: false});
+    }
+    Requester.post(APIConstants.sessions.create, {'email':this.state.email,'password':this.state.password}, success, failure);
   }
 
   render() {
@@ -41,7 +51,7 @@ class HomeLogin extends DefaultForm {
             <Modal.Title>Log In</Modal.Title>
           </Modal.Header>
           <form
-            action="businesses/sign_in" method="post">
+            action="api/sessions" method="post">
             <Modal.Body>
               <div className="input-container marginBot-sm">
                 <label
@@ -51,7 +61,7 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="email-input"
-                  name="business[email]"
+                  name="email"
                   type="email"
                   placeholder="example@email.com"
                   onChange={this._handleChange}
@@ -67,7 +77,7 @@ class HomeLogin extends DefaultForm {
                 <input
                   className="input input--fullwidth"
                   id="password-input"
-                  name="business[password]"
+                  name="password"
                   type="password"
                   onChange={this._handleChange}
                   onKeyDown={this._handleKeydown}
@@ -78,6 +88,9 @@ class HomeLogin extends DefaultForm {
                   value={this._getToken()}
                 />
               </div>
+              <div hidden = {this.state.hideErrors}>
+                There have been errors with your request.
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <button
@@ -85,9 +98,10 @@ class HomeLogin extends DefaultForm {
                 className="button button--text-black"
                 onClick={this._closeModal}
               >Close</button>
-              <input
-                type="submit"
+              <button
+                type="button"
                 className="button marginLeft-sm"
+                onClick={this._handleLogin}
                 value="Log In"
               />
             </Modal.Footer>

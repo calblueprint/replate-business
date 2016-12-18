@@ -1,7 +1,5 @@
 class API::SessionsController < ApplicationController
   def create
-    puts "hello"
-    puts params
     @business = Business.find_by_email(params[:email]) 
     if @business.valid_password? params[:password]
       sign_in(:business, @business) 

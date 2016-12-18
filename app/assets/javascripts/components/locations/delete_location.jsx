@@ -1,11 +1,12 @@
 /**
- * @prop location - ID of the location to delete
- * @prop
+ * @prop location - the location object to delete
  */
 class DeleteLocationModal extends DefaultModal {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
 
   _handleLocationDelete = () => {
@@ -13,10 +14,20 @@ class DeleteLocationModal extends DefaultModal {
       window.location = "/dashboard";
     }
 
+    this.setState({ loading: true, });
     Requester.delete(APIConstants.locations.update(this.props.location.id), success)
   }
 
   render() {
+    let loading;
+
+    if (this.state.loading) {
+      loading =
+        <div className="loading-container">
+          <div className="loading"></div>
+        </div>
+    }
+
     return (
       <div>
         <button className="button button--text-alert" onClick={this.openModal}>
@@ -27,6 +38,7 @@ class DeleteLocationModal extends DefaultModal {
           show={this.state.showModal}
           onHide={this.closeModal}
         >
+          {loading}
           <Modal.Header>
             <Modal.Title>Delete Location</Modal.Title>
           </Modal.Header>
@@ -47,4 +59,8 @@ class DeleteLocationModal extends DefaultModal {
       </div>
     );
   }
+}
+
+DeleteLocationModal.propTypes = {
+  business: React.PropTypes.object,
 }

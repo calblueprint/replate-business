@@ -21,7 +21,7 @@
 #
 
 class Location < ActiveRecord::Base
-  has_many :pickups
+  has_many :pickups, :dependent => :destroy
   belongs_to :business
   has_attached_file :photo
 

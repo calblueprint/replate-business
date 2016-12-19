@@ -2,6 +2,7 @@
 * Location editing
 * @prop location - location object
 * @prop location_id -id of the location
+*@prop edit -
 */
 class EditLocation extends DefaultForm {
 
@@ -25,9 +26,10 @@ class EditLocation extends DefaultForm {
       const fail = (msg) => {
         this.setState({ editable: true });
       };
-      Requester.update(APIConstants.location.update(this.props.location.id),
+      Requester.update(APIConstants.locations.update(this.props.location.id),
           this._formFields(), success, fail);
 }
+
 
 _showInput = (label, name, data) => {
   return (

@@ -72,7 +72,8 @@ class LocationSettings extends React.Component {
         </div>
 
         <div className="location-settings-input-col">
-          Edit Location
+          <h2 className="settings-title">Location Details</h2>
+          <EditLocation location = {this.state.location} />
         </div>
       </div>
     )

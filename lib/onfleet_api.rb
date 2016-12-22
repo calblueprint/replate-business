@@ -7,13 +7,15 @@ module OnfleetAPI
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
   def self.make_time(time)
-    # now = Time.now
-    now = Time.new(2016, 11, 20)
-    t = Time.parse(time, now).to_i
+    # Time for Onfleet is in  milliseconds. Date represents tomorrow
+    # since tasks are being posted to onfleet the night before
+    # they are required to be executed
+    t = Time.new(Time.new.year, Time.new.month, Time.new.day + 1)
+    t = Time.parse(time, t).to_i
     t * 1000
   end
 
-  def build_destination(location)
+  def self.build_destination(location)
     {
       :address => {
         :name => location.addr_name,
@@ -27,7 +29,11 @@ module OnfleetAPI
     }
   end
 
-  def build_recipients(business)
+  def self.test
+    puts "HELLO"
+  end
+
+  def self.build_recipients(business)
     [
       {
         :name => business.company_name,
@@ -36,7 +42,7 @@ module OnfleetAPI
     ]
   end
 
-  def build_container(recurrence)
+  def self.build_container(recurrence)
     {
       :type => 'WORKER',
       :worker => recurrence.driver_id
@@ -44,6 +50,7 @@ module OnfleetAPI
   end
 
   def self.build_data(recurrence)
+    test
     l = build_destination(recurrence.location)
     b = build_recipients(recurrence.business)
     p = recurrence.pickup
@@ -59,6 +66,7 @@ module OnfleetAPI
     task[:container] = c
     task[:recipients] = b
     task[:destination] = l
+    task
   end
 
   def self.post_task(recurrence)
@@ -66,8 +74,16 @@ module OnfleetAPI
     resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
   end
 
+  def self.delete_task(id)
+    resp = HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+  end
+
   def self.get_task(id)
     resp = HTTParty.get("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.get_task_shortid(id)
+    resp = HTTParty.get("#{@url}/shortId/#{id}", :basic_auth => @basic_auth).parsed_response
   end
 end
 

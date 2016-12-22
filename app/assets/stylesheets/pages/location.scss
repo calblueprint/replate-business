@@ -337,3 +337,9 @@
 .no-pickup-label {
   color: $black-60;
 }
+
+.delete-location-modal {
+  .modal-dialog {
+    max-width: 500px;
+  }
+}

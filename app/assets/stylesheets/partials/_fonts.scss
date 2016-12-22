@@ -40,3 +40,7 @@ a,
 .link--no-underline:hover {
   text-decoration: none;
 }
+
+.hover-alert:hover {
+  color: $alert !important;
+}

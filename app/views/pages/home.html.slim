@@ -109,12 +109,14 @@ footer.splash-footer
     h1.footer-title Replate
     ul.footer-links-container
       li.footer-link
-        = link_to root_path, { class: "link link--white link--no-underline" }
+        = link_to root_path, class: "link link--white link--no-underline"
           | Home
       li.footer-link
-        = link_to business_path, { class: "link link--white link--no-underline" }
+        = link_to business_path, class: "link link--white link--no-underline"
           | Businesses
-      li.footer-link: a.link.link--white.link--no-underline href="" Help
+      li.footer-link
+        = link_to terms_path, class: "link link--white link--no-underline"
+          | Terms of Service
 
 javascript:
   $(document).ready(function() {

@@ -6,7 +6,9 @@ class BusinessSignup extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      agreeTOS: false,
+    };
   }
 
   _renderInputField = (name, label, inputType, placeholder) => {
@@ -20,12 +22,31 @@ class BusinessSignup extends DefaultForm {
     )
   }
 
+  _toggleTerms = (e) => {
+    this.setState({
+      agreeTOS: !this.state.agreeTOS,
+    })
+  }
+
   _saveBusinessData = () => {
-    const data = this._formFields();
-    this.props.save(data);
+    if (this.state.agreeTOS) {
+      this.setState({ tosAlert: false, })
+      const data = this._formFields();
+      this.props.save(data);
+    } else {
+      this.setState({ tosAlert: true, })
+    }
   }
 
   render() {
+    let tosAlert;
+    if (this.state.tosAlert) {
+      tosAlert =
+        <p className="validation-msg marginTop-xxs">
+          You must agree to the terms of service!
+        </p>
+    }
+
     return (
       <div>
         <div className="marginTop-xl signup-section-title-num">1</div>
@@ -39,6 +60,15 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("email", "Email", "email", "example@business.com") }
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
+
+        <input type="checkbox" id="tos-agree"
+          className="marginRight-xs marginTop-md"
+          checked={this.state.agreeTOS}
+          onChange={this._toggleTerms}/>
+        <label htmlFor="tos-agree">
+          I agree to the Re-Plate <a href="/terms" target="_blank">Terms of Use and Privacy Policy</a>
+        </label>
+        {tosAlert}
 
         <div className="marginTopBot-xl">
           <button onClick={ () => { window.location = "/" } }

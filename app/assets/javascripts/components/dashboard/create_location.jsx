@@ -7,15 +7,25 @@ class LocationCreationForm extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = { business_id : this.props.business_id }
+    this.state = {
+      business_id : this.props.business_id,
+      loading: false,
+    }
   }
 
   _attemptCreate = (e) => {
+    this.setState({ loading: true, });
+
     const success = (data) => {
       this.props.success();
+      this.setState({ loading: false, });
       this.close();
     }
-    this._attemptAction(APIConstants.locations.create, this.state, success, success);
+
+    // Allow loading animation to persist for 500ms
+    setTimeout(() => {
+      this._attemptAction(APIConstants.locations.create, this.state, success, success);
+    }, 500)
   }
 
   open = (e) => {
@@ -27,6 +37,14 @@ class LocationCreationForm extends DefaultForm {
   }
 
   render() {
+    let loadingContainer;
+
+    if (this.state.loading) {
+      loadingContainer = <div className="loading-container">
+        <div className="loading"></div>
+      </div>
+    }
+
     return (
       <div className="new-location-component">
         <button onClick={this.open} type="button" className="button new-location-button">
@@ -34,6 +52,7 @@ class LocationCreationForm extends DefaultForm {
           Add a new location
         </button>
         <Modal show={this.state.showModal} onHide={this.close} className="location-creation-modal">
+          {loadingContainer}
           <Modal.Header>
             <h3 className="modal-title">Add New Location</h3>
           </Modal.Header>

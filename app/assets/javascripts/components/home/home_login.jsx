@@ -7,7 +7,10 @@ class HomeLogin extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = { showModal: false, hideErrors: true };
+    this.state = {
+      showModal: false, 
+      hideErrors: true 
+    };
   }
 
   _openModal = () => {
@@ -30,7 +33,7 @@ class HomeLogin extends DefaultForm {
     const failure = () => {
       this.setState({hideErrors: false});
     }
-    Requester.post(APIConstants.sessions.create, {'email':this.state.email,'password':this.state.password}, success, failure);
+    Requester.post(APIConstants.sessions.create, this._formFields(), success, failure);
   }
 
   render() {
@@ -50,8 +53,7 @@ class HomeLogin extends DefaultForm {
           <Modal.Header>
             <Modal.Title>Log In</Modal.Title>
           </Modal.Header>
-          <form
-            action="api/sessions" method="post">
+ 
             <Modal.Body>
               <div className="input-container marginBot-sm">
                 <label
@@ -102,10 +104,8 @@ class HomeLogin extends DefaultForm {
                 type="button"
                 className="button marginLeft-sm"
                 onClick={this._handleLogin}
-                value="Log In"
-              />
+              >Log In</button>
             </Modal.Footer>
-          </form>
         </Modal>
       </div>
     );

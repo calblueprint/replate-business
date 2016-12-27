@@ -29,13 +29,13 @@ class Recurrence < ActiveRecord::Base
 
   def same_week(d)
     today = Date.parse(d)
-    date = self.start_date
-    if self.frequency and today <= date
+    start_date = self.start_date
+    if self.frequency and today <= start_date
       return true
     end
     epoch = Date.new(1970,1,1)
-    same_week = today.strftime('%U') == date.strftime('%U')
-    same_year = today.strftime('%Y') == date.strftime('%Y')
+    same_week = today.strftime('%U') == start_date.strftime('%U')
+    same_year = today.strftime('%Y') == start_date.strftime('%Y')
     if not self.frequency and same_week and same_year
       return true
     end

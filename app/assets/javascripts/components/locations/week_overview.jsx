@@ -1,4 +1,7 @@
-
+/**
+ * @prop location_id - id associated with the current location
+ * @prop today       - "today" date string
+ */
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
@@ -90,3 +93,7 @@ class WeekOverview extends React.Component {
   }
 }
 
+WeekOverview.propTypes = {
+  location_id : React.PropTypes.number.isRequired,
+  today       : React.PropTypes.string.isRequired,
+};

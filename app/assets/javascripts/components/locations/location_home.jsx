@@ -117,5 +117,5 @@ class LocationHome extends React.Component {
 
 LocationHome.propTypes = {
   location : React.PropTypes.object.isRequired,
-  pickups  : React.PropTypes.array.isRequired
+  pickups  : React.PropTypes.array.isRequired,
 };

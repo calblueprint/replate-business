@@ -153,5 +153,5 @@ class LocationCreationForm extends DefaultForm {
 
 LocationCreationForm.propTypes = {
   business_id : React.PropTypes.number.isRequired,
-  success     : React.PropTypes.func.isRequired
+  success     : React.PropTypes.func.isRequired,
 };

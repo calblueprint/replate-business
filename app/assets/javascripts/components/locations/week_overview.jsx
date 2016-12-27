@@ -1,5 +1,5 @@
 
-class WeekOverview extends DefaultForm {
+class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

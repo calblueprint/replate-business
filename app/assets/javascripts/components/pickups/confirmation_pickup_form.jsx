@@ -16,7 +16,7 @@ class ConfirmationForm extends DefaultForm {
   }
 
   _attemptCreate = (e) => {
-    this.props.attemptCreate(this.state);
+    this.props.attemptCreate();
   }
 
   _frequencyToWords = (n) => {

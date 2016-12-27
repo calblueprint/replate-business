@@ -1,3 +1,4 @@
+
 var Tabs = ReactBootstrap.Tabs;
 var Tab = ReactBootstrap.Tab;
 
@@ -49,11 +50,20 @@ class LocationHome extends React.Component {
     const success = (data) => {
       this.setState({ location: data });
     }
-    console.log(this.props.location.id)
-    console.log(this.props.location)
-    console.log("HOLA")
     Requester.get(APIConstants.locations.update(
       this.props.location.id), success);
+  }
+
+  _getToday() {
+    let date = new Date();
+    let yyyy = date.getFullYear().toString();
+    let mm = (date.getMonth()+1).toString();
+    let dd  = date.getDate().toString();
+
+    let mmChars = mm.split('');
+    let ddChars = dd.split('');
+
+    return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
   }
 
   render() {
@@ -87,7 +97,8 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview />
+            <WeekOverview location_id = {this.props.location.id}
+                          today = {this._getToday()}/>
             <h2 className="pickup-section-title">All Pickups</h2>
             <LocationPickups pickups = {this.state.location.pickups} />
           </Tab>

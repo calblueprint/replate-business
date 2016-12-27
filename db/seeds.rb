@@ -59,8 +59,6 @@ def make_pickups
   1.upto(10) do |n|
     pickup = Pickup.create(
       title: "Lunchtime Pickup",
-      food_type: 0,
-      caterer: "Eat Club",
       comments: "The gate password is 1234.",
       location_id: n
     )
@@ -73,8 +71,6 @@ def make_pickups
   1.upto(10) do |n|
     pickup = Pickup.create(
       title: "Dinner Pickup",
-      food_type: 2,
-      caterer: "Zesty",
       comments: "If you arrive after 6pm, enter 12345 on the keypad to enter.",
       location_id: n
     )
@@ -94,13 +90,14 @@ end
 def make_recurrences
   pickups = Pickup.all
   pickups.each do |pickup|
-    1.upto(3) do |n|
+    1.upto(10) do |n|
       pickup.recurrences.create(
         day: n,
         frequency: 1,
         start_date: Time.now,
         start_time: randomtime[0],
         end_time: randomtime[1],
+        pickup_id: n,
         #(this is carlos)
         driver_id: 'XQFOAulEVucASO3PVZLGRwrN'
       )

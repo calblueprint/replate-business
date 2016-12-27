@@ -36,8 +36,8 @@ class API::LocationsController < ApplicationController
 
   def this_week
     location = Location.find(params[:id])
-    pickups = location.this_week(:today)
-    render json: @pickups, root: false
+    pickups = location.this_week(params[:today])
+    render json: pickups, root: false
   end
 
   def location_params

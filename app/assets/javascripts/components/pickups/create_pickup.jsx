@@ -20,7 +20,16 @@ class PickupCreationModal extends DefaultForm {
       this.props.success();
       this.close();
       this.setState({
-        pickupId: data.id,
+        pickupId: data.message.id,
+      });
+      let days = DAYSOFWEEK.map((day, i) => {
+        if (this.state.recurrenceForm[day].active) {
+          this.state.recurrenceForm[day].input.pickup_id = this.state.pickupId;
+          this._attemptAction(APIConstants.recurrences.create,
+                              this.state.recurrenceForm[day].input,
+                              recurrenceSuccess,
+                              failure);
+        }
       });
     }
     const recurrenceSuccess = (data) => {
@@ -33,21 +42,11 @@ class PickupCreationModal extends DefaultForm {
 
     const failure = (data) => {}; // do not clear form
 
-    this.state.basicForm = initData;
     this.state.basicForm.location_id = this.state.location_id;
     this._attemptAction(APIConstants.pickups.create,
                         this.state.basicForm,
                         pickupSuccess,
                         failure);
-    let days = DAYSOFWEEK.map((day, i) => {
-        if (this.state.recurrenceForm[day].active) {
-          this.state.recurrenceForm[day].input.request_id = this.state.pickupId;
-          this._attemptAction(APIConstants.recurrences.create,
-                              this.state.recurrenceForm[day].input,
-                              recurrenceSuccess,
-                              failure);
-        }
-      });
   }
 
   open = (e) => {

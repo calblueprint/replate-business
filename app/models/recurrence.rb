@@ -28,17 +28,22 @@ class Recurrence < ActiveRecord::Base
   end
 
   def same_week(d)
-    if self.frequency == 1
-      return True
+    if self.frequency
+      return true
+    end
     today = Date.parse(d)
-    date = Date.parse(self.start_date)
+    date = self.start_date
     epoch = Date.new(1970,1,1)
-    if self.frequency == 0 and today == date
-      return True
+    same_week = today.strftime('%U') == date.strftime('%U')
+    same_year = today.strftime('%Y') == date.strftime('%Y')
+    if not self.frequency and same_week and same_year
+      return true
+    end
     # Write this method in the eventually
     # if self.frequency == 2
     #   ...
-    return False
+    return false
+  end
     
 
   def self.post_batch_task(day)

@@ -47,10 +47,6 @@ class ConfirmationForm extends DefaultForm {
               <p>{this.props.basicData.title}</p>
             </div>
             <div className="name-container">
-              <h3>Caterer</h3>
-              <p>{this.props.basicData.caterer}</p>
-            </div>
-            <div className="name-container">
               <h3>Comments</h3>
               <p>{this.props.basicData.comments}</p>
             </div>

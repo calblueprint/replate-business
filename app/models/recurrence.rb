@@ -27,6 +27,20 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
+  def same_week(d)
+    if self.frequency == 1
+      return True
+    today = Date.parse(d)
+    date = Date.parse(self.start_date)
+    epoch = Date.new(1970,1,1)
+    if self.frequency == 0 and today == date
+      return True
+    # Write this method in the eventually
+    # if self.frequency == 2
+    #   ...
+    return False
+    
+
   def self.post_batch_task(day)
     recurrences = Recurrence.where(day: day)
     f = []

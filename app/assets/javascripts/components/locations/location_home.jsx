@@ -49,6 +49,9 @@ class LocationHome extends React.Component {
     const success = (data) => {
       this.setState({ location: data });
     }
+    console.log(this.props.location.id)
+    console.log(this.props.location)
+    console.log("HOLA")
     Requester.get(APIConstants.locations.update(
       this.props.location.id), success);
   }

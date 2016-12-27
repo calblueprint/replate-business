@@ -29,6 +29,23 @@ class Location < ActiveRecord::Base
     [self.number, self.street, self.city, self.state, self.zip].join(" ")
   end
 
+  def this_week(today)
+  	pickups = {}
+  	self.pickups.each do |p|
+  		p.recurreces.each do |r|
+  			if r.same_week(today)
+  				if pickups[r.day]
+  					pickups[r.day].push(p)
+  					break
+  				else
+  					pickups[r.day] = [p]
+  				end
+  			end
+  		end
+  	end
+  	return pickups
+  end
+
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
 end

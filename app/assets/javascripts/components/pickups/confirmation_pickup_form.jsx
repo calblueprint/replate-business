@@ -75,7 +75,8 @@ class ConfirmationForm extends DefaultForm {
 
 
 ConfirmationForm.propTypes = {
-  initData : React.PropTypes.object.isRequired,
-  prevStep : React.PropTypes.func.isRequired,
-  attemptCreate : React.PropTypes.func.isRequired,
+  basicData          : React.PropTypes.object.isRequired,
+  recurrenceData     : React.PropTypes.object.isRequired,
+  prevStep           : React.PropTypes.func.isRequired,
+  attemptCreate      : React.PropTypes.func.isRequired,
 };

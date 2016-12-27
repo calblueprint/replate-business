@@ -34,6 +34,12 @@ class API::LocationsController < ApplicationController
 		end
 	end
 
+  def this_week
+    location = Location.find(params[:id])
+    pickups = location.this_week(:today)
+    render json: @pickups, root: false
+  end
+
   def location_params
     params.permit(
       :addr_name,

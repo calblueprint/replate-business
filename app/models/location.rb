@@ -22,6 +22,7 @@
 
 class Location < ActiveRecord::Base
   has_many :pickups, :dependent => :destroy
+  has_many :tasks, :dependent => :destroy
   belongs_to :business
   has_attached_file :photo
 
@@ -29,6 +30,13 @@ class Location < ActiveRecord::Base
     [self.number, self.street, self.city, self.state, self.zip].join(" ")
   end
 
+  def line1
+    [self.number, self.street].join(" ")
+  end
+
+  def line2
+    self.apt_number
+  end
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
 end

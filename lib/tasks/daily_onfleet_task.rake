@@ -1,6 +1,17 @@
 namespace :daily_onfleet_task do
-  desc 'Turn recurrences for today into tasks on Onfleet'
+  desc 'Post recurrences as tasks onto onfleet and update existing task statusess'
   task post_task: :environment do
-    Recurrence.post_daily_task
+    # This task is called at 7pm each day from Sunday - Thursday
+    # Time.now.day is int for weekday 0 indexed at sunday.
+    # Our day enum is zero indexed at monday.
+
+    # TODAY: int representing tomorrow's day of week in recurrence enum
+    # TOMORROW: datetime object represending tomorrow' date.
+    today = Time.now.wday
+    tomorrow = Date.today + 1
+
+    failed = OnfleetAPI.post_batch_task(today, tomorrow)
+    ExportFailedRecurrences.new(failed, tomorrow).export
+    OnfleetAPI.get_task_state
   end
 end

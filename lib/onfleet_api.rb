@@ -3,14 +3,12 @@ require 'json'
 require 'httparty'
 
 module OnfleetAPI
-  @url = "https://onfleet.com/api/v2/tasks"
+  @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(time)
-    # Time for Onfleet is in  milliseconds. Date represents tomorrow
-    # since tasks are being posted to onfleet the night before
-    # they are required to be executed
-    t = Time.new(Time.new.year, Time.new.month, Time.new.day + 1)
+  def self.make_time(date, time)
+    # Onfleet takes unix time in milliseconds
+    t = Time.new(date.year, date.month, date.day)
     t = Time.parse(time, t).to_i
     t * 1000
   end
@@ -29,10 +27,6 @@ module OnfleetAPI
     }
   end
 
-  def self.test
-    puts "HELLO"
-  end
-
   def self.build_recipients(business)
     [
       {
@@ -49,14 +43,13 @@ module OnfleetAPI
     }
   end
 
-  def self.build_data(recurrence)
-    test
+  def self.build_data(recurrence, date)
     l = build_destination(recurrence.location)
     b = build_recipients(recurrence.business)
     p = recurrence.pickup
     c = build_container(recurrence)
-    com_after = make_time(recurrence.start_time)
-    com_before = make_time(recurrence.end_time)
+    com_after = make_time(date, recurrence.start_time)
+    com_before = make_time(date, recurrence.end_time)
     task = {
       :completeAfter => com_after,
       :completeBefore => com_before,
@@ -69,21 +62,70 @@ module OnfleetAPI
     task
   end
 
-  def self.post_task(recurrence)
-    data = build_data(recurrence)
-    resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+  def self.post_task(recurrence, date)
+    data = build_data(recurrence, date)
+    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
   end
 
   def self.delete_task(id)
-    resp = HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+    HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
   end
 
   def self.get_task(id)
-    resp = HTTParty.get("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+    HTTParty.get("#{@url}/#{id}",
+                 :basic_auth => @basic_auth).parsed_response
   end
 
   def self.get_task_shortid(id)
-    resp = HTTParty.get("#{@url}/shortId/#{id}", :basic_auth => @basic_auth).parsed_response
+    HTTParty.get("#{@url}/shortId/#{id}",
+                 :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.post_batch_task(day, tomorrow)
+    # Tasks are posted the night before they are due to happen
+
+    recurrences = Recurrence.where(day: day)
+    failed = []
+    recurrences.each do |r|
+      if r.cancel || r.startdate > tomorrow + 1
+        r.update(cancel: false)
+        next
+      end
+      result = post_single_task(r, tomorrow)
+      if result.key?('message')
+        failed << {:recurrence => r, :message => result['message']}
+      end
+      # Throttling requires max 10 requests per second
+      sleep 0.1
+    end
+    failed
+  end
+
+  def self.post_single_task(recurrence, date)
+    resp = post_task(recurrence, date)
+    if resp.key?('id')
+      recurrence.create_task('assigned', date, resp['id'])
+      recurrence.update(onfleet_id: resp['id'])
+    else
+      recurrence.create_task('failed', date)
+    end
+    resp
+  end
+
+  def self.update_single_task(task)
+    if task.onfleet_id
+      resp = get_task(task.onfleet_id)
+      state = resp['state'].to_i
+      task.update(status: state)
+    end
+  end
+
+  def self.update_batch_task
+    # tasks where status is not complete, failed, or cancelled
+    tasks = Task.where.not('status= 3 OR status= 4 OR status= 5')
+    tasks.each do |t|
+      update_single_task(t)
+    end
   end
 end
 

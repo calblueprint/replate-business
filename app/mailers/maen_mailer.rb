@@ -1,9 +1,8 @@
 class MaenMailer < ApplicationMailer
-  def failed_daily_task(tasks)
-    recipients  "maen@re-plate.org"
-    from        "Daily Task Bot <bot@replate.com>"
-    subject     "Daily failures"
-    sent_on     Time.now
-    body        {:tasks => tasks}
+  def export_failed_tasks(task_csv, date)
+    @date = date
+
+    attachments["failure.csv"] = task_csv
+    mail(to: "maen@re-plate.org", subject: 'failed pickup requests')
   end
 end

@@ -44,6 +44,13 @@ class WeekOverview extends React.Component {
     });
   }
 
+  _getWeekHeader = () => {
+    let now = moment()
+    let monday = now.startOf('week').add(1, 'day').format('MMM D');
+    let friday = now.endOf('week').subtract(1, 'day').format('MMM D');
+    return monday + ' - ' + friday;
+  }
+
   _generateSchedule = () => {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
@@ -82,7 +89,7 @@ class WeekOverview extends React.Component {
       <div className="week-overview-container">
         <div className="week-overview-title">
           <h2 className="title">This Week's Schedule</h2>
-          <h3 className="day-range">Nov 11-18</h3>
+          <h3 className="day-range">{this._getWeekHeader()}</h3>
         </div>
 
         <div className="week-container">

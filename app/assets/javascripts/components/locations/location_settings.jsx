@@ -1,7 +1,7 @@
 /**
  * Component to render requests for a location
  * @prop location      - location object to update
- * @prop fetchLocation - callback function to retrieve location
+ * @prop fetchUpdates - callback function to retrieve updates
  */
 class LocationSettings extends React.Component {
 
@@ -35,7 +35,7 @@ class LocationSettings extends React.Component {
     e.preventDefault();
 
     const success = (data) => {
-      this.props.fetchLocation();
+      this.props.fetchUpdates();
 
       this.setState({
         location: data,
@@ -81,5 +81,5 @@ class LocationSettings extends React.Component {
 
 LocationSettings.propTypes = {
   location      : React.PropTypes.object.isRequired,
-  fetchLocation : React.PropTypes.func.isRequired,
+  fetchUpdates : React.PropTypes.func.isRequired,
 }

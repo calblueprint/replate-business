@@ -29,11 +29,12 @@ class LocationHome extends React.Component {
       location: {},
       activeTab: active,
       tabMapping: tabMapping,
+      schedule: {},
     };
   }
 
   componentDidMount() {
-    this._fetchLocation();
+    this._fetchUpdates();
   }
 
   _onTabChange = (eventKey) => {
@@ -46,12 +47,19 @@ class LocationHome extends React.Component {
     return `${loc.number} ${loc.street} ${loc.city}, ${loc.state} ${loc.zip}`;
   }
 
-  _fetchLocation = () => {
-    const success = (data) => {
+  _fetchUpdates = () => {
+    const loadSchedule = (schedule) => {
+      this.setState({schedule: schedule});
+      console.log("updated schedule");
+    }
+    Requester.get(APIConstants.locations.week(this.props.location.id, this._getToday()),
+                  loadSchedule);
+    const loadLocations = (data) => {
       this.setState({ location: data });
+      console.log("update locations")
     }
     Requester.get(APIConstants.locations.update(
-      this.props.location.id), success);
+      this.props.location.id), loadLocations);
   }
 
   _getToday() {
@@ -67,6 +75,8 @@ class LocationHome extends React.Component {
   }
 
   render() {
+    console.log("rendering home page")
+    console.log(this.state.schedule)
 
     return (
       <div>
@@ -86,7 +96,7 @@ class LocationHome extends React.Component {
               <button className="button button--outline feedback-btn">Leave Feedback</button>
               <PickupCreationModal
                   location_id = {this.props.location.id}
-                  success     = {this._fetchLocation} />
+                  success     = {this._fetchUpdates} />
             </div>
           </div>
         </div>
@@ -97,8 +107,8 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview location_id = {this.props.location.id}
-                          today = {this._getToday()}/>
+            <WeekOverview today = {this._getToday()}
+                          schedule = {this.state.schedule}/>
             <h2 className="pickup-section-title">All Pickups</h2>
             <LocationPickups pickups = {this.state.location.pickups} />
           </Tab>
@@ -107,7 +117,7 @@ class LocationHome extends React.Component {
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
-                              fetchLocation = {this._fetchLocation} />
+                              fetchUpdates = {this._fetchUpdates} />
           </Tab>
         </Tabs>
       </div>

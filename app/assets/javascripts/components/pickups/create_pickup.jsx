@@ -17,7 +17,6 @@ class PickupCreationModal extends DefaultForm {
 
   _attemptCreate = (initData) => {
     const pickupSuccess = (data) => {
-      this.props.success();
       this.close();
       this.setState({
         pickupId: data.message.id,
@@ -33,6 +32,7 @@ class PickupCreationModal extends DefaultForm {
       });
     }
     const recurrenceSuccess = (data) => {
+      this.props.success();
       this.setState({
         basicForm: {},
         recurrenceForm: {},

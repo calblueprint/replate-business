@@ -1,17 +1,10 @@
 /**
- * @prop location_id - id associated with the current location
- * @prop today       - "today" date string
+ * @prop schedule - weekly schedule data
+ * @prop today    - "today" date string
  */
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      today: new Date().getDay(),
-      schedule: {},
-    };
-
-    Requester.get(APIConstants.locations.week(this.props.location_id, this.props.today),
-                  this._loadSchedule);
   }
 
   _generatePickupItems = (pickupList, pickupListDay) => {
@@ -19,7 +12,7 @@ class WeekOverview extends React.Component {
       let pickup = data[0];
       let recurrence = data[1];
       const timeString = `${recurrence.start_time}-${recurrence.end_time}`;
-      const isPastEvent = pickupListDay < this.state.today;
+      const isPastEvent = pickupListDay < this.props.today;
       let cancelButton;
 
       if (!isPastEvent) {
@@ -37,13 +30,6 @@ class WeekOverview extends React.Component {
     })
   }
 
-  _loadSchedule = (schedule)=> {
-    this.setState({
-      today: new Date().getDay(),
-      schedule: schedule
-    });
-  }
-
   _getWeekHeader = () => {
     let now = moment()
     let monday = now.startOf('week').add(1, 'day').format('MMM D');
@@ -56,12 +42,12 @@ class WeekOverview extends React.Component {
 
     return days.map((day, index) => {
       const dayNum = index + 1;
-      const isCurrentDay = (dayNum == this.state.today);
+      const isCurrentDay = (dayNum == this.props.today);
       const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
       let columnContents;
 
-      if (this.state.schedule[day]) {
-        columnContents = this._generatePickupItems(this.state.schedule[day], dayNum);
+      if (this.props.schedule[day]) {
+        columnContents = this._generatePickupItems(this.props.schedule[day], dayNum);
       } else {
         columnContents = (
           <div className="pickup-item">
@@ -84,6 +70,8 @@ class WeekOverview extends React.Component {
 
   render() {
     let week = this._generateSchedule();
+    console.log("rerendering schedule")
+    console.log(this.props.schedule)
 
     return (
       <div className="week-overview-container">
@@ -101,6 +89,5 @@ class WeekOverview extends React.Component {
 }
 
 WeekOverview.propTypes = {
-  location_id : React.PropTypes.number.isRequired,
-  today       : React.PropTypes.string.isRequired,
+  today    : React.PropTypes.string.isRequired,
 };

@@ -31,15 +31,14 @@ class Location < ActiveRecord::Base
 
   def this_week(today)
   	pickups = {}
-  	self.pickups.each do |p|
-  		p.recurrences.each do |r|
+  	self.pickups.each do |pickup|
+  		pickup.recurrences.each do |r|
   			if r.same_week(today)
   				if pickups[r.day]
-  					pickups[r.day].push([p, r])
+  					pickups[r.day].push([pickup, r])
   				else
-  					pickups[r.day] = [[p,r]]
+  					pickups[r.day] = [[pickup,r]]
   				end
-  				break
   			end
   		end
   	end

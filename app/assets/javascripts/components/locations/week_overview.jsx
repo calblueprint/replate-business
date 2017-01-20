@@ -70,8 +70,6 @@ class WeekOverview extends React.Component {
 
   render() {
     let week = this._generateSchedule();
-    console.log("rerendering schedule")
-    console.log(this.props.schedule)
 
     return (
       <div className="week-overview-container">

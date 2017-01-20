@@ -50,13 +50,11 @@ class LocationHome extends React.Component {
   _fetchUpdates = () => {
     const loadSchedule = (schedule) => {
       this.setState({schedule: schedule});
-      console.log("updated schedule");
     }
     Requester.get(APIConstants.locations.week(this.props.location.id, this._getToday()),
                   loadSchedule);
     const loadLocations = (data) => {
       this.setState({ location: data });
-      console.log("update locations")
     }
     Requester.get(APIConstants.locations.update(
       this.props.location.id), loadLocations);
@@ -75,8 +73,6 @@ class LocationHome extends React.Component {
   }
 
   render() {
-    console.log("rendering home page")
-    console.log(this.state.schedule)
 
     return (
       <div>

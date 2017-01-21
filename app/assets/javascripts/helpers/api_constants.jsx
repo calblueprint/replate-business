@@ -9,7 +9,7 @@ class ApiConstants {
   get locations() {
     return {
       update : (id) => `/api/locations/${id}`,
-      create : `/api/locations`
+      create : `/api/locations`,
     }
   }
 

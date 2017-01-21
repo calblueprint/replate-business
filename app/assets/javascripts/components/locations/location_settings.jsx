@@ -1,7 +1,7 @@
 /**
  * Component to render requests for a location
  * @prop location      - location object to update
- * @prop fetchUpdates - callback function to retrieve updates
+ * @prop fetchUpdates  - callback function to retrieve updates
  */
 class LocationSettings extends React.Component {
 
@@ -81,5 +81,5 @@ class LocationSettings extends React.Component {
 
 LocationSettings.propTypes = {
   location      : React.PropTypes.object.isRequired,
-  fetchUpdates : React.PropTypes.func.isRequired,
+  fetchUpdates  : React.PropTypes.func.isRequired,
 }

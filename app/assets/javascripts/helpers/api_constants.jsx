@@ -9,7 +9,7 @@ class ApiConstants {
     return {
       update : (id) => `/api/locations/${id}`,
       create : `/api/locations`,
-      week : (id, today) => `/api/locations/${id}/week/${today}`
+      week   : (id, today) => `/api/locations/${id}/week/${today}`
     }
   }
 

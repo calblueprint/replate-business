@@ -30,7 +30,7 @@ class ConfirmationForm extends DefaultForm {
   render() {
     let recurrences = DAYSOFWEEK.map((day, i) => {
         if (this.props.recurrenceData[day].active) {
-          return <div className="name-container">
+          return <div className="name-container" key={i}>
                 <h3>{this._capitalize(day)}</h3>
                 <p>{this.props.recurrenceData[day].input.start_time}</p>
                 <p>{this.props.recurrenceData[day].input.start_date_display}</p>

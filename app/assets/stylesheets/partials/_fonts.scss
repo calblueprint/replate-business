@@ -41,6 +41,10 @@ a,
   text-decoration: none;
 }
 
+.alert-text {
+  color: $alert;
+
 .hover-alert:hover {
   color: $alert !important;
+
 }

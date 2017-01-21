@@ -2,6 +2,7 @@ class ApiConstants {
   get sessions() {
     return {
       signup : `/signup`,
+      create : `/api/sessions`
     }
   }
 

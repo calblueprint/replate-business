@@ -159,11 +159,8 @@ class RecurrenceForm extends DefaultForm {
           </div>
         </Modal.Body>
         <Modal.Footer>
-<<<<<<< HEAD:app/assets/javascripts/components/pickups/recurrence_pickup_form.jsx
-=======
           <button className="button button--text-alert marginRight-xs pull-left"
             onClick={this.props.close}>Cancel</button>
->>>>>>> master:app/assets/javascripts/components/pickups/recurrence_pickup_form.jsx
           <button type="submit" name="submit" value="Prev Step"
             className="button button--text-black marginRight-xxs"
             onClick={this._prevStep}>

@@ -32,12 +32,18 @@ class Recurrence < ActiveRecord::Base
   def same_week(d)
     today = Date.parse(d)
     start_date = self.start_date.to_date
-    if self.frequency === 1 and today >= start_date and today.wday <= Recurrence.days[self.day]
-      return true
-    end
     epoch = Date.new(1970,1,1)
     same_week = today.strftime('%U') == start_date.strftime('%U')
     same_year = today.strftime('%Y') == start_date.strftime('%Y')
+
+    if self.frequency === 1
+      if same_week
+        return today.wday <= Recurrence.days[self.day]
+      elsif today >= start_date
+        return true
+      end
+    end
+
     if self.frequency === 0 and same_week and same_year
       return true
     end

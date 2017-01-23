@@ -10,6 +10,6 @@ nav.nav.dashboard-nav
             span.caret
           ul.dropdown-menu role="menu"
             li.dropdown-item = link_to "Company Profile", edit_business_registration_path, method: :get
-            li.dropdown-item: a Help
+            li.dropdown-item = link_to "Terms and Conditions", terms_path
             li.divider role="separator"
-            li.dropdown-item = link_to "Sign Out", destroy_business_session_path, method: :delete
+            li.dropdown-item = link_to "Sign Out", destroy_business_session_path, class: "hover-alert", method: :delete

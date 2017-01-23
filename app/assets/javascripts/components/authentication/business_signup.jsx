@@ -6,7 +6,9 @@ class BusinessSignup extends DefaultForm {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      agreeTOS: false,
+    };
   }
 
   _renderInputField = (name, label, inputType, placeholder) => {
@@ -20,18 +22,38 @@ class BusinessSignup extends DefaultForm {
     )
   }
 
+  _toggleTerms = (e) => {
+    this.setState({
+      agreeTOS: !this.state.agreeTOS,
+    })
+  }
+
   _saveBusinessData = () => {
-    const data = this._formFields();
-    this.props.save(data);
+    if (this.state.agreeTOS) {
+      this.setState({ tosAlert: false, })
+      const data = this._formFields();
+      this.props.save(data);
+    } else {
+      this.setState({ tosAlert: true, })
+    }
   }
 
   render() {
+    let tosAlert;
+    if (this.state.tosAlert) {
+      tosAlert =
+        <p className="validation-msg marginTop-xxs">
+          You must agree to the terms of service!
+        </p>
+    }
+
     return (
       <div>
         <div className="marginTop-xl signup-section-title-num">1</div>
         <h2 className="signup-section-title">Basic Information</h2>
         <p className="marginBot-lg">We'll need to collect some basic information about your business.</p>
         { this._renderInputField("company_name", "Company Name", "text", "Your Awesome Company") }
+        { this._renderInputField("website_url", "Company Website", "url", "http://company.com") }
         <PhoneInput form_name = "phone"
                     input_id  = "phone"
                     change    = { this._handleChange } />
@@ -39,10 +61,19 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
 
+        <input type="checkbox" id="tos-agree"
+          className="marginRight-xs marginTop-md"
+          checked={this.state.agreeTOS}
+          onChange={this._toggleTerms}/>
+        <label htmlFor="tos-agree">
+          I agree to the Re-Plate <a href="/terms" target="_blank">Terms of Use and Privacy Policy</a>
+        </label>
+        {tosAlert}
+
         <div className="marginTopBot-xl">
           <button onClick={ () => { window.location = "/" } }
-            className="button button--text-black marginRight-xs">Cancel</button>
-          <button className="button button--outline signup-btn-right"
+            className="button button--text-alert marginRight-xs">Cancel</button>
+          <button className="button signup-btn-right"
             onClick={this._saveBusinessData}>
               Continue
               <span className="fa fa-angle-right marginLeft-xxs"></span>

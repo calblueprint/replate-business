@@ -18,6 +18,7 @@ class RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:business).permit(
     	:company_name,
+      :website_url,
     	:phone,
     	:email,
     	:password,
@@ -28,6 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
   def account_update_params
     params.require(:business).permit(
     	:company_name,
+      :website_url,
     	:phone,
     	:email,
     	:password,

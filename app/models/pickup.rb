@@ -12,5 +12,5 @@
 
 class Pickup < ActiveRecord::Base
   belongs_to :location
-  has_many :recurrences
+  has_many :recurrences, :dependent => :destroy
 end

@@ -5,15 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+$offices = ["Main Office", "NYC Office", "SF Office"]
+NUM_BIZ = 5
 
 def make_businesses
-  1.upto(5) do |n|
+  0.upto(NUM_BIZ) do |n|
     business = Business.create(
       email: "b#{n}@example.com",
       password: "password",
       password_confirmation: "password",
-      company_name: "Facebook",
-      phone: "626-215-4676",
+      company_name: Faker::Company.name,
+      website_url: Faker::Internet.url,
+      phone: Faker::PhoneNumber.phone_number,
       onfleet_id: "siouhasdfo",
     )
     business.id = n
@@ -22,15 +25,15 @@ def make_businesses
 end
 
 def make_locations
-  1.upto(5) do |n|
+  1.upto(10) do |n|
     location = Location.create(
-      number: "140",
-      street: "New Montgomery Street",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94025",
+      number: Faker::Address.building_number,
+      street: Faker::Address.street_name,
+      city: Faker::Address.city,
+      state: Faker::Address.state,
+      zip: Faker::Address.zip,
       country: "USA",
-      addr_name: "Facebook HQ",
+      addr_name: $offices.sample,
     )
 
     location.id = n
@@ -58,7 +61,7 @@ def make_pickups
   1.upto(10) do |n|
     pickup = Pickup.create(
       title: "Lunchtime Pickup",
-      comments: "The gate password is 1234.",
+      comments: Faker::Lorem.sentence,
       location_id: n
     )
 

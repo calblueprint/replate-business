@@ -62,6 +62,14 @@
   opacity: 0.95
 }
 
+.button--alert {
+  background: $alert;
+  border-color: $alert;
+  color: $snow;
+  font-weight: 700;
+  opacity: 0.95
+}
+
 .button--outline {
   background: transparent;
   border-color: $green-60;
@@ -152,6 +160,24 @@
 
   &:hover {
     background: $blue-dark-10;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.button--text-alert {
+  background: transparent;
+  border-color: transparent;
+  color: $alert;
+  font-weight: 700;
+  opacity: 0.8;
+
+  &:hover {
+    background: $alert-10;
     box-shadow: none;
     opacity: 1;
   }

@@ -11,9 +11,11 @@
 }
 
 .edit-profile-container {
-  max-width: 600px;
+  border: 1px solid $gray;
+  border-radius: 3px;
+  max-width: 650px;
   margin: 40px auto 0;
-  padding: 30px;
+  padding: 40px;
 
   .input-container input {
     width: 100%;

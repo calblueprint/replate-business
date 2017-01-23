@@ -84,7 +84,8 @@ class PickupCreationModal extends DefaultForm {
         return <RecurrenceForm
                   initData = {this.state.recurrenceForm}
                   nextStep = {this._nextStep}
-                  prevStep = {this._prevStep} />
+                  prevStep = {this._prevStep}
+                  close    = {this.close} />
       case 3:
         return <ConfirmationForm
                   basicData      = {this.state.basicForm}

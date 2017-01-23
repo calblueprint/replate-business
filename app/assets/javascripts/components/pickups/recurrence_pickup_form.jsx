@@ -2,6 +2,7 @@
  * @prop initData  - saved data associated with the recurrence portion of the pickup form
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
+ * @prop cancel    - callback to close modal
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class RecurrenceForm extends DefaultForm {
@@ -33,7 +34,7 @@ class RecurrenceForm extends DefaultForm {
     }
 
     if (showDirections) {
-      return <p>Choose all the days that you'd like this pickup to occur</p>
+      return <p style={{textAlign: 'center'}}>Choose all the days that you'd like this pickup to occur!</p>
     }
   }
 
@@ -158,6 +159,11 @@ class RecurrenceForm extends DefaultForm {
           </div>
         </Modal.Body>
         <Modal.Footer>
+<<<<<<< HEAD:app/assets/javascripts/components/pickups/recurrence_pickup_form.jsx
+=======
+          <button className="button button--text-alert marginRight-xs pull-left"
+            onClick={this.props.close}>Cancel</button>
+>>>>>>> master:app/assets/javascripts/components/pickups/recurrence_pickup_form.jsx
           <button type="submit" name="submit" value="Prev Step"
             className="button button--text-black marginRight-xxs"
             onClick={this._prevStep}>

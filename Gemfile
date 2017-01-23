@@ -9,6 +9,7 @@ gem 'httparty'
 gem 'cancancan', '1.15.0'
 gem 'active_model_serializers', '0.9.4'
 gem 'devise', '3.5.2'
+gem 'faker', '1.6.6'
 gem 'figaro', '1.1.1'
 gem 'has_scope', '0.6.0'
 gem 'jbuilder', '~> 2.0'
@@ -30,6 +31,7 @@ gem 'font-awesome-rails', '4.5.0'
 gem 'jquery-rails', '3.1.4'
 gem 'momentjs-rails'
 gem 'react-bootstrap-rails', '0.30.2'
+gem 'redcarpet', '3.3.4'
 gem 'sass-rails', '5.0.6'
 gem 'slim', '~> 3.0.6'
 gem 'slim-rails', '~> 3.0.1'
@@ -41,6 +43,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'letter_opener'
 end
 
 group :development do
@@ -51,3 +54,6 @@ group :development do
   gem 'spring'
 end
 
+group :production do
+  gem 'rails_12factor'
+end

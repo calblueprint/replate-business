@@ -94,6 +94,57 @@
   white-space: nowrap;
 }
 
+.location-page-header {
+  background: $body-gray;
+  padding-top: 50px;
+  padding-bottom: 40px;
+
+  .container {
+    display: flex;
+  }
+
+  .image {
+    width: 170px;
+    height: 110px;
+    margin-right: 30px;
+    border-radius: 3px;
+  }
+
+  .name {
+    align-self: flex-end;
+    margin-bottom: 10px;
+  }
+}
+
+.location-page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.location-page-addr {
+  color: $black-60;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.location-page-buttons {
+  margin-left: auto;
+  padding-top: 40px;
+  align-items: flex-end;
+  display: flex;
+  flex-flow: column;
+}
+
+.feedback-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.location-page-tabs .nav-tabs {
+  background: $body-gray;
+}
+
 @media (max-width: 991px) {
   .location-item-col {
     width: 33.33%;

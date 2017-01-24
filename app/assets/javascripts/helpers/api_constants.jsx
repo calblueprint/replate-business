@@ -2,6 +2,7 @@ class ApiConstants {
   get sessions() {
     return {
       signup : `/signup`,
+      create : `/api/sessions`
     }
   }
 
@@ -9,6 +10,7 @@ class ApiConstants {
     return {
       update : (id) => `/api/locations/${id}`,
       create : `/api/locations`,
+      week   : (id, today) => `/api/locations/${id}/week/${today}`
     }
   }
 

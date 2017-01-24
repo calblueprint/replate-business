@@ -62,7 +62,7 @@ class RecurrenceDayInput extends DefaultForm {
         <span key={i} className="pickup-radio-item marginRight-xs">
           <input type="radio" name={name} value={title} id={id}
             onChange={_onClickFunction.bind(this)}
-            checked={title == freqToTitle[this.state.frequency] ? true : undefined}/>
+            checked={title == freqToTitle[this.state.frequency] ? "checked" : undefined}/>
           <label htmlFor={id}>{title}</label>
         </span>
       )

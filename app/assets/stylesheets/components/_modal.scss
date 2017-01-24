@@ -59,7 +59,11 @@
   text-align: right;
 }
 
-
+#map{
+  height:200px;
+  width:200px;
+  position:relative;
+}
 .splash-video-modal {
   opacity: 0;
   transition: 400ms;

@@ -36,15 +36,21 @@ class LocationCreationForm extends DefaultForm {
   initMap = (e) => {
         
         var locationForm = this;
-        if (!this.mapDiv) {
+        console.log(e);
+        console.log(this.state.showModal);
+        if (document.getElementById('map').innerHTML||!e) {  
           return;
         }
         var map = new google.maps.Map(this.mapDiv, {
-          center: {lat: -34.397, lng: 150.644},
-          scrollwheel: false,
+          center: {lat:37.791569, lng:-122.389938},
           zoom: 8
         });
-        google.maps.event.trigger(map, 'resize');       
+        var marker = new google.maps.Marker({
+          position: {lat:37.791569, lng:-122.389938},
+          map: map
+        });
+
+        //google.maps.event.trigger(map, 'resize');       
         var autocomplete = new google.maps.places.Autocomplete(this.locationInput);       
         autocomplete.bindTo('bounds', map);
         autocomplete.addListener('place_changed', function() {
@@ -55,6 +61,8 @@ class LocationCreationForm extends DefaultForm {
             map.setCenter(place.geometry.location);
             map.setZoom(17);
           }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
           for (var i = 0; i < place.address_components.length; i++) {
             if (place.address_components[i].types.includes('street_number')) {
               locationForm.setState({ number:place.address_components[i].long_name });
@@ -82,6 +90,7 @@ class LocationCreationForm extends DefaultForm {
 
   close = (e) => {
     this.setState({ showModal: false });
+    document.getElementById('map').innerHTML = '';
   }
 
   render() {
@@ -111,7 +120,7 @@ class LocationCreationForm extends DefaultForm {
             <input ref={(input) => { this.locationInput = input}}>
 
             </input>
-            <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap();}}>
+            <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
               
             </div>
           </Modal.Body>

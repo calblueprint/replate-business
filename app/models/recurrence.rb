@@ -34,6 +34,53 @@ class Recurrence < ActiveRecord::Base
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
       self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
+
+  def same_week(d)
+    today = Date.parse(d)
+    start_date = self.start_date.to_date
+    epoch = Date.new(1970,1,1)
+    same_week = today.strftime('%U') == start_date.strftime('%U')
+    same_year = today.strftime('%Y') == start_date.strftime('%Y')
+
+    if self.frequency === 1
+      if same_week
+        return today.wday <= Recurrence.days[self.day]
+      elsif today >= start_date
+        return true
+      end
+    end
+
+    if self.frequency === 0 and same_week and same_year
+      return true
+    end
+    # Write this method in the eventually
+    # if self.frequency == 2
+    #   ...
+    return false
+  end
+
+
+  def self.post_batch_task(day)
+    recurrences = Recurrence.where(day: day)
+    f = []
+    recurrences.each do |r|
+      r.update(task_id: nil)
+      if r.cancel
+        r.update(cancel: false)
+        next
+      else
+        resp = OnfleetAPI.post_task(r)
+      end
+      if resp.key?('id')
+        task_id = resp["id"]
+        r.update(task_id: task_id)
+      else
+        f << {:failed => r.id, :message => resp["message"]}
+      end
+      # Throttling requires max 10 requests per second
+      # pausing every .2 to prevent API key lock since sleep is not exact
+      sleep 0.2
+>>>>>>> 70121e53cc1fc80de5520ddd8ea28bd72fba102f
     end
   end
 

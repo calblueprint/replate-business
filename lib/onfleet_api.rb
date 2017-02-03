@@ -106,8 +106,6 @@ module OnfleetAPI
     if resp.key?('id')
       recurrence.create_task('assigned', date, resp['id'])
       recurrence.update(onfleet_id: resp['id'])
-    else
-      recurrence.create_task('failed', date)
     end
     resp
   end

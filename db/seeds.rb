@@ -37,7 +37,22 @@ def make_locations
     )
 
     location.id = n
-    location.business = Business.find(n % NUM_BIZ)
+    location.business = Business.find(n)
+    location.save
+  end
+
+  1.upto(5) do |n|
+    location = Location.create(
+      number: "28",
+      street: "West 25th Street",
+      city: "New York",
+      state: "NY",
+      zip: "10010",
+      country: "USA",
+      addr_name: "NYC Office",
+    )
+    location.id = n + 5
+    location.business = Business.find(n)
     location.save
   end
 end
@@ -77,13 +92,14 @@ end
 def make_recurrences
   pickups = Pickup.all
   pickups.each do |pickup|
-    1.upto(3) do |n|
+    1.upto(4) do |n|
       pickup.recurrences.create(
         day: n,
         frequency: 1,
         start_date: Time.now,
         start_time: randomtime[0],
         end_time: randomtime[1],
+        pickup_id: pickup.id,
         #(this is carlos)
         driver_id: 'XQFOAulEVucASO3PVZLGRwrN'
       )

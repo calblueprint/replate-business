@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :businesses, :controllers => { registrations: 'registrations' }
-
+  devise_for :businesses, :controllers => { registrations: 'registrations', sessions: 'sessions' }
+  
   devise_scope :business do
     get '/businesses/sign_out', to: 'devise/sessions#destroy'
     post '/businesses', to: 'devise/sessions#new'
@@ -35,5 +35,7 @@ Rails.application.routes.draw do
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
+    get '/locations/:id/week/:today', to: 'locations#this_week'
+    resources :sessions, :only => [:create]
   end
 end

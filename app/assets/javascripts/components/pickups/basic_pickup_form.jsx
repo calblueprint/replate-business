@@ -45,24 +45,26 @@ class BasicPickupForm extends DefaultForm {
       <div>
         <Modal.Body>
           {validations ? validations : undefined}
-          <fieldset className="input-container marginBot-sm">
-            <label htmlFor="title" className="label label--newline">Title</label>
-            <input type="text" placeholder="Lunch Pickup" className="input"
-              defaultValue={this.state.title} name="title" id="title"
-              onChange={this._handleChange} />
-            {this.state.titleValidation}
-          </fieldset>
+          <form className="modal-pickup-form">
+            <fieldset className="input-container marginBot-sm">
+              <label htmlFor="title" className="label label--newline">Title</label>
+              <input type="text" placeholder="Lunch Pickup" className="input"
+                defaultValue={this.state.title} name="title" id="title"
+                onChange={this._handleChange} />
+              {this.state.titleValidation}
+            </fieldset>
 
-          <fieldset className="input-container name-container">
-            <label htmlFor="comments" className="label label--newline">Comments</label>
-            <textarea placeholder={placeholder} defaultValue={this.state.comments}
-              name="comments" rows="6" cols="50" onChange={this._handleChange}
-              id="comments" className="input" />
-            {this.state.commentsValidation}
-          </fieldset>
+            <fieldset className="input-container name-container">
+              <label htmlFor="comments" className="label label--newline">Comments</label>
+              <textarea placeholder={placeholder} defaultValue={this.state.comments}
+                name="comments" rows="6" cols="50" onChange={this._handleChange}
+                id="comments" className="input" />
+              {this.state.commentsValidation}
+            </fieldset>
+          </form>
         </Modal.Body>
         <Modal.Footer>
-          <button className="button button--text-alert marginRight-xs pull-left"
+          <button className="button button--text-black marginRight-xs pull-left"
             onClick={this.props.close}>Cancel</button>
           <button type="submit" name="submit" value="Next Step"
             className="button submit-button" onClick={this._nextStep}>
@@ -78,4 +80,5 @@ class BasicPickupForm extends DefaultForm {
 BasicPickupForm.propTypes = {
   initData: React.PropTypes.object.isRequired,
   nextStep: React.PropTypes.func.isRequired,
+  close   : React.PropTypes.func.isRequired,
 };

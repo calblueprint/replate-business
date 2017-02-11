@@ -11,6 +11,10 @@ class LocationCreationForm extends DefaultForm {
       business_id : this.props.business_id,
       loading: false,
     }
+    this.state.initialState = {
+      business_id : this.props.business_id,
+      loading: false,
+    }
     this.initMap = this.initMap.bind(this);
   }
 
@@ -36,8 +40,6 @@ class LocationCreationForm extends DefaultForm {
   initMap = (e) => {
         
         var locationForm = this;
-        console.log(e);
-        console.log(this.state.showModal);
         if (document.getElementById('map').innerHTML||!e) {  
           return;
         }
@@ -49,8 +51,7 @@ class LocationCreationForm extends DefaultForm {
           position: {lat:37.791569, lng:-122.389938},
           map: map
         });
-
-        //google.maps.event.trigger(map, 'resize');       
+      
         var autocomplete = new google.maps.places.Autocomplete(this.locationInput);       
         autocomplete.bindTo('bounds', map);
         autocomplete.addListener('place_changed', function() {
@@ -89,8 +90,12 @@ class LocationCreationForm extends DefaultForm {
   }
 
   close = (e) => {
+    var initial = this.state.initialState;
+    this.state = initial;
+    this.setState({initialState: initial});
     this.setState({ showModal: false });
     document.getElementById('map').innerHTML = '';
+
   }
 
   render() {

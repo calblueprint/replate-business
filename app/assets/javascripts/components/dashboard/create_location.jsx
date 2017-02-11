@@ -119,12 +119,14 @@ class LocationCreationForm extends DefaultForm {
             <h3 className="modal-title">Add New Location</h3>
           </Modal.Header>
           <Modal.Body>
+            <label className="label label--newline">Office Name</label>
             <input type="text" placeholder="New York Office" name="addr_name"
                        onChange={this._handleChange} className="input" />
-
-            <input ref={(input) => { this.locationInput = input}}>
+            <label className="label label--newline">Office Address</label>
+            <input ref={(input) => { this.locationInput = input}} className="input address">
 
             </input>
+
             <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
               
             </div>

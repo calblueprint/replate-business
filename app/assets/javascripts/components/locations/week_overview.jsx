@@ -60,7 +60,6 @@ class WeekOverview extends React.Component {
         <div className={columnClass} key={index}>
           <div className="day-header">
             <h3>{day}</h3>
-            <button className="new-pickup-button">new pickup</button>
           </div>
           {columnContents}
         </div>

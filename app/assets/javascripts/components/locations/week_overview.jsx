@@ -1,47 +1,18 @@
-
+/**
+ * @prop schedule - weekly schedule data
+ * @prop today    - "today" date string
+ */
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      today: new Date().getDay(),
-      schedule: {
-        1: [{
-          name: 'Lunch Pickup',
-          startTime: '1:00pm',
-          endTime: '3:00pm',
-          recurring: true,
-        }, {
-          name: 'Christmas Party',
-          startTime: '4:00pm',
-          endTime: '6:00pm',
-          recurring: false,
-        }],
-        3: [{
-          name: 'Dinner Pickup',
-          startTime: '5:00pm',
-          endTime: '7:00pm',
-          recurring: true,
-        }],
-        4: [{
-          name: 'Weekly Lunch @ Instagram',
-          startTime: '12:00pm',
-          endTime: '1:00pm',
-          recurring: true,
-        }, {
-          name: 'Dinner Pickup',
-          startTime: '5:00pm',
-          endTime: '7:00pm',
-          recurring: true,
-        }]
-      }
-    };
   }
 
   _generatePickupItems = (pickupList, pickupListDay) => {
-    return pickupList.map((pickup, index) => {
-      const timeString = `${pickup.startTime}-${pickup.endTime}`;
-      const isPastEvent = pickupListDay < this.state.today;
+    return pickupList.map((data, index) => {
+      let pickup = data[0];
+      let recurrence = data[1];
+      const timeString = `${recurrence.start_time}-${recurrence.end_time}`;
+      const isPastEvent = pickupListDay < this.props.today;
       let cancelButton;
 
       if (!isPastEvent) {
@@ -50,26 +21,33 @@ class WeekOverview extends React.Component {
 
       return (
         <div className={`pickup-item ` + (isPastEvent ? 'past' : '')} key={index}>
-          <h4 className="name">{pickup.name}</h4>
+          <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
-          <p className="repeating">{pickup.recurring ? "Repeating pickup" : "One-time pickup"}</p>
+          <p className="repeating">{recurrence.frequency ? "Repeating pickup" : "One-time pickup"}</p>
           {cancelButton}
         </div>
       )
     })
   }
 
+  _getWeekHeader = () => {
+    let now = moment()
+    let monday = now.startOf('week').add(1, 'day').format('MMM D');
+    let friday = now.endOf('week').subtract(1, 'day').format('MMM D');
+    return monday + ' - ' + friday;
+  }
+
   _generateSchedule = () => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
     return days.map((day, index) => {
       const dayNum = index + 1;
-      const isCurrentDay = (dayNum == this.state.today);
+      const isCurrentDay = (dayNum == this.props.today);
       const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
       let columnContents;
 
-      if (this.state.schedule[dayNum]) {
-        columnContents = this._generatePickupItems(this.state.schedule[dayNum], dayNum);
+      if (this.props.schedule[day]) {
+        columnContents = this._generatePickupItems(this.props.schedule[day], dayNum);
       } else {
         columnContents = (
           <div className="pickup-item">
@@ -97,7 +75,7 @@ class WeekOverview extends React.Component {
       <div className="week-overview-container">
         <div className="week-overview-title">
           <h2 className="title">This Week's Schedule</h2>
-          <h3 className="day-range">Nov 11-18</h3>
+          <h3 className="day-range">{this._getWeekHeader()}</h3>
         </div>
 
         <div className="week-container">
@@ -108,3 +86,6 @@ class WeekOverview extends React.Component {
   }
 }
 
+WeekOverview.propTypes = {
+  today    : React.PropTypes.string.isRequired,
+};

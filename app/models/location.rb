@@ -21,12 +21,28 @@
 #
 
 class Location < ActiveRecord::Base
-  has_many :pickups
+  has_many :pickups, :dependent => :destroy
   belongs_to :business
   has_attached_file :photo
 
   def address
     [self.number, self.street, self.city, self.state, self.zip].join(" ")
+  end
+
+  def this_week(today)
+  	pickups = {}
+  	self.pickups.each do |pickup|
+  		pickup.recurrences.each do |r|
+  			if r.same_week(today)
+  				if pickups[r.day]
+  					pickups[r.day].push([pickup, r])
+  				else
+  					pickups[r.day] = [[pickup,r]]
+  				end
+  			end
+  		end
+  	end
+  	return pickups
   end
 
   # Validate the attached image is image/jpg, image/png, etc

@@ -45,7 +45,7 @@ class API::RecurrencesController < ApplicationController
         :end_time,
         :frequency,
         :start_date,
-        :request_id,
+        :pickup_id,
     )
     end
 end

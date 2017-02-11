@@ -6,7 +6,6 @@ class EditForm extends DefaultForm {
   constructor(props) {
     super(props);
     this.state = {
-      address:this.props.business.address,
       company_name:this.props.business.company_name,
       website_url: this.props.business.website_url,
       email:this.props.business.email,
@@ -15,7 +14,6 @@ class EditForm extends DefaultForm {
       editable: false
     }
     this.state.initialstate = {
-      address:this.props.business.address,
       company_name:this.props.business.company_name,
       website_url: this.props.business.website_url,
       email:this.props.business.email,
@@ -46,7 +44,6 @@ class EditForm extends DefaultForm {
         }
       }
       var newinitialstate = {
-        address:this.state.address,
         company_name:this.state.company_name,
         website_url: this.state.website_url,
         email:this.state.email,
@@ -87,7 +84,6 @@ class EditForm extends DefaultForm {
       editable : !this.state.editable,
       company_name : this.state.initialstate.company_name,
       website_url: this.state.initialstate.website_url,
-      address : this.state.initialstate.address,
       email : this.state.initialstate.email,
       phone : this.state.initialstate.phone,
     });
@@ -122,7 +118,6 @@ class EditForm extends DefaultForm {
           { this._showInput("Company Website", "website_url", this.state.website_url) }
           { this._showInput("Email", "email", this.state.email) }
           { this._showPhoneInput("Phone", "phone", this.state.phone) }
-          { this._showInput("Address", "address", this.state.address) }
           <FormEditToggle
             editable={ this.state.editable }
             update={ this._toggleEdit }

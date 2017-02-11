@@ -1,0 +1,31 @@
+= render "partials/static_nav"
+
+.container.terms-container
+  .col-md-2
+    ul.terms-outline.marginTop-md
+     li.sidebar-link.tos-link.active Terms of Service
+     li.sidebar-link.privacy-link Privacy Policy
+  .col-md-8
+    .text#terms
+      = @terms
+    .text#privacy
+      = @privacy
+    a href="#" Back to Top
+
+javascript:
+  $terms = $("#terms");
+  $privacy = $("#privacy");
+
+  $(".tos-link").click(() => {
+    $(".sidebar-link").removeClass("active")
+    $(".tos-link").addClass("active");
+    $privacy.hide();
+    $terms.show();
+  })
+
+  $(".privacy-link").click(() => {
+    $(".sidebar-link").removeClass("active")
+    $(".privacy-link").addClass("active");
+    $privacy.show();
+    $terms.hide();
+  })

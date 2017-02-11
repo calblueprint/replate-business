@@ -42,7 +42,7 @@ class WeekOverview extends React.Component {
 
     return days.map((day, index) => {
       const dayNum = index + 1;
-      const isCurrentDay = (dayNum == this.props.today);
+      const isCurrentDay = (dayNum == new Date().getDay());
       const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
       let columnContents;
 

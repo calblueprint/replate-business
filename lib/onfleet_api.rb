@@ -85,20 +85,23 @@ module OnfleetAPI
     # Tasks are posted the night before they are due to happen
 
     recurrences = Recurrence.where(day: day)
-    failed = []
+    failed = {}
+    all = []
+    result = {:posted => all, :failed => failed}
     recurrences.each do |r|
-      if r.cancel || r.startdate > tomorrow + 1
+      if r.cancel
         r.update(cancel: false)
         next
       end
-      result = post_single_task(r, tomorrow)
-      if result.key?('message')
-        failed << {:recurrence => r, :message => result['message']}
+      all << r
+      data = post_single_task(r, tomorrow)
+      if data.key?('message')
+        failed[r] = data['message']
       end
       # Throttling requires max 10 requests per second
       sleep 0.1
     end
-    failed
+    result
   end
 
   def self.post_single_task(recurrence, date)

@@ -10,8 +10,11 @@ namespace :daily_onfleet_task do
     today = Time.now.wday
     tomorrow = Date.today + 1
 
-    failed = OnfleetAPI.post_batch_task(today, tomorrow)
-    ExportFailedRecurrences.new(failed, tomorrow).export
+    result = OnfleetAPI.post_batch_task(today, tomorrow)
+    posted = result[:posted]
+    args = {:date => tomorrow, :tasks => posted}
+    ExportAllRecurrences.new(args).export
+
     OnfleetAPI.get_task_state
   end
 end

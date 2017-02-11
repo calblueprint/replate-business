@@ -1,4 +1,3 @@
-require csv
 class ExportFailedRecurrences
 
   HEADERS = ['Recipient Notes', 'Recipient Name', 'Recipient Phone',
@@ -17,7 +16,7 @@ class ExportFailedRecurrences
   def export
     if @failures
       csv = generate_csv
-      MaenMailer.export_failed_tasks(csv, @date).deliver_now
+      MaenMailer.export_tasks(csv, @date).deliver_now
     end
   end
 

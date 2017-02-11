@@ -9,7 +9,7 @@ $offices = ["Main Office", "NYC Office", "SF Office"]
 NUM_BIZ = 5
 
 def make_businesses
-  0.upto(NUM_BIZ) do |n|
+  1.upto(NUM_BIZ) do |n|
     business = Business.create(
       email: "b#{n}@example.com",
       password: "password",
@@ -25,7 +25,7 @@ def make_businesses
 end
 
 def make_locations
-  1.upto(10) do |n|
+  1.upto(5) do |n|
     location = Location.create(
       number: Faker::Address.building_number,
       street: Faker::Address.street_name,
@@ -96,7 +96,7 @@ def make_recurrences
       pickup.recurrences.create(
         day: n,
         frequency: 1,
-        start_date: Time.now,
+        start_date: Time.new(2017, 1, 01),
         start_time: randomtime[0],
         end_time: randomtime[1],
         pickup_id: pickup.id,

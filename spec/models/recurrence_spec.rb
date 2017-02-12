@@ -14,7 +14,6 @@
 #  end_time   :string
 #  cancel     :boolean          default(FALSE), not null
 #  driver_id  :string           default(""), not null
-#  task_id    :string
 #
 
 require 'rails_helper'

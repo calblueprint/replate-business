@@ -19,13 +19,11 @@ class ExportAllRecurrences
     @tasks = nil
     @errors = nil
     if args[:error]
-      @errors = args[:errors]
+      @errors = args[:error]
     else
       @tasks = args[:tasks]
     end
   end
-
-
 
   def export_all
     if @tasks
@@ -34,11 +32,17 @@ class ExportAllRecurrences
     end
   end
 
+  def export_on_demand_task
+    if @tasks
+      csv = generate_csv
+      MaenMailer.export_on_demand_task(csv, @date).deliver_now
+    end
+  end
+
   def export_failures
-    HEADERS.append("failure message")
+    HEADERS << ("failure message")
     csv = generate_failure_csv
     MaenMailer.export_failed_tasks(csv, @date).deliver_now
-    end
   end
 
   def generate_failure_csv
@@ -63,8 +67,9 @@ class ExportAllRecurrences
 
   def generate_error_row(recurrence, failure)
     row = generate_row(recurrence)
-    row.append(failure)
+    row << failure
     row
+  end
 
   def generate_row(recurrence)
     start_time = @date.strftime("%m/%d/%Y") + " #{recurrence.start_time}"

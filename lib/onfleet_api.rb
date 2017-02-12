@@ -89,12 +89,15 @@ module OnfleetAPI
     all = []
     result = {:posted => all, :failed => failed}
     recurrences.each do |r|
-      if r.cancel
+      if r.cancel || r.start_date > tomorrow + 1
         r.update(cancel: false)
         next
       end
+      puts "Currently posting recurrence #{r.id}"
       all << r
       data = post_single_task(r, tomorrow)
+      puts data
+      puts data
       if data.key?('message')
         failed[r] = data['message']
       end
@@ -107,7 +110,8 @@ module OnfleetAPI
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
     if resp.key?('id')
-      recurrence.create_task('assigned', date, resp['id'])
+      args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
+      recurrence.create_task(args)
       recurrence.update(onfleet_id: resp['id'])
     end
     resp

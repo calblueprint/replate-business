@@ -11,6 +11,11 @@ class LocationCreationForm extends DefaultForm {
       business_id : this.props.business_id,
       loading: false,
     }
+    this.state.initialState = {
+      business_id : this.props.business_id,
+      loading: false,
+    }
+    this.initMap = this.initMap.bind(this);
   }
 
   _attemptCreate = (e) => {
@@ -32,8 +37,65 @@ class LocationCreationForm extends DefaultForm {
     this.setState({ showModal: true });
   }
 
+  initMap = (e) => {
+        
+        var locationForm = this;
+        if (document.getElementById('map').innerHTML||!e) {  
+          return;
+        }
+        var map = new google.maps.Map(this.mapDiv, {
+          center: {lat:37.791569, lng:-122.389938},
+          zoom: 8
+        });
+        var marker = new google.maps.Marker({
+          position: {lat:37.791569, lng:-122.389938},
+          map: map
+        });
+      
+        var autocomplete = new google.maps.places.Autocomplete(this.locationInput);       
+        autocomplete.bindTo('bounds', map);
+        autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+          for (var i = 0; i < place.address_components.length; i++) {
+            if (place.address_components[i].types.includes('street_number')) {
+              locationForm.setState({ number:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('route')) {           
+              locationForm.setState({ street:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('locality')) {
+              locationForm.setState({ city:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('administrative_area_level_1')) {
+              locationForm.setState({ state:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('postal_code')) {
+              locationForm.setState({ zip:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('country')) {
+              locationForm.setState({ country:place.address_components[i].long_name });
+            }
+            else {
+            }
+          }
+        });
+  }
+
   close = (e) => {
+    var initial = this.state.initialState;
+    this.state = initial;
+    this.setState({initialState: initial});
     this.setState({ showModal: false });
+    document.getElementById('map').innerHTML = '';
+
   }
 
   render() {
@@ -57,107 +119,17 @@ class LocationCreationForm extends DefaultForm {
             <h3 className="modal-title">Add New Location</h3>
           </Modal.Header>
           <Modal.Body>
-            <form className="modal-content">
-              <fieldset className="input-container">
-                <label className="label label--newline">Office Name</label>
-                <input type="text" placeholder="New York Office" name="addr_name"
+            <label className="label label--newline">Office Name</label>
+            <input type="text" placeholder="New York Office" name="addr_name"
                        onChange={this._handleChange} className="input" />
-              </fieldset>
+            <label className="label label--newline">Office Address</label>
+            <input ref={(input) => { this.locationInput = input}} className="input address">
 
-              <div className="location-create-form-row">
-                <fieldset className="input-container addr-num">
-                  <label className="label label--newline">Number</label>
-                  <input type="text" placeholder="1234" name="number"
-                         onChange={this._handleChange} className="input" />
-                </fieldset>
+            </input>
 
-                <fieldset className="input-container addr-street">
-                  <label className="label label--newline">Street</label>
-                  <input type="text" placeholder="Grand Avenue" name="street"
-                         onChange={this._handleChange} className="input" />
-                </fieldset>
-              </div>
-
-              <div className="location-create-form-row">
-                <fieldset className="input-container addr-city">
-                  <label className="label label--newline">City</label>
-                  <input type="text" placeholder="San Francisco" name="city"
-                         onChange={this._handleChange} className="input" />
-                </fieldset>
-
-                <fieldset className="input-container addr-state">
-                  <label className="label label--newline">State</label>
-                  <select name="state" className="select"
-                          onChange={this._handleChange}>
-                    <option value="" disabled value>State</option>
-                    <option value="Alabama">Alabama</option>
-                    <option value="Alaska">Alaska</option>
-                    <option value="Arizona">Arizona</option>
-                    <option value="Arkansas">Arkansas</option>
-                    <option value="California">California</option>
-                    <option value="Colorado">Colorado</option>
-                    <option value="Connecticut">Connecticut</option>
-                    <option value="Delaware">Delaware</option>
-                    <option value="Florida">Florida</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Hawaii">Hawaii</option>
-                    <option value="Idaho">Idaho</option>
-                    <option value="Illinois">Illinois</option>
-                    <option value="Indiana">Indiana</option>
-                    <option value="Iowa">Iowa</option>
-                    <option value="Kansas">Kansas</option>
-                    <option value="Kentucky">Kentucky</option>
-                    <option value="Louisiana">Louisiana</option>
-                    <option value="Maine">Maine</option>
-                    <option value="Maryland">Maryland</option>
-                    <option value="Massachusetts">Massachusetts</option>
-                    <option value="Michigan">Michigan</option>
-                    <option value="Minnesota">Minnesota</option>
-                    <option value="Mississippi">Mississippi</option>
-                    <option value="Missouri">Missouri</option>
-                    <option value="Montana">Montana</option>
-                    <option value="Nebraska">Nebraska</option>
-                    <option value="Nevada">Nevada</option>
-                    <option value="New Hampshire">New Hampshire</option>
-                    <option value="New Jersey">New Jersey</option>
-                    <option value="New Mexico">New Mexico</option>
-                    <option value="New York">New York</option>
-                    <option value="North Carolina">North Carolina</option>
-                    <option value="North Dakota">North Dakota</option>
-                    <option value="Ohio">Ohio</option>
-                    <option value="Oklahoma">Oklahoma</option>
-                    <option value="Oregon">Oregon</option>
-                    <option value="Pennsylvania">Pennsylvania</option>
-                    <option value="Rhoda Island">Rhode Island</option>
-                    <option value="South Carolina">South Carolina</option>
-                    <option value="South Dakota">South Dakota</option>
-                    <option value="Tennessee">Tennessee</option>
-                    <option value="Texas">Texas</option>
-                    <option value="Utah">Utah</option>
-                    <option value="Vermont">Vermont</option>
-                    <option value="Virginia">Virginia</option>
-                    <option value="Washington">Washington</option>
-                    <option value="West Virginia">West Virginia</option>
-                    <option value="Wisconsin">Wisconsin</option>
-                    <option value="Wyoming">Wyoming</option>
-                  </select>
-                </fieldset>
-              </div>
-
-              <div className="location-create-form-row">
-                <fieldset className="input-container addr-country">
-                  <label className="label label--newline">Country</label>
-                  <input type="text" placeholder="USA" name="country"
-                         onChange={this._handleChange} className="input" />
-                </fieldset>
-
-                <fieldset className="input-container addr-zip">
-                  <label className="label label--newline">Zip/Postal Code</label>
-                  <input type="text" placeholder="94709" name="zip"
-                         onChange={this._handleChange} className="input" />
-                </fieldset>
-              </div>
-            </form>
+            <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
+              
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <button type="button" className="button button--text-alert pull-left"

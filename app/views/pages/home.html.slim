@@ -32,9 +32,23 @@ section.splash-video-container.container
 section.splash-description
   .container
     h1.splash-section-title.marginBot-md
-      | About Us
-    p.splash-section-description.marginBot-xxxl
-      | Re-Plate is a technology company that matches extra food with communities in need instantly! Our platform enables businesses to donate extra food to charities and hungry people based on their need and location.
+      | How it Works
+    .container.about-us-container
+      .col-md-4.col-sm-5
+        h2.steps-title
+          | 1. Request a pickup
+        div.steps-img
+          img src=image_url("splash/icons/pickup-request.svg") /
+      .col-md-4.col-sm-6
+        h2.steps-title
+          | 2. Track your driver
+        div.steps-img
+          img src=image_url("splash/icons/track-driver.svg") /
+      .col-md-4.col-sm-7
+        h2.steps-title
+          | 3. See your impact
+        div.steps-img
+          img src=image_url("splash/icons/share-impact.svg") /
     .container.about-us-container
       .col-md-6.col-sm-5
         .img-container: img src=image_url("splash/about_us.jpg") alt=""/
@@ -89,7 +103,7 @@ section.splash-marketplace-section
 section.splash-companies
   .container
     h1.splash-section-title.marginBot-xxl
-      | Join a community fighting hunger
+      | Join Our Community
     .company-container
       - @companies.each do | name |
         img src=image_url("splash/logos/#{name}.png") alt="#{name} logo"

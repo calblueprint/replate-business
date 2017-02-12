@@ -22,11 +22,20 @@
 
 class Location < ActiveRecord::Base
   has_many :pickups, :dependent => :destroy
+  has_many :tasks, :dependent => :destroy
   belongs_to :business
   has_attached_file :photo
 
   def address
     [self.number, self.street, self.city, self.state, self.zip].join(" ")
+  end
+
+  def line1
+    [self.number, self.street].join(" ")
+  end
+
+  def line2
+    self.apt_number
   end
 
   def this_week(today)

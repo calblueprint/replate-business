@@ -109,5 +109,5 @@ end
 
 make_businesses
 make_locations
-# make_pickups
-# make_recurrences
+make_pickups
+make_recurrences

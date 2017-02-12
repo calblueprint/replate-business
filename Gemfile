@@ -37,6 +37,9 @@ gem 'slim', '~> 3.0.6'
 gem 'slim-rails', '~> 3.0.1'
 gem 'uglifier', '2.7.2'
 
+# Stripe
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
 group :development, :test do
   gem 'better_errors'
   gem 'quiet_assets'

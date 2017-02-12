@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/stripe/stripe-ruby
+  revision: 32530b1ad675f6d9b1aa47670bd9cdac16be9798
+  specs:
+    stripe (1.58.0)
+      rest-client (>= 1.4, < 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -88,6 +95,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    domain_name (0.5.20161129)
+      unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -106,6 +115,8 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
@@ -138,6 +149,7 @@ GEM
       railties (>= 3.1)
     multi_json (1.12.1)
     multi_xml (0.5.5)
+    netrc (0.11.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
@@ -204,6 +216,10 @@ GEM
     redcarpet (3.3.4)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -262,6 +278,9 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     unicode-display_width (1.1.1)
     warden (1.2.6)
       rack (>= 1.0)
@@ -311,6 +330,7 @@ DEPENDENCIES
   slim (~> 3.0.6)
   slim-rails (~> 3.0.1)
   spring
+  stripe!
   uglifier (= 2.7.2)
   web-console (~> 2.0)
 

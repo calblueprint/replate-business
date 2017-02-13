@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20170116053223) do
   end
 
   add_index "tasks", ["location_id"], name: "index_tasks_on_location_id", using: :btree
+  add_index "tasks", ["onfleet_id"], name: "index_tasks_on_onfleet_id", using: :btree
 
   add_foreign_key "locations", "businesses"
   add_foreign_key "pickups", "locations"

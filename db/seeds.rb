@@ -16,7 +16,7 @@ def make_businesses
       password_confirmation: "password",
       company_name: Faker::Company.name,
       website_url: Faker::Internet.url,
-      phone: Faker::PhoneNumber.phone_number,
+      phone: '925-222-2342',
       onfleet_id: "siouhasdfo",
     )
     business.id = n
@@ -27,13 +27,13 @@ end
 def make_locations
   1.upto(5) do |n|
     location = Location.create(
-      number: Faker::Address.building_number,
-      street: Faker::Address.street_name,
-      city: Faker::Address.city,
-      state: Faker::Address.state,
-      zip: Faker::Address.zip,
+      number: "2333",
+      street: "Channing Way",
+      city: "Berkeley",
+      state: "CA",
+      zip: "10010",
       country: "USA",
-      addr_name: $offices.sample,
+      addr_name: "TEST DO NOT DELIVER"
     )
 
     location.id = n
@@ -43,13 +43,13 @@ def make_locations
 
   1.upto(5) do |n|
     location = Location.create(
-      number: "28",
-      street: "West 25th Street",
-      city: "New York",
-      state: "NY",
+      number: "2333",
+      street: "Channing Way",
+      city: "Berkeley",
+      state: "CA",
       zip: "10010",
       country: "USA",
-      addr_name: "NYC Office",
+      addr_name: "TEST DO NOT DELIVER"
     )
     location.id = n + 5
     location.business = Business.find(n)
@@ -100,8 +100,8 @@ def make_recurrences
         start_time: randomtime[0],
         end_time: randomtime[1],
         pickup_id: pickup.id,
-        #(this is carlos)
-        driver_id: 'XQFOAulEVucASO3PVZLGRwrN'
+        #(this is helen's driver id)
+        driver_id: 'nhed6lRTknGd~IgCOD4MjWNK'
       )
     end
   end

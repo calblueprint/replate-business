@@ -10,6 +10,12 @@ class BasicPickupForm extends DefaultForm {
     this.state = this.props.initData;
   }
 
+  _updateState = (e) => {
+    let target = $(e.target);
+    this.state[target.attr('name')] = target.val();
+    this.props.nextStep(this.state, "basicForm", false);
+  }
+
   _nextStep = (e) => {
     let requiredKeys = ["title"];
     let validated = true;
@@ -50,14 +56,14 @@ class BasicPickupForm extends DefaultForm {
               <label htmlFor="title" className="label label--newline">Title</label>
               <input type="text" placeholder="Lunch Pickup" className="input"
                 defaultValue={this.state.title} name="title" id="title"
-                onChange={this._handleChange} />
+                onChange={this._updateState} />
               {this.state.titleValidation}
             </fieldset>
 
             <fieldset className="input-container name-container">
               <label htmlFor="comments" className="label label--newline">Comments</label>
               <textarea placeholder={placeholder} defaultValue={this.state.comments}
-                name="comments" rows="6" cols="50" onChange={this._handleChange}
+                name="comments" rows="6" cols="50" onChange={this._updateState}
                 id="comments" className="input" />
               {this.state.commentsValidation}
             </fieldset>

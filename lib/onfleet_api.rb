@@ -109,6 +109,8 @@ module OnfleetAPI
 
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
+    puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
+    puts resp
     if resp.key?('id')
       args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
       recurrence.create_task(args)

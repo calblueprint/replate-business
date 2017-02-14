@@ -30,7 +30,7 @@ class Recurrence < ActiveRecord::Base
 
   def is_on_demand?
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    today == Date.today
+    r_date == Date.today
   end
 
   def post_on_demand

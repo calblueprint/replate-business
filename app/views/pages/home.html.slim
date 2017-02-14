@@ -59,15 +59,15 @@ section.splash-description
           li.about-us-point
             img src=image_url("splash/icons/cart.svg") /
             h3.point-title Feed the Hungry
-            p.point-description  If your business has extra food that is in good, edible condition, don’t let it go to waste! Log in to our website and request a pickup.
+            p.point-description If your business has extra food that is in good, edible condition, don’t let it go to waste! Log in to our website and request a pickup.
           li.about-us-point
             img src=image_url("splash/icons/trash.svg") /
             h3.point-title Reduce Food Waste
-            p.point-description  Your donations go far beyond saving a single meal. By donating to our service, you have made a huge contribution to solving the food insecurity and food waste problems in the community.
+            p.point-description Your donations go far beyond saving a single meal. By donating to our service, you have made a huge contribution to solving the food insecurity and food waste problems in the community.
           li.about-us-point
             img src=image_url("splash/icons/tax.svg") /
-            h3.point-title Receive Tax Cuts
-            p.point-description  Replate thanks you for your donations and is happy to provide data and tax credit upon request.
+            h3.point-title Receive Tax Refund
+            p.point-description Replate thanks you for your donations and is happy to provide data and tax credit upon request.
 
 section.splash-business-section
   .splash-business-skew
@@ -131,6 +131,13 @@ footer.splash-footer
       li.footer-link
         = link_to terms_path, class: "link link--white link--no-underline"
           | Terms of Service
+    ul.footer-social-container
+      li.footer-social-icon
+        a href="https://twitter.com/replateyourmeal"
+          img src=image_url("icons/social/twitter.svg")
+      li.footer-social-icon
+        a href="https://facebook.com/replateyourmeals"
+          img src=image_url("icons/social/facebook.svg")
 
 javascript:
   $(document).ready(function() {

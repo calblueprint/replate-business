@@ -24,8 +24,21 @@ def make_businesses
   end
 end
 
+def make_admin_panel
+  
+  admin = Admin.create (
+  email: "admin@email.com",
+  first_name: "first",
+  last_name: "last",
+  password: "password",
+  password_confirmation: "password",
+  )
+  admin.save
+end
+
+
 def make_locations
-  1.upto(10) do |n|
+  1.upto(5) do |n|
     location = Location.create(
       number: Faker::Address.building_number,
       street: Faker::Address.street_name,
@@ -107,7 +120,11 @@ def make_recurrences
   end
 end
 
+
+
+
 make_businesses
 make_locations
 make_pickups
 make_recurrences
+make_admin_panel

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admins
   devise_for :businesses, :controllers => { registrations: 'registrations', sessions: 'sessions' }
   
   devise_scope :business do

@@ -48,10 +48,7 @@ class RecurrenceDayInput extends DefaultForm {
   }
 
   _getToday = () => {
-    let today = new Date();
-    return (today.getMonth() + 1) + 
-    "/" +  today.getDate() +
-    "/" +  today.getFullYear();
+    return moment().format("MM-DD-YYYY");
   }
 
   _renderPickupTypeButtons = () => {

@@ -20,7 +20,7 @@ class PickupCreationModal extends DefaultForm {
       this.close();
       this.setState({
         pickupId: data.message.id,
-      });
+     });
       let days = DAYSOFWEEK.map((day, i) => {
         if (this.state.recurrenceForm[day].active) {
           this.state.recurrenceForm[day].input.pickup_id = this.state.pickupId;
@@ -32,7 +32,8 @@ class PickupCreationModal extends DefaultForm {
       });
     }
     const recurrenceSuccess = (data) => {
-      this.props.success();
+      console.log("RECURRENCESUCCESS!!");
+      this.props.success();  //Updates schedule
       this.setState({
         basicForm: {},
         recurrenceForm: {},

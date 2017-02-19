@@ -48,12 +48,21 @@ class Recurrence < ActiveRecord::Base
     end
   end
 
+  def self.get_date_after(date, day)
+    return date if date.wday == day.to_date.wday
+    days_difference = (date - day.to_date).to_i
+    result = day.to_date + days_difference + (day.to_date.wday - date.wday)
+    result = result + 1.week if result.to_date < date
+    return result
+  end
+
   def same_week(d)
     today = Date.parse(d)
     start_date = self.start_date.to_date
+    recurrence_date = Recurrence.get_date_after(start_date, self.day)
     epoch = Date.new(1970,1,1)
-    same_week = today.strftime('%U') == start_date.strftime('%U')
-    same_year = today.strftime('%Y') == start_date.strftime('%Y')
+    same_week = recurrence_date.strftime('%U') == today.strftime('%U')
+    same_year = recurrence_date.strftime('%Y') == today.strftime('%Y')
 
     if self.frequency === 1
       if same_week

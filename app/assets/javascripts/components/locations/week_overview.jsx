@@ -1,6 +1,8 @@
 /**
  * @prop schedule - weekly schedule data
  * @prop today    - "today" date string
+ * @prop now      - MomentJS object indicating today's date
+ * @prop isThisWeek  - Boolean indicating whether calendar is this week or next week
  */
 class WeekOverview extends React.Component {
   constructor(props) {
@@ -12,7 +14,14 @@ class WeekOverview extends React.Component {
       let pickup = data[0];
       let recurrence = data[1];
       const timeString = `${recurrence.start_time}-${recurrence.end_time}`;
-      const isPastEvent = pickupListDay < this.props.today;
+      let pickupListMoment = moment(this.props.now);
+      let now = moment(this.props.now);
+      if (!this.props.isThisWeek) {
+        now.subtract(1, "weeks");
+      }
+      pickupListMoment.startOf('week')
+      pickupListMoment.add(pickupListDay, 'days');
+      const isPastEvent = pickupListMoment.isBefore(now);
       let cancelButton;
 
       if (!isPastEvent) {
@@ -31,7 +40,7 @@ class WeekOverview extends React.Component {
   }
 
   _getWeekHeader = () => {
-    let now = moment()
+    let now = moment(this.props.now);
     let monday = now.startOf('week').add(1, 'day').format('MMM D');
     let friday = now.endOf('week').subtract(1, 'day').format('MMM D');
     return monday + ' - ' + friday;
@@ -73,7 +82,7 @@ class WeekOverview extends React.Component {
     return (
       <div className="week-overview-container">
         <div className="week-overview-title">
-          <h2 className="title">This Week's Schedule</h2>
+          <h2 className="title">{this.props.isThisWeek ? "This" : "Next"} Week's Schedule</h2>
           <h3 className="day-range">{this._getWeekHeader()}</h3>
         </div>
 

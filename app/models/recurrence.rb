@@ -30,7 +30,7 @@ class Recurrence < ActiveRecord::Base
 
   def is_on_demand?
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    today == Date.today
+    r_date == Date.today
   end
 
   def post_on_demand
@@ -41,7 +41,7 @@ class Recurrence < ActiveRecord::Base
 
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
-    if self.location == 'California' or self.location == 'CA'
+    if self.location.state == 'California'
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
       self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'

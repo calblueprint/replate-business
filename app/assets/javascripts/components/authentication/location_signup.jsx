@@ -83,7 +83,7 @@ class LocationSignup extends DefaultForm {
       number:this.state.number,
       street:this.state.street,
       city:this.state.city,
-      state:this.state.city,
+      state:this.state.state,
       country:this.state.country,
       zip:this.state.zip
 

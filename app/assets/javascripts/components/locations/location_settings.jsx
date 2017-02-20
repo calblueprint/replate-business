@@ -72,6 +72,7 @@ class LocationSettings extends React.Component {
         </div>
 
         <div className="location-settings-input-col">
+
           Other settings for location go here
           <DeleteLocationModal location={this.state.location} />
         </div>

@@ -15,7 +15,6 @@ def make_businesses
       password: "password",
       password_confirmation: "password",
       company_name: Faker::Company.name,
-      website_url: Faker::Internet.url,
       phone: '925-222-2342',
       onfleet_id: "siouhasdfo",
     )
@@ -24,18 +23,16 @@ def make_businesses
   end
 end
 
-def make_admin_panel
-
+def make_admin
   admin = Admin.create(
-  email: "admin@email.com",
-  first_name: "first",
-  last_name: "last",
-  password: "password",
-  password_confirmation: "password",
+    email: "admin@email.com",
+    first_name: "first",
+    last_name: "last",
+    password: "password",
+    password_confirmation: "password",
   )
   admin.save
 end
-
 
 def make_locations
   1.upto(5) do |n|
@@ -120,11 +117,8 @@ def make_recurrences
   end
 end
 
-
-
-
 make_businesses
 make_locations
 make_pickups
 make_recurrences
-make_admin_panel
+make_admin

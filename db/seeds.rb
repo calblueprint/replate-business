@@ -25,8 +25,8 @@ def make_businesses
 end
 
 def make_admin_panel
-  
-  admin = Admin.create (
+
+  admin = Admin.create(
   email: "admin@email.com",
   first_name: "first",
   last_name: "last",

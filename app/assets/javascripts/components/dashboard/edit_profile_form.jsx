@@ -7,7 +7,6 @@ class EditForm extends DefaultForm {
     super(props);
     this.state = {
       company_name:this.props.business.company_name,
-      website_url: this.props.business.website_url,
       email:this.props.business.email,
       phone:this.props.business.phone,
       id:this.props.business.id,
@@ -15,7 +14,6 @@ class EditForm extends DefaultForm {
     }
     this.state.initialstate = {
       company_name:this.props.business.company_name,
-      website_url: this.props.business.website_url,
       email:this.props.business.email,
       phone:this.props.business.phone,
       id:this.props.business.id,
@@ -45,7 +43,6 @@ class EditForm extends DefaultForm {
       }
       var newinitialstate = {
         company_name:this.state.company_name,
-        website_url: this.state.website_url,
         email:this.state.email,
         phone:this.state.phone,
         id:this.state.id,
@@ -83,7 +80,6 @@ class EditForm extends DefaultForm {
     this.setState({
       editable : !this.state.editable,
       company_name : this.state.initialstate.company_name,
-      website_url: this.state.initialstate.website_url,
       email : this.state.initialstate.email,
       phone : this.state.initialstate.phone,
     });
@@ -115,7 +111,6 @@ class EditForm extends DefaultForm {
         <p className="edit-profile-desc">To change any of this information, click on the "edit" button below.</p>
         <form>
           { this._showInput("Company Name", "company_name", this.state.company_name) }
-          { this._showInput("Company Website", "website_url", this.state.website_url) }
           { this._showInput("Email", "email", this.state.email) }
           { this._showPhoneInput("Phone", "phone", this.state.phone) }
           <FormEditToggle

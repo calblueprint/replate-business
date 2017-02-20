@@ -8,6 +8,7 @@ class API::RecurrencesController < ApplicationController
 
     def create
         recurrence = Recurrence.new(recurrence_params)
+        recurrence.assign_driver
         if recurrence.save
           render_json_message(:ok, message: recurrence)
           if recurrence.is_on_demand?

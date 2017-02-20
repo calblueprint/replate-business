@@ -41,7 +41,7 @@ class Recurrence < ActiveRecord::Base
 
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
-    if self.location == 'California' or self.location == 'CA'
+    if self.location.state == 'California'
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
       self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'

@@ -81,23 +81,25 @@ module OnfleetAPI
                  :basic_auth => @basic_auth).parsed_response
   end
 
+  def self.can_post(recurrence, day)
+    # any conditions that if are true, require that post cannot happen
+    recurrence.cancel ||
+    recurrence.start_date > day + 1
+  end
+
   def self.post_batch_task(day, tomorrow)
     # Tasks are posted the night before they are due to happen
-
     recurrences = Recurrence.where(day: day)
     failed = {}
     all = []
     result = {:posted => all, :failed => failed}
     recurrences.each do |r|
-      if r.cancel || r.start_date > tomorrow + 1
+      if can_post(r, tomorrow)
         r.update(cancel: false)
         next
       end
-      puts "Currently posting recurrence #{r.id}"
       all << r
       data = post_single_task(r, tomorrow)
-      puts data
-      puts data
       if data.key?('message')
         failed[r] = data['message']
       end
@@ -110,11 +112,13 @@ module OnfleetAPI
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
     puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
-    puts resp
     if resp.key?('id')
+      puts resp['id']
       args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
       recurrence.create_task(args)
       recurrence.update(onfleet_id: resp['id'])
+    else
+      puts resp['message']
     end
     resp
   end

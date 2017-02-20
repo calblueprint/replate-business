@@ -53,7 +53,6 @@ class BusinessSignup extends DefaultForm {
         <h2 className="signup-section-title">Basic Information</h2>
         <p className="marginBot-lg">We'll need to collect some basic information about your business.</p>
         { this._renderInputField("company_name", "Company Name", "text", "Your Awesome Company") }
-        { this._renderInputField("website_url", "Company Website", "url", "http://company.com") }
         <PhoneInput form_name = "phone"
                     input_id  = "phone"
                     change    = { this._handleChange } />

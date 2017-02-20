@@ -63,9 +63,7 @@ class BusinessDashboard extends React.Component {
         </div>
         <div className="dashboard-locations-container">
           {locs}
-          <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_A8zeMzp2kUAjo0qYrwNl7LSGN8vr1G5X&scope=read_write" > poof </a>
         </div>
-
       </div>
     )
   }

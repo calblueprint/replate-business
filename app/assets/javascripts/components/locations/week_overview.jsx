@@ -25,7 +25,7 @@ class WeekOverview extends React.Component {
       let cancelButton;
 
       if (!isPastEvent) {
-        cancelButton = <a href="" className="cancelButton">Cancel</a>
+        cancelButton = <a data-recurrence={recurrence.id} data-day={pickupListDay} href="" onClick={this._cancelPickup} className="cancelButton">Cancel</a>
       }
 
       return (
@@ -50,8 +50,8 @@ class WeekOverview extends React.Component {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
     return days.map((day, index) => {
-      const dayNum = index + 1;
-      let pickupListMoment = this._getPickupListMoment(index);
+      const dayNum = index;
+      let pickupListMoment = this._getPickupListMoment(dayNum);
       const isCurrentDay = (pickupListMoment.isSame(this.props.today, 'day'));
       const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
       let columnContents;

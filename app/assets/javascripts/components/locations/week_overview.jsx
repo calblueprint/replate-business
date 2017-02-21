@@ -1,7 +1,7 @@
 /**
- * @prop schedule - weekly schedule data
- * @prop today    - "today" date string
- * @prop now      - MomentJS object indicating today's date
+ * @prop schedule    - weekly schedule data
+ * @prop reference   - MomentJS object indicating the calendar's reference point for the week displayed
+ * @prop today       - MomentJS object for today's date
  * @prop isThisWeek  - Boolean indicating whether calendar is this week or next week
  */
 class WeekOverview extends React.Component {
@@ -9,19 +9,19 @@ class WeekOverview extends React.Component {
     super(props);
   }
 
+  _getPickupListMoment = (pickupListDay) => {
+    let pickupListMoment = moment(this.props.reference);
+    pickupListMoment.startOf('week').add(1 + pickupListDay, 'days');
+    return pickupListMoment
+  }
+
   _generatePickupItems = (pickupList, pickupListDay) => {
     return pickupList.map((data, index) => {
       let pickup = data[0];
       let recurrence = data[1];
       const timeString = `${recurrence.start_time}-${recurrence.end_time}`;
-      let pickupListMoment = moment(this.props.now);
-      let now = moment(this.props.now);
-      if (!this.props.isThisWeek) {
-        now.subtract(1, "weeks");
-      }
-      pickupListMoment.startOf('week')
-      pickupListMoment.add(pickupListDay, 'days');
-      const isPastEvent = pickupListMoment.isBefore(now);
+      let pickupListMoment = this._getPickupListMoment(pickupListDay);
+      const isPastEvent = pickupListMoment.isBefore(this.props.today, "day");
       let cancelButton;
 
       if (!isPastEvent) {
@@ -40,9 +40,9 @@ class WeekOverview extends React.Component {
   }
 
   _getWeekHeader = () => {
-    let now = moment(this.props.now);
-    let monday = now.startOf('week').add(1, 'day').format('MMM D');
-    let friday = now.endOf('week').subtract(1, 'day').format('MMM D');
+    let reference = moment(this.props.reference);
+    let monday = reference.startOf('week').add(1, 'day').format('MMM D');
+    let friday = reference.endOf('week').subtract(1, 'day').format('MMM D');
     return monday + ' - ' + friday;
   }
 
@@ -51,7 +51,8 @@ class WeekOverview extends React.Component {
 
     return days.map((day, index) => {
       const dayNum = index + 1;
-      const isCurrentDay = (dayNum == new Date().getDay());
+      let pickupListMoment = this._getPickupListMoment(index);
+      const isCurrentDay = (pickupListMoment.isSame(this.props.today, 'day'));
       const columnClass = `day-column ` + (isCurrentDay ? 'currentDay' : '');
       let columnContents;
 
@@ -95,5 +96,8 @@ class WeekOverview extends React.Component {
 }
 
 WeekOverview.propTypes = {
-  today    : React.PropTypes.string.isRequired,
+  schedule   : React.PropTypes.object.isRequired,
+  today      : React.PropTypes.object.isRequired,
+  reference  : React.PropTypes.object.isRequired,
+  isThisWeek : React.PropTypes.bool.isRequired,
 };

@@ -32,7 +32,6 @@ class PickupCreationModal extends DefaultForm {
       });
     }
     const recurrenceSuccess = (data) => {
-      console.log("RECURRENCESUCCESS!!");
       this.props.success();  //Updates schedule
       this.setState({
         basicForm: {},

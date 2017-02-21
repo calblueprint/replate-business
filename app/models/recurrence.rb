@@ -56,8 +56,8 @@ class Recurrence < ActiveRecord::Base
     return result
   end
 
-  def same_week(d)
-    today = Date.parse(d)
+  def same_week(day)
+    today = Date.parse(day)
     start_date = self.start_date.to_date
     recurrence_date = Recurrence.get_date_after(start_date, self.day)
     epoch = Date.new(1970,1,1)

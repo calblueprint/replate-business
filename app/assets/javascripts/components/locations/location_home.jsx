@@ -113,12 +113,12 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview today = {this._getToday()}
-                          now = {this._getTodayMoment()}
+            <WeekOverview today = {this._getTodayMoment()}
+                          reference = {this._getTodayMoment()}
                           schedule = {this.state.thisWeekSchedule}
                           isThisWeek = {true}/>
-            <WeekOverview today = {this._getNextWeek()}
-                          now = {this._getNextWeekMoment()}
+            <WeekOverview today = {this._getTodayMoment()}
+                          reference = {this._getNextWeekMoment()}
                           schedule = {this.state.nextWeekSchedule}
                           isThisWeek = {false}/>
           </Tab>

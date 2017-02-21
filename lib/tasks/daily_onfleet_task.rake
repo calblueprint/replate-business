@@ -5,8 +5,8 @@ namespace :daily_onfleet_task do
     # Time.now.wday is int for weekday 0 indexed at sunday.
     # Our day enum is zero indexed at monday.
 
-    # TODAY: int representing tomorrow's day of week in recurrence enum
-    # TOMORROW: datetime object represending tomorrow' date.
+    # tomorrow_wday: int representing tomorrow's day of week in recurrence enum
+    # tomorrow_date: date object represending tomorrow' date.
 
     # Run ONLY on sunday evening through thursday evening
     if Time.now.wday < 5

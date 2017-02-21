@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116053223) do
+ActiveRecord::Schema.define(version: 20170218232233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 20170116053223) do
   add_index "businesses", ["email"], name: "index_businesses_on_email", unique: true, using: :btree
   add_index "businesses", ["reset_password_token"], name: "index_businesses_on_reset_password_token", unique: true, using: :btree
 
+  create_table "cancellations", force: :cascade do |t|
+    t.date     "date",          null: false
+    t.integer  "recurrence_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "cancellations", ["recurrence_id"], name: "index_cancellations_on_recurrence_id", using: :btree
+
   create_table "locations", force: :cascade do |t|
     t.string   "number",             null: false
     t.string   "street",             null: false
@@ -98,7 +107,6 @@ ActiveRecord::Schema.define(version: 20170116053223) do
     t.integer  "pickup_id"
     t.string   "start_time"
     t.string   "end_time"
-    t.boolean  "cancel",     default: false, null: false
     t.string   "driver_id",  default: "",    null: false
     t.string   "onfleet_id"
   end
@@ -118,6 +126,7 @@ ActiveRecord::Schema.define(version: 20170116053223) do
   add_index "tasks", ["location_id"], name: "index_tasks_on_location_id", using: :btree
   add_index "tasks", ["onfleet_id"], name: "index_tasks_on_onfleet_id", using: :btree
 
+  add_foreign_key "cancellations", "recurrences"
   add_foreign_key "locations", "businesses"
   add_foreign_key "pickups", "locations"
   add_foreign_key "recurrences", "pickups"

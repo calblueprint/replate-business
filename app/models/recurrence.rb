@@ -18,23 +18,33 @@
 
 class Recurrence < ActiveRecord::Base
   belongs_to :pickup
+  has_many :cancellations, :dependent => :destroy
+  enum frequency: [:one_time, :weekly]
   enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
 
   def location
     self.pickup.location
   end
 
+  def start_day
+    Date.new(self.start_date.year, self.start_date.month, self.start_date.day)
+  end
+
   def business
     self.pickup.location.business
   end
 
-  def is_on_demand?
+  def deliver_today?(date = Date.today)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    r_date == Date.today
+    r_date == date
   end
 
   def post_on_demand
-    OnfleetAPI.post_single_task(self, Date.today)
+    if self.frequency == "one_time"
+      OnfleetAPI.post_one_time_task(self, Date.today)
+    else
+      OnfleetAPI.post_single_task(self, Date.today)
+    end
     args = {:date => Date.today, :tasks =>[self]}
     ExportAllRecurrences.new(args).export_on_demand_task
   end
@@ -84,7 +94,7 @@ class Recurrence < ActiveRecord::Base
                 location_id: self.location.id)
   end
 
-  def cancel_upcoming
+  def onfleet_cancel
     o_id = self.onfleet_id
     if o_id
       # Try to remove from onfleet: will only be removed if task
@@ -92,12 +102,9 @@ class Recurrence < ActiveRecord::Base
       resp = OnfleetAPI.delete_task(o_id)
       unless resp
         t = Task.where(onfleet_id: o_id).first
-        t.update(status: 'cancelled')
+        t.update(status: 'cancelled') if task
         return
       end
     end
-    # if nothing was removed from onfleet the set the task to be cancelled
-    # since it has not been posted yet
-    self.cancel = true
   end
 end

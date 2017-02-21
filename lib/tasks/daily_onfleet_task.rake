@@ -7,13 +7,15 @@ namespace :daily_onfleet_task do
 
     # TODAY: int representing tomorrow's day of week in recurrence enum
     # TOMORROW: datetime object represending tomorrow' date.
-    puts "task~"
-    # tomorrow_wday = Time.now.wday
-    # tomorrow_date = Date.today + 1
 
-    # result = OnfleetAPI.post_batch_task(tomorrow_wday, tomorrow_date)
-    # posted = result[:posted]
-    # args = {:date => tomorrow, :tasks => posted}
-    # ExportAllRecurrences.new(args).export_all
+    # Run ONLY on sunday evening through thursday evening
+    if Time.now.wday < 5
+      tomorrow_wday = Time.now.wday
+      tomorrow_date = Date.today + 1
+      result = OnfleetAPI.post_batch_task(tomorrow_wday, tomorrow_date)
+      posted = result[:posted]
+      args = {:date => tomorrow_date, :tasks => posted}
+      ExportAllRecurrences.new(args).export_all
+    end
   end
 end

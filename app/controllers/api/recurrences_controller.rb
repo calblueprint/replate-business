@@ -11,7 +11,7 @@ class API::RecurrencesController < ApplicationController
         recurrence.assign_driver
         if recurrence.save
           render_json_message(:ok, message: recurrence)
-          if recurrence.is_on_demand?
+          if recurrence.deliver_today?
             recurrence.post_on_demand
           end
         else

@@ -95,7 +95,9 @@ module OnfleetAPI
     all = []
     result = {:posted => all, :failed => failed}
     recurrences.each do |r|
-      # next if cannot_post(r, date)
+      if cannot_post(r, date)
+        next
+      end
       all << r
       data = post_single_task(r, date)
       failed[r] = data['message'] if data.key?('message')
@@ -112,7 +114,7 @@ module OnfleetAPI
       recurrence.create_task(args)
       if recurrence.frequency == 'one_time'
         puts 'On Demand Task:'
-        Recurrence.destroy(recurrence)
+        Recurrence.destroy(recurrence.id)
       else
         recurrence.update(onfleet_id: resp['id'])
       end

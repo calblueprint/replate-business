@@ -123,7 +123,7 @@ def make_cancellations
   recurrences.each do |r|
     1.upto(3) do |n|
       r.cancellations.create(
-        date: Date.today - 3
+        date: Date.today + (n * 7)
       )
     end
   end

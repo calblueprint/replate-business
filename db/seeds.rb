@@ -105,8 +105,8 @@ def make_recurrences
     1.upto(4) do |n|
       pickup.recurrences.create(
         day: n,
-        frequency: 1,
-        start_date: Time.new(2017, 1, 01),
+        frequency: [0, 1].sample,
+        start_date: Date.today,
         start_time: randomtime[0],
         end_time: randomtime[1],
         pickup_id: pickup.id,

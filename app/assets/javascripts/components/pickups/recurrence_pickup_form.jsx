@@ -38,32 +38,14 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _addTwoHours = (time) => {
-    let formattedTime = "";
-    let hour = parseInt(time.substring(0, 2));
-    let isAM = time.substring(6, 8) === "AM";
-    if (isAM && hour === 12) {
-      formattedTime = '00' + time.substring(2, 6);
-    } else if (!isAM) {
-      hour += 11;
-      formattedTime = "" + hour + time.substring(2, 6);
-    } else {
-      formattedTime = time.substring(0, 6);
-    }
-    momentTime = moment("01-01-1970 " + formattedTime); // arbitrary date
-    if (momentTime.isValid()) {
-      momentTime.add(2, 'hours');
-      return momentTime.format('hh:mm A');
-    }
-    return undefined;
+    let timeMoment = moment(time, 'HH:mm A');
+    timeMoment.add(2, "hours");
+    return timeMoment.format('hh:mm A');
   }
 
   _formatDate = (date) => {
-    //to format YYYY-mm-dd HH:mm:ss
-    let formattedDate = "";
-    date = date.split("/");
-    formattedDate += date[2] + "-" + date[0] + "-" + date[1];
-    formattedDate += " 00:00:00";
-    return formattedDate;
+    let dateMoment = moment(date, "MM/DD/YYYY");
+    return dateMoment.format("YYYY-MM-DD HH:mm:ss")
   }
 
   _nextStep = (e) => {

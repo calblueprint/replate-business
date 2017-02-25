@@ -70,7 +70,7 @@ class Recurrence < ActiveRecord::Base
     same_week = recurrence_date.strftime('%U') == today.strftime('%U')
     same_year = recurrence_date.strftime('%Y') == today.strftime('%Y')
 
-    if self.frequency === 1
+    if self.frequency === "weekly"
       if same_week
         return today.wday <= Recurrence.days[self.day]
       elsif today >= start_date
@@ -78,7 +78,7 @@ class Recurrence < ActiveRecord::Base
       end
     end
 
-    if self.frequency === 0 and same_week and same_year
+    if self.frequency === "one_time" and same_week and same_year
       return true
     end
     # Write this method in the eventually

@@ -9,6 +9,13 @@ class WeekOverview extends React.Component {
     super(props);
   }
 
+  _cancelPickup = (e) => {
+    let target = $(e.target);
+    let dayNum = target.attr('data-day');
+    let recurrenceId = target.attr('data-recurrence');
+    // Make API call to cancel function
+  }
+
   _getPickupListMoment = (pickupListDay) => {
     let pickupListMoment = moment(this.props.reference);
     pickupListMoment.startOf('week').add(1 + pickupListDay, 'days');

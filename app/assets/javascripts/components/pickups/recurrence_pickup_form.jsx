@@ -18,6 +18,8 @@ class RecurrenceForm extends DefaultForm {
         };
       });
     }
+    this.state.isNextStep = false;
+    this.state.validated = true;
   }
 
   _toggleDay = (day) => {
@@ -48,13 +50,19 @@ class RecurrenceForm extends DefaultForm {
     return dateMoment.format("YYYY-MM-DD HH:mm:ss")
   }
 
+  _setValidated = (valid) => {
+    console.log("set validated to: " + valid);
+    this.state.validated = valid;
+  }
+
   _nextStep = (e) => {
-    let validated = true;
+    this.setState({ isNextStep : true }, this._validate);
+  }
+
+  _validate = () => {
     let requiredKeys = ["frequency", "start_time", "start_date"];
     let hasActive = false;
     let days = DAYSOFWEEK.map((day, i) => {
-      // Validate fields
-      let validations = {};
       if (this.state[day].active) {
         hasActive = true;
         // Set end time - two hours after start time
@@ -67,33 +75,15 @@ class RecurrenceForm extends DefaultForm {
         if (start_date_display) {
           this.state[day].input.start_date = this._formatDate(start_date_display);
         }
-        for (i = 0; i < requiredKeys.length; i++) {
-          let requiredKey = requiredKeys[i];
-          if (this.state[day].input[requiredKey] == undefined ||
-              this.state[[day].inputrequiredKey] == "") {
-
-            let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
-            let validation = <p className="validation-msg marginTop-xxs"
-                    key={i}>{validationMsg}</p>
-            validations[requiredKey] = validation;
-            validated = false;
-          }
-        }
       }
-
-      // Hack for propogating validations to RecurrenceDayInput children
-      this.state[day].validations = validations;
-      let newState = React.addons.update(this.state, {
-        [day]: { validations: { $set: validations } }
-      });
-      this.setState(newState);
     });
     if (!hasActive) {
-      validated = false;
+      this.state.validated = false;
       this.setState({dayValidation : <p className="validation-msg marginTop-xxs"
                     key={i}>You must select at least one day.</p>});
     }
-    this.props.nextStep(this.state, "recurrenceForm", validated);
+    console.log("this.state.validated ? " + this.state.validated);
+    this.props.nextStep(this.state, "recurrenceForm", this.state.validated);
   }
 
   _prevStep = (e) => {
@@ -118,18 +108,22 @@ class RecurrenceForm extends DefaultForm {
       )
     });
 
+    let isNextStep = this.state.isNextStep
     let dayInputs = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         return <RecurrenceDayInput
-                  day         = {day}
-                  update      = {this._updateState}
-                  initData    = {this.state[day].input}
-                  key         = {i}
-                  validations = {this.state[day].validations}/>
+                  day          = {day}
+                  update       = {this._updateState}
+                  initData     = {this.state[day].input}
+                  key          = {i}
+                  isNextStep   = {this.state.isNextStep}
+                  setValidated = {this._setValidated}/>
       } else {
         return null;
       }
     });
+
+    this.state.isNextStep = false;
 
     return (
       <div>

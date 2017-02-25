@@ -36,7 +36,7 @@ class Recurrence < ActiveRecord::Base
 
   def deliver_today?(date = Date.today)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    r_date == date
+    r_date == date and self.day == Time.now.wday - 1
   end
 
   def post_on_demand

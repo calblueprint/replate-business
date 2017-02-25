@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :businesses, :controllers => { registrations: 'registrations', sessions: 'sessions' }
-  
+
   devise_scope :business do
     get '/businesses/sign_out', to: 'devise/sessions#destroy'
     post '/businesses', to: 'devise/sessions#new'

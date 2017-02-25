@@ -40,11 +40,7 @@ class Recurrence < ActiveRecord::Base
   end
 
   def post_on_demand
-    if self.frequency == "one_time"
-      OnfleetAPI.post_one_time_task(self, Date.today)
-    else
-      OnfleetAPI.post_single_task(self, Date.today)
-    end
+    OnfleetAPI.post_single_task(self, Date.today)
     args = {:date => Date.today, :tasks =>[self]}
     ExportAllRecurrences.new(args).export_on_demand_task
   end

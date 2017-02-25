@@ -84,9 +84,7 @@ module OnfleetAPI
 
   def self.cannot_post(recurrence, date)
     # any conditions that if are true, require that post cannot happen
-    cancelled_dates = []
-    recurrence.cancellations.each { |c| cancelled_dates << c.date }
-    cancelled_dates.include?(date) ||
+    recurrence.cancellations.where(date: date).size > 0 ||
     recurrence.start_day > date
   end
 
@@ -97,7 +95,7 @@ module OnfleetAPI
     all = []
     result = {:posted => all, :failed => failed}
     recurrences.each do |r|
-      next if cannot_post(r, date)
+      # next if cannot_post(r, date)
       all << r
       data = post_single_task(r, date)
       failed[r] = data['message'] if data.key?('message')

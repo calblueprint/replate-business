@@ -1,6 +1,7 @@
 /**
  * Component to format time inputs
  * @prop label     - Label for time input element
+ * @prop details   - Additional string information to display
  * @prop form_name - Name for integration with Rails form submission
  * @prop input_id  - ID for the HTML input element
  * @prop update    - on change function handler
@@ -39,20 +40,20 @@ class TimeDropdown extends DefaultForm {
   }
 
   render() {
+    let lo = 0; 
+    let hi = 60;
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+      hi = 5; 
+      if (this.state.minute > lo) {
+        this.state.minute = ("0" + lo).slice(-2);;
+      }
+    }
     let minuteOptions = [];
-    for (let i = 0; i < 60; i += 5) {
+    for (let i = 0; i < hi; i += 5) {
       let minuteStr = ("0" + i).slice(-2);
       let select = minuteStr === this.state.minute;
       let minuteOption = <option value={i} key={i} selected={select ? "selected" : ""}>{minuteStr}</option>
       minuteOptions.push(minuteOption);
-    }
-
-    let hourOptions = [];
-    for (let i = 1; i <= 12; i += 1) {
-      let hourStr = ("0" + i).slice(-2);
-      let select = hourStr === this.state.hour;
-      let hourOption = <option value={i} key={i} selected={select ? "selected" : ""}>{hourStr}</option>
-      hourOptions.push(hourOption);
     }
 
     let meridiemOptions = ["AM", "PM"].map((meridiem, i) => {
@@ -60,6 +61,24 @@ class TimeDropdown extends DefaultForm {
       let meridiemOption = <option value={meridiem} key={i} selected={select ? "selected" : ""}>{meridiem}</option>
       return meridiemOption;
     });
+
+    let hourOptions = [];
+    lo = 1;
+    hi = 12;
+    if (this.state.meridiem == "AM") {
+      lo = 9;
+    } else {
+      hi = 5;
+    }
+    if (this.state.hour < lo || this.state.hour > hi) {
+      this.state.hour = ("0" + lo).slice(-2);
+    }
+    for (let i = lo; i <= hi; i += 1) {
+      let hourStr = ("0" + i).slice(-2);
+      let select = hourStr === this.state.hour;
+      let hourOption = <option value={i} key={i} selected={select ? "selected" : ""}>{hourStr}</option>
+      hourOptions.push(hourOption);
+    }
 
     return (
       <div className="field input-container">

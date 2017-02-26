@@ -19,5 +19,6 @@
 //= require moment
 //= require bootstrap-datepicker
 //= require components
+//= require toastr
 //= require_tree .
 //= require vimeoplayer

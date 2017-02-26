@@ -51,7 +51,6 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _setValidated = (valid) => {
-    console.log("set validated to: " + valid);
     this.state.validated = valid;
   }
 
@@ -59,22 +58,48 @@ class RecurrenceForm extends DefaultForm {
     this.setState({ isNextStep : true }, this._validate);
   }
 
+  _toNextDay = (moment, day) => {
+    let diff = day - moment.day();
+    if (diff < 0) {
+      diff += 8;
+    }
+    moment.add(diff, "day");
+  }
+
+  _validateTimes = (start_date_display,start_time) => {
+    // Check if pickup time is too close to now
+    let recurrenceTimeStr = start_date_display + " " + start_time;
+    let recurrenceMoment = moment(recurrenceTimeStr, "MM/DD/YYYY hh:mm:A");
+    this._toNextDay(recurrenceMoment, i);
+    if (recurrenceMoment.isBefore(moment())) {
+      this.state.validated = false;
+      toastr.error("Your pickups cannot occur before the current time!");
+    } else if (recurrenceMoment.diff(moment(), "hours") <= 1) {
+      let warningStr = "Warning"; 
+      let detailStr = "Your pickups must be scheduled at least an hour in advance of when they are expected to occur!" 
+                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at " 
+                       + recurrenceMoment.format("hh:mm:A") + " will not occur.";
+      toastr.error(detailStr, warningStr);
+    }
+  }
+
   _validate = () => {
-    let requiredKeys = ["frequency", "start_time", "start_date"];
     let hasActive = false;
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         hasActive = true;
-        // Set end time - two hours after start time
-        let start_time = this.state[day].input.start_time;
-        if (start_time) {
-          this.state[day].input.end_time = this._addTwoHours(start_time);
-        }
         // Format start date
         let start_date_display = this.state[day].input.start_date_display;
         if (start_date_display) {
           this.state[day].input.start_date = this._formatDate(start_date_display);
         }
+        // Set end time - two hours after start time
+        let start_time = this.state[day].input.start_time;
+        if (start_time) {
+          this.state[day].input.end_time = this._addTwoHours(start_time);
+        }
+
+        this._validateTimes(start_date_display, start_time);
       }
     });
     if (!hasActive) {
@@ -82,7 +107,6 @@ class RecurrenceForm extends DefaultForm {
       this.setState({dayValidation : <p className="validation-msg marginTop-xxs"
                     key={i}>You must select at least one day.</p>});
     }
-    console.log("this.state.validated ? " + this.state.validated);
     this.props.nextStep(this.state, "recurrenceForm", this.state.validated);
   }
 

@@ -25,14 +25,12 @@ class RecurrenceDayInput extends DefaultForm {
   }
 
   _validate = () => {
-    console.log(this.props.isNextStep);
     this.state.isNextStep = this.props.isNextStep;
     let requiredKeys = ["frequency"];
     this.props.setValidated(true);
     for (i = 0; i < requiredKeys.length; i++) {
       let requiredKey = requiredKeys[i];
       let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
-      console.log(requiredKey + " invalid? " + invalid)
       if (this.state.isNextStep && invalid) {
         let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
         let validation = <p className="validation-msg marginTop-xxs"
@@ -122,6 +120,7 @@ class RecurrenceDayInput extends DefaultForm {
             <div className="col-md-6">
               <TimeDropdown
                 label = "Pickup Time"
+                details = "9:00AM - 5:00PM"
                 input_id = "start"
                 form_name = "start_time"
                 update = {this._updateTime}

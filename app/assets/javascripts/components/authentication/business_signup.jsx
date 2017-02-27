@@ -39,41 +39,62 @@ class BusinessSignup extends DefaultForm {
   }
 
   _saveBusinessData = () => {
+    var error = false;
+    const data = this._formFields();
+    console.log(data);
+    if (!('company_name' in data) || !(data.company_name)) {
+      this._addRedBorder(document.getElementById('company_name'));
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('company_name'));
+    }
+  
+    if (!('email' in data) || !(data.email)) {
+      this._addRedBorder(document.getElementById('email'));
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('email'));
+    }
+    if (!('password' in data) || !(data.password)) {
+      this._addRedBorder(document.getElementById('password'));
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('password'));
+    }
+    if (!('password_confirmation' in data) || !(data.password_confirmation)) {
+      this._addRedBorder(document.getElementById('password_confirmation'));
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('password_confirmation'));
+    }
+    if (!('phone' in data) || !(data.phone)) {
+      this._addRedBorder(document.getElementById('phone'));
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('phone'));
+    }
+    if (data.password != data.password_confirmation || !data.password || !data.password_confirmation) {  
+      var confirm = document.getElementById('password_confirmation');
+      confirm.parentNode.classList.add("nomatch");
+      confirm.classList.add("red-border");
+      error = true;
+    }
+    else {
+      var confirm = document.getElementById('password_confirmation');
+      confirm.parentNode.classList.remove("nomatch");
+      confirm.classList.remove("red-border");
+    }
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })
-      const data = this._formFields();
+      
       console.log(data);
-      var error = false;
-      if (!('company_name' in data)) {
-        this._addRedBorder(document.getElementById('company_name'));
-        error = true;
-      }
-    
-      if (!('email' in data)) {
-        this._addRedBorder(document.getElementById('email'));
-        error = true;
-      }
-      if (!('password' in data)) {
-        this._addRedBorder(document.getElementById('password'));
-        error = true;
-      }
-      if (!('password_confirmation' in data)) {
-        this._addRedBorder(document.getElementById('password_confirmation'));
-        error = true;
-      }
-      if (!('phone' in data)) {
-        this._addRedBorder(document.getElementById('phone'));
-        error = true;
-      }
-      if (data.password != data.password_confirmation) {
-        var newelement = document.createElement('p');
-        var donotmatch = document.createTextNode('Passwords do not match');
-        newelement.appendChild(donotmatch);
-        newelement.style.color = 'red';
-        var parent = document.getElementById('tos-agree').parentNode;
-        parent.insertBefore(newelement,document.getElementById('tos-agree'));
-        error = true;
-      }
+      
+      
       if (!error) {
         this.props.save(data);
       }
@@ -103,16 +124,16 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("email", "Email", "email", "example@business.com") }
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
-
-        <input type="checkbox" id="tos-agree"
-          className="marginRight-xs marginTop-md"
-          checked={this.state.agreeTOS}
-          onChange={this._toggleTerms}/>
-        <label htmlFor="tos-agree">
-          I agree to the Re-Plate <a href="/terms" target="_blank">Terms of Use and Privacy Policy</a>
-        </label>
-        {tosAlert}
-
+        <div>
+          <input type="checkbox" id="tos-agree"
+            className="marginRight-xs marginTop-md"
+            checked={this.state.agreeTOS}
+            onChange={this._toggleTerms}/>
+          <label htmlFor="tos-agree">
+            I agree to the Re-Plate <a href="/terms" target="_blank">Terms of Use and Privacy Policy</a>
+          </label>
+          {tosAlert}
+        </div>
         <div className="marginTopBot-xl">
           <button onClick={ () => { window.location = "/" } }
             className="button button--text-alert marginRight-xs">Cancel</button>

@@ -91,7 +91,7 @@ class TimeDropdown extends DefaultForm {
         <select className="select" name="minute" onChange={this._handleInput}>
           {minuteOptions}
         </select>
-        <select className="select" name="meridiem" onChange={this._handleInput}>
+        <select className="select" name="meridiem" disabled="true" onChange={this._handleInput}>
           {meridiemOptions}
         </select>
       </div>

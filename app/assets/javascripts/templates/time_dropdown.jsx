@@ -64,14 +64,14 @@ class TimeDropdown extends DefaultForm {
     return (
       <div className="field input-container">
         <label className="label label--newline" htmlFor={this.props.input_id}>{this.props.label}</label>
-        <select name="hour" onChange={this._handleInput}>
+        <select className="select" name="hour" onChange={this._handleInput}>
           {hourOptions}
         </select>
         <label>:</label>
-        <select name="minute" onChange={this._handleInput}>
+        <select className="select" name="minute" onChange={this._handleInput}>
           {minuteOptions}
         </select>
-        <select name="meridiem" onChange={this._handleInput}>
+        <select className="select" name="meridiem" onChange={this._handleInput}>
           {meridiemOptions}
         </select>
       </div>

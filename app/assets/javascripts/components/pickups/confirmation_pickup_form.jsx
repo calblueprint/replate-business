@@ -31,10 +31,10 @@ class ConfirmationForm extends DefaultForm {
     let recurrences = DAYSOFWEEK.map((day, i) => {
         if (this.props.recurrenceData[day].active) {
           return <div className="name-container" key={i}>
-                <h3>{this._capitalize(day)}</h3>
-                <p>{this.props.recurrenceData[day].input.start_time}</p>
-                <p>{this.props.recurrenceData[day].input.start_date_display}</p>
-                <p>{this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
+                <h3 className="label">{this._capitalize(day)}</h3>
+                <p className="input">{this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time}</p>
+                <p className="input">{this.props.recurrenceData[day].input.start_date_display}</p>
+                <p className="input">{this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
               </div>
         }
       });
@@ -43,11 +43,11 @@ class ConfirmationForm extends DefaultForm {
         <Modal.Body>
           <div className="confirmation-container">
             <div className="name-container">
-              <h3>Title</h3>
+              <h3 className="label">Title</h3>
               <p>{this.props.basicData.title}</p>
             </div>
             <div className="name-container">
-              <h3>Comments</h3>
+              <h3 className="label">Comments</h3>
               <p>{this.props.basicData.comments}</p>
             </div>
             {recurrences}

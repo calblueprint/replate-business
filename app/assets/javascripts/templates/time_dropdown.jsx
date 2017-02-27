@@ -32,32 +32,37 @@ class TimeDropdown extends DefaultForm {
   }
 
   _handleInput = (e) => {
-    let target = $(e.target);
-    let time = ("0" + target.val()).slice(-2);
-    this.state[target.attr('name')] = time;
-    let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
-    this.props.update(timeStr);
-  }
+    if (e != undefined) {
+      let target = $(e.target);
+      let time = ("0" + target.val()).slice(-2);
+      this.state[target.attr('name')] = time;
+    }
 
-  render() {
     if (9 <= this.state.hour  && this.state.hour <= 11) {
       this.state.meridiem = "AM";
     } else {
       this.state.meridiem = "PM";
     }
+
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+        this.state.minute = "00";
+    }
+
+    let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
+    this.props.update(timeStr);
+  }
+
+  render() {
+
     let meridiemOptions = ["AM", "PM"].map((meridiem, i) => {
       let select = meridiem === this.state.meridiem;
       let meridiemOption = <option value={meridiem} key={i} selected={select ? "selected" : ""}>{meridiem}</option>
       return meridiemOption;
     });
 
-    let lo = 0; 
     let hi = 60;
     if (this.state.hour == 5 && this.state.meridiem == "PM") {
       hi = 5; 
-      if (this.state.minute < lo || this.state.minute > hi) {
-        this.state.minute = ("0" + lo).slice(-2);;
-      }
     }
     let minuteOptions = [];
     for (let i = 0; i < hi; i += 5) {
@@ -66,7 +71,7 @@ class TimeDropdown extends DefaultForm {
       let minuteOption = <option value={i} key={i} selected={select ? "selected" : ""}>{minuteStr}</option>
       minuteOptions.push(minuteOption);
     }
-    
+
     let hourOptions = [];
     for (let i = 9; i <= 17; i += 1) {
       let j = i === 12 ? i : i % 12;

@@ -40,11 +40,22 @@ class TimeDropdown extends DefaultForm {
   }
 
   render() {
+    if (9 <= this.state.hour  && this.state.hour <= 11) {
+      this.state.meridiem = "AM";
+    } else {
+      this.state.meridiem = "PM";
+    }
+    let meridiemOptions = ["AM", "PM"].map((meridiem, i) => {
+      let select = meridiem === this.state.meridiem;
+      let meridiemOption = <option value={meridiem} key={i} selected={select ? "selected" : ""}>{meridiem}</option>
+      return meridiemOption;
+    });
+
     let lo = 0; 
     let hi = 60;
     if (this.state.hour == 5 && this.state.meridiem == "PM") {
       hi = 5; 
-      if (this.state.minute > lo) {
+      if (this.state.minute < lo || this.state.minute > hi) {
         this.state.minute = ("0" + lo).slice(-2);;
       }
     }
@@ -55,28 +66,13 @@ class TimeDropdown extends DefaultForm {
       let minuteOption = <option value={i} key={i} selected={select ? "selected" : ""}>{minuteStr}</option>
       minuteOptions.push(minuteOption);
     }
-
-    let meridiemOptions = ["AM", "PM"].map((meridiem, i) => {
-      let select = meridiem === this.state.meridiem;
-      let meridiemOption = <option value={meridiem} key={i} selected={select ? "selected" : ""}>{meridiem}</option>
-      return meridiemOption;
-    });
-
+    
     let hourOptions = [];
-    lo = 1;
-    hi = 12;
-    if (this.state.meridiem == "AM") {
-      lo = 9;
-    } else {
-      hi = 5;
-    }
-    if (this.state.hour < lo || this.state.hour > hi) {
-      this.state.hour = ("0" + lo).slice(-2);
-    }
-    for (let i = lo; i <= hi; i += 1) {
-      let hourStr = ("0" + i).slice(-2);
+    for (let i = 9; i <= 17; i += 1) {
+      let j = i === 12 ? i : i % 12;
+      let hourStr = ("0" + j).slice(-2);
       let select = hourStr === this.state.hour;
-      let hourOption = <option value={i} key={i} selected={select ? "selected" : ""}>{hourStr}</option>
+      let hourOption = <option value={j} key={j} selected={select ? "selected" : ""}>{hourStr}</option>
       hourOptions.push(hourOption);
     }
 

@@ -18,19 +18,25 @@
 
 class Recurrence < ActiveRecord::Base
   belongs_to :pickup
+  has_many :cancellations, :dependent => :destroy
+  enum frequency: [:one_time, :weekly]
   enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
 
   def location
     self.pickup.location
   end
 
+  def start_day
+    Date.new(self.start_date.year, self.start_date.month, self.start_date.day)
+  end
+
   def business
     self.pickup.location.business
   end
 
-  def is_on_demand?
+  def deliver_today?(date = Date.today)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    r_date == Date.today
+    r_date == date and self.day == Time.now.wday - 1
   end
 
   def post_on_demand
@@ -64,7 +70,7 @@ class Recurrence < ActiveRecord::Base
     same_week = recurrence_date.strftime('%U') == today.strftime('%U')
     same_year = recurrence_date.strftime('%Y') == today.strftime('%Y')
 
-    if self.frequency === 1
+    if self.frequency === "weekly"
       if same_week
         return today.wday <= Recurrence.days[self.day]
       elsif today >= start_date
@@ -72,7 +78,7 @@ class Recurrence < ActiveRecord::Base
       end
     end
 
-    if self.frequency === 0 and same_week and same_year
+    if self.frequency === "one_time" and same_week and same_year
       return true
     end
     # Write this method in the eventually
@@ -93,7 +99,7 @@ class Recurrence < ActiveRecord::Base
                 location_id: self.location.id)
   end
 
-  def cancel_upcoming
+  def onfleet_cancel
     o_id = self.onfleet_id
     if o_id
       # Try to remove from onfleet: will only be removed if task
@@ -101,12 +107,9 @@ class Recurrence < ActiveRecord::Base
       resp = OnfleetAPI.delete_task(o_id)
       unless resp
         t = Task.where(onfleet_id: o_id).first
-        t.update(status: 'cancelled')
+        t.update(status: 'cancelled') if task
         return
       end
     end
-    # if nothing was removed from onfleet the set the task to be cancelled
-    # since it has not been posted yet
-    self.cancel = true
   end
 end

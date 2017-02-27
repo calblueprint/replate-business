@@ -103,15 +103,27 @@ def make_recurrences
   pickups = Pickup.all
   pickups.each do |pickup|
     1.upto(4) do |n|
-      pickup.recurrences.create(
+      r = pickup.recurrences.create(
         day: n,
-        frequency: 1,
-        start_date: Time.new(2017, 1, 01),
+        frequency: [0, 1].sample,
+        start_date: Date.today,
         start_time: randomtime[0],
         end_time: randomtime[1],
         pickup_id: pickup.id,
         #(this is helen's driver id)
         driver_id: 'nhed6lRTknGd~IgCOD4MjWNK'
+      )
+      r.location.update(addr_name: r.id)
+    end
+  end
+end
+
+def make_cancellations
+  recurrences = Recurrence.all
+  recurrences.each do |r|
+    1.upto(3) do |n|
+      r.cancellations.create(
+        date: Date.today + (n * 7)
       )
     end
   end
@@ -121,4 +133,5 @@ make_businesses
 make_locations
 make_pickups
 make_recurrences
+make_cancellations
 make_admin

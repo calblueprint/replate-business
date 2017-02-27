@@ -28,11 +28,55 @@ class BusinessSignup extends DefaultForm {
     })
   }
 
+  _addRedBorder = (input) => {
+    input.parentNode.classList.add("blank");
+    input.classList.add("red-border");
+  }
+
+  _removeRedBorder = (input) => {
+    input.parentNode.classList.remove("blank");
+    input.classList.remove("red-border");
+  }
+
   _saveBusinessData = () => {
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })
       const data = this._formFields();
-      this.props.save(data);
+      console.log(data);
+      var error = false;
+      if (!('company_name' in data)) {
+        this._addRedBorder(document.getElementById('company_name'));
+        error = true;
+      }
+    
+      if (!('email' in data)) {
+        this._addRedBorder(document.getElementById('email'));
+        error = true;
+      }
+      if (!('password' in data)) {
+        this._addRedBorder(document.getElementById('password'));
+        error = true;
+      }
+      if (!('password_confirmation' in data)) {
+        this._addRedBorder(document.getElementById('password_confirmation'));
+        error = true;
+      }
+      if (!('phone' in data)) {
+        this._addRedBorder(document.getElementById('phone'));
+        error = true;
+      }
+      if (data.password != data.password_confirmation) {
+        var newelement = document.createElement('p');
+        var donotmatch = document.createTextNode('Passwords do not match');
+        newelement.appendChild(donotmatch);
+        newelement.style.color = 'red';
+        var parent = document.getElementById('tos-agree').parentNode;
+        parent.insertBefore(newelement,document.getElementById('tos-agree'));
+        error = true;
+      }
+      if (!error) {
+        this.props.save(data);
+      }
     } else {
       this.setState({ tosAlert: true, })
     }

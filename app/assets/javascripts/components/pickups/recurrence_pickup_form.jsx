@@ -75,7 +75,7 @@ class RecurrenceForm extends DefaultForm {
     if (recurrenceMoment.isBefore(moment())) {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
-    } else if (recurrenceMoment.diff(moment(), "hours") <= 1) {
+    } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
       let warningStr = "Warning"; 
       let detailStr = "Pickups must be scheduled at least an hour in advance!" 
                       + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at " 

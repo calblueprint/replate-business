@@ -29,15 +29,16 @@ class ConfirmationForm extends DefaultForm {
 
   render() {
     let recurrences = DAYSOFWEEK.map((day, i) => {
-        if (this.props.recurrenceData[day].active) {
-          return <div className="name-container" key={i}>
-                <h3 className="label">{this._capitalize(day)}</h3>
-                <p className="input">{this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time}</p>
-                <p className="input">{this.props.recurrenceData[day].input.start_date_display}</p>
-                <p className="input">{this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
-              </div>
-        }
-      });
+      if (this.props.recurrenceData[day].active) {
+        pickupTimeWindow = this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time;
+        return <div className="name-container" key={i}>
+              <h3 className="label">{this._capitalize(day)}</h3>
+              <p className="input">{"Pickup Time Window: " + pickupTimeWindow}</p>
+              <p className="input">{"Pickup Start Date: " + this.props.recurrenceData[day].input.start_date_display}</p>
+              <p className="input">{"Pickup Frequency: " + this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
+            </div>
+      }
+    });
     return (
       <div>
         <Modal.Body>

@@ -12,6 +12,7 @@ class LocationSignup extends DefaultForm {
       business_id: this.props.businessID,
       file: DEFAULT_FILE,
     };
+    this.initMap = this.initMap.bind(this);
   }
 
   _renderInputField = (name, label, inputType, placeholder) => {
@@ -25,8 +26,68 @@ class LocationSignup extends DefaultForm {
     )
   }
 
+  initMap = (e) => {
+        
+        var locationForm = this;
+        if (document.getElementById('map').innerHTML||!e) {  
+          return;
+        }
+        var map = new google.maps.Map(document.getElementById("map"), {
+          center: {lat:37.791569, lng:-122.389938},
+          zoom: 8
+        });
+        var marker = new google.maps.Marker({
+          position: {lat:37.791569, lng:-122.389938},
+          map: map
+        });
+      
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById("addr"));       
+        autocomplete.bindTo('bounds', map);
+        autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+          for (var i = 0; i < place.address_components.length; i++) {
+            if (place.address_components[i].types.includes('street_number')) {
+              locationForm.setState({ number:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('route')) {           
+              locationForm.setState({ street:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('locality')) {
+              locationForm.setState({ city:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('administrative_area_level_1')) {
+              locationForm.setState({ state:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('postal_code')) {
+              locationForm.setState({ zip:place.address_components[i].long_name });
+            }
+            else if (place.address_components[i].types.includes('country')) {
+              locationForm.setState({ country:place.address_components[i].long_name });
+            }
+            else {
+            }
+          }
+        });
+  }
+
   _saveLocationData = () => {
-    const data = this._formFields();
+    const data = { addr_name:this.state.addr_name,
+      number:this.state.number,
+      street:this.state.street,
+      city:this.state.city,
+      state:this.state.state,
+      country:this.state.country,
+      zip:this.state.zip
+
+    }
     this.props.save(data);
   }
 
@@ -80,14 +141,16 @@ class LocationSignup extends DefaultForm {
             { this._renderImagePreview() }
           </div>
         </fieldset>
+        <label className="label label--newline">Office Name</label>
+            <input type="text" placeholder="New York Office" name="addr_name"
+                       onChange={this._handleChange} className="input" />
+        <label className="label label--newline">Office Address</label>
+        <input ref={(input) => { this.locationInput = input}} className="input address" id="addr">
 
-        { this._renderInputField("addr_name", "Office Name", "text", "SF Office") }
-        { this._renderInputField("number", "Number", "text") }
-        { this._renderInputField("street", "Street", "text") }
-        { this._renderInputField("city", "City", "text") }
-        { this._renderInputField("state", "State", "text") }
-        { this._renderInputField("country","Country", "text") }
-        { this._renderInputField("zip","ZIP", "text") }
+        </input>
+        <div id = "map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
+
+        </div>
 
         <div className="marginTopBot-xl clearfix">
           <button className="button signup-btn-right"

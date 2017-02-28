@@ -21,10 +21,9 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    let newState = React.addons.update(this.state, {
-        [day]: { active: { $set: !this.state[day].active } }
-      });
-    this.setState(newState);
+    this.state[day].active = !this.state[day].active;
+    this.state.dayValidation = undefined;
+    this.props.nextStep(this.state, "recurrenceForm", false);
   }
 
   _renderDirections = (days) => {
@@ -70,10 +69,12 @@ class RecurrenceForm extends DefaultForm {
   _nextStep = (e) => {
     let validated = true;
     let requiredKeys = ["frequency", "start_time", "start_date"];
+    let hasActive = false;
     let days = DAYSOFWEEK.map((day, i) => {
       // Validate fields
       let validations = {};
       if (this.state[day].active) {
+        hasActive = true;
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
         if (start_time) {
@@ -105,6 +106,11 @@ class RecurrenceForm extends DefaultForm {
       });
       this.setState(newState);
     });
+    if (!hasActive) {
+      validated = false;
+      this.setState({dayValidation : <p className="validation-msg marginTop-xxs"
+                    key={i}>You must select at least one day.</p>});
+    }
     this.props.nextStep(this.state, "recurrenceForm", validated);
   }
 
@@ -114,17 +120,13 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _updateState = (key, value, day) => {
-    let newState = React.addons.update(this.state, {
-      [day]: { input: { [key]: { $set: value } } }
-    });
-    this.setState(newState);
+    this.state[day].input[key] = value;
+    this.props.nextStep(this.state, "recurrenceForm", false);
   }
 
   render() {
     let days = DAYSOFWEEK.map((day, i) => {
-
       const status = `pickup-btn--${this.state[day].active ? "active" : "inactive"}`;
-
       return (
         <div className={`pickup-btn ${status}`}
              onClick={this._toggleDay.bind(this, day)}
@@ -157,6 +159,7 @@ class RecurrenceForm extends DefaultForm {
             { this._renderDirections(dayInputs) }
             { dayInputs }
           </div>
+          {this.state.dayValidation}
         </Modal.Body>
         <Modal.Footer>
           <button className="button button--text-alert marginRight-xs pull-left"

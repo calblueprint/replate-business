@@ -105,15 +105,13 @@ class LocationHome extends React.Component {
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
             <WeekOverview today = {this._getToday()}
                           schedule = {this.state.schedule}/>
-            <h2 className="pickup-section-title">All Pickups</h2>
-            <LocationPickups pickups = {this.state.location.pickups} />
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
-                              fetchUpdates = {this._fetchUpdates} />
+                              fetchLocation = {this._fetchLocation} />
           </Tab>
         </Tabs>
       </div>

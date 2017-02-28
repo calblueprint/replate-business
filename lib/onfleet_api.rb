@@ -3,60 +3,140 @@ require 'json'
 require 'httparty'
 
 module OnfleetAPI
-  @url = "https://onfleet.com/api/v2/tasks"
+  @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(time)
-    # now = Time.now
-    now = Time.new(2016, 11, 20)
-    t = Time.parse(time, now).to_i
+  def self.make_time(date, time)
+    # Onfleet takes unix time in milliseconds
+    t = Time.new(date.year, date.month, date.day)
+    t = Time.parse(time, t).to_i
     t * 1000
   end
 
-  def self.build_data(recurrence)
-    l = recurrence.location
-    b = recurrence.business
-    p = recurrence.pickup
-    com_after = make_time(recurrence.start_time)
-    com_before = make_time(recurrence.end_time)
-    task = {
-    :destination => {
+  def self.build_destination(location)
+    {
       :address => {
-        :name => l.addr_name,
-        :number => l.number,
-        :street => l.street,
-        :apartment => l.apt_number ? l.apt_number : '',
-        :city => l.city,
-        :state => l.state,
-        :country => l.country
-        # :unparsed => "2333 Channing way, apartment #24, Berkeley, CA, USA"
+        :name => location.addr_name,
+        :number => location.number,
+        :street => location.street,
+        :apartment => location.apt_number ? location.apt_number : '',
+        :city => location.city,
+        :state => location.state,
+        :country => location.country
       }
-    },
-    :recipients => [
-      {
-        :name => b.company_name,
-        :phone => b.phone
-      }
-    ],
-    :completeAfter => com_after,
-    :completeBefore => com_before,
-    :pickupTask => true,
-    :notes => p.comments,
-    :container => {
-      :type => 'WORKER',
-      # carlos
-      :worker => recurrence.driver_id
-    }
     }
   end
 
-  def self.post_task(recurrence)
-    data = build_data(recurrence)
-    resp = HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+  def self.build_recipients(business)
+    [
+      {
+        :name => business.company_name,
+        :phone => business.phone
+      }
+    ]
+  end
+
+  def self.build_container(recurrence)
+    {
+      :type => 'WORKER',
+      :worker => recurrence.driver_id
+    }
+  end
+
+  def self.build_data(recurrence, date)
+    l = build_destination(recurrence.location)
+    b = build_recipients(recurrence.business)
+    p = recurrence.pickup
+    c = build_container(recurrence)
+    com_after = make_time(date, recurrence.start_time)
+    com_before = make_time(date, recurrence.end_time)
+    task = {
+      :completeAfter => com_after,
+      :completeBefore => com_before,
+      :pickupTask => true,
+      :notes => p.comments
+    }
+    task[:container] = c
+    task[:recipients] = b
+    task[:destination] = l
+    task
+  end
+
+  def self.post_task(recurrence, date)
+    data = build_data(recurrence, date)
+    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.delete_task(id)
+    HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
   end
 
   def self.get_task(id)
-    resp = HTTParty.get("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+    HTTParty.get("#{@url}/#{id}",
+                 :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.get_task_shortid(id)
+    HTTParty.get("#{@url}/shortId/#{id}",
+                 :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.can_post(recurrence, day)
+    # any conditions that if are true, require that post cannot happen
+    recurrence.cancel ||
+    recurrence.start_date > day + 1
+  end
+
+  def self.post_batch_task(day, tomorrow)
+    # Tasks are posted the night before they are due to happen
+    recurrences = Recurrence.where(day: day)
+    failed = {}
+    all = []
+    result = {:posted => all, :failed => failed}
+    recurrences.each do |r|
+      if can_post(r, tomorrow)
+        r.update(cancel: false)
+        next
+      end
+      all << r
+      data = post_single_task(r, tomorrow)
+      if data.key?('message')
+        failed[r] = data['message']
+      end
+      # Throttling requires max 10 requests per second
+      sleep 0.1
+    end
+    result
+  end
+
+  def self.post_single_task(recurrence, date)
+    resp = post_task(recurrence, date)
+    puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
+    if resp.key?('id')
+      puts resp['id']
+      args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
+      recurrence.create_task(args)
+      recurrence.update(onfleet_id: resp['id'])
+    else
+      puts resp['message']
+    end
+    resp
+  end
+
+  def self.update_single_task(task)
+    if task.onfleet_id
+      resp = get_task(task.onfleet_id)
+      state = resp['state'].to_i
+      task.update(status: state)
+    end
+  end
+
+  def self.update_batch_task
+    # tasks where status is not complete, failed, or cancelled
+    tasks = Task.where.not('status= 3 OR status= 4 OR status= 5')
+    tasks.each do |t|
+      update_single_task(t)
+    end
   end
 end
 

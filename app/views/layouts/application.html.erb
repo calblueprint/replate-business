@@ -2,7 +2,9 @@
 <html>
 <head>
   <title><%= page_title %></title>
+  <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCFVVtRpgSf2IOtxNP3KMWGGNyhsmtBA84&libraries=places' %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= favicon_link_tag 'favicon.ico' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>

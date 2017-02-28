@@ -45,20 +45,6 @@ class HomeLogin extends DefaultForm {
     Requester.post(APIConstants.sessions.create, this._formFields(), success, failure);
   }
 
-  // _handleLoginAdmin = () {
-    // this.setState({ hidErrors: true})
-
-    // const success = () =>  {
-      // window.location = "/admin_dashboard";
-    // }
-    // const failure = () => {
-      // this.setState({hideErrors: false});
-
-    // }
-    // Requester.post(APIConstants.sessions.create, this._formFields(), success, failure)
-    // }
-
-
   render() {
     return (
       <div>

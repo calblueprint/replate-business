@@ -14,7 +14,6 @@
 #  end_time   :string
 #  cancel     :boolean          default(FALSE), not null
 #  driver_id  :string           default(""), not null
-#  task_id    :string
 #
 
 class Recurrence < ActiveRecord::Base
@@ -27,6 +26,26 @@ class Recurrence < ActiveRecord::Base
 
   def business
     self.pickup.location.business
+  end
+
+  def is_on_demand?
+    r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
+    r_date == Date.today
+  end
+
+  def post_on_demand
+    OnfleetAPI.post_single_task(self, Date.today)
+    args = {:date => Date.today, :tasks =>[self]}
+    ExportAllRecurrences.new(args).export_on_demand_task
+  end
+
+  # Temporary assignment method since no load balancing drivers yet
+  def assign_driver
+    if self.location.state == 'California'
+      self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
+    else
+      self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
+    end
   end
 
   def same_week(d)
@@ -52,43 +71,33 @@ class Recurrence < ActiveRecord::Base
     #   ...
     return false
   end
-    
 
-  def self.post_batch_task(day)
-    recurrences = Recurrence.where(day: day)
-    f = []
-    recurrences.each do |r|
-      r.update(task_id: nil)
-      if r.cancel
-        r.update(cancel: false)
-        next
-      else
-        resp = OnfleetAPI.post_task(r)
-      end
-      if resp.key?('id')
-        task_id = resp["id"]
-        r.update(task_id: task_id)
-      else
-        f << {:failed => r.id, :message => resp["message"]}
-      end
-      # Throttling requires max 10 requests per second
-      # pausing every .2 to prevent API key lock since sleep is not exact
-      sleep 0.2
-    end
-    f
+  # args is hash:
+  # args[:status] = string value of status enum, see Task model
+  # args[:date] = date task was originally destined for
+  # args[:onfleet_id] = onfleet id of task if succesfully posted
+  def create_task(args)
+    Task.create(scheduled_date: args[:date],
+                onfleet_id: args[:onfleet_id],
+                status: args[:status],
+                driver: self.driver_id,
+                location_id: self.location.id)
   end
 
-  def self.get_daily_task
-    recurrences = Recurrence.where(day: day)
-    recurrences.each do |r|
-      if r.task_id
-        resp = self.get_task(r.task_id)
+  def cancel_upcoming
+    o_id = self.onfleet_id
+    if o_id
+      # Try to remove from onfleet: will only be removed if task
+      # is not completed
+      resp = OnfleetAPI.delete_task(o_id)
+      unless resp
+        t = Task.where(onfleet_id: o_id).first
+        t.update(status: 'cancelled')
+        return
       end
     end
-  end
-
-  def self.post_daily_task
-    today = Time.now.wday - 1
-    post_batch_task(today)
+    # if nothing was removed from onfleet the set the task to be cancelled
+    # since it has not been posted yet
+    self.cancel = true
   end
 end

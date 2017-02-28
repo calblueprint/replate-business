@@ -1,0 +1,17 @@
+// /**
+// * Renders the home admin dashboard view
+// * @prop admin -current admin signed in
+// */
+//
+// class AdminDashboard extends React.compoenent {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       admin: {}
+//   };
+//
+//   render (
+//     <Hello>
+//   )
+// }
+// }

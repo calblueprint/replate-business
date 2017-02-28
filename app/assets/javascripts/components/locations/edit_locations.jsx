@@ -8,7 +8,7 @@ class EditLocation extends DefaultForm {
     super(prop);
     this.state = {
       editable: false,
-}
+    }
   }
 
   _attemptSave = (e)=> {
@@ -19,7 +19,9 @@ class EditLocation extends DefaultForm {
     const fail = (msg) => {
       this.setState({ editable: true });
     };
-    Requester.update(APIConstants.locations.update(this.props.location.id)
+    Requester.update(APIConstants.locations.update(this.props.location.id),
+        this._formFields(), success, fail);
+  }
 
 
   _showInput = (label, name, data) => {

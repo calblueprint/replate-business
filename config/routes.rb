@@ -11,6 +11,12 @@ Rails.application.routes.draw do
 
   devise_for :admins
 
+  devise_scope :admins do
+
+    get '/signup', to: 'devise/registrations#new'
+    post '/signup', to: 'registrations#create'
+  end
+
   # Static Pages
   root 'pages#home'
   get 'business' => 'pages#business'

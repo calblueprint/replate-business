@@ -73,7 +73,7 @@ class Recurrence < ActiveRecord::Base
       return true
     end
 
-    recurrence_date = Recurrence.get_date_after(today, self.day)
+    recurrence_date = Recurrence.get_date_after(today.at_beginning_of_week, self.day)
     if today >= start_date
       self.cancellations.each do |cancellation|
         if cancellation.same_day_as? recurrence_date
@@ -86,7 +86,7 @@ class Recurrence < ActiveRecord::Base
     same_year = start_date.strftime('%Y') == today.strftime('%Y')
     if self.frequency === "weekly"
       if same_week
-        return today.wday <= Recurrence.days[self.day]
+        return (today.wday - 1) <= Recurrence.days[self.day]
       elsif today >= start_date
         return true
       end

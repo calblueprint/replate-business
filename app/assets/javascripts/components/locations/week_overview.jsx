@@ -29,14 +29,6 @@ class WeekOverview extends React.Component {
     }
   }
 
-  _toNextDay = (moment, day) => {
-    let diff = day - moment.day() + 1;
-    if (diff < 0) {
-      diff += 7;
-    }
-    moment.add(diff, "day");
-  }
-
   _getPickupListMoment = (pickupListDay) => {
     let pickupListMoment = moment(this.props.reference);
     pickupListMoment.startOf('week').add(1 + pickupListDay, 'days');
@@ -51,9 +43,8 @@ class WeekOverview extends React.Component {
       let pickupListMoment = this._getPickupListMoment(pickupListDay);
       const isPastEvent = pickupListMoment.isBefore(this.props.today, "day");
       let cancelButton;
-      let recurrenceMoment = moment(recurrence.start_date);
-      this._toNextDay(recurrenceMoment, pickupListDay);
-      let recurrenceDate = recurrenceMoment.format();
+
+      let recurrenceDate = pickupListMoment.format();
 
       if (!isPastEvent) {
         cancelButton = <a data-id={recurrence.id} data-date={recurrenceDate} data-freq={recurrence.frequency} onClick={this._cancelPickup} className="cancelButton">Cancel</a>

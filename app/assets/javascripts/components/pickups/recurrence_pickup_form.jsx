@@ -59,7 +59,6 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toNextDay = (moment, day) => {
-    console.log(day, moment.day())
     let diff = day - moment.day() + 1;
     if (diff < 0) {
       diff += 7;

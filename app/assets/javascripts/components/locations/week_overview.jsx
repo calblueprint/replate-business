@@ -1,8 +1,9 @@
 /**
- * @prop schedule    - weekly schedule data
- * @prop reference   - MomentJS object indicating the calendar's reference point for the week displayed
- * @prop today       - MomentJS object for today's date
- * @prop isThisWeek  - Boolean indicating whether calendar is this week or next week
+ * @prop schedule     - weekly schedule data
+ * @prop reference    - MomentJS object indicating the calendar's reference point for the week displayed
+ * @prop today        - MomentJS object for today's date
+ * @prop isThisWeek   - Boolean indicating whether calendar is this week or next week
+ * @prop fetchUpdates - function that refreshes weekly schedule
  */
 class WeekOverview extends React.Component {
   constructor(props) {
@@ -11,9 +12,29 @@ class WeekOverview extends React.Component {
 
   _cancelPickup = (e) => {
     let target = $(e.target);
-    let dayNum = target.attr('data-day');
-    let recurrenceId = target.attr('data-recurrence');
+    let date = target.attr('data-date');
+    let recurrenceId = target.attr('data-id');
+    let frequency = target.attr('data-freq');
     // Make API call to cancel function
+    if (frequency === "one_time") {
+      Requester.delete(APIConstants.cancellations.destroy(recurrenceId),
+                  this.props.fetchUpdates);
+    } else if (frequency === "weekly") {
+      let params = {
+        "date"         : date,
+        "recurrence_id" : recurrenceId,
+      };
+      Requester.post(APIConstants.cancellations.create(), params,
+                  this.props.fetchUpdates);
+    }
+  }
+
+  _toNextDay = (moment, day) => {
+    let diff = day - moment.day() + 1;
+    if (diff < 0) {
+      diff += 7;
+    }
+    moment.add(diff, "day");
   }
 
   _getPickupListMoment = (pickupListDay) => {
@@ -30,16 +51,19 @@ class WeekOverview extends React.Component {
       let pickupListMoment = this._getPickupListMoment(pickupListDay);
       const isPastEvent = pickupListMoment.isBefore(this.props.today, "day");
       let cancelButton;
+      let recurrenceMoment = moment(recurrence.start_date);
+      this._toNextDay(recurrenceMoment, pickupListDay);
+      let recurrenceDate = recurrenceMoment.format();
 
       if (!isPastEvent) {
-        cancelButton = <a data-recurrence={recurrence.id} data-day={pickupListDay} href="" onClick={this._cancelPickup} className="cancelButton">Cancel</a>
+        cancelButton = <a data-id={recurrence.id} data-date={recurrenceDate} data-freq={recurrence.frequency} onClick={this._cancelPickup} className="cancelButton">Cancel</a>
       }
 
       return (
         <div className={`pickup-item ` + (isPastEvent ? 'past' : '')} key={index}>
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
-          <p className="repeating">{recurrence.frequency ? "Repeating pickup" : "One-time pickup"}</p>
+          <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
           {cancelButton}
         </div>
       )

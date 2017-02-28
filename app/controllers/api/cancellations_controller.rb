@@ -1,16 +1,20 @@
 class API::CancellationsController < ApplicationController
   def create
     cancellation = Cancellation.new(cancellation_params)
+    puts "CREATINGGGGGG"
     if cancellation.save
+      puts "SAVED!!!!!!"
+      puts cancellation_params
       cancellation.recurrence.onfleet_cancel if cancellation.same_day?
       render_json_message(:ok, message: cancellation)
     else
+      puts "NOOOOOOO"
       render_json_message(:forbidden, errors: cancellation.errors.full_messages)
     end
   end
 
   def destroy
-    cancellation = Cancellation.find(params[:id])
+    cancellation = Recurrence.find(params[:id])
     if cancellation.destroy
       render_json_message(:ok, message: 'Cancellation successfully deleted!')
     else

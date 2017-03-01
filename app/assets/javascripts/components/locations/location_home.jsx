@@ -128,7 +128,7 @@ class LocationHome extends React.Component {
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
-                              fetchLocation = {this._fetchLocation} />
+                              fetchUpdates = {this._fetchUpdates} />
           </Tab>
         </Tabs>
       </div>

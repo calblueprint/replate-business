@@ -378,6 +378,19 @@
   }
 }
 
+.recipient-container {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 900px;
+
+  img {
+    display: inline-block;
+    height: 70px;
+    margin: 10px 15px;
+    transition: 100ms;
+  }
+}
+
 .subscribe-section {
   background: $gray-60;
   padding: 60px 0;

@@ -17,21 +17,21 @@ class WeekOverview extends React.Component {
     let target = $(e.target);
     let date = target.attr('data-date');
     let id = target.attr('data-id');
-    let frequency = target.attr('data-freq');
-    // Make API call to cancel function
+    let frequency = target.attr('data-freq'); 
+    let params = {
+        "date"          : date,
+        "recurrence_id" : id,
+      };
+      
     if (frequency === "one_time") {
       this.state.cancelData = {
         header      : "You're cancelling a one time pickup.",
         detail      : "Are you sure you want to continue?",
         buttonText  : ["Delete Pickup"],
         onClicks    : [this._deleteRecurrence],
-        metadata    : id,
+        metadata    : params,
       }; 
     } else if (frequency === "weekly") {
-      let params = {
-        "date"          : date,
-        "recurrence_id" : id,
-      };
       this.state.cancelData = {
         header      : "You're cancelling a pickup occurrence.",
         detail      : "Do you want to delete this and all future occurrences, or only the selected occurrence?",

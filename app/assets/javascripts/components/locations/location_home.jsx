@@ -83,7 +83,6 @@ class LocationHome extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <div className="location-page-header">

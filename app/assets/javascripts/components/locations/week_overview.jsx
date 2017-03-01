@@ -8,25 +8,54 @@
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { showCancelModal : false, 
+                   cancelData : {}
+                 };
   }
 
   _cancelPickup = (e) => {
     let target = $(e.target);
     let date = target.attr('data-date');
-    let recurrenceId = target.attr('data-id');
+    let id = target.attr('data-id');
     let frequency = target.attr('data-freq');
     // Make API call to cancel function
     if (frequency === "one_time") {
-      Requester.delete(APIConstants.cancellations.destroy(recurrenceId),
-                  this.props.fetchUpdates);
+      this.state.cancelData = {
+        header      : "You're cancelling a one time pickup.",
+        detail      : "Are you sure you want to continue?",
+        buttonText  : ["Delete Pickup"],
+        onClicks    : [this._deleteRecurrence],
+        metadata    : id,
+      }; 
     } else if (frequency === "weekly") {
       let params = {
-        "date"         : date,
-        "recurrence_id" : recurrenceId,
+        "date"          : date,
+        "recurrence_id" : id,
       };
-      Requester.post(APIConstants.cancellations.create(), params,
-                  this.props.fetchUpdates);
+      this.state.cancelData = {
+        header      : "You're cancelling a pickup occurrence.",
+        detail      : "Do you want to delete this and all future occurrences, or only the selected occurrence?",
+        buttonText  : ["Delete All Future", "Delete Only This"],
+        onClicks    : [this._deleteRecurrence, this._createCancellation],
+        metadata    : params,
+      }; 
     }
+    // Display cancel modal
+    this.setState({ showCancelModal : true });
+  }
+
+  _deleteRecurrence = (params) => {
+    Requester.delete(APIConstants.cancellations.destroy(params.recurrence_id),
+                this.props.fetchUpdates);
+  }
+
+  _createCancellation = (params) => {
+    Requester.post(APIConstants.cancellations.create(), params,
+                  this.props.fetchUpdates);
+  }
+
+  _hideModal = () => {
+    this.setState({ showCancelModal : false });
   }
 
   _getPickupListMoment = (pickupListDay) => {
@@ -96,14 +125,26 @@ class WeekOverview extends React.Component {
           {columnContents}
         </div>
       )
-    })
+    });
   }
 
   render() {
     let week = this._generateSchedule();
-
+    let cancelModal;
+    if (this.state.showCancelModal) {
+      cancelModal = <ConfirmationModal
+                      header = {this.state.cancelData.header}
+                      detail = {this.state.cancelData.detail}
+                      buttonText = {this.state.cancelData.buttonText}
+                      onClicks = {this.state.cancelData.onClicks}
+                      metadata = {this.state.cancelData.metadata}
+                      showModal = {this.state.showCancelModal}
+                      hideModal = {this._hideModal}
+                    />
+    }
     return (
       <div className="week-overview-container">
+        {cancelModal}
         <div className="week-overview-title">
           <h2 className="title">{this.props.isThisWeek ? "This" : "Next"} Week's Schedule</h2>
           <h3 className="day-range">{this._getWeekHeader()}</h3>

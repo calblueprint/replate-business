@@ -2,7 +2,6 @@
  * @prop initData  - saved data associated with the recurrence portion of the pickup form
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
- * @prop cancel    - callback to close modal
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class RecurrenceForm extends DefaultForm {
@@ -182,7 +181,7 @@ class RecurrenceForm extends DefaultForm {
 }
 
 RecurrenceForm.propTypes = {
-  initData: React.PropTypes.object.isRequired,
-  nextStep: React.PropTypes.func.isRequired,
-  prevStep: React.PropTypes.func.isRequired,
+  initData : React.PropTypes.object.isRequired,
+  nextStep : React.PropTypes.func.isRequired,
+  prevStep : React.PropTypes.func.isRequired,
 };

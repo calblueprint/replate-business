@@ -6,9 +6,6 @@ class Cancellation < ActiveRecord::Base
   end
 
   def same_day_as?(date)
-  	puts date
-  	puts self.date
-  	puts "---------------------------------"
     self.date == date
   end
 end

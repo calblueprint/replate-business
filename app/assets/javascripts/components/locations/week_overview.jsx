@@ -22,7 +22,7 @@ class WeekOverview extends React.Component {
         "date"          : date,
         "recurrence_id" : id,
       };
-      
+
     if (frequency === "one_time") {
       this.state.cancelData = {
         header      : "You're cancelling a one time pickup.",
@@ -159,8 +159,9 @@ class WeekOverview extends React.Component {
 }
 
 WeekOverview.propTypes = {
-  schedule   : React.PropTypes.object.isRequired,
-  today      : React.PropTypes.object.isRequired,
-  reference  : React.PropTypes.object.isRequired,
-  isThisWeek : React.PropTypes.bool.isRequired,
+  schedule     : React.PropTypes.object.isRequired,
+  today        : React.PropTypes.object.isRequired,
+  reference    : React.PropTypes.object.isRequired,
+  isThisWeek   : React.PropTypes.bool.isRequired,
+  fetchUpdates : React.PropTypes.func.isRequired,
 };

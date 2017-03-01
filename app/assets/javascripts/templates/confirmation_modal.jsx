@@ -37,3 +37,12 @@ class ConfirmationModal extends React.Component {
 	</Modal>
 	}
 }
+ConfirmationModal.propTypes = {
+	buttonText  : React.PropTypes.array.isRequired, 
+  onClicks    : React.PropTypes.array.isRequired, 
+  header      : React.PropTypes.string.isRequired, 
+  detail      : React.PropTypes.string.isRequired, 
+  metadata    : React.PropTypes.object.isRequired, 
+  showModal   : React.PropTypes.bool.isRequired, 
+  hideModal   : React.PropTypes.func.isRequired, 
+};

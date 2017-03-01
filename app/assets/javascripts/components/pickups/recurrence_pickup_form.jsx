@@ -41,7 +41,7 @@ class RecurrenceForm extends DefaultForm {
 
   _addTwoHours = (time) => {
     let timeMoment = moment(time, 'HH:mm A');
-    timeMoment.add(2, "hours");
+    timeMoment.add(1, "hours");
     return timeMoment.format('hh:mm A');
   }
 

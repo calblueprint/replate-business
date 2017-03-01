@@ -76,9 +76,9 @@ class RecurrenceForm extends DefaultForm {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
-      let warningStr = "Warning"; 
-      let detailStr = "Pickups must be scheduled at least an hour in advance!" 
-                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at " 
+      let warningStr = "Warning";
+      let detailStr = "Pickups must be scheduled at least an hour in advance!"
+                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at "
                        + recurrenceMoment.format("hh:mm:A") + " will not occur.";
       toastr.error(detailStr, warningStr);
     }
@@ -100,7 +100,7 @@ class RecurrenceForm extends DefaultForm {
           this.state[day].input.end_time = this._addTwoHours(start_time);
         }
 
-        this._validateTimes(start_date_display, start_time, i);
+        // this._validateTimes(start_date_display, start_time, i);
       }
     });
     if (!hasActive) {

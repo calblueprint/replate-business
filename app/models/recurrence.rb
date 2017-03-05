@@ -36,23 +36,35 @@ class Recurrence < ActiveRecord::Base
 
   def deliver_today?(date = Date.today)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
+<<<<<<< HEAD
     r_date == date and Recurrence.days[self.day] == Time.now.wday - 1
+=======
+    r_date == date + 1
+>>>>>>> 51a919383b8aa55f0e6c7cf686b5896f0804c8c0
   end
 
   def post_on_demand
-    OnfleetAPI.post_single_task(self, Date.today)
+    OnfleetAPI.post_single_task(self, Date.today + 1)
     args = {:date => Date.today, :tasks =>[self]}
     ExportAllRecurrences.new(args).export_on_demand_task
   end
 
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
+<<<<<<< HEAD
+=======
+    self.driver_id = '4zeEx71*c6skdFCtr0aNyh1Y'
+>>>>>>> 51a919383b8aa55f0e6c7cf686b5896f0804c8c0
     # if self.location.state == 'California'
     #   self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     # else
     #   self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
     # end
+<<<<<<< HEAD
     self.driver_id = '4zeEx71*c6skdFCtr0aNyh1Y'
+=======
+
+>>>>>>> 51a919383b8aa55f0e6c7cf686b5896f0804c8c0
   end
 
   def self.get_date_after(date, day)

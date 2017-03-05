@@ -28,14 +28,19 @@ class BusinessSignup extends DefaultForm {
     })
   }
 
-  _addRedBorder = (input) => {
-    input.parentNode.classList.add("blank");
+  _addRedBorder = (input, className) => {
+    input.parentNode.classList.add(className);
     input.classList.add("red-border");
   }
 
-  _removeRedBorder = (input) => {
-    input.parentNode.classList.remove("blank");
+  _removeRedBorder = (input, className) => {
+    input.parentNode.classList.remove(className);
     input.classList.remove("red-border");
+  }
+
+  _validateEmail = (input) => {
+     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(input);
   }
 
   _saveBusinessData = () => {
@@ -43,36 +48,54 @@ class BusinessSignup extends DefaultForm {
     const data = this._formFields();
     console.log(data);
     if (!('company_name' in data) || !(data.company_name)) {
-      this._addRedBorder(document.getElementById('company_name'));
+      this._addRedBorder(document.getElementById('company_name'),"blank");
       error = true;
     }
     else {
-      this._removeRedBorder(document.getElementById('company_name'));
+      this._removeRedBorder(document.getElementById('company_name'),"blank");
     }
   
     if (!('email' in data) || !(data.email)) {
-      this._addRedBorder(document.getElementById('email'));
+      this._addRedBorder(document.getElementById('email'),"blank");
       error = true;
     }
     else {
-      this._removeRedBorder(document.getElementById('email'));
+      var isValid = this._validateEmail(data.email);
+      if (!isValid) {
+        this._addRedBorder(document.getElementById('email'),"invalid");
+        error = true;
+      }
+      else {
+        this._removeRedBorder(document.getElementById('email'),"blank");
+        this._removeRedBorder(document.getElementById('email'),"invalid");
+      }
     }
-    if (!('password' in data) || !(data.password)) {
-      this._addRedBorder(document.getElementById('password'));
+    if ((!('password' in data)) || (!(data.password))) {
+      console.log("hi");
+      this._addRedBorder(document.getElementById('password'),"blank");
       error = true;
     }
+    
     else {
-      this._removeRedBorder(document.getElementById('password'));
+        
+        if (data.password.length < 8) {
+          this._addRedBorder(document.getElementById('password'),"short");
+          error = true;
+        }
+        else {
+          this._removeRedBorder(document.getElementById('password'),"short");
+          this._removeRedBorder(document.getElementById('password'),"blank");
+        }
     }
     if (!('password_confirmation' in data) || !(data.password_confirmation)) {
-      this._addRedBorder(document.getElementById('password_confirmation'));
+      this._addRedBorder(document.getElementById('password_confirmation'),"blank");
       error = true;
     }
     else {
-      this._removeRedBorder(document.getElementById('password_confirmation'));
+      this._removeRedBorder(document.getElementById('password_confirmation'),"blank");
     }
     if (!('phone' in data) || !(data.phone)) {
-      this._addRedBorder(document.getElementById('phone'));
+      this._addRedBorder(document.getElementById('phone'),"blank");
       error = true;
     }
     else {
@@ -80,14 +103,12 @@ class BusinessSignup extends DefaultForm {
     }
     if (data.password != data.password_confirmation || !data.password || !data.password_confirmation) {  
       var confirm = document.getElementById('password_confirmation');
-      confirm.parentNode.classList.add("nomatch");
-      confirm.classList.add("red-border");
+      this._addRedBorder(confirm,"nomatch");
       error = true;
     }
     else {
       var confirm = document.getElementById('password_confirmation');
-      confirm.parentNode.classList.remove("nomatch");
-      confirm.classList.remove("red-border");
+      this._removeRedBorder(confirm,"nomatch");
     }
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })

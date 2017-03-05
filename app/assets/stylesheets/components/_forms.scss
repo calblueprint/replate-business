@@ -106,6 +106,20 @@ h3 {
   color: red;
 }
 
+.short::after {
+  content: "Password must be longer than 8 characters";
+}
+.short {
+  color: red;
+}
+
+.invalid::after {
+  content: "Email is not valid";
+}
+.invalid {
+  color: red;
+}
+
 .red-border {
   border: 1px solid red;
 }

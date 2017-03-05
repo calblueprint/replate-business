@@ -106,7 +106,7 @@ def make_recurrences
       r = pickup.recurrences.create(
         day: n,
         frequency: [0, 1].sample,
-        start_date: Date.today,
+        start_date: Time.now,
         start_time: randomtime[0],
         end_time: randomtime[1],
         pickup_id: pickup.id,

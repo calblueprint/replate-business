@@ -1,9 +1,10 @@
 /**
- * @prop day         - String day associated with day input
- * @prop update      - function for updating day input state in parent
- * @prop initData    - saved data associated with this day input
- * @prop validations - object containing validation messages
- */
+ * @prop day            - String day associated with day input
+ * @prop update         - function for updating day input state in parent
+ * @prop initData       - saved data associated with this day input
+ * @prop isNextStep     - boolean indicating whether it is the next step
+ * @prop setValidated   - function for updating invalid state in parent
+ **/
 var RECURRENCEFIELDS = ["One Time Pickup", "Recurring Pickup"];
 class RecurrenceDayInput extends DefaultForm {
 
@@ -20,9 +21,26 @@ class RecurrenceDayInput extends DefaultForm {
       this.state.start_date_display = this._getToday();
     }
 
-    this.state.validations = {};
-    if (this.props.validations) {
-      this.state.validations = this.props.validations;
+    this.state.isNextStep = this.props.isNextStep;
+  }
+
+  _validate = () => {
+    this.state.isNextStep = this.props.isNextStep;
+    let requiredKeys = ["frequency"];
+    this.props.setValidated(true);
+    for (i = 0; i < requiredKeys.length; i++) {
+      let requiredKey = requiredKeys[i];
+      let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
+      if (this.state.isNextStep && invalid) {
+        let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
+        let validation = <p className="validation-msg marginTop-xxs"
+                            key={i}>{validationMsg}</p>
+
+        this.state[requiredKey + "Validation"] = validation;
+        this.props.setValidated(false);
+      } else if (!invalid) {
+        delete this.state[requiredKey + "Validation"];
+      }
     }
   }
 
@@ -48,7 +66,7 @@ class RecurrenceDayInput extends DefaultForm {
   }
 
   _getToday = () => {
-    return moment().format("MM-DD-YYYY");
+    return moment().format("MM/DD/YYYY");
   }
 
   _renderPickupTypeButtons = () => {
@@ -84,9 +102,7 @@ class RecurrenceDayInput extends DefaultForm {
   }
 
   render() {
-    if (this.props.validations) {
-      this.state.validations = this.props.validations;
-    }
+    this._validate();
 
     return (
       <div className="day-input-container">
@@ -97,18 +113,18 @@ class RecurrenceDayInput extends DefaultForm {
           <fieldset className="input-container">
             <label className="label marginRight-lg">Frequency</label>
             {this._renderPickupTypeButtons()}
-            {this.state.validations.frequency}
+            {this.state.frequencyValidation}
           </fieldset>
 
           <div className="row marginTop-sm">
             <div className="col-md-6">
               <TimeDropdown
                 label = "Pickup Time"
+                details = "9:00AM - 5:00PM"
                 input_id = "start"
                 form_name = "start_time"
                 update = {this._updateTime}
                 initData = {this.state.start_time} />
-                {this.state.validations.start_time}
             </div>
             <div className="col-md-6">
               <fieldset className="input-container">
@@ -116,7 +132,6 @@ class RecurrenceDayInput extends DefaultForm {
                 <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
                   name="start_date_display" onSelect={this._updateState}
                   className="input" placeholder="Click to select a day" />
-                {this.state.validations.start_date}
               </fieldset>
             </div>
           </div>

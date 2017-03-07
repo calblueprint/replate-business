@@ -25,13 +25,14 @@ class ApiConstants {
     return {
       update : (id) => `/api/pickups/${id}`,
       create : `/api/pickups`,
+      get    : (id) => `/api/pickups/${id}`,
     }
   }
 
 	get recurrences() {
     return {
       update : (id) => `/api/recurrences/${id}`,
-      create : `/api/recurrences`
+      create : `/api/recurrences`,
     }
   }
 

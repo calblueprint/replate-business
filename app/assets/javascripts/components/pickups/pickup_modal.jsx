@@ -1,18 +1,22 @@
 /**
- * @prop location_id - id associated with the current location
- * @prop success     - function handler for successful student creation
+ * @prop location_id    - id associated with the current location
+ * @prop success        - function handler for successful student creation
+ * @prop basicForm      - OPTIONAL object containing prepopulated basicForm info
+ * @prop recurrenceForm - OPTIONAL object containing prepopulated recurrenceForm info
+ * @prop showModal      - OPTIONAL boolean for showing and hiding modal
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
-class PickupCreationModal extends DefaultForm {
+class PickupModal extends DefaultForm {
 
   constructor(props) {
     super(props);
     this.state = {
       location_id: this.props.location_id,
       step: 1,
-      basicForm: {},
-      recurrenceForm: {},
     };
+    this.state.showModal = this.props.showModal ? this.props.showModal : false;
+    this.state.basicForm = this.props.basicForm ? this.props.basicForm : {};
+    this.state.recurrenceForm = this.props.recurrenceForm ? this.props.recurrenceForm : {};
   }
 
   _attemptCreate = (initData) => {
@@ -40,7 +44,9 @@ class PickupCreationModal extends DefaultForm {
       });
     }
 
-    const failure = (data) => {}; // do not clear form
+    const failure = (data) => {
+      toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
+    }; // do not clear form
 
     this.state.basicForm.location_id = this.state.location_id;
     this._attemptAction(APIConstants.pickups.create,
@@ -76,7 +82,7 @@ class PickupCreationModal extends DefaultForm {
       case 0:
         return "";
       case 1:
-        return <BasicPickupForm
+        return <BasicForm
                   initData = {this.state.basicForm}
                   nextStep = {this._nextStep}
                   close    = {this.close} />
@@ -116,7 +122,7 @@ class PickupCreationModal extends DefaultForm {
   }
 }
 
-PickupCreationModal.propTypes = {
+PickupModal.propTypes = {
   location_id : React.PropTypes.number.isRequired,
   success     : React.PropTypes.func.isRequired,
 };

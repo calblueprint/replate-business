@@ -70,16 +70,8 @@ class LocationHome extends React.Component {
     return moment().format("YY-MM-DD");
   }
 
-  _getTodayMoment() {
-    return moment();
-  }
-
   _getNextWeek() {
     return moment().add(1, 'weeks').format("YY-MM-DD");
-  }
-
-  _getNextWeekMoment() {
-    return moment().add(1, 'weeks');
   }
 
   render() {
@@ -99,9 +91,11 @@ class LocationHome extends React.Component {
 
             <div className="location-page-buttons">
               <button className="button button--outline feedback-btn">Leave Feedback</button>
-              <PickupCreationModal
+              <PickupModal
                   location_id = {this.props.location.id}
-                  success     = {this._fetchUpdates} />
+                  success = {this._fetchUpdates} 
+                  basicForm = {this.state.basicForm}
+                  recurrenceForm = {this.state.recurrenceForm}/>
             </div>
           </div>
         </div>
@@ -112,13 +106,13 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview today = {this._getTodayMoment()}
-                          reference = {this._getTodayMoment()}
+            <WeekOverview today = {moment()}
+                          reference = {moment()}
                           schedule = {this.state.thisWeekSchedule}
                           isThisWeek = {true}
                           fetchUpdates = {this._fetchUpdates}/>
-            <WeekOverview today = {this._getTodayMoment()}
-                          reference = {this._getNextWeekMoment()}
+            <WeekOverview today = {moment()}
+                          reference = {moment().add(1, 'weeks')}
                           schedule = {this.state.nextWeekSchedule}
                           isThisWeek = {false}
                           fetchUpdates = {this._fetchUpdates}/>

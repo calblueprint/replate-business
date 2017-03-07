@@ -5,6 +5,7 @@
  * @prop isThisWeek   - Boolean indicating whether calendar is this week or next week
  * @prop fetchUpdates - function that refreshes weekly schedule
  */
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +45,30 @@ class WeekOverview extends React.Component {
     this.setState({ showCancelModal : true });
   }
 
+  _createForms = (data) => {
+    let basicForm = data.pickup;
+    let recurrenceForm = {};
+    let days = DAYSOFWEEK.map((day, i) => {
+      recurrenceForm[day] = {};
+      recurrenceForm[day].active = false;
+      recurrenceForm[day].input = {};
+    });
+    for (let i = 0; i < data.recurrences.length; i++) {
+      let recurrence = data.recurrences[i];
+      recurrenceForm[recurrence.day].active = true;
+      recurrenceForm[recurrence.day].input = recurrence;
+    }
+    console.log(recurrenceForm);
+  }
+
+  _editPickup = (e) => {
+    let target = $(e.target);
+    let id = target.attr('data-id');
+    const success = (data) => {}
+    Requester.get(APIConstants.pickups.get(id),
+                  this._createForms);
+  }
+
   _deleteRecurrence = (params) => {
     Requester.delete(APIConstants.cancellations.destroy(params.recurrence_id),
                 this.props.fetchUpdates);
@@ -76,14 +101,23 @@ class WeekOverview extends React.Component {
       let recurrenceDate = pickupListMoment.format();
 
       if (!isPastEvent) {
-        cancelButton = <button data-id={recurrence.id} data-date={recurrenceDate} data-freq={recurrence.frequency} onClick={this._cancelPickup} className="cancelButton button-link">Cancel</button>
+        cancelButton = <button data-id={recurrence.id} 
+                               data-date={recurrenceDate} 
+                               data-freq={recurrence.frequency} 
+                               onClick={this._cancelPickup} 
+                               className="cancelButton button-link">Cancel</button>
       }
+
+      let editButton = <button data-id={pickup.id}
+                               onClick={this._editPickup} 
+                               className="editButton button-link">Edit</button>
 
       return (
         <div className={`pickup-item ` + (isPastEvent ? 'past' : '')} key={index}>
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
           <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
+          {editButton}
           {cancelButton}
         </div>
       )

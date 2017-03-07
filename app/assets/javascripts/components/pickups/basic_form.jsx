@@ -3,7 +3,7 @@
  * @prop nextStep - function handler to move on to next step of pickup creation
  * @prop close    - callback to close modal
  */
-class BasicPickupForm extends DefaultForm {
+class BasicForm extends DefaultForm {
 
   constructor(props) {
     super(props);
@@ -82,7 +82,7 @@ class BasicPickupForm extends DefaultForm {
   }
 }
 
-BasicPickupForm.propTypes = {
+BasicForm.propTypes = {
   initData : React.PropTypes.object.isRequired,
   nextStep : React.PropTypes.func.isRequired,
   close    : React.PropTypes.func.isRequired,

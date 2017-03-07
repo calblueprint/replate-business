@@ -27,26 +27,15 @@ class RecurrenceForm extends DefaultForm {
     this.props.nextStep(this.state, "recurrenceForm", false);
   }
 
-  _renderDirections = (days) => {
-    showDirections = true;
+  _renderSelectDayValidation = (days) => {
+    showSelectDayValidation = true;
     for (let i = 0; i < days.length; i += 1) {
-      if (days[i]) { showDirections = false; }
+      if (days[i]) { showSelectDayValidation = false; }
     }
 
-    if (showDirections) {
+    if (showSelectDayValidation) {
       return <p style={{textAlign: 'center'}}>Choose all the days that you'd like this pickup to occur!</p>
     }
-  }
-
-  _addTwoHours = (time) => {
-    let timeMoment = moment(time, 'hh:mm A');
-    timeMoment.add(2, "hours");
-    return timeMoment.format('hh:mm A');
-  }
-
-  _formatDate = (date) => {
-    let dateMoment = moment(date, "MM/DD/YYYY");
-    return dateMoment.format("YYYY-MM-DD HH:mm:ss")
   }
 
   _setValidated = (valid) => {
@@ -57,32 +46,40 @@ class RecurrenceForm extends DefaultForm {
     this.setState({ isNextStep : true }, this._validate);
   }
 
-  _toNextDay = (moment, day) => {
-    let diff = day - moment.day() + 1;
-    if (diff < 0) {
-      diff += 7;
-    }
-    moment.add(diff, "day");
-  }
-
   _validateTimes = (start_date_display, start_time, day_num) => {
+    const _toNextDay = (moment, day) => {
+      let diff = day - moment.day() + 1;
+      if (diff < 0) {
+        diff += 7;
+      }
+      moment.add(diff, "day");
+    }
     // Check if pickup time is too close to now
     let recurrenceTimeStr = start_date_display + " " + start_time;
-    let recurrenceMoment = moment(recurrenceTimeStr, "MM/DD/YYYY hh:mm:A");
-    this._toNextDay(recurrenceMoment, day_num);
+    let recurrenceMoment = moment(recurrenceTimeStr, "L LT");
+    _toNextDay(recurrenceMoment, day_num);
     if (recurrenceMoment.isBefore(moment())) {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
       let warningStr = "Warning";
       let detailStr = "Pickups must be scheduled at least an hour in advance!"
-                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at "
+                      + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
                        + recurrenceMoment.format("hh:mm:A") + " will not occur.";
       toastr.error(detailStr, warningStr);
     }
   }
 
   _validate = () => {
+    const _addTwoHours = (time) => {
+      let timeMoment = moment(time, 'LT');
+      timeMoment.add(2, "hours");
+      return timeMoment.format('LT');
+    }
+    const _formatDate = (date) => {
+      let dateMoment = moment(date, "L");
+      return dateMoment.format();
+    }
     let hasActive = false;
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
@@ -90,12 +87,12 @@ class RecurrenceForm extends DefaultForm {
         // Format start date
         let start_date_display = this.state[day].input.start_date_display;
         if (start_date_display) {
-          this.state[day].input.start_date = this._formatDate(start_date_display);
+          this.state[day].input.start_date = _formatDate(start_date_display);
         }
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
         if (start_time) {
-          this.state[day].input.end_time = this._addTwoHours(start_time);
+          this.state[day].input.end_time = _addTwoHours(start_time);
         }
 
         // this._validateTimes(start_date_display, start_time, i);
@@ -134,7 +131,7 @@ class RecurrenceForm extends DefaultForm {
     let isNextStep = this.state.isNextStep
     let dayInputs = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
-        return <RecurrenceDayInput
+        return <RecurrenceInput
                   day          = {day}
                   update       = {this._updateState}
                   initData     = {this.state[day].input}
@@ -155,7 +152,7 @@ class RecurrenceForm extends DefaultForm {
             { days }
           </div>
           <div className="day-input-container">
-            { this._renderDirections(dayInputs) }
+            { this._renderSelectDayValidation(dayInputs) }
             { dayInputs }
           </div>
           {this.state.dayValidation}

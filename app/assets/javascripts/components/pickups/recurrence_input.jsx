@@ -6,7 +6,7 @@
  * @prop setValidated   - function for updating invalid state in parent
  **/
 var RECURRENCEFIELDS = ["One Time Pickup", "Recurring Pickup"];
-class RecurrenceDayInput extends DefaultForm {
+class RecurrenceInput extends DefaultForm {
 
   constructor(props) {
     super(props);
@@ -141,7 +141,7 @@ class RecurrenceDayInput extends DefaultForm {
   }
 }
 
-RecurrenceDayInput.propTypes = {
+RecurrenceInput.propTypes = {
   day          : React.PropTypes.string.isRequired,
   initData     : React.PropTypes.object.isRequired,
   update       : React.PropTypes.func.isRequired,

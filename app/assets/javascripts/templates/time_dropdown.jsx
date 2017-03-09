@@ -38,15 +38,15 @@ class TimeDropdown extends DefaultForm {
       this.state[target.attr('name')] = time;
     }
 
-    // if (9 <= this.state.hour  && this.state.hour <= 11) {
-    //   this.state.meridiem = "AM";
-    // } else {
-    //   this.state.meridiem = "PM";
-    // }
+    if (9 <= this.state.hour  && this.state.hour <= 11) {
+      this.state.meridiem = "AM";
+    } else {
+      this.state.meridiem = "PM";
+    }
 
-    // if (this.state.hour == 5 && this.state.meridiem == "PM") {
-    //     this.state.minute = "00";
-    // }
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+        this.state.minute = "00";
+    }
 
     let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
     this.props.update(timeStr);
@@ -61,9 +61,9 @@ class TimeDropdown extends DefaultForm {
     });
 
     let hi = 60;
-    // if (this.state.hour == 5 && this.state.meridiem == "PM") {
-    //   hi = 5; 
-    // }
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+      hi = 5; 
+    }
     let minuteOptions = [];
     for (let i = 0; i < hi; i += 5) {
       let minuteStr = ("0" + i).slice(-2);
@@ -73,11 +73,11 @@ class TimeDropdown extends DefaultForm {
     }
 
     let hourOptions = [];
-    for (let i = 1; i <= 12; i += 1) {
-      let j = i;
-      let hourStr = ("0" + j).slice(-2);
+    for (let i = 9; i <= 17; i += 1) {
+      let display_hour = i === 12 ? i : i % 12;
+      let hourStr = ("0" + display_hour).slice(-2);
       let select = hourStr === this.state.hour;
-      let hourOption = <option value={j} key={j} selected={select ? "selected" : ""}>{hourStr}</option>
+      let hourOption = <option value={display_hour} key={display_hour} selected={select ? "selected" : ""}>{hourStr}</option>
       hourOptions.push(hourOption);
     }
 
@@ -91,7 +91,7 @@ class TimeDropdown extends DefaultForm {
         <select className="select" name="minute" onChange={this._handleInput}>
           {minuteOptions}
         </select>
-        <select className="select" name="meridiem" onChange={this._handleInput}>
+        <select className="select" name="meridiem" disabled="true" onChange={this._handleInput}>
           {meridiemOptions}
         </select>
       </div>

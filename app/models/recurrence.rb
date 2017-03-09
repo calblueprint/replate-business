@@ -40,7 +40,7 @@ class Recurrence < ActiveRecord::Base
   end
 
   def post_on_demand
-    OnfleetAPI.post_single_task(self, Date.today + 1)
+    OnfleetAPI.post_single_task(self, Date.today)
     args = {:date => Date.today, :tasks =>[self]}
     ExportAllRecurrences.new(args).export_on_demand_task
   end
@@ -52,7 +52,6 @@ class Recurrence < ActiveRecord::Base
     else
       self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
     end
-
   end
 
   def self.get_date_after(date, day)
@@ -66,31 +65,21 @@ class Recurrence < ActiveRecord::Base
   def same_week(day)
     today = Date.parse(day)
     start_date = self.start_date.to_date
-
-    first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
-    same_week = first_recurrence_date.strftime('%U') == today.strftime('%U')
-    same_year = first_recurrence_date.strftime('%Y') == today.strftime('%Y')
-    if self.frequency === "one_time" and same_week and same_year
-      return true
-    end
-
+    recurrence_date = Recurrence.get_date_after(start_date, self.day)
     same_week = start_date.strftime('%U') == today.strftime('%U')
     same_year = start_date.strftime('%Y') == today.strftime('%Y')
-    recurrence_date = Recurrence.get_date_after(today.at_beginning_of_week, self.day)
-    if (same_week and same_year) or today >= start_date
-      self.cancellations.each do |cancellation|
-        if cancellation.same_day_as? recurrence_date
-          return false
-        end
-      end
-    end
 
     if self.frequency === "weekly"
       if same_week
-        return (today.wday - 1) <= Recurrence.days[self.day]
+        return today.wday <= Recurrence.days[self.day]
       elsif today >= start_date
         return true
       end
+    end
+    same_week = recurrence_date.strftime('%U') == today.strftime('%U')
+    same_year = recurrence_date.strftime('%Y') == today.strftime('%Y')
+    if self.frequency === "one_time" and same_week and same_year
+      return true
     end
     # Write this method in the eventually
     # if self.frequency == 2

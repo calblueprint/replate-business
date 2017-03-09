@@ -102,7 +102,7 @@ end
 def make_recurrences
   pickups = Pickup.all
   pickups.each do |pickup|
-    0.upto(4) do |n|
+    1.upto(4) do |n|
       r = pickup.recurrences.create(
         day: n,
         frequency: [0, 1].sample,
@@ -111,7 +111,7 @@ def make_recurrences
         end_time: randomtime[1],
         pickup_id: pickup.id,
         #(this is helen's driver id)
-        driver_id: '4zeEx71*c6skdFCtr0aNyh1Y'
+        driver_id: 'nhed6lRTknGd~IgCOD4MjWNK'
       )
       r.location.update(addr_name: r.id)
     end

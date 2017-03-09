@@ -65,8 +65,6 @@ module OnfleetAPI
   def self.post_task(recurrence, date)
     data = build_data(recurrence, date)
     puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
-    puts @basic_auth
-    puts "HELLO THERE"
     HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
   end
 

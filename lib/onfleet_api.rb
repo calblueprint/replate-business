@@ -1,16 +1,23 @@
 # hello
 require 'json'
 require 'httparty'
+require 'geokit'
+require 'timezone'
 
 module OnfleetAPI
   @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(date, time)
+  def self.make_time(date, time, recurrence)
     # Onfleet takes unix time in milliseconds
-    t = Time.new(date.year, date.month, date.day)
-    t = Time.parse(time, t).to_i
-    t * 1000
+    l = recurrence.location.address
+    loc = Geokit::Geocoders::GoogleGeocoder.geocode(l)
+    lat = loc.lat
+    long = loc.lng
+    Time.zone = Timezone.lookup(loc.lat, loc.lng).name
+    t = Time.zone.local(date.year, date.month, date.day)
+    t = Time.zone.parse(time, t)
+    t.to_i * 1000
   end
 
   def self.build_destination(location)
@@ -48,8 +55,8 @@ module OnfleetAPI
     b = build_recipients(recurrence.business)
     p = recurrence.pickup
     c = build_container(recurrence)
-    com_after = make_time(date, recurrence.start_time)
-    com_before = make_time(date, recurrence.end_time)
+    com_after = make_time(date, recurrence.start_time, recurrence)
+    com_before = make_time(date, recurrence.end_time, recurrence)
     task = {
       :completeAfter => com_after,
       :completeBefore => com_before,

@@ -1,6 +1,6 @@
 /**
  * Renders the home business dashboard view
- * @prop business - the current business that is signed in
+ * @prop business_id - the current business that is signed in
  */
 class BusinessDashboard extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class BusinessDashboard extends React.Component {
       this.setState({ business: data });
     }
     Requester.get(APIConstants.businesses.update(
-      this.props.business.id), success);
+      this.props.business_id), success);
   }
 
   render() {
@@ -53,12 +53,12 @@ class BusinessDashboard extends React.Component {
     return (
       <div>
         <h1 className="dashboard-title marginTop-xxl">Dashboard</h1>
-        <h2 className="company-title marginBot-xl">Welcome, {this.props.business.company_name}. Thank you for Replating with us!</h2>
+        <h2 className="company-title marginBot-xl">Welcome, {this.state.business.company_name}. Thank you for Replating with us!</h2>
 
         <div className="section-header header--buttons marginBot-sm">
           <h3 className="dashboard-section-title marginRight-sm">Office Locations</h3>
           <LocationCreationForm
-                business_id = {this.props.business.id}
+                business_id = {this.props.business_id}
                 success     = {this._fetchBusinessData} />
         </div>
         <div className="dashboard-locations-container">
@@ -70,5 +70,5 @@ class BusinessDashboard extends React.Component {
 }
 
 BusinessDashboard.propTypes = {
-  business: React.PropTypes.object,
+  business_id: React.PropTypes.number.isRequired,
 }

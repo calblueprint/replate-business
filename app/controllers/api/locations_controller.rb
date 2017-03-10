@@ -50,7 +50,9 @@ class API::LocationsController < ApplicationController
       :state,
       :zip,
       :business_id,
-      :photo
+      :photo,
+      :lat,
+      :lon
     )
 
   end

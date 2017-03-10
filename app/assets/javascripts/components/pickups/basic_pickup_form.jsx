@@ -17,40 +17,39 @@ class BasicPickupForm extends DefaultForm {
   }
 
   _nextStep = (e) => {
+    this.state.isNextStep = true;
+    this._validate();
+    this.props.nextStep(this.state, "basicForm", this.state.validated);
+  }
+
+  _validate = () => {
     let requiredKeys = ["title"];
-    let validated = true;
+    this.state.validated = true;
     for (i = 0; i < requiredKeys.length; i++) {
       let requiredKey = requiredKeys[i];
-
-      if (this.state[requiredKey] == undefined || this.state[requiredKey] == "") {
+      let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
+      if (this.state.isNextStep && invalid) {
         let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
         let validation = <p className="validation-msg marginTop-xxs"
                             key={i}>{validationMsg}</p>
 
-        this.setState({ [requiredKey + "Validation"] : validation, });
-        validated = false;
-      } else {
+        this.state[requiredKey + "Validation"] = validation;
+        this.state.validated = false;
+      } else if (!invalid) {
         delete this.state[requiredKey + "Validation"];
       }
     }
-    this.props.nextStep(this.state, "basicForm", validated);
   }
 
   render() {
-    let validations;
     const placeholder = "Let your driver know any special instructions, " +
                         "like gate codes, pickup locations, etc.";
-
-    if (this.state.validations) {
-      validations = this.state.validations.map((validation, i) => {
-        return <p className="validation-msg marginTop-xxs" key={i}>{validation.message}</p>
-      });
-    }
+    this._validate();
+    this.state.isNextStep = false;
 
     return (
       <div>
         <Modal.Body>
-          {validations ? validations : undefined}
           <form className="modal-pickup-form">
             <fieldset className="input-container marginBot-sm">
               <label htmlFor="title" className="label label--newline">Title</label>

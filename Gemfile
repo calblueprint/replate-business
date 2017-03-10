@@ -36,6 +36,7 @@ gem 'redcarpet', '3.3.4'
 gem 'sass-rails', '5.0.6'
 gem 'slim', '~> 3.0.6'
 gem 'slim-rails', '~> 3.0.1'
+gem 'toastr-rails'
 gem 'uglifier', '2.7.2'
 
 # Stripe

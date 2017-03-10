@@ -29,7 +29,8 @@ class LocationHome extends React.Component {
       location: {},
       activeTab: active,
       tabMapping: tabMapping,
-      schedule: {},
+      thisWeekSchedule: {},
+      nextWeekSchedule: {},
     };
   }
 
@@ -48,11 +49,16 @@ class LocationHome extends React.Component {
   }
 
   _fetchUpdates = () => {
-    const loadSchedule = (schedule) => {
-      this.setState({schedule: schedule});
+    const loadThisWeekSchedule = (schedule) => {
+      this.setState({thisWeekSchedule: schedule});
+    }
+    const loadNextWeekSchedule = (schedule) => {
+      this.setState({nextWeekSchedule: schedule});
     }
     Requester.get(APIConstants.locations.week(this.props.location.id, this._getToday()),
-                  loadSchedule);
+                  loadThisWeekSchedule);
+    Requester.get(APIConstants.locations.week(this.props.location.id, this._getNextWeek()),
+                  loadNextWeekSchedule);
     const loadLocations = (data) => {
       this.setState({ location: data });
     }
@@ -61,15 +67,19 @@ class LocationHome extends React.Component {
   }
 
   _getToday() {
-    let date = new Date();
-    let yyyy = date.getFullYear().toString();
-    let mm = (date.getMonth()+1).toString();
-    let dd  = date.getDate().toString();
+    return moment().format("YY-MM-DD");
+  }
 
-    let mmChars = mm.split('');
-    let ddChars = dd.split('');
+  _getTodayMoment() {
+    return moment();
+  }
 
-    return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+  _getNextWeek() {
+    return moment().add(1, 'weeks').format("YY-MM-DD");
+  }
+
+  _getNextWeekMoment() {
+    return moment().add(1, 'weeks');
   }
 
   render() {
@@ -103,8 +113,14 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview today = {this._getToday()}
-                          schedule = {this.state.schedule}/>
+            <WeekOverview today = {this._getTodayMoment()}
+                          reference = {this._getTodayMoment()}
+                          schedule = {this.state.thisWeekSchedule}
+                          isThisWeek = {true}/>
+            <WeekOverview today = {this._getTodayMoment()}
+                          reference = {this._getNextWeekMoment()}
+                          schedule = {this.state.nextWeekSchedule}
+                          isThisWeek = {false}/>
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />

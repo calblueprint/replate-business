@@ -59,6 +59,14 @@
   margin-bottom: 15px;
 }
 
+h3 {
+  color: $black-60;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .select {
   @include appearance(none);
   background-image: image_url("icons/menulist.svg");
@@ -73,7 +81,10 @@
   font-weight: 400;
   outline: none;
   padding: 8px 15px;
+  padding-right: 27px;
   transition: 50ms;
+  margin-left: 2px;
+  margin-right: 2px;
 
   &:focus {
     background-color: $green-20;
@@ -85,6 +96,27 @@
   content: "cannot be blank";
 }
 .blank {
+  color: red;
+}
+
+.nomatch::after {
+  content: "Passwords do not match";
+}
+.nomatch {
+  color: red;
+}
+
+.short::after {
+  content: "Password must be longer than 8 characters";
+}
+.short {
+  color: red;
+}
+
+.invalid::after {
+  content: "Email is not valid";
+}
+.invalid {
   color: red;
 }
 

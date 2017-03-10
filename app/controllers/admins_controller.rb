@@ -16,5 +16,4 @@ class AdminsController < ApplicationController
     end
     return business_ids
   end
-
 end

@@ -29,25 +29,26 @@ class ConfirmationForm extends DefaultForm {
 
   render() {
     let recurrences = DAYSOFWEEK.map((day, i) => {
-        if (this.props.recurrenceData[day].active) {
-          return <div className="name-container" key={i}>
-                <h3>{this._capitalize(day)}</h3>
-                <p>{this.props.recurrenceData[day].input.start_time}</p>
-                <p>{this.props.recurrenceData[day].input.start_date_display}</p>
-                <p>{this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
-              </div>
-        }
-      });
+      if (this.props.recurrenceData[day].active) {
+        pickupTimeWindow = this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time;
+        return <div className="name-container" key={i}>
+              <h3 className="label">{this._capitalize(day)}</h3>
+              <p className="input">{"Pickup Time Window: " + pickupTimeWindow}</p>
+              <p className="input">{"Pickup Start Date: " + this.props.recurrenceData[day].input.start_date_display}</p>
+              <p className="input">{"Pickup Frequency: " + this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}</p>
+            </div>
+      }
+    });
     return (
       <div>
         <Modal.Body>
           <div className="confirmation-container">
             <div className="name-container">
-              <h3>Title</h3>
+              <h3 className="label">Title</h3>
               <p>{this.props.basicData.title}</p>
             </div>
             <div className="name-container">
-              <h3>Comments</h3>
+              <h3 className="label">Comments</h3>
               <p>{this.props.basicData.comments}</p>
             </div>
             {recurrences}

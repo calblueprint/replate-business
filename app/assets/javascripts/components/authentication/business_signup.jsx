@@ -152,7 +152,7 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("email", "Email", "email", "example@business.com") }
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
-        { this._renderInputField("beta_code", "Sign up code", "code") }
+        { this._renderInputField("beta_code", "Sign Up Code", "code") }
         <div>
           <input type="checkbox" id="tos-agree"
             className="marginRight-xs marginTop-md"

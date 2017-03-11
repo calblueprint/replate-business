@@ -113,6 +113,13 @@ h3 {
   color: red;
 }
 
+.phone_short::after {
+  content: "Phone number must have 10 numbers";
+}
+.phone_short {
+  color: red;
+}
+
 .invalid::after {
   content: "Email is not valid";
 }

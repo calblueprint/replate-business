@@ -43,9 +43,9 @@ def make_locations
       state: "CA",
       zip: "10010",
       country: "USA",
-      addr_name: "TEST DO NOT DELIVER"
-      lat: 37.8667452
-      lon: -122.262059
+      addr_name: "TEST DO NOT DELIVER",
+      lat: 37.8667452,
+      lon: -122.262059,
     )
 
     location.id = n
@@ -61,9 +61,9 @@ def make_locations
       state: "CA",
       zip: "10010",
       country: "USA",
-      addr_name: "TEST DO NOT DELIVER"
-      lat: 37.8667452
-      lon: -122.262059
+      addr_name: "TEST DO NOT DELIVER",
+      lat: 37.8667452,
+      lon: -122.262059,
     )
     location.id = n + 5
     location.business = Business.find(n)

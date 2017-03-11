@@ -38,15 +38,15 @@ class TimeDropdown extends DefaultForm {
       this.state[target.attr('name')] = time;
     }
 
-    // if (9 <= this.state.hour  && this.state.hour <= 11) {
-    //   this.state.meridiem = "AM";
-    // } else {
-    //   this.state.meridiem = "PM";
-    // }
+    if (9 <= this.state.hour  && this.state.hour <= 11) {
+      this.state.meridiem = "AM";
+    } else {
+      this.state.meridiem = "PM";
+    }
 
-    // if (this.state.hour == 5 && this.state.meridiem == "PM") {
-    //     this.state.minute = "00";
-    // }
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+        this.state.minute = "00";
+    }
 
     let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
     this.props.update(timeStr);
@@ -56,42 +56,41 @@ class TimeDropdown extends DefaultForm {
 
     let meridiemOptions = ["AM", "PM"].map((meridiem, i) => {
       let select = meridiem === this.state.meridiem;
-      let meridiemOption = <option value={meridiem} key={i} selected={select ? "selected" : ""}>{meridiem}</option>
+      let meridiemOption = <option value={meridiem} key={i}>{meridiem}</option>
       return meridiemOption;
     });
 
     let hi = 60;
-    // if (this.state.hour == 5 && this.state.meridiem == "PM") {
-    //   hi = 5; 
-    // }
+    if (this.state.hour == 5 && this.state.meridiem == "PM") {
+      hi = 5; 
+    }
     let minuteOptions = [];
     for (let i = 0; i < hi; i += 5) {
       let minuteStr = ("0" + i).slice(-2);
       let select = minuteStr === this.state.minute;
-      let minuteOption = <option value={i} key={i} selected={select ? "selected" : ""}>{minuteStr}</option>
+      let minuteOption = <option value={minuteStr} key={i}>{minuteStr}</option>
       minuteOptions.push(minuteOption);
     }
 
     let hourOptions = [];
     for (let i = 1; i <= 12; i += 1) {
-      let j = i;
-      let hourStr = ("0" + j).slice(-2);
+      let hourStr = ("0" + i).slice(-2);
       let select = hourStr === this.state.hour;
-      let hourOption = <option value={j} key={j} selected={select ? "selected" : ""}>{hourStr}</option>
+      let hourOption = <option value={hourStr} key={i}>{hourStr}</option>
       hourOptions.push(hourOption);
     }
 
     return (
       <div className="field input-container">
         <label className="label label--newline" htmlFor={this.props.input_id}>{this.props.label}</label>
-        <select className="select" name="hour" onChange={this._handleInput}>
+        <select className="select" name="hour" onChange={this._handleInput} value={this.state.hour}>
           {hourOptions}
         </select>
         <label>:</label>
-        <select className="select" name="minute" onChange={this._handleInput}>
+        <select className="select" name="minute" onChange={this._handleInput} value={this.state.minute}>
           {minuteOptions}
         </select>
-        <select className="select" name="meridiem" onChange={this._handleInput}>
+        <select className="select" name="meridiem" onChange={this._handleInput} value={this.state.meridiem}>
           {meridiemOptions}
         </select>
       </div>

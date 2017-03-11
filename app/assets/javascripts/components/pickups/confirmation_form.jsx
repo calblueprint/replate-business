@@ -2,7 +2,8 @@
  * @prop basicData      - saved data associated with the basic portion of the pickup form
  * @prop recurrenceData - saved data associated with the basic portion of the pickup form
  * @prop prevStep       - function handler to move back to prev step of pickup creation
- * @prop attemptCreate  - function handler for creating Pickups and Recurrences
+ * @prop handleUpdates  - function handler for creating/updating Pickups and Recurrences
+ * @prop isEdit         - boolean indicating whether pickup is being edited 
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class ConfirmationForm extends DefaultForm {
@@ -13,10 +14,6 @@ class ConfirmationForm extends DefaultForm {
 
   _prevStep = (e) => {
     this.props.prevStep();
-  }
-
-  _attemptCreate = (e) => {
-    this.props.attemptCreate();
   }
 
   _frequencyToWords = (n) => {
@@ -70,7 +67,7 @@ class ConfirmationForm extends DefaultForm {
           </button>
           <button type="submit" name="submit" value="Create Pickup"
             className="button"
-            onClick={this._attemptCreate}>Create Pickup</button>
+            onClick={this.props.handleUpdates}>{this.props.isEdit ? `Update Pickup` : `Create Pickup`}</button>
         </Modal.Footer>
       </div>
     );
@@ -82,5 +79,5 @@ ConfirmationForm.propTypes = {
   basicData          : React.PropTypes.object.isRequired,
   recurrenceData     : React.PropTypes.object.isRequired,
   prevStep           : React.PropTypes.func.isRequired,
-  attemptCreate      : React.PropTypes.func.isRequired,
+  handleUpdates      : React.PropTypes.func.isRequired,
 };

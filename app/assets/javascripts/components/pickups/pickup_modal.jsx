@@ -1,9 +1,12 @@
 /**
  * @prop location_id    - id associated with the current location
  * @prop success        - function handler for successful student creation
- * @prop basicForm      - OPTIONAL object containing prepopulated basicForm info
- * @prop recurrenceForm - OPTIONAL object containing prepopulated recurrenceForm info
+ * @prop basicForm      - object containing prepopulated basicForm info
+ * @prop recurrenceForm - object containing prepopulated recurrenceForm info
  * @prop showModal      - OPTIONAL boolean for showing and hiding modal
+ * @prop setshowModal   - function to set showModal in the parent
+ * @prop isEdit         - boolean indicating whether a pickup is being created or edited
+ * @prop setIsEdit      - function to set isEdit in the parent
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class PickupModal extends DefaultForm {
@@ -13,15 +16,75 @@ class PickupModal extends DefaultForm {
     this.state = {
       location_id: this.props.location_id,
       step: 1,
+      basicForm: this.props.basicForm,
+      recurrenceForm: this.props.recurrenceForm,
     };
-    this.state.showModal = this.props.showModal ? this.props.showModal : false;
-    this.state.basicForm = this.props.basicForm ? this.props.basicForm : {};
-    this.state.recurrenceForm = this.props.recurrenceForm ? this.props.recurrenceForm : {};
   }
 
-  _attemptCreate = (initData) => {
-    const pickupSuccess = (data) => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.showModal !== this.state.showModal) {
+      this.setState({ showModal: nextProps.showModal });
+    }
+    if (nextProps.isEdit !== this.state.isEdit) {
+      this.setState({ isEdit: nextProps.isEdit });
+      if (!nextProps.isEdit) {
+        this.setState({ basicForm: {} });
+        this.setState({ recurrenceForm: {} });
+      }
+    }
+    if (nextProps.isEdit) {
+      this.setState({ step: 1 });
+      this.setState({ basicForm: nextProps.basicForm });
+      this.setState({ recurrenceForm: nextProps.recurrenceForm });
+    }
+  }
+
+  _handleUpdates = (e) => {
+    if (this.state.isEdit) {
+      this._attemptUpdate();
+    } else {
+      this._attemptCreate();
+    }
+  }
+
+  _attemptUpdate = () => {
+    const failure = (data) => {
+      toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
+    };
+    const recurrenceSuccess = (data) => {
+      this.props.success();  //Updates schedule
+      this.setState({ step: 1, });
       this.close();
+    }
+
+    let days = DAYSOFWEEK.map((day, i) => {
+      let recurrence = this.state.recurrenceForm[day];
+      let id = recurrence.input.id;
+      if (recurrence.active) {
+        if (id) { // Patch existing recurrences
+          Requester.update(APIConstants.recurrences.update(id),
+                           this.state.recurrenceForm[day].input,
+                           recurrenceSuccess,
+                           failure)
+        } else { // Create new recurrences
+          recurrence.input.pickup_id = this.state.basicForm.id;
+          Requester.post(APIConstants.recurrences.create,
+                         this.state.recurrenceForm[day].input,
+                         recurrenceSuccess,
+                         failure);
+        }
+      } else {
+        if (id) { // Delete anything that has been updated to inactive 
+          Requester.delete(APIConstants.recurrences.update(id),
+                           recurrenceSuccess,
+                           failure);
+        }
+      }
+    });
+  }
+
+  _attemptCreate = () => {
+    const pickupSuccess = (data) => {
       this.setState({
         pickupId: data.message.id,
      });
@@ -37,11 +100,8 @@ class PickupModal extends DefaultForm {
     }
     const recurrenceSuccess = (data) => {
       this.props.success();  //Updates schedule
-      this.setState({
-        basicForm: {},
-        recurrenceForm: {},
-        step: 1,
-      });
+      this.setState({ step: 1, });
+      this.close();
     }
 
     const failure = (data) => {
@@ -56,11 +116,12 @@ class PickupModal extends DefaultForm {
   }
 
   open = (e) => {
-    this.setState({ showModal: true });
+    this.props.setIsEdit(false);
+    this.props.setShowModal(true);
   }
 
   close = (e) => {
-    this.setState({ showModal: false });
+    this.props.setShowModal(false);
   }
 
   _nextStep = (data, key, validated) => {
@@ -97,7 +158,8 @@ class PickupModal extends DefaultForm {
                   basicData      = {this.state.basicForm}
                   recurrenceData = {this.state.recurrenceForm}
                   prevStep       = {this._prevStep}
-                  attemptCreate  = {this._attemptCreate} />
+                  handleUpdates  = {this._handleUpdates} 
+                  isEdit         = {this.state.isEdit}/>
     }
   }
 
@@ -113,7 +175,7 @@ class PickupModal extends DefaultForm {
         <Modal show={this.state.showModal} onHide={this.close}
           className="pickup-creation-modal">
           <Modal.Header>
-            <h1 className="modal-title">Schedule New Pickup</h1>
+            <h1 className="modal-title">{this.props.isEdit ? `Edit Pickup` : `Schedule New Pickup`}</h1>
           </Modal.Header>
           {step}
         </Modal>

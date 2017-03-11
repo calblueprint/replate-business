@@ -4,6 +4,8 @@
  * @prop today        - MomentJS object for today's date
  * @prop isThisWeek   - Boolean indicating whether calendar is this week or next week
  * @prop fetchUpdates - function that refreshes weekly schedule
+ * @prop setForms     - function that sets data forms in parent state
+ * @prop setIsEdit    - function that sets isEdit in the parent
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class WeekOverview extends React.Component {
@@ -55,18 +57,20 @@ class WeekOverview extends React.Component {
     });
     for (let i = 0; i < data.recurrences.length; i++) {
       let recurrence = data.recurrences[i];
+      let displayTime = moment(recurrence.start_date).format('L');
       recurrenceForm[recurrence.day].active = true;
       recurrenceForm[recurrence.day].input = recurrence;
+      recurrenceForm[recurrence.day].input.start_date_display = displayTime;
     }
-    console.log(recurrenceForm);
+    this.props.setForms(basicForm, recurrenceForm);
   }
 
   _editPickup = (e) => {
     let target = $(e.target);
     let id = target.attr('data-id');
-    const success = (data) => {}
-    Requester.get(APIConstants.pickups.get(id),
+    Requester.get(APIConstants.pickups.update(id),
                   this._createForms);
+    this.props.setIsEdit(true);
   }
 
   _deleteRecurrence = (params) => {

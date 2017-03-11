@@ -23,9 +23,8 @@ class ApiConstants {
 
   get pickups() {
     return {
-      update : (id) => `/api/pickups/${id}`,
-      create : `/api/pickups`,
-      get    : (id) => `/api/pickups/${id}`,
+      update  : (id) => `/api/pickups/${id}`,
+      create  : `/api/pickups`,
     }
   }
 

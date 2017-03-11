@@ -31,6 +31,10 @@ class LocationHome extends React.Component {
       tabMapping: tabMapping,
       thisWeekSchedule: {},
       nextWeekSchedule: {},
+      isEdit: false,
+      basicForm: {},
+      recurrenceForm: {},
+      showModal: false,
     };
   }
 
@@ -43,17 +47,32 @@ class LocationHome extends React.Component {
     this.setState({activeTab: eventKey})
   }
 
+  _setForms = (basicForm, recurrenceForm) => {
+    this.setState({ basicForm : basicForm });
+    this.setState({ recurrenceForm : recurrenceForm });
+    this.setState({ isEdit : true });
+    this.setState({ showModal : true});
+  }
+
+  _setIsEdit = (edit) => {
+    this.setState({ isEdit : edit });
+  }
+
+  _setShowModal = (show) => {
+    this.setState({ showModal : show });
+  }
+
   _fullAddress = () => {
-    loc = this.props.location;
+    let loc = this.props.location;
     return `${loc.number} ${loc.street} ${loc.city}, ${loc.state} ${loc.zip}`;
   }
 
   _fetchUpdates = () => {
     const loadThisWeekSchedule = (schedule) => {
-      this.setState({thisWeekSchedule: schedule});
+      this.setState({ thisWeekSchedule : schedule });
     }
     const loadNextWeekSchedule = (schedule) => {
-      this.setState({nextWeekSchedule: schedule});
+      this.setState({ nextWeekSchedule : schedule });
     }
     Requester.get(APIConstants.locations.week(this.props.location.id, this._getToday()),
                   loadThisWeekSchedule);
@@ -95,7 +114,11 @@ class LocationHome extends React.Component {
                   location_id = {this.props.location.id}
                   success = {this._fetchUpdates} 
                   basicForm = {this.state.basicForm}
-                  recurrenceForm = {this.state.recurrenceForm}/>
+                  recurrenceForm = {this.state.recurrenceForm}
+                  isEdit = {this.state.isEdit}
+                  showModal = {this.state.showModal}
+                  setIsEdit = {this._setIsEdit}
+                  setShowModal = {this._setShowModal}/>
             </div>
           </div>
         </div>
@@ -110,12 +133,16 @@ class LocationHome extends React.Component {
                           reference = {moment()}
                           schedule = {this.state.thisWeekSchedule}
                           isThisWeek = {true}
-                          fetchUpdates = {this._fetchUpdates}/>
+                          fetchUpdates = {this._fetchUpdates}
+                          setForms = {this._setForms.bind(this)}
+                          setIsEdit = {this._setIsEdit}/>
             <WeekOverview today = {moment()}
                           reference = {moment().add(1, 'weeks')}
                           schedule = {this.state.nextWeekSchedule}
                           isThisWeek = {false}
-                          fetchUpdates = {this._fetchUpdates}/>
+                          fetchUpdates = {this._fetchUpdates}
+                          setForms = {this._setForms.bind(this)}
+                          setIsEdit = {this._setIsEdit}/>
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />

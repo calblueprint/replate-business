@@ -56,13 +56,13 @@ class RecurrenceInput extends DefaultForm {
   }
 
   _setOneTimePickup = (e) => {
-    this.setState({frequency : 0});
-    this.props.update('frequency', 0, this.state.day);
+    this.setState({frequency : "one_time"});
+    this.props.update('frequency', "one_time", this.state.day);
   }
 
   _setRecurringPickup = (e) => {
-    this.setState({frequency : 1});
-    this.props.update('frequency', 1, this.state.day);
+    this.setState({frequency : "weekly"});
+    this.props.update('frequency', "weekly", this.state.day);
   }
 
   _getToday = () => {
@@ -86,8 +86,8 @@ class RecurrenceInput extends DefaultForm {
       const id = `${this.state.day}-radio-${title}`;
 
       let freqToTitle = {
-        0 : "One Time Pickup",
-        1 : "Recurring Pickup",
+        "one_time" : "One Time Pickup",
+        "weekly" : "Recurring Pickup",
       };
 
       return (

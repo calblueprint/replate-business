@@ -94,7 +94,7 @@ class RecurrenceForm extends DefaultForm {
         if (start_time) {
           this.state[day].input.end_time = _addTwoHours(start_time);
         }
-
+        
         // this._validateTimes(start_date_display, start_time, i);
       }
     });

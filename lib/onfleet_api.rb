@@ -1,8 +1,6 @@
 # hello
 require 'json'
 require 'httparty'
-require 'geokit'
-require 'timezone'
 
 module OnfleetAPI
   @url = 'https://onfleet.com/api/v2/tasks'
@@ -17,6 +15,7 @@ module OnfleetAPI
     Time.zone = Timezone.lookup(loc.lat, loc.lng).name
     t = Time.zone.local(date.year, date.month, date.day)
     t = Time.zone.parse(time, t)
+    puts t
     t.to_i * 1000
   end
 
@@ -121,7 +120,6 @@ module OnfleetAPI
       recurrence.create_task(args)
       if recurrence.frequency == 'one_time'
         puts 'On Demand Task:'
-        Recurrence.destroy(recurrence.id)
       else
         recurrence.update(onfleet_id: resp['id'])
       end

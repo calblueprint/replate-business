@@ -110,6 +110,13 @@ class BusinessSignup extends DefaultForm {
       var confirm = document.getElementById('password_confirmation');
       this._removeRedBorder(confirm,"nomatch");
     }
+    if (!('beta_code' in data) || data.beta_code != "REPLATE-6KC1P") {
+      this._addRedBorder(document.getElementById('beta_code'),"code");
+      error = true;
+    }
+    else {
+      this._removeRedBorder(document.getElementById('beta_code'),"code");
+    }
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })
       
@@ -145,6 +152,7 @@ class BusinessSignup extends DefaultForm {
         { this._renderInputField("email", "Email", "email", "example@business.com") }
         { this._renderInputField("password", "Password", "password") }
         { this._renderInputField("password_confirmation", "Confirm Password", "password") }
+        { this._renderInputField("beta_code", "Sign up code", "code") }
         <div>
           <input type="checkbox" id="tos-agree"
             className="marginRight-xs marginTop-md"

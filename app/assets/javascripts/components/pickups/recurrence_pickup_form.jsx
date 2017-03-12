@@ -2,7 +2,6 @@
  * @prop initData  - saved data associated with the recurrence portion of the pickup form
  * @prop nextStep  - function handler to move on to next step of pickup creation
  * @prop prevStep  - function handler to move back to prev step of pickup creation
- * @prop cancel    - callback to close modal
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class RecurrenceForm extends DefaultForm {
@@ -40,7 +39,7 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _addTwoHours = (time) => {
-    let timeMoment = moment(time, 'HH:mm A');
+    let timeMoment = moment(time, 'hh:mm A');
     timeMoment.add(2, "hours");
     return timeMoment.format('hh:mm A');
   }
@@ -59,7 +58,6 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toNextDay = (moment, day) => {
-    console.log(day, moment.day())
     let diff = day - moment.day() + 1;
     if (diff < 0) {
       diff += 7;
@@ -76,9 +74,9 @@ class RecurrenceForm extends DefaultForm {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
-      let warningStr = "Warning"; 
-      let detailStr = "Pickups must be scheduled at least an hour in advance!" 
-                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at " 
+      let warningStr = "Warning";
+      let detailStr = "Pickups must be scheduled at least an hour in advance!"
+                      + " \nYour pickup on " + recurrenceMoment.format("MM/DD/YYYY") + " at "
                        + recurrenceMoment.format("hh:mm:A") + " will not occur.";
       toastr.error(detailStr, warningStr);
     }
@@ -183,7 +181,7 @@ class RecurrenceForm extends DefaultForm {
 }
 
 RecurrenceForm.propTypes = {
-  initData: React.PropTypes.object.isRequired,
-  nextStep: React.PropTypes.func.isRequired,
-  prevStep: React.PropTypes.func.isRequired,
+  initData : React.PropTypes.object.isRequired,
+  nextStep : React.PropTypes.func.isRequired,
+  prevStep : React.PropTypes.func.isRequired,
 };

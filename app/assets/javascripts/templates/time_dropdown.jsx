@@ -74,10 +74,10 @@ class TimeDropdown extends DefaultForm {
 
     let hourOptions = [];
     for (let i = 9; i <= 17; i += 1) {
-      let j = i === 12 ? i : i % 12;
-      let hourStr = ("0" + j).slice(-2);
+      let display_hour = i === 12 ? i : i % 12;
+      let hourStr = ("0" + display_hour).slice(-2);
       let select = hourStr === this.state.hour;
-      let hourOption = <option value={j} key={j} selected={select ? "selected" : ""}>{hourStr}</option>
+      let hourOption = <option value={display_hour} key={display_hour} selected={select ? "selected" : ""}>{hourStr}</option>
       hourOptions.push(hourOption);
     }
 

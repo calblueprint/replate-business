@@ -82,7 +82,6 @@
 
 
  Pickup.propTypes = {
-   pickups: React.PropTypes.object.isRequired,
+   pickups   : React.PropTypes.object.isRequired,
    pickup_id : React.PropTypes.number,
-
- }
+ };

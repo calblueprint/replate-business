@@ -4,4 +4,8 @@ class Cancellation < ActiveRecord::Base
   def same_day?
     self.date == Date.today
   end
+
+  def same_day_as?(date)
+    self.date == date
+  end
 end

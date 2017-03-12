@@ -142,7 +142,8 @@ class RecurrenceDayInput extends DefaultForm {
 }
 
 RecurrenceDayInput.propTypes = {
-  day     : React.PropTypes.string.isRequired,
-  initData: React.PropTypes.object.isRequired,
-  update  : React.PropTypes.func.isRequired,
+  day          : React.PropTypes.string.isRequired,
+  initData     : React.PropTypes.object.isRequired,
+  update       : React.PropTypes.func.isRequired,
+  setValidated : React.PropTypes.func.isRequired,
 };

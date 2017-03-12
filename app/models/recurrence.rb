@@ -34,9 +34,9 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def deliver_today?(date = Date.today)
+  def deliver_today?(date = Date.today, day = (Time.now.wday - 1))
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
-    r_date == date and self.day == Time.now.wday - 1
+    r_date == date and Recurrence.days()[self.day] == day
   end
 
   def post_on_demand

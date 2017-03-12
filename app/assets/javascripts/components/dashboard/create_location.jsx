@@ -62,6 +62,11 @@ class LocationCreationForm extends DefaultForm {
             map.setCenter(place.geometry.location);
             map.setZoom(17);
           }
+          var lat = place.geometry.location.lat();
+          var lon = place.geometry.location.lng();
+          locationForm.setState({lat: lat});
+          locationForm.setState({lon: lon});
+
           marker.setPosition(place.geometry.location);
           marker.setVisible(true);
           for (var i = 0; i < place.address_components.length; i++) {

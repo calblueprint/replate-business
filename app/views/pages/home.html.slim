@@ -103,10 +103,18 @@ section.splash-marketplace-section
 section.splash-companies
   .container
     h1.splash-section-title.marginBot-xxl
-      | Join Our Community
+      | Our Donors
     .company-container
       - @companies.each do | name |
         img src=image_url("splash/logos/#{name}.png") alt="#{name} logo"
+
+section.splash-companies
+  .container
+    h1.splash-section-title.marginBot-xxl
+      | Our Recipients
+    .recipient-container
+      - @recipients.each do | name |
+        img src=image_url("splash/recipient_logos/#{name}.png") alt="#{name} logo"
 
 section.subscribe-section
   .container

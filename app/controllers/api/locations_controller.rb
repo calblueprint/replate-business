@@ -40,6 +40,12 @@ class API::LocationsController < ApplicationController
     render json: pickups, root: false
   end
 
+  def tasks
+    location = Location.find(params[:id])
+    tasks = location.tasks()
+    render json: tasks, root: false
+  end
+
   def location_params
     params.permit(
       :addr_name,

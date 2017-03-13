@@ -54,6 +54,12 @@ class Location < ActiveRecord::Base
   	return pickups
   end
 
+  def tasks
+    tsks = {}
+    puts self.tasks.length
+    return tsks
+  end
+
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
 end

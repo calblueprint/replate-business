@@ -44,5 +44,6 @@ Rails.application.routes.draw do
     resources :cancellations, :only => [:create, :destroy]
     get '/locations/:id/week/:today', to: 'locations#this_week'
     resources :sessions, :only => [:create]
+    get '/locations/:id/tasks', to: 'locations#tasks'
   end
 end

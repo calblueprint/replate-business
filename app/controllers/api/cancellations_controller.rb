@@ -10,8 +10,9 @@ class API::CancellationsController < ApplicationController
   end
 
   def destroy
-    cancellation = Cancellation.find(params[:id])
-    if cancellation.destroy
+    r = Recurrence.find(params[:id])
+    pickup = Pickup.find(r.pickup_id)
+    if pickup.destroy
       render_json_message(:ok, message: 'Cancellation successfully deleted!')
     else
       render_json_message(:forbidden, errors: cancellation.errors.full_messages)

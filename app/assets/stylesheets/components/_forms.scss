@@ -113,6 +113,13 @@ h3 {
   color: red;
 }
 
+.phone_short::after {
+  content: "Phone number must have 10 numbers";
+}
+.phone_short {
+  color: red;
+}
+
 .invalid::after {
   content: "Email is not valid";
 }
@@ -134,4 +141,21 @@ h3 {
 .validation-msg {
   color: $alert;
   font-size: 14px;
+}
+
+.label.confirmation {
+  color: black;
+  font-size: 18px;
+}
+
+.confirmation.info-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+
+.confirmation-container {
+  padding: 5px;
+  margin-top: 8px;
 }

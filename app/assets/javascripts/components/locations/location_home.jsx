@@ -83,7 +83,6 @@ class LocationHome extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <div className="location-page-header">
@@ -116,11 +115,13 @@ class LocationHome extends React.Component {
             <WeekOverview today = {this._getTodayMoment()}
                           reference = {this._getTodayMoment()}
                           schedule = {this.state.thisWeekSchedule}
-                          isThisWeek = {true}/>
+                          isThisWeek = {true}
+                          fetchUpdates = {this._fetchUpdates}/>
             <WeekOverview today = {this._getTodayMoment()}
                           reference = {this._getNextWeekMoment()}
                           schedule = {this.state.nextWeekSchedule}
-                          isThisWeek = {false}/>
+                          isThisWeek = {false}
+                          fetchUpdates = {this._fetchUpdates}/>
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />
@@ -129,7 +130,7 @@ class LocationHome extends React.Component {
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
-                              fetchLocation = {this._fetchLocation} />
+                              fetchUpdates = {this._fetchUpdates} />
           </Tab>
         </Tabs>
       </div>

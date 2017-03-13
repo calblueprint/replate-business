@@ -71,21 +71,19 @@ class BusinessSignup extends DefaultForm {
       }
     }
     if ((!('password' in data)) || (!(data.password))) {
-      console.log("hi");
       this._addRedBorder(document.getElementById('password'),"blank");
       error = true;
     }
     
     else {
-        
-        if (data.password.length < 8) {
-          this._addRedBorder(document.getElementById('password'),"short");
-          error = true;
-        }
-        else {
-          this._removeRedBorder(document.getElementById('password'),"short");
-          this._removeRedBorder(document.getElementById('password'),"blank");
-        }
+      if (data.password.length < 8) {
+        this._addRedBorder(document.getElementById('password'),"short");
+        error = true;
+      }
+      else {
+        this._removeRedBorder(document.getElementById('password'),"short");
+        this._removeRedBorder(document.getElementById('password'),"blank");
+      }
     }
     if (!('password_confirmation' in data) || !(data.password_confirmation)) {
       this._addRedBorder(document.getElementById('password_confirmation'),"blank");
@@ -99,7 +97,14 @@ class BusinessSignup extends DefaultForm {
       error = true;
     }
     else {
-      this._removeRedBorder(document.getElementById('phone'));
+      if (data.phone.length < 12) { // 12 because there are dashes in the phone number
+        this._addRedBorder(document.getElementById('phone'),"phone_short");
+        error = true;
+      }
+      else {
+        this._removeRedBorder(document.getElementById('phone'),"phone_short");
+        this._removeRedBorder(document.getElementById('phone'),"blank");
+      }      
     }
     if (data.password != data.password_confirmation || !data.password || !data.password_confirmation) {  
       var confirm = document.getElementById('password_confirmation');

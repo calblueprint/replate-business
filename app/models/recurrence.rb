@@ -20,7 +20,7 @@ class Recurrence < ActiveRecord::Base
   belongs_to :pickup
   has_many :cancellations, :dependent => :destroy
   enum frequency: [:one_time, :weekly]
-  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
+  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   def location
     self.pickup.location
@@ -34,7 +34,7 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def deliver_today?(date = Date.today, day = (Time.now.wday - 1))
+  def deliver_today?(date = Date.today, day = Time.now.wday - 1)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
     r_date == date and Recurrence.days()[self.day] == day
   end
@@ -50,7 +50,7 @@ class Recurrence < ActiveRecord::Base
     if self.location.state == 'California'
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
-      self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
+      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
     end
   end
 

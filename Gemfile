@@ -19,6 +19,9 @@ gem 'pg', '0.18.4'
 gem 'pg_search', '1.0.5'
 gem 'react-rails', '1.5.0'
 gem 'json'
+gem 'geokit'
+gem 'timezone'
+gem 'tzinfo'
 
 # Uploading
 gem 'paperclip', '5.1.0'

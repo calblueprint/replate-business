@@ -1,8 +1,15 @@
 class ApiConstants {
+  get cancellations() {
+    return {
+      create : (id, date) => `/api/cancellations`,
+      destroy : (id) => `/api/cancellations/${id}`,
+    }
+  }
+
   get sessions() {
     return {
       signup : `/signup`,
-      create : `/api/sessions`
+      create : `/api/sessions`,
     }
   }
 
@@ -10,7 +17,7 @@ class ApiConstants {
     return {
       update : (id) => `/api/locations/${id}`,
       create : `/api/locations`,
-      week   : (id, today) => `/api/locations/${id}/week/${today}`
+      week   : (id, today) => `/api/locations/${id}/week/${today}`,
     }
   }
 

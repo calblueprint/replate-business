@@ -40,7 +40,7 @@ def make_locations
       number: "2333",
       street: "Channing Way",
       city: "Berkeley",
-      state: "CA",
+      state: "California",
       zip: "10010",
       country: "USA",
       addr_name: "TEST DO NOT DELIVER",

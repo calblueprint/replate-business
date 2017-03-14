@@ -13,7 +13,8 @@ class LocationHome extends React.Component {
     const tabMapping = {
       pickups: 1,
       history: 2,
-      settings: 3,
+      invoice: 3,
+      settings: 4,
     }
 
     let active = 1;
@@ -126,9 +127,10 @@ class LocationHome extends React.Component {
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />
           </Tab>
-          <Tab title="Invoice">
+          <Tab eventKey={3} title="Invoice">
+            <LocationInvoice location = {this.props.location} business = {this.props.business}/>
           </Tab>
-          <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
+          <Tab eventKey={4} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates} />
           </Tab>

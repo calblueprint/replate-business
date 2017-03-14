@@ -56,7 +56,11 @@ class Location < ActiveRecord::Base
 
   def tasks
     tsks = {}
-    puts self.tasks.length
+    if self.has_attribute?(:tasks)
+      self.tasks.each do |task|
+        tsks.push(task)
+      end
+    end
     return tsks
   end
 

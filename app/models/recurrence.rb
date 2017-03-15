@@ -67,9 +67,9 @@ class Recurrence < ActiveRecord::Base
     today = Date.parse(day)
     start_date = self.start_date.to_date
 
-    first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
-    same_week = first_recurrence_date.strftime('%U') == today.strftime('%U')
-    same_year = first_recurrence_date.strftime('%Y') == today.strftime('%Y')
+    # first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
+    same_week = start_date.strftime('%U') == today.strftime('%U')
+    same_year = start_date.strftime('%Y') == today.strftime('%Y')
     if self.frequency === "one_time" and same_week and same_year
       return true
     end

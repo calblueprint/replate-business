@@ -110,6 +110,7 @@ GEM
       thor (~> 0.14)
     font-awesome-rails (4.5.0.0)
       railties (>= 3.2, < 5.0)
+    geokit (1.10.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     has_scope (0.6.0)
@@ -275,6 +276,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
+    timezone (1.2.6)
     toastr-rails (1.0.3)
       railties (>= 3.1.0)
     tzinfo (1.2.2)
@@ -310,6 +312,7 @@ DEPENDENCIES
   faker (= 1.6.6)
   figaro (= 1.1.1)
   font-awesome-rails (= 4.5.0)
+  geokit
   has_scope (= 0.6.0)
   httparty
   intercom-rails
@@ -336,7 +339,9 @@ DEPENDENCIES
   slim-rails (~> 3.0.1)
   spring
   stripe!
+  timezone
   toastr-rails
+  tzinfo
   uglifier (= 2.7.2)
   web-console (~> 2.0)
 

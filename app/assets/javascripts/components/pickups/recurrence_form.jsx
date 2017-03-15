@@ -95,7 +95,7 @@ class RecurrenceForm extends DefaultForm {
           this.state[day].input.end_time = _addTwoHours(start_time);
         }
         
-        // this._validateTimes(start_date_display, start_time, i);
+        this._validateTimes(start_date_display, start_time, i);
       }
     });
     if (!hasActive) {

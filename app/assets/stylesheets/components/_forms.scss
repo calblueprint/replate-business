@@ -99,6 +99,41 @@ h3 {
   color: red;
 }
 
+.nomatch::after {
+  content: "Passwords do not match";
+}
+.nomatch {
+  color: red;
+}
+
+.short::after {
+  content: "Password must be longer than 8 characters";
+}
+.short {
+  color: red;
+}
+
+.phone_short::after {
+  content: "Phone number must have 10 numbers";
+}
+.phone_short {
+  color: red;
+}
+
+.invalid::after {
+  content: "Email is not valid";
+}
+.invalid {
+  color: red;
+}
+
+.code::after {
+  content: "Invalid sign up code";
+}
+.code {
+  color: red;
+}
+
 .red-border {
   border: 1px solid red;
 }

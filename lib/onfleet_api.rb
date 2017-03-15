@@ -6,11 +6,17 @@ module OnfleetAPI
   @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(date, time)
+  def self.make_time(date, time, recurrence)
     # Onfleet takes unix time in milliseconds
-    t = Time.new(date.year, date.month, date.day)
-    t = Time.parse(time, t).to_i
-    t * 1000
+    l = recurrence.location.address
+    loc = Geokit::Geocoders::GoogleGeocoder.geocode(l)
+    lat = loc.lat
+    long = loc.lng
+    Time.zone = Timezone.lookup(loc.lat, loc.lng).name
+    t = Time.zone.local(date.year, date.month, date.day)
+    t = Time.zone.parse(time, t)
+    puts t
+    t.to_i * 1000
   end
 
   def self.build_destination(location)
@@ -48,8 +54,8 @@ module OnfleetAPI
     b = build_recipients(recurrence.business)
     p = recurrence.pickup
     c = build_container(recurrence)
-    com_after = make_time(date, recurrence.start_time)
-    com_before = make_time(date, recurrence.end_time)
+    com_after = make_time(date, recurrence.start_time, recurrence)
+    com_before = make_time(date, recurrence.end_time, recurrence)
     task = {
       :completeAfter => com_after,
       :completeBefore => com_before,
@@ -65,8 +71,6 @@ module OnfleetAPI
   def self.post_task(recurrence, date)
     data = build_data(recurrence, date)
     puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
-    puts @basic_auth
-    puts "HELLO THERE"
     HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
   end
 
@@ -116,7 +120,6 @@ module OnfleetAPI
       recurrence.create_task(args)
       if recurrence.frequency == 'one_time'
         puts 'On Demand Task:'
-        Recurrence.destroy(recurrence.id)
       else
         recurrence.update(onfleet_id: resp['id'])
       end

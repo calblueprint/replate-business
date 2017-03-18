@@ -20,7 +20,7 @@ class Recurrence < ActiveRecord::Base
   belongs_to :pickup
   has_many :cancellations, :dependent => :destroy
   enum frequency: [:one_time, :weekly]
-  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday]
+  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   def location
     self.pickup.location
@@ -34,7 +34,7 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def deliver_today?(date = Date.today, day = (Time.now.wday - 1))
+  def deliver_today?(date = Date.today, day = Time.now.wday - 1)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
     r_date == date and Recurrence.days()[self.day] == day
   end
@@ -50,7 +50,7 @@ class Recurrence < ActiveRecord::Base
     if self.location.state == 'California'
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
-      self.driver_id = 'PWWyG9w4KS44JOlo2j2Dv8qT'
+      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
     end
   end
 
@@ -71,13 +71,11 @@ class Recurrence < ActiveRecord::Base
 
     if self.frequency === "weekly"
       if same_week
-        return today.wday <= Recurrence.days[self.day]
+        return (today.wday-1) <= Recurrence.days[self.day]
       elsif today >= start_date
         return true
       end
     end
-    same_week = recurrence_date.strftime('%U') == today.strftime('%U')
-    same_year = recurrence_date.strftime('%Y') == today.strftime('%Y')
     if self.frequency === "one_time" and same_week and same_year
       return true
     end

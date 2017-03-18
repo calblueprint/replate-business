@@ -115,7 +115,16 @@ class LocationHome extends React.Component {
                   success = {this._fetchUpdates} 
                   basicForm = {this.state.basicForm}
                   recurrenceForm = {this.state.recurrenceForm}
-                  isEdit = {this.state.isEdit}
+                  isEdit = {false}
+                  showModal = {this.state.showModal}
+                  setIsEdit = {this._setIsEdit}
+                  setShowModal = {this._setShowModal}/>
+              <PickupModal
+                  location_id = {this.props.location.id}
+                  success = {this._fetchUpdates} 
+                  basicForm = {this.state.basicForm}
+                  recurrenceForm = {this.state.recurrenceForm}
+                  isEdit = {true}
                   showModal = {this.state.showModal}
                   setIsEdit = {this._setIsEdit}
                   setShowModal = {this._setShowModal}/>

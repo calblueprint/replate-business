@@ -165,10 +165,9 @@ class PickupModal extends DefaultForm {
 
   render() {
      let step = this._getStep();
-
     return (
       <div className="pickup-form-container">
-        <button onClick={this.open} type="button" className="button">
+        <button visibility={this.state.isEdit ? `hidden` : ``} onClick={this.open} type="button" className="button">
           <span className="fa fa-plus marginRight-xxs" />
           Create a new pickup
         </button>

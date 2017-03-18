@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'terms' => 'pages#terms'
 
   get 'dashboard' => 'businesses#home'
+  get 'admin_dashboard' => 'admins#home'
 
   resources :admins
   resources :businesses

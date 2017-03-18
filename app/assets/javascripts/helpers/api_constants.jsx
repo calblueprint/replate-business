@@ -41,6 +41,7 @@ class ApiConstants {
     return {
       show: (id) => `/api/businesses/${id}`,
       update : (id) => `/api/businesses/${id}`,
+      charge : (id) => `/api/businesses/${id}/charge`
     }
   }
 }

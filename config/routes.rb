@@ -37,13 +37,14 @@ Rails.application.routes.draw do
 
   # Api definition
   namespace :api, defaults: { format: :json } do
-    resources :businesses, :only => [:show, :create, :update, :destroy]
+    resources :businesses, :only => [:show, :create, :update, :destroy, :charge]
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
     resources :cancellations, :only => [:create, :destroy]
     get '/locations/:id/week/:today', to: 'locations#this_week'
     resources :sessions, :only => [:create]
-    get '/locations/:id/tasks', to: 'locations#tasks'
+    post '/businesses/:id/charge', to: 'businesses#charge'
+    get '/locations/:id/tasks', to: 'locations#find_tasks'
   end
 end

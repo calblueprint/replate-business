@@ -54,13 +54,17 @@ class Location < ActiveRecord::Base
   	return pickups
   end
 
-  def tasks
+  def get_tasks
     tsks = {}
-    if self.has_attribute?(:tasks)
+    count = 0
+    if not self.tasks.empty?
+      puts "hi"
       self.tasks.each do |task|
-        tsks.push(task)
+        tsks[count] = task
+        count = count + 1
       end
     end
+    puts "runnin"
     return tsks
   end
 

@@ -13,12 +13,40 @@ class API::BusinessesController < ApplicationController
     end
   end
 
+  def charge
+    business = Business.find(params[:id])
+    puts Figaro.env.stripe_api_key
+    Stripe.api_key = Figaro.env.stripe_api_key
+    token = params[:stripeToken]
+    if business.stripe_customer_id != nil
+      charge = Stripe::Charge.create(
+      :amount => 1500, # $15.00 this time
+      :currency => "usd",
+      :customer => business.stripe_customer_id, # Previously stored, then retrieved
+      )
+      render :json => {}
+    else
+      customer = Stripe::Customer.create(
+      :email => "paying.user@example.com",
+      :source => token,
+      )
+      charge = Stripe::Charge.create(
+      :amount => 1000,
+      :currency => "usd",
+      :customer => customer.id,
+      )
+      stripeid = {:stripe_customer_id => customer.id}
+      render :json => stripeid
+    end
+  end
+
   def business_params
     params.permit(
       :company_name,
       :website_url,
       :phone,
-      :email
+      :email,
+      :stripe_customer_id
     )
   end
 end

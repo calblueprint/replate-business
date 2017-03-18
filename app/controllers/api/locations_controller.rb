@@ -40,10 +40,10 @@ class API::LocationsController < ApplicationController
     render json: pickups, root: false
   end
 
-  def tasks
+  def find_tasks
     location = Location.find(params[:id])
-    tasks = location.tasks()
-    render json: tasks, root: false
+    currenttasks = location.get_tasks
+    render json: currenttasks, root: false
   end
 
   def location_params

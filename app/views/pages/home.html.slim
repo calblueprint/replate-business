@@ -3,12 +3,14 @@ nav.nav.nav-splash
     a href="/": .logo
     ul.nav-items-container
       li.nav-item = link_to "Pricing", business_path, class: "button button--text-white"
-      - if !current_business
+      - if !current_business and !current_admin
         li.nav-item = button_to "Create Account", signup_path, :method => "get", :class => "button button--text-white marginRight-sm"
         li.nav-item
           = react_component "HomeLogin", { btnClasses: "button--white" }
-      - else
+      - elsif current_business
         li.nav-item = link_to "Go to Dashboard", dashboard_path, class: "button button--text-white"
+      - else
+        li.nav-item = link_to "Go to Admin Dashboard", admin_dashboard_path, class: "button button--text-white"
 .hero-container
   .hero-background
     img.hero-image src=image_path("splash/hero.jpg") alt=""/

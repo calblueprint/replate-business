@@ -7,6 +7,20 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 $offices = ["Main Office", "NYC Office", "SF Office"]
 NUM_BIZ = 5
+# $tasks =
+#
+# def make_tasks
+#   1.upto(5)
+#
+
+def make_tasks
+  task = Task.create(
+    scheduled_date: Time.now,
+    onfleet_id: "123",
+    status: 5,
+    driver_id: "nhed6lRTknGd~IgCOD4MjWNK"
+
+  )
 
 def make_businesses
   1.upto(NUM_BIZ) do |n|
@@ -135,3 +149,4 @@ make_pickups
 make_recurrences
 make_cancellations
 make_admin
+make_tasks

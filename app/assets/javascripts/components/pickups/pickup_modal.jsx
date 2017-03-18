@@ -4,9 +4,8 @@
  * @prop basicForm      - object containing prepopulated basicForm info
  * @prop recurrenceForm - object containing prepopulated recurrenceForm info
  * @prop showModal      - OPTIONAL boolean for showing and hiding modal
- * @prop setshowModal   - function to set showModal in the parent
+ * @prop hideEditModal  - OPTIONAL function for hiding modal
  * @prop isEdit         - boolean indicating whether a pickup is being created or edited
- * @prop setIsEdit      - function to set isEdit in the parent
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class PickupModal extends DefaultForm {
@@ -18,29 +17,23 @@ class PickupModal extends DefaultForm {
       step: 1,
       basicForm: this.props.basicForm,
       recurrenceForm: this.props.recurrenceForm,
+      showModal: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.showModal !== this.state.showModal) {
-      this.setState({ showModal: nextProps.showModal });
-    }
-    if (nextProps.isEdit !== this.state.isEdit) {
-      this.setState({ isEdit: nextProps.isEdit });
-      if (!nextProps.isEdit) {
-        this.setState({ basicForm: {} });
-        this.setState({ recurrenceForm: {} });
-      }
-    }
     if (nextProps.isEdit) {
-      this.setState({ step: 1 });
-      this.setState({ basicForm: nextProps.basicForm });
-      this.setState({ recurrenceForm: nextProps.recurrenceForm });
+      this.state.step = 1;
+      this.state.basicForm = nextProps.basicForm;
+      this.state.recurrenceForm = nextProps.recurrenceForm;
+      if (nextProps.showModal !== this.state.showModal) {
+        this.setState({ showModal: nextProps.showModal });
+      }
     }
   }
 
   _handleUpdates = (e) => {
-    if (this.state.isEdit) {
+    if (this.props.isEdit) {
       this._attemptUpdate();
     } else {
       this._attemptCreate();
@@ -48,6 +41,7 @@ class PickupModal extends DefaultForm {
   }
 
   _attemptUpdate = () => {
+    console.log("attempt update")
     const failure = (data) => {
       toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
     };
@@ -116,12 +110,12 @@ class PickupModal extends DefaultForm {
   }
 
   open = (e) => {
-    this.props.setIsEdit(false);
-    this.props.setShowModal(true);
+    this.setState({ showModal: true });
   }
 
   close = (e) => {
-    this.props.setShowModal(false);
+    this.setState({ showModal: false });
+    this.props.hideEditModal();
   }
 
   _nextStep = (data, key, validated) => {
@@ -146,28 +140,33 @@ class PickupModal extends DefaultForm {
         return <BasicForm
                   initData = {this.state.basicForm}
                   nextStep = {this._nextStep}
+                  isEdit   = {this.props.isEdit}
                   close    = {this.close} />
       case 2:
+        console.log(this.state.basicForm.frequency);
+        console.log(this.state.basicForm.start_date);
         return <RecurrenceForm
-                  initData = {this.state.recurrenceForm}
-                  nextStep = {this._nextStep}
-                  prevStep = {this._prevStep}
-                  close    = {this.close} />
+                  initData   = {this.state.recurrenceForm}
+                  nextStep   = {this._nextStep}
+                  prevStep   = {this._prevStep}
+                  frequency  = {this.state.basicForm.frequency}
+                  start_date = {this.state.basicForm.start_date}
+                  close      = {this.close} />
       case 3:
         return <ConfirmationForm
                   basicData      = {this.state.basicForm}
                   recurrenceData = {this.state.recurrenceForm}
                   prevStep       = {this._prevStep}
-                  handleUpdates  = {this._handleUpdates} 
-                  isEdit         = {this.state.isEdit}/>
+                  isEdit         = {this.props.isEdit}
+                  handleUpdates  = {this._handleUpdates} />
     }
   }
 
   render() {
      let step = this._getStep();
     return (
-      <div className="pickup-form-container">
-        <button onClick={this.open} type="button" className={`button`}>
+      <div className="pickup-form-container" hidden={this.props.isEdit}>
+        <button onClick={this.open} type="button" className="button">
           <span className="fa fa-plus marginRight-xxs" />
           Create a new pickup
         </button>

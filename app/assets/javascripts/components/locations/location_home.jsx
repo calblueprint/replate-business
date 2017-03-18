@@ -31,10 +31,9 @@ class LocationHome extends React.Component {
       tabMapping: tabMapping,
       thisWeekSchedule: {},
       nextWeekSchedule: {},
-      isEdit: false,
+      showEditModal: false,
       basicForm: {},
       recurrenceForm: {},
-      showModal: false,
     };
   }
 
@@ -48,18 +47,17 @@ class LocationHome extends React.Component {
   }
 
   _setForms = (basicForm, recurrenceForm) => {
-    this.setState({ basicForm : basicForm });
-    this.setState({ recurrenceForm : recurrenceForm });
-    this.setState({ isEdit : true });
-    this.setState({ showModal : true});
+    this.setState({ basicForm : basicForm,
+                    recurrenceForm : recurrenceForm,
+                  });
   }
 
-  _setIsEdit = (edit) => {
-    this.setState({ isEdit : edit });
+  _showEditModal = () => {
+    this.setState({ showEditModal : true });
   }
 
-  _setShowModal = (show) => {
-    this.setState({ showModal : show });
+  _hideEditModal = () => {
+    this.setState({ showEditModal : false });
   }
 
   _fullAddress = () => {
@@ -113,21 +111,17 @@ class LocationHome extends React.Component {
               <PickupModal
                   location_id = {this.props.location.id}
                   success = {this._fetchUpdates} 
-                  basicForm = {this.state.basicForm}
-                  recurrenceForm = {this.state.recurrenceForm}
-                  isEdit = {false}
-                  showModal = {this.state.showModal}
-                  setIsEdit = {this._setIsEdit}
-                  setShowModal = {this._setShowModal}/>
+                  basicForm = {{}}
+                  recurrenceForm = {{}}
+                  isEdit = {false}/>
               <PickupModal
                   location_id = {this.props.location.id}
                   success = {this._fetchUpdates} 
                   basicForm = {this.state.basicForm}
                   recurrenceForm = {this.state.recurrenceForm}
                   isEdit = {true}
-                  showModal = {this.state.showModal}
-                  setIsEdit = {this._setIsEdit}
-                  setShowModal = {this._setShowModal}/>
+                  showModal = {this.state.showEditModal}
+                  hideEditModal = {this._hideEditModal}/>
             </div>
           </div>
         </div>
@@ -144,14 +138,14 @@ class LocationHome extends React.Component {
                           isThisWeek = {true}
                           fetchUpdates = {this._fetchUpdates}
                           setForms = {this._setForms.bind(this)}
-                          setIsEdit = {this._setIsEdit}/>
+                          showEditModal = {this._showEditModal}/>
             <WeekOverview today = {moment()}
                           reference = {moment().add(1, 'weeks')}
                           schedule = {this.state.nextWeekSchedule}
                           isThisWeek = {false}
                           fetchUpdates = {this._fetchUpdates}
                           setForms = {this._setForms.bind(this)}
-                          setIsEdit = {this._setIsEdit}/>
+                          showEditModal = {this._showEditModal}/>
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />

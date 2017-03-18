@@ -17,32 +17,28 @@ class RecurrenceInput extends DefaultForm {
       // Set start_time to 9:00AM by default
       this.state.start_time = "09:00 AM";
     }
-    if (!this.state.start_date_display) {
-      this.state.start_date_display = this._getToday();
-    }
-
     this.state.isNextStep = this.props.isNextStep;
   }
 
-  _validate = () => {
-    this.state.isNextStep = this.props.isNextStep;
-    let requiredKeys = ["frequency"];
-    this.props.setValidated(true);
-    for (i = 0; i < requiredKeys.length; i++) {
-      let requiredKey = requiredKeys[i];
-      let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
-      if (this.state.isNextStep && invalid) {
-        let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
-        let validation = <p className="validation-msg marginTop-xxs"
-                            key={i}>{validationMsg}</p>
+  // _validate = () => {
+  //   this.state.isNextStep = this.props.isNextStep;
+  //   let requiredKeys = ["frequency"];
+  //   this.props.setValidated(true);
+  //   for (i = 0; i < requiredKeys.length; i++) {
+  //     let requiredKey = requiredKeys[i];
+  //     let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
+  //     if (this.state.isNextStep && invalid) {
+  //       let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
+  //       let validation = <p className="validation-msg marginTop-xxs"
+  //                           key={i}>{validationMsg}</p>
 
-        this.state[requiredKey + "Validation"] = validation;
-        this.props.setValidated(false);
-      } else if (!invalid) {
-        delete this.state[requiredKey + "Validation"];
-      }
-    }
-  }
+  //       this.state[requiredKey + "Validation"] = validation;
+  //       this.props.setValidated(false);
+  //     } else if (!invalid) {
+  //       delete this.state[requiredKey + "Validation"];
+  //     }
+  //   }
+  // }
 
   _updateTime = (start_time) => {
       this.state.start_time = start_time
@@ -55,19 +51,9 @@ class RecurrenceInput extends DefaultForm {
     this.props.update(target.attr('name'), target.val(), this.state.day);
   }
 
-  _setOneTimePickup = (e) => {
-    this.setState({frequency : "one_time"});
-    this.props.update('frequency', "one_time", this.state.day);
-  }
-
-  _setRecurringPickup = (e) => {
-    this.setState({frequency : "weekly"});
-    this.props.update('frequency', "weekly", this.state.day);
-  }
-
-  _getToday = () => {
-    return moment().format("MM/DD/YYYY");
-  }
+  // _getToday = () => {
+  //   return moment().format("MM/DD/YYYY");
+  // }
 
   _renderPickupTypeButtons = () => {
 
@@ -102,7 +88,7 @@ class RecurrenceInput extends DefaultForm {
   }
 
   render() {
-    this._validate();
+    // this._validate();
 
     return (
       <div className="day-input-container">
@@ -110,12 +96,6 @@ class RecurrenceInput extends DefaultForm {
           {this._capitalize(this.state.day)}
         </h2>
         <form className="day-input-form">
-          <fieldset className="input-container">
-            <label className="label marginRight-lg">Frequency</label>
-            {this._renderPickupTypeButtons()}
-            {this.state.frequencyValidation}
-          </fieldset>
-
           <div className="row marginTop-sm">
             <div className="col-md-6">
               <TimeDropdown
@@ -125,14 +105,6 @@ class RecurrenceInput extends DefaultForm {
                 form_name = "start_time"
                 update = {this._updateTime}
                 initData = {this.state.start_time} />
-            </div>
-            <div className="col-md-6">
-              <fieldset className="input-container">
-                <label className="label label--newline">Start Date</label>
-                <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
-                  name="start_date_display" onSelect={this._updateState}
-                  className="input" placeholder="Click to select a day" />
-              </fieldset>
             </div>
           </div>
         </form>

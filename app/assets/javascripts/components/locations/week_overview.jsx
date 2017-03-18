@@ -1,11 +1,11 @@
 /**
- * @prop schedule     - weekly schedule data
- * @prop reference    - MomentJS object indicating the calendar's reference point for the week displayed
- * @prop today        - MomentJS object for today's date
- * @prop isThisWeek   - Boolean indicating whether calendar is this week or next week
- * @prop fetchUpdates - function that refreshes weekly schedule
- * @prop setForms     - function that sets data forms in parent state
- * @prop setIsEdit    - function that sets isEdit in the parent
+ * @prop schedule      - weekly schedule data
+ * @prop reference     - MomentJS object indicating the calendar's reference point for the week displayed
+ * @prop today         - MomentJS object for today's date
+ * @prop isThisWeek    - Boolean indicating whether calendar is this week or next week
+ * @prop fetchUpdates  - function that refreshes weekly schedule
+ * @prop setForms      - function that sets data forms in parent state
+ * @prop showEditModal - function that shows edit modal
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class WeekOverview extends React.Component {
@@ -55,13 +55,20 @@ class WeekOverview extends React.Component {
       recurrenceForm[day].active = false;
       recurrenceForm[day].input = {};
     });
+    let frequency;
+    let displayTime;
+    let start_date;
     for (let i = 0; i < data.recurrences.length; i++) {
       let recurrence = data.recurrences[i];
-      let displayTime = moment(recurrence.start_date).format('L');
+      displayTime = moment(recurrence.start_date).format('L');
+      start_date = recurrence.start_date;
       recurrenceForm[recurrence.day].active = true;
       recurrenceForm[recurrence.day].input = recurrence;
-      recurrenceForm[recurrence.day].input.start_date_display = displayTime;
+      frequency = recurrence.frequency;
     }
+    basicForm.frequency = frequency;
+    basicForm.start_date_display = displayTime;
+    basicForm.start_date = start_date;
     this.props.setForms(basicForm, recurrenceForm);
   }
 
@@ -70,7 +77,7 @@ class WeekOverview extends React.Component {
     let id = target.attr('data-id');
     Requester.get(APIConstants.pickups.update(id),
                   this._createForms);
-    this.props.setIsEdit(true);
+    this.props.showEditModal();
   }
 
   _deleteRecurrence = (params) => {

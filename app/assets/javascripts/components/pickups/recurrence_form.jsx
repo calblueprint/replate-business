@@ -22,6 +22,17 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
+    if (this.props.frequency === "one_time") {
+      let hasActive = false;
+      if (!this.state[day].active) {
+        for (let day of DAYSOFWEEK) {
+          if (this.state[day].active) {
+            toastr.error("Cannot select multiple days for one time pickup.");
+            return false;
+          }
+        }
+      }
+    }
     this.state[day].active = !this.state[day].active;
     this.state.dayValidation = undefined;
     this.props.nextStep(this.state, "recurrenceForm", false);
@@ -76,31 +87,26 @@ class RecurrenceForm extends DefaultForm {
       timeMoment.add(2, "hours");
       return timeMoment.format('LT');
     }
-    const _formatDate = (date) => {
-      let dateMoment = moment(date, "L");
-      return dateMoment.format();
-    }
+
     let hasActive = false;
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         hasActive = true;
-        // Format start date
-        let start_date_display = this.state[day].input.start_date_display;
-        if (start_date_display) {
-          this.state[day].input.start_date = _formatDate(start_date_display);
-        }
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
         if (start_time) {
           this.state[day].input.end_time = _addTwoHours(start_time);
         }
+        // Set frequency and start_date
+        this.state[day].input.frequency = this.props.frequency;
+        this.state[day].input.start_date = this.props.start_date;
         
-        this._validateTimes(start_date_display, start_time, i);
+        // this._validateTimes(start_date_display, start_time, i);
       }
     });
     if (!hasActive) {
       this.state.validated = false;
-      this.setState({dayValidation : <p className="validation-msg marginTop-xxs"
+      this.setState({dayValidation : <p className="validation-msg marginTop-xxs" style={{textAlign: 'center'}}
                     key={i}>You must select at least one day.</p>});
     }
     this.props.nextStep(this.state, "recurrenceForm", this.state.validated);

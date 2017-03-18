@@ -30,16 +30,8 @@ class ConfirmationForm extends DefaultForm {
         pickupTimeWindow = this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time;
         return <div className="name-container confirmation-container" key={i}>
                   <h3 className="confirmation label">{this._capitalize(day)}</h3>
-                  <div className="confirmation info-row">
-                    <h3 className="label">Time Window</h3>
-                    <h3 className="label">Start Date</h3>
-                    <h3 className="label">Frequency</h3>
-                 </div>
-                 <div className="confirmation info-row">
-                    {pickupTimeWindow}
-                    {this.props.recurrenceData[day].input.start_date_display}
-                    {this._frequencyToWords(this.props.recurrenceData[day].input.frequency)}
-                 </div>
+                  <h3 className="label">Time Window</h3>
+                  {pickupTimeWindow}
               </div>
       }
     });
@@ -54,6 +46,14 @@ class ConfirmationForm extends DefaultForm {
             <div className="confirmation-container name-container">
               <h3 className="confirmation label">Comments</h3>
               <p>{this.props.basicData.comments}</p>
+            </div>
+            <div className="confirmation-container name-container">
+              <h3 className="confirmation label">Frequency</h3>
+              <p>{this.props.basicData.frequency === "one_time" ? "One Time" : "Weekly"}</p>
+            </div>
+            <div className="confirmation-container name-container">
+              <h3 className="confirmation label">{this.props.basicData.frequency === "weekly" ? "Start Date" : "Pickup Date"}</h3>
+              <p>{this.props.basicData.start_date_display}</p>
             </div>
             {recurrences}
           </div>

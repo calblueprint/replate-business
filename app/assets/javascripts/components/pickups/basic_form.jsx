@@ -2,12 +2,24 @@
  * @prop initData - saved data associated with the basic portion of the pickup form
  * @prop nextStep - function handler to move on to next step of pickup creation
  * @prop close    - callback to close modal
+ * @prop isEdit    - callback to close modal
  */
 class BasicForm extends DefaultForm {
 
   constructor(props) {
     super(props);
     this.state = this.props.initData;
+    // Default to one time pickup
+    if (!this.state.frequency) {
+      this.state.frequency = "one_time";
+    }
+    if (!this.state.start_date_display) {
+      this.state.start_date_display = this._getToday();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.state = nextProps.initData;
   }
 
   _updateState = (e) => {
@@ -16,9 +28,29 @@ class BasicForm extends DefaultForm {
     this.props.nextStep(this.state, "basicForm", false);
   }
 
+  _getToday = () => {
+    return moment().format("MM/DD/YYYY");
+  }
+
+  _setOneTime = () => {
+    this.setState({ frequency : "one_time" });
+  }
+
+  _setWeekly = () => {
+    this.setState({ frequency : "weekly" });
+  }
+
   _nextStep = (e) => {
+    const _formatDate = (date) => {
+      let dateMoment = moment(date, "L");
+      return dateMoment.format();
+    }
+
     this.state.isNextStep = true;
     this._validate();
+    // Format start date
+    this.state.start_date = _formatDate(this.state.start_date_display);
+
     this.props.nextStep(this.state, "basicForm", this.state.validated);
   }
 
@@ -54,18 +86,38 @@ class BasicForm extends DefaultForm {
             <fieldset className="input-container marginBot-sm">
               <label htmlFor="title" className="label label--newline">Title</label>
               <input type="text" placeholder="Lunch Pickup" className="input"
-                defaultValue={this.state.title} name="title" id="title"
+                value={this.state.title} name="title" id="title"
                 onChange={this._updateState} />
               {this.state.titleValidation}
             </fieldset>
 
             <fieldset className="input-container name-container">
               <label htmlFor="comments" className="label label--newline">Comments</label>
-              <textarea placeholder={placeholder} defaultValue={this.state.comments}
+              <textarea placeholder={placeholder} value={this.state.comments}
                 name="comments" rows="6" cols="50" onChange={this._updateState}
                 id="comments" className="input" />
               {this.state.commentsValidation}
             </fieldset>
+
+            <div className="row marginTop-sm">
+              <div className="col-md-6">
+                <fieldset className="input-container name-container">
+                  <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
+                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 
+                       onClick={this._setOneTime}>One Time</div>
+                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)} 
+                       onClick={this._setWeekly}>Weekly</div>
+                </fieldset>
+              </div>
+              <div className="col-md-6">
+                <fieldset className="input-container">
+                  <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
+                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
+                    name="start_date_display" onSelect={this._updateState}
+                    className="input" placeholder="Click to select a day" />
+                </fieldset>
+              </div>
+            </div>
           </form>
         </Modal.Body>
         <Modal.Footer>

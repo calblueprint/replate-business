@@ -22,17 +22,17 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    if (this.props.frequency === "one_time") {
-      let hasActive = false;
-      if (!this.state[day].active) {
-        for (let day of DAYSOFWEEK) {
-          if (this.state[day].active) {
-            toastr.error("Cannot select multiple days for one time pickup.");
-            return false;
-          }
-        }
-      }
-    }
+    // if (this.props.frequency === "one_time") {
+    //   let hasActive = false;
+    //   if (!this.state[day].active) {
+    //     for (let day of DAYSOFWEEK) {
+    //       if (this.state[day].active) {
+    //         toastr.error("Cannot select multiple days for one time pickup.");
+    //         return false;
+    //       }
+    //     }
+    //   }
+    // }
     this.state[day].active = !this.state[day].active;
     this.state.dayValidation = undefined;
     this.props.nextStep(this.state, "recurrenceForm", false);
@@ -69,6 +69,7 @@ class RecurrenceForm extends DefaultForm {
     let recurrenceTimeStr = start_date_display + " " + start_time;
     let recurrenceMoment = moment(recurrenceTimeStr, "L LT");
     _toNextDay(recurrenceMoment, day_num);
+
     if (recurrenceMoment.isBefore(moment())) {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
@@ -114,7 +115,7 @@ class RecurrenceForm extends DefaultForm {
 
   _prevStep = (e) => {
     this.props.nextStep(this.state, "recurrenceForm", false);
-    this.props.prevStep(this.state);
+    this.props.prevStep();
   }
 
   _updateState = (key, value, day) => {

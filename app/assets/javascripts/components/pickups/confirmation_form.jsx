@@ -13,7 +13,7 @@ class ConfirmationForm extends DefaultForm {
   }
 
   _prevStep = (e) => {
-    this.props.prevStep();
+    this.props.prevStep(this.props.basicData.frequency);
   }
 
   _frequencyToWords = (n) => {

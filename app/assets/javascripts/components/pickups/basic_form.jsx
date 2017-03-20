@@ -4,6 +4,8 @@
  * @prop close    - callback to close modal
  * @prop isEdit    - callback to close modal
  */
+
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class BasicForm extends DefaultForm {
 
   constructor(props) {
@@ -13,8 +15,13 @@ class BasicForm extends DefaultForm {
     if (!this.state.frequency) {
       this.state.frequency = "one_time";
     }
+    // Default start date to today
     if (!this.state.start_date_display) {
       this.state.start_date_display = this._getToday();
+    }
+    // Set start_time to 9:00AM by default
+    if (!this.state.start_time) {
+      this.state.start_time = "09:00 AM";
     }
   }
 
@@ -40,18 +47,60 @@ class BasicForm extends DefaultForm {
     this.setState({ frequency : "weekly" });
   }
 
-  _nextStep = (e) => {
-    const _formatDate = (date) => {
-      let dateMoment = moment(date, "L");
-      return dateMoment.format();
-    }
+  _formatDate = (date) => {
+    let dateMoment = moment(date, "L");
+    return dateMoment.format();
+  }
 
+  _getDayStr = (date) => {
+    let dateMoment = moment(date, "L");
+    return dateMoment.format("dddd").toLowerCase();
+  }
+
+  _getDay = (date) => {
+    let dateMoment = moment(date, "L");
+    return dateMoment.day();
+  }
+
+  _addTwoHours = (time) => {
+    let timeMoment = moment(time, 'LT');
+    timeMoment.add(2, "hours");
+    return timeMoment.format('LT');
+  }
+
+  _createRecurrence = () => {
+    // Format start date
+    this.state.start_date = this._formatDate(this.state.start_date_display);
+    // Set end time - two hours after start time
+    this.state.end_time = this._addTwoHours(this.state.start_time);
+
+    let pickupDayStr = this._getDayStr(this.state.start_date_display);
+    let pickupDay = this._getDay(this.state.start_date_display);
+
+    this.state.day = pickupDay - 1;
+
+    recurrenceForm = {};
+    for (let day of DAYSOFWEEK) {
+      if (day === pickupDayStr) {
+        recurrenceForm[day] = { active: true,
+                                input: this.state,
+                              };
+      } else {
+        recurrenceForm[day] = { active: false };
+      }
+    }
+    this.props.nextStep(recurrenceForm, "recurrenceForm", false);
+  }
+
+  _nextStep = (e) => {
     this.state.isNextStep = true;
     this._validate();
-    // Format start date
-    this.state.start_date = _formatDate(this.state.start_date_display);
-
-    this.props.nextStep(this.state, "basicForm", this.state.validated);
+    if (this.state.frequency === "one_time") {
+      this._createRecurrence();
+    } else {
+      this.props.nextStep({}, "recurrenceForm", this.state.validated, this.state.frequency);
+    }
+    this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }
 
   _validate = () => {
@@ -83,13 +132,46 @@ class BasicForm extends DefaultForm {
       <div>
         <Modal.Body>
           <form className="modal-pickup-form">
-            <fieldset className="input-container marginBot-sm">
-              <label htmlFor="title" className="label label--newline">Title</label>
-              <input type="text" placeholder="Lunch Pickup" className="input"
-                value={this.state.title} name="title" id="title"
-                onChange={this._updateState} />
-              {this.state.titleValidation}
-            </fieldset>
+            <div className="row marginTop-sm">
+              <div className="col-md-7">
+                <fieldset className="input-container">
+                  <label htmlFor="title" className="label label--newline">Title</label>
+                  <input type="text" placeholder="Lunch Pickup" className="input"
+                    value={this.state.title} name="title" id="title"
+                    onChange={this._updateState} />
+                  {this.state.titleValidation}
+                </fieldset>
+              </div>
+              <div className="col-md-5">
+                <fieldset className="input-container">
+                  <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
+                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 
+                       onClick={this._setOneTime}>One Time</div>
+                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)} 
+                       onClick={this._setWeekly}>Weekly</div>
+                </fieldset>
+              </div>
+            </div>
+
+            <div className="row marginTop-sm">
+              <div className="col-md-7">
+                <fieldset className="input-container">
+                  <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
+                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
+                    name="start_date_display" onSelect={this._updateState}
+                    className="input" placeholder="Click to select a day" />
+                </fieldset>
+              </div>
+              <div className="col-md-5" hidden={this.state.frequency === "weekly"}>
+                <TimeDropdown
+                  label = "Pickup Time"
+                  details = "9:00AM - 5:00PM"
+                  input_id = "start"
+                  form_name = "start_time"
+                  update = {this._updateTime}
+                  initData = {this.state.start_time} />
+              </div>
+            </div>
 
             <fieldset className="input-container name-container">
               <label htmlFor="comments" className="label label--newline">Comments</label>
@@ -98,26 +180,6 @@ class BasicForm extends DefaultForm {
                 id="comments" className="input" />
               {this.state.commentsValidation}
             </fieldset>
-
-            <div className="row marginTop-sm">
-              <div className="col-md-6">
-                <fieldset className="input-container name-container">
-                  <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
-                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 
-                       onClick={this._setOneTime}>One Time</div>
-                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)} 
-                       onClick={this._setWeekly}>Weekly</div>
-                </fieldset>
-              </div>
-              <div className="col-md-6">
-                <fieldset className="input-container">
-                  <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
-                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
-                    name="start_date_display" onSelect={this._updateState}
-                    className="input" placeholder="Click to select a day" />
-                </fieldset>
-              </div>
-            </div>
           </form>
         </Modal.Body>
         <Modal.Footer>

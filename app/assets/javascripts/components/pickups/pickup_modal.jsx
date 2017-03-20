@@ -83,6 +83,7 @@ class PickupModal extends DefaultForm {
         pickupId: data.message.id,
      });
       let days = DAYSOFWEEK.map((day, i) => {
+        console.log(this.state.recurrenceForm);
         if (this.state.recurrenceForm[day].active) {
           this.state.recurrenceForm[day].input.pickup_id = this.state.pickupId;
           this._attemptAction(APIConstants.recurrences.create,
@@ -118,18 +119,26 @@ class PickupModal extends DefaultForm {
     this.props.hideEditModal();
   }
 
-  _nextStep = (data, key, validated) => {
+  _nextStep = (data, key, validated, frequency) => {
     if (data && key){
       this.setState({ [key]: data });
     }
     if (validated) {
-      this.setState({ step: this.state.step + 1 });
+      if (key === "basicForm" && frequency && frequency === "one_time") {
+        this.setState({ step: this.state.step + 2 });
+      }
+      else {
+        this.setState({ step: this.state.step + 1 });
+      }
     }
   }
 
-  _prevStep = (data, key) => {
-    this.setState({ [key]: data });
-    this.setState({ step: this.state.step - 1 });
+  _prevStep = (frequency) => {
+    if (frequency && frequency === "one_time") {
+      this.setState({ step: this.state.step - 2 });
+    } else {
+      this.setState({ step: this.state.step - 1 });
+    }
   }
 
   _getStep = () => {

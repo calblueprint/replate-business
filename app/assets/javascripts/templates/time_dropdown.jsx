@@ -40,8 +40,10 @@ class TimeDropdown extends DefaultForm {
     }
 
     if (9 <= parseInt(this.state.hour)  && parseInt(this.state.hour) <= 11) {
+      this.state.meridiem = "AM";
       this.setState({ meridiem : "AM" });
     } else {
+      this.state.meridiem = "PM";
       this.setState({ meridiem : "PM" });
     }
 

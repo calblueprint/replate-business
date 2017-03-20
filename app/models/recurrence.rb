@@ -91,7 +91,7 @@ class Recurrence < ActiveRecord::Base
     end
     
     return false
-  end
+  end     
 
   # args is hash:
   # args[:status] = string value of status enum, see Task model

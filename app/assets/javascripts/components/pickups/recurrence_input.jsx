@@ -20,28 +20,8 @@ class RecurrenceInput extends DefaultForm {
     this.state.isNextStep = this.props.isNextStep;
   }
 
-  // _validate = () => {
-  //   this.state.isNextStep = this.props.isNextStep;
-  //   let requiredKeys = ["frequency"];
-  //   this.props.setValidated(true);
-  //   for (i = 0; i < requiredKeys.length; i++) {
-  //     let requiredKey = requiredKeys[i];
-  //     let invalid = this.state[requiredKey] === undefined || this.state[requiredKey] === "";
-  //     if (this.state.isNextStep && invalid) {
-  //       let validationMsg = this._formatTitle(requiredKey) + " can't be empty.";
-  //       let validation = <p className="validation-msg marginTop-xxs"
-  //                           key={i}>{validationMsg}</p>
-
-  //       this.state[requiredKey + "Validation"] = validation;
-  //       this.props.setValidated(false);
-  //     } else if (!invalid) {
-  //       delete this.state[requiredKey + "Validation"];
-  //     }
-  //   }
-  // }
-
   _updateTime = (start_time) => {
-      this.state.start_time = start_time
+      this.state.start_time = start_time;
       this.props.update("start_time", start_time, this.state.day);
   }
 
@@ -50,10 +30,6 @@ class RecurrenceInput extends DefaultForm {
     this.state[target.attr('name')] = target.val();
     this.props.update(target.attr('name'), target.val(), this.state.day);
   }
-
-  // _getToday = () => {
-  //   return moment().format("MM/DD/YYYY");
-  // }
 
   _renderPickupTypeButtons = () => {
 

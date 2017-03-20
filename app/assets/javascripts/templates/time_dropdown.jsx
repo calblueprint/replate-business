@@ -35,17 +35,18 @@ class TimeDropdown extends DefaultForm {
     if (e != undefined) {
       let target = $(e.target);
       let time = ("0" + target.val()).slice(-2);
+      console.log(target.attr('name'), time);
       this.state[target.attr('name')] = time;
     }
 
-    if (9 <= this.state.hour  && this.state.hour <= 11) {
-      this.state.meridiem = "AM";
+    if (9 <= parseInt(this.state.hour)  && parseInt(this.state.hour) <= 11) {
+      this.setState({ meridiem : "AM" });
     } else {
-      this.state.meridiem = "PM";
+      this.setState({ meridiem : "PM" });
     }
 
-    if (this.state.hour == 5 && this.state.meridiem == "PM") {
-        this.state.minute = "00";
+    if (parseInt(this.state.hour) === 5 && this.state.meridiem == "PM") {
+      this.setState({ minute : "00" });
     }
 
     let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
@@ -73,10 +74,11 @@ class TimeDropdown extends DefaultForm {
     }
 
     let hourOptions = [];
-    for (let i = 1; i <= 12; i += 1) {
-      let hourStr = ("0" + i).slice(-2);
+    for (let i = 9; i <= 17; i += 1) {
+      let hour = i % 12 ? i % 12 : 12;
+      let hourStr = ("0" + hour).slice(-2);
       let select = hourStr === this.state.hour;
-      let hourOption = <option value={hourStr} key={i}>{hourStr}</option>
+      let hourOption = <option value={hourStr} key={hour}>{hourStr}</option>
       hourOptions.push(hourOption);
     }
 

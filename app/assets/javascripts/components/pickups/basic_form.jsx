@@ -36,7 +36,7 @@ class BasicForm extends DefaultForm {
   }
 
   _getToday = () => {
-    return moment().format("MM/DD/YYYY");
+    return moment().format("L");
   }
 
   _setOneTime = () => {
@@ -66,6 +66,10 @@ class BasicForm extends DefaultForm {
     let timeMoment = moment(time, 'LT');
     timeMoment.add(2, "hours");
     return timeMoment.format('LT');
+  }
+
+  _updateTime = (start_time) => {
+      this.state.start_time = start_time;
   }
 
   _createRecurrence = () => {
@@ -178,7 +182,6 @@ class BasicForm extends DefaultForm {
               <textarea placeholder={placeholder} value={this.state.comments}
                 name="comments" rows="6" cols="50" onChange={this._updateState}
                 id="comments" className="input" />
-              {this.state.commentsValidation}
             </fieldset>
           </form>
         </Modal.Body>

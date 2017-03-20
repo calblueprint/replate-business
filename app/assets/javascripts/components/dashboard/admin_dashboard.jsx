@@ -23,7 +23,7 @@ class AdminDashboard extends React.Component {
 
     return(
       <div>
-      {businesses}
+        {businesses}
       </div>
     )
   }

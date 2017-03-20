@@ -1,0 +1,7 @@
+nav.nav.dashboard-nav
+  .container
+    = link_to "Replate Admin Dashboard", admin_dashboard_path, class: "home-link"
+    .nav-right
+      - if current_admin
+        = link_to "Replate Homepage", root_path, class: "marginRight-sm"
+        = link_to "Sign Out", destroy_admin_session_path, class: "hover-alert", method: :delete

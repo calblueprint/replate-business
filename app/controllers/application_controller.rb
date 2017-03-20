@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   respond_to :html, :json
   def current_ability
-    @current_ability ||= Ability.new(current_business)
+    if admin_signed_in?
+      @current_ability ||= Ability.new(current_admin)
+    else
+      @current_ability ||= Ability.new(current_business)
+    end
   end
 
   rescue_from CanCan::AccessDenied do

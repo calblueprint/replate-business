@@ -19,11 +19,13 @@ class WeekOverview extends React.Component {
   _cancelPickup = (e) => {
     let target = $(e.target);
     let date = target.attr('data-date');
-    let id = target.attr('data-id');
+    let recurrence_id = target.attr('data-rid');
+    let pickup_id = target.attr('data-pid');
     let frequency = target.attr('data-freq'); 
     let params = {
         "date"          : date,
-        "recurrence_id" : id,
+        "recurrence_id" : recurrence_id,
+        "pickup_id"     : pickup_id,
       };
 
     if (frequency === "one_time") {
@@ -31,7 +33,7 @@ class WeekOverview extends React.Component {
         header      : "You're cancelling a one time pickup.",
         detail      : "Are you sure you want to continue?",
         buttonText  : ["Delete Pickup"],
-        onClicks    : [this._deleteRecurrence],
+        onClicks    : [this._deletePickup],
         metadata    : params,
       }; 
     } else if (frequency === "weekly") {
@@ -39,7 +41,7 @@ class WeekOverview extends React.Component {
         header      : "You're cancelling a pickup occurrence.",
         detail      : "Do you want to delete all occurrences of this pickup, or only the selected occurrence?",
         buttonText  : ["Delete Pickup", "Delete Selected"],
-        onClicks    : [this._deleteRecurrence, this._createCancellation],
+        onClicks    : [this._deletePickup, this._createCancellation],
         metadata    : params,
       }; 
     }
@@ -88,8 +90,8 @@ class WeekOverview extends React.Component {
     this.props.showEditModal();
   }
 
-  _deleteRecurrence = (params) => {
-    Requester.delete(APIConstants.cancellations.destroy(params.recurrence_id),
+  _deletePickup = (params) => {
+    Requester.delete(APIConstants.pickups.update(params.pickup_id),
                 this.props.fetchUpdates);
   }
 
@@ -120,7 +122,8 @@ class WeekOverview extends React.Component {
       let recurrenceDate = pickupListMoment.format();
 
       if (!isPastEvent) {
-        cancelButton = <button data-id={recurrence.id} 
+        cancelButton = <button data-rid={recurrence.id} 
+                               data-pid={pickup.id} 
                                data-date={recurrenceDate} 
                                data-freq={recurrence.frequency} 
                                onClick={this._cancelPickup} 

@@ -41,7 +41,6 @@ class PickupModal extends DefaultForm {
   }
 
   _attemptUpdate = () => {
-    console.log("attempt update")
     const failure = (data) => {
       toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
     };
@@ -83,7 +82,6 @@ class PickupModal extends DefaultForm {
         pickupId: data.message.id,
      });
       let days = DAYSOFWEEK.map((day, i) => {
-        console.log(this.state.recurrenceForm);
         if (this.state.recurrenceForm[day].active) {
           this.state.recurrenceForm[day].input.pickup_id = this.state.pickupId;
           this._attemptAction(APIConstants.recurrences.create,
@@ -95,7 +93,10 @@ class PickupModal extends DefaultForm {
     }
     const recurrenceSuccess = (data) => {
       this.props.success();  //Updates schedule
-      this.setState({ step: 1, });
+      this.setState({ step: 1, 
+                      basicForm: {},
+                      recurrenceForm: {},
+                  });
       this.close();
     }
 
@@ -116,7 +117,9 @@ class PickupModal extends DefaultForm {
 
   close = (e) => {
     this.setState({ showModal: false });
-    this.props.hideEditModal();
+    if (this.props.hideEditModal) {
+      this.props.hideEditModal();
+    }
   }
 
   _nextStep = (data, key, validated, frequency) => {
@@ -152,8 +155,6 @@ class PickupModal extends DefaultForm {
                   isEdit   = {this.props.isEdit}
                   close    = {this.close} />
       case 2:
-        console.log(this.state.basicForm.frequency);
-        console.log(this.state.basicForm.start_date);
         return <RecurrenceForm
                   initData   = {this.state.recurrenceForm}
                   nextStep   = {this._nextStep}

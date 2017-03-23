@@ -1,7 +1,9 @@
 /**
- * @prop initData  - saved data associated with the recurrence portion of the pickup form
- * @prop nextStep  - function handler to move on to next step of pickup creation
- * @prop prevStep  - function handler to move back to prev step of pickup creation
+ * @prop initData    - saved data associated with the recurrence portion of the pickup form
+ * @prop nextStep    - function handler to move on to next step of pickup creation
+ * @prop prevStep    - function handler to move back to prev step of pickup creation
+ * @prop frequency   - frequency of pickup
+ * @prop start_date  - start date of pickup
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class RecurrenceForm extends DefaultForm {
@@ -22,17 +24,6 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _toggleDay = (day) => {
-    // if (this.props.frequency === "one_time") {
-    //   let hasActive = false;
-    //   if (!this.state[day].active) {
-    //     for (let day of DAYSOFWEEK) {
-    //       if (this.state[day].active) {
-    //         toastr.error("Cannot select multiple days for one time pickup.");
-    //         return false;
-    //       }
-    //     }
-    //   }
-    // }
     this.state[day].active = !this.state[day].active;
     this.state.dayValidation = undefined;
     this.props.nextStep(this.state, "recurrenceForm", false);
@@ -100,6 +91,7 @@ class RecurrenceForm extends DefaultForm {
         }
         // Set frequency and start_date
         this.state[day].input.frequency = this.props.frequency;
+        console.log(this.props.start_date)
         this.state[day].input.start_date = this.props.start_date;
         
         // this._validateTimes(start_date_display, start_time, i);

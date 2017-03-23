@@ -73,11 +73,6 @@ class BasicForm extends DefaultForm {
   }
 
   _createRecurrence = () => {
-    // Format start date
-    this.state.start_date = this._formatDate(this.state.start_date_display);
-    // Set end time - two hours after start time
-    this.state.end_time = this._addTwoHours(this.state.start_time);
-
     let pickupDayStr = this._getDayStr(this.state.start_date_display);
     let pickupDay = this._getDay(this.state.start_date_display);
 
@@ -99,10 +94,16 @@ class BasicForm extends DefaultForm {
   _nextStep = (e) => {
     this.state.isNextStep = true;
     this._validate();
+    
+    // Format start date
+    this.state.start_date = this._formatDate(this.state.start_date_display);
+    // Set end time - two hours after start time
+    this.state.end_time = this._addTwoHours(this.state.start_time);
+
     if (this.state.frequency === "one_time") {
       this._createRecurrence();
-    } else {
-      this.props.nextStep({}, "recurrenceForm", this.state.validated, this.state.frequency);
+    } else if (!this.props.isEdit) {
+      this.props.nextStep({}, "recurrenceForm", false);
     }
     this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }

@@ -23,6 +23,10 @@ class BasicForm extends DefaultForm {
     if (!this.state.start_time) {
       this.state.start_time = "09:00 AM";
     }
+    // Set comments to "" by default
+    if (!this.state.comments) {
+      this.state.comments = "";
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -143,7 +147,6 @@ class BasicForm extends DefaultForm {
                         "like gate codes, pickup locations, etc.";
     this._validate();
     this.state.isNextStep = false;
-
     return (
       <div>
         <Modal.Body>
@@ -173,7 +176,7 @@ class BasicForm extends DefaultForm {
               <div className="col-md-7">
                 <fieldset className="input-container">
                   <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
-                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} defaultValue={this.state.start_date_display}
+                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} value={this.state.start_date_display}
                     name="start_date_display" onSelect={this._updateState}
                     className="input" placeholder="Click to select a day" />
                 </fieldset>

@@ -181,7 +181,7 @@ class PickupModal extends DefaultForm {
   }
 
   render() {
-     let step = this._getStep();
+    let step = this._getStep();
     return (
       <div className="pickup-form-container" hidden={this.props.isEdit}>
         <button onClick={this.open} type="button" className="button">

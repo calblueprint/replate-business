@@ -2,8 +2,6 @@
  * @prop day            - String day associated with day input
  * @prop update         - function for updating day input state in parent
  * @prop initData       - saved data associated with this day input
- * @prop isNextStep     - boolean indicating whether it is the next step
- * @prop setValidated   - function for updating invalid state in parent
  **/
 var RECURRENCEFIELDS = ["One Time Pickup", "Recurring Pickup"];
 class RecurrenceInput extends DefaultForm {
@@ -17,7 +15,6 @@ class RecurrenceInput extends DefaultForm {
       // Set start_time to 9:00AM by default
       this.state.start_time = "09:00 AM";
     }
-    this.state.isNextStep = this.props.isNextStep;
   }
 
   _updateTime = (start_time) => {
@@ -93,5 +90,4 @@ RecurrenceInput.propTypes = {
   day          : React.PropTypes.string.isRequired,
   initData     : React.PropTypes.object.isRequired,
   update       : React.PropTypes.func.isRequired,
-  setValidated : React.PropTypes.func.isRequired,
 };

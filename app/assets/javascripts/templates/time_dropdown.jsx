@@ -35,7 +35,6 @@ class TimeDropdown extends DefaultForm {
     if (e != undefined) {
       let target = $(e.target);
       let time = ("0" + target.val()).slice(-2);
-      console.log(target.attr('name'), time);
       this.state[target.attr('name')] = time;
     }
 

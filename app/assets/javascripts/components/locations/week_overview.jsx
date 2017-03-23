@@ -70,8 +70,6 @@ class WeekOverview extends React.Component {
     basicForm.start_date_display = displayTime;
     basicForm.start_date = start_date;
     this.props.setForms(basicForm, recurrenceForm);
-    console.log(recurrenceForm);
-    console.log(basicForm);
   }
 
   _editPickup = (e) => {

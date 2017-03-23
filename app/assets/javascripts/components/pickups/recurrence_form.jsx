@@ -19,13 +19,12 @@ class RecurrenceForm extends DefaultForm {
         };
       });
     }
-    this.state.isNextStep = false;
     this.state.validated = true;
   }
 
   _toggleDay = (day) => {
     this.state[day].active = !this.state[day].active;
-    this.state.dayValidation = undefined;
+    this.state.showDayValidation = false;
     this.props.nextStep(this.state, "recurrenceForm", false);
   }
 
@@ -45,7 +44,7 @@ class RecurrenceForm extends DefaultForm {
   }
 
   _nextStep = (e) => {
-    this.setState({ isNextStep : true }, this._validate);
+    this._validate();
   }
 
   _validateTimes = (start_date_display, start_time, day_num) => {
@@ -80,10 +79,12 @@ class RecurrenceForm extends DefaultForm {
       return timeMoment.format('LT');
     }
 
-    let hasActive = false;
+    this.state.validated = true;
+
+    let noneActive = true;
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
-        hasActive = true;
+        noneActive = false;
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
         if (start_time) {
@@ -91,16 +92,14 @@ class RecurrenceForm extends DefaultForm {
         }
         // Set frequency and start_date
         this.state[day].input.frequency = this.props.frequency;
-        console.log(this.props.start_date)
         this.state[day].input.start_date = this.props.start_date;
         
         // this._validateTimes(start_date_display, start_time, i);
       }
     });
-    if (!hasActive) {
+    if (noneActive) {
       this.state.validated = false;
-      this.setState({dayValidation : <p className="validation-msg marginTop-xxs" style={{textAlign: 'center'}}
-                    key={i}>You must select at least one day.</p>});
+      this.setState({showDayValidation : true });
     }
     this.props.nextStep(this.state, "recurrenceForm", this.state.validated);
   }
@@ -127,22 +126,22 @@ class RecurrenceForm extends DefaultForm {
       )
     });
 
-    let isNextStep = this.state.isNextStep
     let dayInputs = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         return <RecurrenceInput
                   day          = {day}
                   update       = {this._updateState}
                   initData     = {this.state[day].input}
-                  key          = {i}
-                  isNextStep   = {this.state.isNextStep}
-                  setValidated = {this._setValidated}/>
+                  key          = {i}/>
       } else {
         return null;
       }
     });
 
-    this.state.isNextStep = false;
+    let dayValidation = this.state.showDayValidation ? <p className="validation-msg marginTop-xxs" 
+                                                          style={{textAlign: 'center'}}
+                                                          key={i}>You must select at least one day.
+                                                       </p> : undefined;
 
     return (
       <div>
@@ -154,7 +153,7 @@ class RecurrenceForm extends DefaultForm {
             { this._renderSelectDayValidation(dayInputs) }
             { dayInputs }
           </div>
-          {this.state.dayValidation}
+          {dayValidation}
         </Modal.Body>
         <Modal.Footer>
           <button className="button button--text-alert marginRight-xs pull-left"

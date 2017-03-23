@@ -47,11 +47,9 @@ class LocationHome extends React.Component {
   }
 
   _setForms = (basicForm, recurrenceForm) => {
-    console.log(recurrenceForm)
     this.setState({ basicForm : basicForm,
                     recurrenceForm : recurrenceForm,
                   });
-    console.log(this.state.recurrenceForm);
   }
 
   _showEditModal = () => {

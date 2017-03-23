@@ -46,6 +46,12 @@ class API::LocationsController < ApplicationController
     render json: currenttasks, root: false
   end
 
+  def mark_tasks_paid
+    location = Location.find(params[:id])
+    Task.where(:location_id => location.id).update_all(paid: true)
+    render_json_message(:ok, message: 'Tasks marked as paid!')
+  end
+
   def location_params
     params.permit(
       :addr_name,

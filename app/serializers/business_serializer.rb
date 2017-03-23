@@ -25,7 +25,8 @@ class BusinessSerializer < ActiveModel::Serializer
   attributes :id,
              :email,
              :company_name,
-             :phone
+             :phone,
+             :stripe_customer_id
 
   has_many :locations, serializer: DashboardLocationSerializer
 end

@@ -17,21 +17,24 @@ class API::BusinessesController < ApplicationController
     business = Business.find(params[:id])
     puts Figaro.env.stripe_api_key
     Stripe.api_key = Figaro.env.stripe_api_key
-    token = params[:stripeToken]
-    if business.stripe_customer_id != nil
+    useSaved = params[:useSaved]
+    amount = params[:chargeAmount]
+    if business.stripe_customer_id != nil and useSaved
+      puts "using saved"
       charge = Stripe::Charge.create(
-      :amount => 1500, # $15.00 this time
+      :amount => amount * 100, # $15.00 this time
       :currency => "usd",
       :customer => business.stripe_customer_id, # Previously stored, then retrieved
       )
       render :json => {}
     else
+      token = params[:stripeToken]
       customer = Stripe::Customer.create(
       :email => "paying.user@example.com",
       :source => token,
       )
       charge = Stripe::Charge.create(
-      :amount => 1000,
+      :amount => amount * 100,
       :currency => "usd",
       :customer => customer.id,
       )

@@ -18,7 +18,7 @@ class ApiConstants {
       update : (id) => `/api/locations/${id}`,
       create : `/api/locations`,
       week   : (id, today) => `/api/locations/${id}/week/${today}`,
-      tasks  : (id) => `/api/locations/${id}/tasks`
+      tasks  : (id) => `/api/locations/${id}/tasks`,
     }
   }
 

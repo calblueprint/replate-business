@@ -103,7 +103,8 @@ def make_tasks
       status: 3,
       location_id: n,
       scheduled_date: Time.now,
-      driver: "bob"
+      driver: "bob",
+      paid: false
     )
     task.id = n
     task.location = Location.find(n)

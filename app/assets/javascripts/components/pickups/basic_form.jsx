@@ -207,7 +207,7 @@ class BasicForm extends DefaultForm {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <button className="button button--text-black marginRight-xs pull-left"
+          <button className="button button--text-alert marginRight-xs pull-left"
             onClick={this.props.close}>Cancel</button>
           <button type="submit" name="submit" value="Next Step"
             className="button submit-button" onClick={this._nextStep}>

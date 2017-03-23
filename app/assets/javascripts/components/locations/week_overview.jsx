@@ -51,17 +51,21 @@ class WeekOverview extends React.Component {
     let basicForm = data.pickup;
     let recurrenceForm = {};
     let days = DAYSOFWEEK.map((day, i) => {
-      recurrenceForm[day] = {};
-      recurrenceForm[day].active = false;
-      recurrenceForm[day].input = {};
+      recurrenceForm[day] = { active : false,
+                              input : {},
+                            };
     });
     let frequency;
     let displayTime;
     let start_date;
+    let start_time;
+    let recurrence_id;
     for (let i = 0; i < data.recurrences.length; i++) {
       let recurrence = data.recurrences[i];
       displayTime = moment(recurrence.start_date).format('L');
       start_date = recurrence.start_date;
+      start_time = recurrence.start_time;
+      recurrence_id = recurrence.id;
       recurrenceForm[recurrence.day].active = true;
       recurrenceForm[recurrence.day].input = recurrence;
       frequency = recurrence.frequency;
@@ -69,6 +73,10 @@ class WeekOverview extends React.Component {
     basicForm.frequency = frequency;
     basicForm.start_date_display = displayTime;
     basicForm.start_date = start_date;
+    if (basicForm.frequency == "one_time") {
+      basicForm.start_time = start_time;
+      basicForm.recurrence_id = recurrence_id;
+    }
     this.props.setForms(basicForm, recurrenceForm);
   }
 

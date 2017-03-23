@@ -15,9 +15,16 @@ class TimeDropdown extends DefaultForm {
                    minute: "00",
                    meridiem: "AM", 
                  };
+  }
+
+  componentDidMount() {
     if (this.props.initData) {
       this._convertTime(this.props.initData);
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._convertTime(nextProps.initData);
   }
 
   _convertTime = (time) => {
@@ -26,9 +33,10 @@ class TimeDropdown extends DefaultForm {
     let numerals = full[0].split(":");
     let hour = numerals[0];
     let minute = numerals[1];
-    this.state.hour = hour;
-    this.state.minute = minute;
-    this.state.meridiem = meridiem;
+    this.setState({ hour : hour,
+                    minute : minute,
+                    meridiem : meridiem,
+                  });
   }
 
   _handleInput = (e) => {

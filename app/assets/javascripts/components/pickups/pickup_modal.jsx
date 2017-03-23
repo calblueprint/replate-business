@@ -44,17 +44,18 @@ class PickupModal extends DefaultForm {
     const failure = (data) => {
       toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
     };
+
+    const pickupSuccess = (data) => {};
+
     const recurrenceSuccess = (data) => {
       this.props.success();  //Updates schedule
       this.setState({ step: 1, });
       this.close();
-    }
-
-    
+    };
 
     let days = DAYSOFWEEK.map((day, i) => {
       let recurrence = this.state.recurrenceForm[day];
-      let id = recurrence.input.id;
+      let id = recurrence.input ? recurrence.input.id : false;
       if (recurrence.active) {
         if (id) { // Patch existing recurrences
           Requester.update(APIConstants.recurrences.update(id),
@@ -76,6 +77,11 @@ class PickupModal extends DefaultForm {
         }
       }
     });
+
+    Requester.update(APIConstants.pickups.update(this.state.basicForm.id),
+                           this.state.basicForm,
+                           pickupSuccess,
+                           failure)
   }
 
   _attemptCreate = () => {

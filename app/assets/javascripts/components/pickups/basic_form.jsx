@@ -2,7 +2,7 @@
  * @prop initData - saved data associated with the basic portion of the pickup form
  * @prop nextStep - function handler to move on to next step of pickup creation
  * @prop close    - callback to close modal
- * @prop isEdit    - callback to close modal
+ * @prop isEdit   - callback to close modal
  */
 
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
@@ -69,7 +69,7 @@ class BasicForm extends DefaultForm {
   }
 
   _updateTime = (start_time) => {
-      this.state.start_time = start_time;
+    this.state.start_time = start_time;
   }
 
   _createRecurrence = () => {
@@ -81,9 +81,20 @@ class BasicForm extends DefaultForm {
     recurrenceForm = {};
     for (let day of DAYSOFWEEK) {
       if (day === pickupDayStr) {
+        // Make copy of state
+        let input = {
+          frequency  : this.state.frequency,
+          start_date : this.state.start_date,
+          start_time : this.state.start_time,
+          end_time   : this.state.end_time,
+          day        : this.state.day,
+        };
         recurrenceForm[day] = { active: true,
-                                input: this.state,
+                                input: input,
                               };
+        if (this.props.isEdit) {
+          recurrenceForm[day].input.id = this.state.recurrence_id;
+        }
       } else {
         recurrenceForm[day] = { active: false };
       }
@@ -104,7 +115,7 @@ class BasicForm extends DefaultForm {
       this._createRecurrence();
     } else if (!this.props.isEdit) {
       this.props.nextStep({}, "recurrenceForm", false);
-    }
+    } 
     this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }
 

@@ -66,7 +66,6 @@ class Recurrence < ActiveRecord::Base
     reference = Date.parse(reference)
     start_date = self.start_date.to_date
 
-    # first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
     same_week = start_date.strftime('%U') == reference.strftime('%U')
     same_year = start_date.strftime('%Y') == reference.strftime('%Y')
     if self.frequency === "one_time" and same_week and same_year
@@ -83,18 +82,19 @@ class Recurrence < ActiveRecord::Base
     end
 
     today = Date.today
-    is_this_week = today.beginning_of_day == reference.beginning_of_day
+    # schedule_this_week = today.beginning_of_day == reference.beginning_of_day
+    first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
+    same_week = first_recurrence_date.strftime('%U') == reference.strftime('%U')
+    first_before_today = first_recurrence_date.beginning_of_day < today.beginning_of_day
+    first_before_reference = first_recurrence_date.beginning_of_day < reference.beginning_of_day
 
     if self.frequency === "weekly"
       if same_week
-        if is_this_week
-          return (reference.wday - 1) <= Recurrence.days[self.day]
-        else
-          return true
-        end
-      elsif reference >= start_date
-        return true
+        return (not first_before_today)
+      elsif not first_before_reference
+        return false
       end
+      return true
     end
     
     return false

@@ -24,7 +24,9 @@ class TimeDropdown extends DefaultForm {
   }
 
   componentWillReceiveProps(nextProps) {
-    this._convertTime(nextProps.initData);
+    if (nextProps.initData) {
+      this._convertTime(nextProps.initData);
+    }
   }
 
   _convertTime = (time) => {

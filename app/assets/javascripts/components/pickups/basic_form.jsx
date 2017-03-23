@@ -94,7 +94,7 @@ class BasicForm extends DefaultForm {
   _nextStep = (e) => {
     this.state.isNextStep = true;
     this._validate();
-    
+
     // Format start date
     this.state.start_date = this._formatDate(this.state.start_date_display);
     // Set end time - two hours after start time
@@ -138,7 +138,7 @@ class BasicForm extends DefaultForm {
         <Modal.Body>
           <form className="modal-pickup-form">
             <div className="row marginTop-sm">
-              <div className="col-md-7">
+              <div className={this.props.isEdit ? `col-md-12` : `col-md-7`}>
                 <fieldset className="input-container">
                   <label htmlFor="title" className="label label--newline">Title</label>
                   <input type="text" placeholder="Lunch Pickup" className="input"
@@ -147,7 +147,7 @@ class BasicForm extends DefaultForm {
                   {this.state.titleValidation}
                 </fieldset>
               </div>
-              <div className="col-md-5">
+              <div className="col-md-5" hidden={this.props.isEdit}>
                 <fieldset className="input-container">
                   <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
                   <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 

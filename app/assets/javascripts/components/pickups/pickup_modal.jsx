@@ -50,6 +50,8 @@ class PickupModal extends DefaultForm {
       this.close();
     }
 
+    
+
     let days = DAYSOFWEEK.map((day, i) => {
       let recurrence = this.state.recurrenceForm[day];
       let id = recurrence.input.id;

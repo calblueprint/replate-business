@@ -176,9 +176,15 @@ class BasicForm extends DefaultForm {
               <div className="col-md-7">
                 <fieldset className="input-container">
                   <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
-                  <input type="text" data-provide='datepicker' data-date-start-date={this._getToday()} value={this.state.start_date_display}
-                    name="start_date_display" onSelect={this._updateState}
-                    className="input" placeholder="Click to select a day" />
+                  <input type="text" data-provide='datepicker' 
+                         data-date-start-date={this._getToday()} 
+                         data-date-days-of-week-disabled="06"
+                         data-date-autoclose="true"
+                         value={this.state.start_date_display}
+                         name="start_date_display" 
+                         onSelect={this._updateState}
+                         className="input" 
+                         placeholder="Click to select a day" />
                 </fieldset>
               </div>
               <div className="col-md-5" hidden={this.state.frequency === "weekly"}>

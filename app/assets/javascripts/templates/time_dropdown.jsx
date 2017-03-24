@@ -23,15 +23,6 @@ class TimeDropdown extends DefaultForm {
     }
   }
 
-  componentDidUpdate() {
-    if (parseInt(this.state.hour) === 5 && this.state.meridiem == "PM") {
-      this.state.minute = "00";
-    }
-
-    let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;
-    this.props.update(timeStr);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.initData) {
       this._convertTime(nextProps.initData);
@@ -57,11 +48,19 @@ class TimeDropdown extends DefaultForm {
       this.state[target.attr('name')] = time;
     }
 
+    let meridiem = "PM";
     if (9 <= parseInt(this.state.hour)  && parseInt(this.state.hour) <= 11) {
-      this.setState({ meridiem : "AM" });
-    } else {
-      this.setState({ meridiem : "PM" });
+      meridiem = "AM";
     }
+
+    if (parseInt(this.state.hour) === 5 && meridiem == "PM") {
+      this.state.minute = "00";
+    }
+    
+    this.setState({ meridiem : meridiem });
+
+    let timeStr = this.state.hour + ":" + this.state.minute + " " + meridiem;
+    this.props.update(timeStr);
   }
 
   render() {

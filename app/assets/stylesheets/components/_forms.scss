@@ -92,6 +92,10 @@ h3 {
   }
 }
 
+.select.disabled {
+  background-image: none;
+}
+
 .blank::after {
   content: "cannot be blank";
 }

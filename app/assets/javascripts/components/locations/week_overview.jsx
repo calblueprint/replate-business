@@ -1,10 +1,13 @@
 /**
- * @prop schedule     - weekly schedule data
- * @prop reference    - MomentJS object indicating the calendar's reference point for the week displayed
- * @prop today        - MomentJS object for today's date
- * @prop isThisWeek   - Boolean indicating whether calendar is this week or next week
- * @prop fetchUpdates - function that refreshes weekly schedule
+ * @prop schedule      - weekly schedule data
+ * @prop reference     - MomentJS object indicating the calendar's reference point for the week displayed
+ * @prop today         - MomentJS object for today's date
+ * @prop isThisWeek    - Boolean indicating whether calendar is this week or next week
+ * @prop fetchUpdates  - function that refreshes weekly schedule
+ * @prop setForms      - function that sets data forms in parent state
+ * @prop showEditModal - function that shows edit modal
  */
+var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +19,13 @@ class WeekOverview extends React.Component {
   _cancelPickup = (e) => {
     let target = $(e.target);
     let date = target.attr('data-date');
-    let id = target.attr('data-id');
+    let recurrence_id = target.attr('data-rid');
+    let pickup_id = target.attr('data-pid');
     let frequency = target.attr('data-freq'); 
     let params = {
         "date"          : date,
-        "recurrence_id" : id,
+        "recurrence_id" : recurrence_id,
+        "pickup_id"     : pickup_id,
       };
 
     if (frequency === "one_time") {
@@ -28,7 +33,7 @@ class WeekOverview extends React.Component {
         header      : "You're cancelling a one time pickup.",
         detail      : "Are you sure you want to continue?",
         buttonText  : ["Delete Pickup"],
-        onClicks    : [this._deleteRecurrence],
+        onClicks    : [this._deletePickup],
         metadata    : params,
       }; 
     } else if (frequency === "weekly") {
@@ -36,7 +41,7 @@ class WeekOverview extends React.Component {
         header      : "You're cancelling a pickup occurrence.",
         detail      : "Do you want to delete all occurrences of this pickup, or only the selected occurrence?",
         buttonText  : ["Delete Pickup", "Delete Selected"],
-        onClicks    : [this._deleteRecurrence, this._createCancellation],
+        onClicks    : [this._deletePickup, this._createCancellation],
         metadata    : params,
       }; 
     }
@@ -44,8 +49,49 @@ class WeekOverview extends React.Component {
     this.setState({ showCancelModal : true });
   }
 
-  _deleteRecurrence = (params) => {
-    Requester.delete(APIConstants.cancellations.destroy(params.recurrence_id),
+  _createForms = (data) => {
+    let basicForm = data.pickup;
+    let recurrenceForm = {};
+    let days = DAYSOFWEEK.map((day, i) => {
+      recurrenceForm[day] = { active : false,
+                              input : {},
+                            };
+    });
+    let frequency;
+    let displayTime;
+    let start_date;
+    let start_time;
+    let recurrence_id;
+    for (let i = 0; i < data.recurrences.length; i++) {
+      let recurrence = data.recurrences[i];
+      displayTime = moment(recurrence.start_date).format('L');
+      start_date = recurrence.start_date;
+      start_time = recurrence.start_time;
+      recurrence_id = recurrence.id;
+      recurrenceForm[recurrence.day].active = true;
+      recurrenceForm[recurrence.day].input = recurrence;
+      frequency = recurrence.frequency;
+    }
+    basicForm.frequency = frequency;
+    basicForm.start_date_display = displayTime;
+    basicForm.start_date = start_date;
+    if (basicForm.frequency == "one_time") {
+      basicForm.start_time = start_time;
+      basicForm.recurrence_id = recurrence_id;
+    }
+    this.props.setForms(basicForm, recurrenceForm);
+  }
+
+  _editPickup = (e) => {
+    let target = $(e.target);
+    let id = target.attr('data-id');
+    Requester.get(APIConstants.pickups.update(id),
+                  this._createForms);
+    this.props.showEditModal();
+  }
+
+  _deletePickup = (params) => {
+    Requester.delete(APIConstants.pickups.update(params.pickup_id),
                 this.props.fetchUpdates);
   }
 
@@ -76,14 +122,24 @@ class WeekOverview extends React.Component {
       let recurrenceDate = pickupListMoment.format();
 
       if (!isPastEvent) {
-        cancelButton = <button data-id={recurrence.id} data-date={recurrenceDate} data-freq={recurrence.frequency} onClick={this._cancelPickup} className="cancelButton button-link">Cancel</button>
+        cancelButton = <button data-rid={recurrence.id} 
+                               data-pid={pickup.id} 
+                               data-date={recurrenceDate} 
+                               data-freq={recurrence.frequency} 
+                               onClick={this._cancelPickup} 
+                               className="cancelButton button-link">Cancel</button>
       }
+
+      let editButton = <button data-id={pickup.id}
+                               onClick={this._editPickup} 
+                               className="editButton button-link">Edit</button>
 
       return (
         <div className={`pickup-item ` + (isPastEvent ? 'past' : '')} key={index}>
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
           <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
+          {editButton}
           {cancelButton}
         </div>
       )

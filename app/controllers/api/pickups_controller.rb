@@ -3,7 +3,8 @@ class API::PickupsController < ApplicationController
 
 	def show
 		@pickup = Pickup.find(params[:id])
-		render json: @pickup, root: false
+		render json: {:pickup => @pickup,
+		              :recurrences => @pickup.recurrences}, root: false
 	end
 
 	def create

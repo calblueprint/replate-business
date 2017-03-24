@@ -62,28 +62,43 @@ class Recurrence < ActiveRecord::Base
     return result
   end
 
-  def same_week(day)
-    today = Date.parse(day)
+  def same_week(reference)
+    reference = Date.parse(reference)
     start_date = self.start_date.to_date
-    recurrence_date = Recurrence.get_date_after(start_date, self.day)
-    same_week = start_date.strftime('%U') == today.strftime('%U')
-    same_year = start_date.strftime('%Y') == today.strftime('%Y')
 
-    if self.frequency === "weekly"
-      if same_week
-        return (today.wday-1) <= Recurrence.days[self.day]
-      elsif today >= start_date
-        return true
-      end
-    end
+    same_week = start_date.strftime('%U') == reference.strftime('%U')
+    same_year = start_date.strftime('%Y') == reference.strftime('%Y')
     if self.frequency === "one_time" and same_week and same_year
       return true
     end
-    # Write this method in the eventually
-    # if self.frequency == 2
-    #   ...
+
+    recurrence_date = Recurrence.get_date_after(reference.at_beginning_of_week, self.day)
+    if (same_week and same_year) or reference >= start_date
+      self.cancellations.each do |cancellation|
+        if cancellation.same_day_as? recurrence_date
+          return false
+        end
+      end
+    end
+
+    today = Date.today
+    # schedule_this_week = today.beginning_of_day == reference.beginning_of_day
+    first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
+    same_week = first_recurrence_date.strftime('%U') == reference.strftime('%U')
+    first_before_today = first_recurrence_date.beginning_of_day < today.beginning_of_day
+    first_before_reference = first_recurrence_date.beginning_of_day < reference.beginning_of_day
+
+    if self.frequency === "weekly"
+      if same_week
+        return (not first_before_today)
+      elsif not first_before_reference
+        return false
+      end
+      return true
+    end
+    
     return false
-  end
+  end     
 
   # args is hash:
   # args[:status] = string value of status enum, see Task model

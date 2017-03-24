@@ -179,7 +179,6 @@ class BasicForm extends DefaultForm {
                   <input type="text" data-provide='datepicker' 
                          data-date-start-date={this._getToday()} 
                          data-date-days-of-week-disabled="06"
-                         data-date-autoclose="true"
                          value={this.state.start_date_display}
                          name="start_date_display" 
                          onSelect={this._updateState}

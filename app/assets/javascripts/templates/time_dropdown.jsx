@@ -57,7 +57,7 @@ class TimeDropdown extends DefaultForm {
     }
 
     if (parseInt(this.state.hour) === 5 && this.state.meridiem == "PM") {
-      this.setState({ minute : "00" });
+      this.state.minute = "00";
     }
 
     let timeStr = this.state.hour + ":" + this.state.minute + " " + this.state.meridiem;

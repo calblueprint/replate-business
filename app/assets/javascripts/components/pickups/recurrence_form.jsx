@@ -85,7 +85,7 @@ class RecurrenceForm extends DefaultForm {
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         noneActive = false;
-        let start_date_display = this.state[day].input.start_date_display;
+        let start_date_display = this.props.basicData.start_date_display
 
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
@@ -93,8 +93,8 @@ class RecurrenceForm extends DefaultForm {
           this.state[day].input.end_time = _addTwoHours(start_time);
         }
         // Set frequency and start_date
-        this.state[day].input.frequency = this.props.frequency;
-        this.state[day].input.start_date = this.props.start_date;
+        this.state[day].input.frequency = this.props.basicData.frequency;
+        this.state[day].input.start_date = this.props.basicData.start_date;
 
         this._validateTimes(start_date_display, start_time, i);
       }

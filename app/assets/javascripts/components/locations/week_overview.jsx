@@ -139,7 +139,7 @@ class WeekOverview extends React.Component {
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
           <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
-          {editButton}
+          {/*editButton*/}
           {cancelButton}
         </div>
       )

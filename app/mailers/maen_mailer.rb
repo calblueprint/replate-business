@@ -16,4 +16,10 @@ class MaenMailer < ApplicationMailer
     attachments["on_demand.csv"] = task_csv
     mail(to: "maen@re-plate.org", subject: 'On demand task')
   end
+
+  def export_cancelled_task(task_csv, date)
+    @date = date
+    attachments["cancel.csv"] = task_csv
+    mail(to: "maen@re-plate.org", subject: 'cancelled pickup request')
+  end
 end

@@ -96,8 +96,10 @@ class WeekOverview extends React.Component {
   }
 
   _createCancellation = (params) => {
-    Requester.post(APIConstants.cancellations.create(), params,
-                  this.props.fetchUpdates);
+    toastr.error("This feature has not yet been fully implemented. " +
+      "It will be available shortly, but for now please delete the entire pickup.", "Under Construction");
+    // Requester.post(APIConstants.cancellations.create(), params,
+    //               this.props.fetchUpdates);
   }
 
   _hideModal = () => {

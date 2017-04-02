@@ -14,7 +14,7 @@ module OnfleetAPI
     long = loc.lng
     Time.zone = Timezone.lookup(loc.lat, loc.lng).name
     t = Time.zone.local(date.year, date.month, date.day)
-    t = Time.zone.parse(time, t)
+    t = Time.zone.parse(time, t).utc
     puts t
     t.to_i * 1000
   end
@@ -123,10 +123,8 @@ module OnfleetAPI
       else
         recurrence.update(onfleet_id: resp['id'])
       end
-      puts resp['id']
-    else
-      puts resp['message']
     end
+    puts resp
     resp
   end
 

@@ -96,8 +96,10 @@ class WeekOverview extends React.Component {
   }
 
   _createCancellation = (params) => {
-    Requester.post(APIConstants.cancellations.create(), params,
-                  this.props.fetchUpdates);
+    toastr.error("This feature has not yet been fully implemented. " +
+      "It will be available shortly, but for now please delete the entire pickup.", "Under Construction");
+    // Requester.post(APIConstants.cancellations.create(), params,
+    //               this.props.fetchUpdates);
   }
 
   _hideModal = () => {
@@ -139,7 +141,7 @@ class WeekOverview extends React.Component {
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
           <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
-          {editButton}
+          {/*editButton*/}
           {cancelButton}
         </div>
       )

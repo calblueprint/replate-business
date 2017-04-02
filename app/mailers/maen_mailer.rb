@@ -20,6 +20,6 @@ class MaenMailer < ApplicationMailer
   def export_cancellation(recurrence, date)
     @date = date
     @recurrence = recurrence
-    mail(to: "maen@re-plate.org", subject: 'On demand task')
+    mail(to: "maen@re-plate.org", subject: 'Cancellation')
   end
 end

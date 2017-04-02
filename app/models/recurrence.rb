@@ -45,6 +45,15 @@ class Recurrence < ActiveRecord::Base
     ExportAllRecurrences.new(args).export_on_demand_task
   end
 
+  # Notifies Replate if a pickup is cancelled. Only called if the pickup is the current day
+  def cancel_notification
+    if self.deliver_today?
+      # self.onfleet_cancel TODO
+      args = {:date => Date.today, :tasks =>[self]}
+      ExportAllRecurrences.new(args).export_cancelled_task
+    end
+  end
+
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
     # if self.location.state == 'California'
@@ -116,6 +125,7 @@ class Recurrence < ActiveRecord::Base
   def onfleet_cancel
     MaenMailer.export_cancellation(self, Date.today).deliver_now
     o_id = self.onfleet_id
+    self.cancel_notification
     if o_id
       # Try to remove from onfleet: will only be removed if task
       # is not completed

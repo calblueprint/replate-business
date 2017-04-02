@@ -65,9 +65,9 @@ class RecurrenceForm extends DefaultForm {
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
       let warningStr = "Warning";
-      let detailStr = "Pickups must be scheduled at least an hour in advance!"
+      let detailStr = "In the future, please schedule your pickup at least an hour in advance!"
                       + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
-                       + recurrenceMoment.format("hh:mm:A") + " will not occur.";
+                       + recurrenceMoment.format("hh:mm:A") + " will still occur.";
       toastr.error(detailStr, warningStr);
     }
   }
@@ -85,16 +85,18 @@ class RecurrenceForm extends DefaultForm {
     let days = DAYSOFWEEK.map((day, i) => {
       if (this.state[day].active) {
         noneActive = false;
+        let start_date_display = this.props.basicData.start_date_display
+
         // Set end time - two hours after start time
         let start_time = this.state[day].input.start_time;
         if (start_time) {
           this.state[day].input.end_time = _addTwoHours(start_time);
         }
         // Set frequency and start_date
-        this.state[day].input.frequency = this.props.frequency;
-        this.state[day].input.start_date = this.props.start_date;
-        
-        // this._validateTimes(start_date_display, start_time, i);
+        this.state[day].input.frequency = this.props.basicData.frequency;
+        this.state[day].input.start_date = this.props.basicData.start_date;
+
+        this._validateTimes(start_date_display, start_time, i);
       }
     });
     if (noneActive) {

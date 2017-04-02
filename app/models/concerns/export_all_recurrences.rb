@@ -39,6 +39,13 @@ class ExportAllRecurrences
     end
   end
 
+  def export_cancelled_task
+    if @tasks
+      csv = generate_csv
+      MaenMailer.export_cancelled_task(csv, @date).deliver_now
+    end
+  end
+
   def export_failures
     HEADERS << ("failure message")
     csv = generate_failure_csv

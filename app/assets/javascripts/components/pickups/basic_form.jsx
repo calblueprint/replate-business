@@ -80,7 +80,7 @@ class BasicForm extends DefaultForm {
     let pickupDayStr = this._getDayStr(this.state.start_date_display);
     let pickupDay = this._getDay(this.state.start_date_display);
 
-    this.state.day = pickupDay - 1;
+    this.state.day = pickupDay;
 
     recurrenceForm = {};
     for (let day of DAYSOFWEEK) {
@@ -119,7 +119,7 @@ class BasicForm extends DefaultForm {
       this._createRecurrence();
     } else if (!this.props.isEdit) {
       this.props.nextStep({}, "recurrenceForm", false);
-    } 
+    }
     this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }
 
@@ -184,9 +184,9 @@ class BasicForm extends DefaultForm {
               <div className="col-md-5" hidden={this.props.isEdit}>
                 <fieldset className="input-container">
                   <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
-                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 
+                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)}
                        onClick={this._setOneTime}>One Time</div>
-                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)} 
+                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)}
                        onClick={this._setWeekly}>Weekly</div>
                 </fieldset>
               </div>
@@ -196,13 +196,13 @@ class BasicForm extends DefaultForm {
               <div className="col-md-7">
                 <fieldset className="input-container">
                   <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
-                  <input type="text" data-provide='datepicker' 
-                         data-date-start-date={this._getToday()} 
+                  <input type="text" data-provide='datepicker'
+                         data-date-start-date={this._getToday()}
                          data-date-days-of-week-disabled="06"
                          value={this.state.start_date_display}
-                         name="start_date_display" 
+                         name="start_date_display"
                          onSelect={this._updateState}
-                         className="input" 
+                         className="input"
                          placeholder="Click to select a day" />
                 </fieldset>
               </div>

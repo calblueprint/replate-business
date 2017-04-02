@@ -20,7 +20,7 @@ class Recurrence < ActiveRecord::Base
   belongs_to :pickup
   has_many :cancellations, :dependent => :destroy
   enum frequency: [:one_time, :weekly]
-  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   def location
     self.pickup.location
@@ -34,7 +34,7 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def deliver_today?(date = Date.today, day = Time.now.wday - 1)
+  def deliver_today?(date = Date.today, day = Time.now.wday)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
     r_date == date and Recurrence.days()[self.day] == day
   end
@@ -56,11 +56,12 @@ class Recurrence < ActiveRecord::Base
 
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
-    if self.location.state == 'California'
-      self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
-    else
-      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
-    end
+    # if self.location.state == 'California'
+    #   self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
+    # else
+    #   self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
+    # end
+    self.driver_id = '4zeEx71*c6skdFCtr0aNyh1Y'
   end
 
   def self.get_date_after(date, day)
@@ -106,9 +107,9 @@ class Recurrence < ActiveRecord::Base
       end
       return true
     end
-    
+
     return false
-  end     
+  end
 
   # args is hash:
   # args[:status] = string value of status enum, see Task model
@@ -123,6 +124,7 @@ class Recurrence < ActiveRecord::Base
   end
 
   def onfleet_cancel
+    MaenMailer.export_cancellation(self, Date.today).deliver_now
     o_id = self.onfleet_id
     self.cancel_notification
     if o_id

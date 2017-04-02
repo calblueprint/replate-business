@@ -40,7 +40,13 @@ class BasicForm extends DefaultForm {
   }
 
   _getToday = () => {
-    return moment().format("L");
+    let now = moment();
+    if (now.day() == "0") {
+      now.add(1, "days");
+    } else if (now.day() == "6") {
+      now.add(2, "days");
+    }
+    return now.format("L");
   }
 
   _setOneTime = () => {

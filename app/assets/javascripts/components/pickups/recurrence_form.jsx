@@ -65,9 +65,9 @@ class RecurrenceForm extends DefaultForm {
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
       let warningStr = "Warning";
-      let detailStr = "In the future, please schedule your pickup at least an hour in advance!"
-                      + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
-                       + recurrenceMoment.format("hh:mm:A") + " will still occur.";
+      let detailStr = "It's easier on us if you schedule pickups at least an hour in advance."
+                      + " \nWe will do our best to fulfill your pickup on " + recurrenceMoment.format("L") + " at "
+                       + recurrenceMoment.format("hh:mm:A") + ", but try to give us a bit more leeway next time.";
       toastr.error(detailStr, warningStr);
     }
   }

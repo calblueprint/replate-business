@@ -19,6 +19,7 @@ class API::PickupsController < ApplicationController
 	def destroy
    		pickup = Pickup.find(params[:id])
 
+   		pickup.cancel_notification
 		if pickup.destroy
 			render_json_message(:ok, message: 'Pickup successfully deleted!')
 		else

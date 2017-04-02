@@ -146,12 +146,32 @@ class BasicForm extends DefaultForm {
         delete this.state[requiredKey + "Validation"];
       }
     }
+    if (this.state.frequency === "one_time") {
+      this._validateStart(this.state.start_date_display, this.state.start_time);
+    }
+  }
+
+  _validateStart = (start_date_display, start_time) => {
+    // Check if pickup time is too close to now
+    let recurrenceTimeStr = start_date_display + " " + start_time;
+    let recurrenceMoment = moment(recurrenceTimeStr, "L LT");
+
+    if (recurrenceMoment.isBefore(moment())) {
+      this.state.validated = false;
+      toastr.error("Pickups cannot occur before the current time!");
+    } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
+      let warningStr = "Warning";
+      let detailStr = "In the future, please schedule your pickup at least an hour in advance!"
+                      + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
+                       + recurrenceMoment.format("hh:mm:A") + " will still occur.";
+      toastr.error(detailStr, warningStr);
+    }
   }
 
   render() {
     const placeholder = "Let your driver know any special instructions, " +
                         "like gate codes, pickup locations, etc.";
-    this._validate();
+
     this.state.isNextStep = false;
     return (
       <div>

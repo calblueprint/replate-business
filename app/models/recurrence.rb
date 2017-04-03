@@ -65,6 +65,7 @@ class Recurrence < ActiveRecord::Base
   end
 
   def self.get_date_after(date, day)
+    puts day.to_date
     return date if date.wday == day.to_date.wday
     days_difference = (date - day.to_date).to_i
     result = day.to_date + days_difference + (day.to_date.wday - date.wday)
@@ -82,7 +83,8 @@ class Recurrence < ActiveRecord::Base
       return true
     end
 
-    recurrence_date = Recurrence.get_date_after(reference.at_beginning_of_week, self.day)
+    Date.beginning_of_week = :sunday
+    recurrence_date = Recurrence.get_date_after(reference.beginning_of_week, self.day)
     if (same_week and same_year) or reference >= start_date
       self.cancellations.each do |cancellation|
         if cancellation.same_day_as? recurrence_date
@@ -92,7 +94,6 @@ class Recurrence < ActiveRecord::Base
     end
 
     today = Date.today
-    # schedule_this_week = today.beginning_of_day == reference.beginning_of_day
     first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
     same_week = first_recurrence_date.strftime('%U') == reference.strftime('%U')
     first_before_today = first_recurrence_date.beginning_of_day < today.beginning_of_day

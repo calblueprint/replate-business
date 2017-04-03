@@ -40,7 +40,7 @@ class WeekOverview extends React.Component {
       this.state.cancelData = {
         header      : "You're cancelling a pickup occurrence.",
         detail      : "Do you want to delete all occurrences of this pickup, or only the selected occurrence?",
-        buttonText  : ["Delete Pickup", "Delete Selected"],
+        buttonText  : ["Delete All", "Delete Selected"],
         onClicks    : [this._deletePickup, this._createCancellation],
         metadata    : params,
       };

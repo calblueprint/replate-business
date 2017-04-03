@@ -28,24 +28,21 @@ class ConfirmationForm extends DefaultForm {
     let recurrences = DAYSOFWEEK.map((day, i) => {
       if (this.props.recurrenceData[day].active) {
         pickupTimeWindow = this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time;
-        return <div className="name-container confirmation-container" key={i}>
+        return <div className="confirmation-container info-row--around" key={i}>
                   <h3 className="confirmation label">{this._capitalize(day)}</h3>
-                  <h3 className="label">Time Window</h3>
-                  {pickupTimeWindow}
+                  <div className="label-container">
+                    {pickupTimeWindow}
+                  </div>
               </div>
       }
     });
     return (
       <div>
         <Modal.Body>
-          <div>
+          <div className="info-row--between">
             <div className="confirmation-container name-container">
               <h3 className="confirmation label">Title</h3>
               <p>{this.props.basicData.title}</p>
-            </div>
-            <div className="confirmation-container name-container">
-              <h3 className="confirmation label">Comments</h3>
-              <p>{this.props.basicData.comments}</p>
             </div>
             <div className="confirmation-container name-container">
               <h3 className="confirmation label">Frequency</h3>
@@ -55,7 +52,13 @@ class ConfirmationForm extends DefaultForm {
               <h3 className="confirmation label">{this.props.basicData.frequency === "weekly" ? "Start Date" : "Pickup Date"}</h3>
               <p>{this.props.basicData.start_date_display}</p>
             </div>
+          </div>
+          <div>
             {recurrences}
+            <div className="confirmation-container name-container">
+              <h3 className="confirmation label">Comments</h3>
+              <p>{this.props.basicData.comments ? this.props.basicData.comments : `No comments`}</p>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>

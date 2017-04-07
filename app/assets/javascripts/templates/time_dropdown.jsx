@@ -94,7 +94,6 @@ class TimeDropdown extends DefaultForm {
 
     return (
       <div className="field input-container">
-        <label className="label label--newline" htmlFor={this.props.input_id}>{this.props.label}</label>
         <select className="select" name="hour" onChange={this._handleInput} value={this.state.hour}>
           {hourOptions}
         </select>

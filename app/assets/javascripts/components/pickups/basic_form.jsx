@@ -87,6 +87,7 @@ class BasicForm extends DefaultForm {
     let pickupDay = this._getDay(this.state.start_date_display);
 
     this.state.day = pickupDay;
+    this.state.isOneTime = true;
 
     recurrenceForm = {};
     for (let day of DAYSOFWEEK) {
@@ -123,8 +124,9 @@ class BasicForm extends DefaultForm {
 
     if (this.state.frequency === "one_time") {
       this._createRecurrence();
-    } else if (!this.props.isEdit) {
+    } else if (!this.props.isEdit && this.state.isOneTime) { // Change when models are reformatted
       this.props.nextStep({}, "recurrenceForm", false);
+      this.state.isOneTime = false;
     }
     this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }
@@ -214,7 +216,6 @@ class BasicForm extends DefaultForm {
               </div>
               <div className="col-md-5" hidden={this.state.frequency === "weekly"}>
                 <TimeDropdown
-                  label = "Pickup Time"
                   details = "9:00AM - 5:00PM"
                   input_id = "start"
                   form_name = "start_time"

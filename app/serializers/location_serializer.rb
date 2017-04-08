@@ -29,7 +29,8 @@ class LocationSerializer < ActiveModel::Serializer
              :country,
              :addr_name,
              :state,
-             :zip
+             :zip,
+             :email
 
   has_many :pickups
 

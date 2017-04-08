@@ -32,6 +32,7 @@ class LocationCreationForm extends DefaultForm {
       this._attemptAction(APIConstants.locations.create, this.state, success, success);
     }, 500)
   }
+  
 
   open = (e) => {
     this.setState({ showModal: true });
@@ -126,6 +127,9 @@ class LocationCreationForm extends DefaultForm {
           <Modal.Body>
             <label className="label label--newline">Office Name</label>
             <input type="text" placeholder="New York Office" name="addr_name"
+                       onChange={this._handleChange} className="input" />
+            <label className="label label--newline">Office Email (optional)</label>
+            <input type="text" placeholder="a@a.com" name="email"
                        onChange={this._handleChange} className="input" />
             <label className="label label--newline">Office Address</label>
             <input ref={(input) => { this.locationInput = input}} className="input address">

@@ -10,6 +10,7 @@ class LocationSettings extends React.Component {
     this.state = {
       location: {},
       uploadSuccess: false,
+      editable: false,
     }
   }
 
@@ -17,6 +18,46 @@ class LocationSettings extends React.Component {
     this.setState({ location: nextProps.location });
   }
 
+  _handleChange = (e) => {
+    let target = $(e.target);
+    this.setState({ [target.attr('name')]: target.val() });
+  }
+
+  _showInput = (label, name, data) => {
+      return (
+          <EditableInput label        = { label }
+                         name         = { name }
+                         data         = { data }
+                         editable     = { this.state.editable }
+                         handleChange = { this._handleChange} />
+      );
+  }
+
+  _toggleEdit = () => {
+    // var keys = Object.keys(this.state);
+    // for (key of keys) {
+    //   if (document.getElementsByName(key).length) {
+    //     this._removeRedBorder(document.getElementsByName(key)[0]);
+    //   }
+    // }
+    this.setState({
+      editable : !this.state.editable,
+      
+    });
+  }
+  _attemptSave = () => {
+    const locationGetSuccess = (resp) => {
+      this.setState({location: resp});
+    }
+    const success = (data) => {
+      this.setState({editable: false,});
+      Requester.get(APIConstants.locations.show(this.state.location.id),locationGetSuccess);
+    }
+    const fail = () => {
+
+    }
+    Requester.update(APIConstants.locations.update(this.state.location.id),this.state,success,fail);
+  }
   _setFile = (e) => {
     const files = e.target.files;
     if (!files || !files[0]) {
@@ -73,6 +114,14 @@ class LocationSettings extends React.Component {
 
         <div className="location-settings-input-col">
           <h2 className="settings-title">Location Details</h2>
+          { this._showInput("Email(optional)", "email", this.state.location.email) }
+          { this._showInput("Location name", "addr_name", this.state.location.addr_name) }
+          <FormEditToggle
+            editable={ this.state.editable }
+            update={ this._toggleEdit }
+            save={ this._attemptSave }
+            className={ "marginTop-md" } />
+          
           <DeleteLocationModal location={this.state.location} />
         </div>
       </div>

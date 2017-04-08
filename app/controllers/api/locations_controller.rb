@@ -27,6 +27,7 @@ class API::LocationsController < ApplicationController
 
   def update
 		location = Location.find(params[:id])
+    puts params
 		if location.update(location_params)
 	    render_json_message(:ok, message: 'Request successfully updated!')
 		else
@@ -52,7 +53,8 @@ class API::LocationsController < ApplicationController
       :business_id,
       :photo,
       :lat,
-      :lon
+      :lon,
+      :email
     )
 
   end

@@ -35,6 +35,12 @@ class ApiConstants {
     }
   }
 
+  get admin() {
+    return {
+      businessProfile: (id) => `/businesses/${id}`,
+    }
+  }
+
   // fetchBusiness uses this route!
   get businesses() {
     return {

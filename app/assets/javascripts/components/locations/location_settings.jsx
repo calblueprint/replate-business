@@ -116,6 +116,10 @@ class LocationSettings extends React.Component {
           <h2 className="settings-title">Location Details</h2>
           { this._showInput("Email(optional)", "email", this.state.location.email) }
           { this._showInput("Location name", "addr_name", this.state.location.addr_name) }
+          { this._showInput("Street number", "number", this.state.location.number) }
+          { this._showInput("City", "city", this.state.location.city) }
+          { this._showInput("Country", "country", this.state.location.country) }
+          { this._showInput("Zip code", "zip", this.state.location.zip) }
           <FormEditToggle
             editable={ this.state.editable }
             update={ this._toggleEdit }

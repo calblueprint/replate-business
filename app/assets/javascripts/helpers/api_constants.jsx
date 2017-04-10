@@ -28,10 +28,18 @@ class ApiConstants {
     }
   }
 
+
 	get recurrences() {
     return {
       update : (id) => `/api/recurrences/${id}`,
       create : `/api/recurrences`
+    }
+  }
+
+  get task() {
+    return {
+      update : (id) => `/api/task/${id}`,
+      create : `/api/task`
     }
   }
 

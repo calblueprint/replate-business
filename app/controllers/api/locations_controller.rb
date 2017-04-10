@@ -2,6 +2,7 @@ class API::LocationsController < ApplicationController
   respond_to :json
 
   def show
+    puts "\n \n <<<<<<<<<<>>>>>>>>>>> \n \n"
     @location = Location.find(params[:id])
     render json: @location, each_serializer: LocationSerializer, root: false
   end

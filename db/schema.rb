@@ -122,6 +122,8 @@ ActiveRecord::Schema.define(version: 20170310232147) do
     t.integer  "location_id",    null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.text     "description"
+    t.integer  "trays_donated"
   end
 
   add_index "tasks", ["location_id"], name: "index_tasks_on_location_id", using: :btree

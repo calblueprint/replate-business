@@ -14,6 +14,7 @@ class LocationHome extends React.Component {
       pickups: 1,
       history: 2,
       settings: 3,
+      impact: 4,
     }
 
     let active = 1;
@@ -130,6 +131,10 @@ class LocationHome extends React.Component {
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates} />
           </Tab>
+          <Tab eventKey={4} title= "Impact" tableClassName="tab-icon impact-tab">
+              <Impact         location_id = {this.state.location_id} />
+
+           </Tab>
         </Tabs>
       </div>
     )

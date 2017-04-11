@@ -124,7 +124,6 @@ class Recurrence < ActiveRecord::Base
   def onfleet_cancel
     MaenMailer.export_cancellation(self, Date.today).deliver_now
     o_id = self.onfleet_id
-    self.cancel_notification
     if o_id
       # Try to remove from onfleet: will only be removed if task
       # is not completed

@@ -37,7 +37,8 @@ class ApiConstants {
 
   get admin() {
     return {
-      businessProfile: (id) => `/businesses/${id}`,
+      businessList    : `/api/businesses`,
+      businessProfile : (id) => `/businesses/${id}`,
     }
   }
 

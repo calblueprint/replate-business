@@ -1,3 +1,6 @@
+/**
+ *
+ */
 class BusinessTableRow extends React.Component {
 
   constructor(props) {

@@ -5,24 +5,20 @@ class BusinessTable extends React.Component {
       hasResult: true,
       searchInput: "",
     };
-    var testBiz = {
-      id: 1,
-      company_name: "Test",
-      email: "test@email.com",
-      phone: "123-456-7890"
-    };
     this.state.businesses = [];
     this.state.filteredBiz = [];
-    this.state.businesses.push(testBiz);
   }
 
   componentDidMount() {
     this.fetchBusinesses();
-    this.copyToFiltered(this.state.businesses);
   }
 
   fetchBusinesses() {
-    
+    const success = (data) => {
+      this.state.businesses = data;
+      this.copyToFiltered(this.state.businesses);
+    }
+    Requester.get(APIConstants.admin.businessList, success);
   }
 
   copyToFiltered(businesses) {

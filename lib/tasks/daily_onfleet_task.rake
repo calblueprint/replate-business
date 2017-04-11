@@ -10,7 +10,7 @@ namespace :daily_onfleet_task do
 
     # Run ONLY on sunday evening through thursday evening
     if Time.now.wday < 5
-      tomorrow_wday = Time.now.wday
+      tomorrow_wday = Time.now.wday + 1
       tomorrow_date = Date.today + 1
       result = OnfleetAPI.post_batch_task(tomorrow_wday, tomorrow_date)
       posted = result[:posted]

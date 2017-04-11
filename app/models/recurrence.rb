@@ -20,7 +20,7 @@ class Recurrence < ActiveRecord::Base
   belongs_to :pickup
   has_many :cancellations, :dependent => :destroy
   enum frequency: [:one_time, :weekly]
-  enum day: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   def location
     self.pickup.location
@@ -34,7 +34,7 @@ class Recurrence < ActiveRecord::Base
     self.pickup.location.business
   end
 
-  def deliver_today?(date = Date.today, day = Time.now.wday - 1)
+  def deliver_today?(date = Date.today, day = Time.now.wday)
     r_date = DateTime.new(self.start_date.year, self.start_date.month, self.start_date.day)
     r_date == date and Recurrence.days()[self.day] == day
   end
@@ -45,16 +45,27 @@ class Recurrence < ActiveRecord::Base
     ExportAllRecurrences.new(args).export_on_demand_task
   end
 
-  # Temporary assignment method since no load balancing drivers yet
-  def assign_driver
-    if self.location.state == 'California'
-      self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
-    else
-      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
+  # Notifies Replate if a pickup is cancelled. Only called if the pickup is the current day
+  def cancel_notification
+    if self.deliver_today?
+      # self.onfleet_cancel TODO
+      args = {:date => Date.today, :tasks =>[self]}
+      ExportAllRecurrences.new(args).export_cancelled_task
     end
   end
 
+  # Temporary assignment method since no load balancing drivers yet
+  def assign_driver
+    # if self.location.state == 'California'
+    #   self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
+    # else
+    #   self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
+    # end
+    self.driver_id = '4zeEx71*c6skdFCtr0aNyh1Y'
+  end
+
   def self.get_date_after(date, day)
+    puts day.to_date
     return date if date.wday == day.to_date.wday
     days_difference = (date - day.to_date).to_i
     result = day.to_date + days_difference + (day.to_date.wday - date.wday)
@@ -62,26 +73,41 @@ class Recurrence < ActiveRecord::Base
     return result
   end
 
-  def same_week(day)
-    today = Date.parse(day)
+  def same_week(reference)
+    reference = Date.parse(reference)
     start_date = self.start_date.to_date
-    recurrence_date = Recurrence.get_date_after(start_date, self.day)
-    same_week = start_date.strftime('%U') == today.strftime('%U')
-    same_year = start_date.strftime('%Y') == today.strftime('%Y')
 
-    if self.frequency === "weekly"
-      if same_week
-        return (today.wday-1) <= Recurrence.days[self.day]
-      elsif today >= start_date
-        return true
-      end
-    end
+    same_week = start_date.strftime('%U') == reference.strftime('%U')
+    same_year = start_date.strftime('%Y') == reference.strftime('%Y')
     if self.frequency === "one_time" and same_week and same_year
       return true
     end
-    # Write this method in the eventually
-    # if self.frequency == 2
-    #   ...
+
+    Date.beginning_of_week = :sunday
+    recurrence_date = Recurrence.get_date_after(reference.beginning_of_week, self.day)
+    if (same_week and same_year) or reference >= start_date
+      self.cancellations.each do |cancellation|
+        if cancellation.same_day_as? recurrence_date
+          return false
+        end
+      end
+    end
+
+    today = Date.today
+    first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
+    same_week = first_recurrence_date.strftime('%U') == reference.strftime('%U')
+    first_before_today = first_recurrence_date.beginning_of_day < today.beginning_of_day
+    first_before_reference = first_recurrence_date.beginning_of_day < reference.beginning_of_day
+
+    if self.frequency === "weekly"
+      if same_week
+        return (not first_before_today)
+      elsif not first_before_reference
+        return false
+      end
+      return true
+    end
+
     return false
   end
 
@@ -98,7 +124,9 @@ class Recurrence < ActiveRecord::Base
   end
 
   def onfleet_cancel
+    MaenMailer.export_cancellation(self, Date.today).deliver_now
     o_id = self.onfleet_id
+    self.cancel_notification
     if o_id
       # Try to remove from onfleet: will only be removed if task
       # is not completed

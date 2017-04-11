@@ -1,5 +1,8 @@
-= render "partials/dashboard_nav"
-= page_heading "Dashboard"
+- if current_admin
+    = render "partials/admin_dashboard_nav"
+- else
+    = render "partials/dashboard_nav"
+= page_heading "Location"
 
 = react_component "LocationHome", {           \
     company: @location.business.company_name, \

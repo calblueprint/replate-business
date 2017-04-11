@@ -17,9 +17,9 @@ class API::PickupsController < ApplicationController
 	end
 
 	def destroy
-   	pickup = Pickup.find(params[:id])
-   	recurrences = pickup.recurrences
-   	recurrences.each { |r| r.deliver_today? ? recurrence.onfleet_cancel : r }
+	   	pickup = Pickup.find(params[:id])
+	   	recurrences = pickup.recurrences
+	   	recurrences.each { |r| r.deliver_today? ? r.onfleet_cancel : r }
 		if pickup.destroy
 			render_json_message(:ok, message: 'Pickup successfully deleted!')
 		else

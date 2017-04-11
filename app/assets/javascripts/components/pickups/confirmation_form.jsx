@@ -4,12 +4,20 @@
  * @prop prevStep       - function handler to move back to prev step of pickup creation
  * @prop handleUpdates  - function handler for creating/updating Pickups and Recurrences
  * @prop isEdit         - boolean indicating whether pickup is being edited 
+ * @prop setLoading     - function to set loading boolean in parent
+ * @prop loading        - boolean indicating whether page is being loaded
  */
 var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class ConfirmationForm extends DefaultForm {
 
   constructor(props) {
     super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loading != this.state.loading) {
+      this.state.loading = nextProps.loading;
+    }
   }
 
   _prevStep = (e) => {
@@ -24,10 +32,24 @@ class ConfirmationForm extends DefaultForm {
     }
   }
 
+  _pickupAction = (e) => {
+    this.props.setLoading(true);
+    this.props.handleUpdates(e);
+  }
+
   render() {
+    let loadingContainer;
+    if (this.state.loading) {
+      loadingContainer = <div className="loading-container">
+        <div className="loading"></div>
+      </div>
+    }
+
     let recurrences = DAYSOFWEEK.map((day, i) => {
       if (this.props.recurrenceData[day].active) {
-        pickupTimeWindow = this.props.recurrenceData[day].input.start_time + "-" + this.props.recurrenceData[day].input.end_time;
+        let startTime = moment(this.props.recurrenceData[day].input.start_time, "hh:mm:A").format("h:mm a");
+        let endTime = moment(this.props.recurrenceData[day].input.end_time, "hh:mm:A").format("h:mm a");
+        let pickupTimeWindow = startTime + "-" + endTime;
         return <div className="confirmation-container info-row--around" key={i}>
                   <h3 className="confirmation label">{this._capitalize(day)}</h3>
                   <div className="label-container">
@@ -38,6 +60,7 @@ class ConfirmationForm extends DefaultForm {
     });
     return (
       <div>
+        {loadingContainer}
         <Modal.Body>
           <div className="info-row--between">
             <div className="confirmation-container name-container">
@@ -70,7 +93,7 @@ class ConfirmationForm extends DefaultForm {
           </button>
           <button type="submit" name="submit" value="Create Pickup"
             className="button"
-            onClick={this.props.handleUpdates}>{this.props.isEdit ? `Update Pickup` : `Create Pickup`}</button>
+            onClick={this._pickupAction}>{this.props.isEdit ? `Update Pickup` : `Create Pickup`}</button>
         </Modal.Footer>
       </div>
     );

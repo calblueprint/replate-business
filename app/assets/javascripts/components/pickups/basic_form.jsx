@@ -75,7 +75,7 @@ class BasicForm extends DefaultForm {
   _addTwoHours = (time) => {
     let timeMoment = moment(time, 'LT');
     timeMoment.add(2, "hours");
-    return timeMoment.format('LT');
+    return timeMoment.format('hh:mm A');
   }
 
   _updateTime = (start_time) => {
@@ -116,7 +116,6 @@ class BasicForm extends DefaultForm {
   _nextStep = (e) => {
     this.state.isNextStep = true;
     this._validate();
-
     // Format start date
     this.state.start_date = this._formatDate(this.state.start_date_display);
     // Set end time - two hours after start time
@@ -162,10 +161,9 @@ class BasicForm extends DefaultForm {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
-      let warningStr = "Warning";
-      let detailStr = "In the future, please schedule your pickup at least an hour in advance!"
-                      + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
-                       + recurrenceMoment.format("hh:mm:A") + " will still occur.";
+      let warningStr = "Please schedule your pickup at least an hour in advance.";
+      let detailStr = "We'll do our best to fulfill your pickup on " + recurrenceMoment.format("L") + " at "
+                       + recurrenceMoment.format("hh:mm:A") + ".";
       toastr.error(detailStr, warningStr);
     }
   }

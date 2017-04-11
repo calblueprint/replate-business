@@ -18,6 +18,7 @@ class PickupModal extends DefaultForm {
       basicForm: this.props.basicForm,
       recurrenceForm: this.props.recurrenceForm,
       showModal: false,
+      confirmationLoading : false,
     };
   }
 
@@ -43,6 +44,7 @@ class PickupModal extends DefaultForm {
   _attemptUpdate = () => {
     const failure = (data) => {
       toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
+      this._setLoading(false);
     };
 
     const pickupSuccess = (data) => {};
@@ -51,6 +53,7 @@ class PickupModal extends DefaultForm {
       this.props.success();  //Updates schedule
       this.setState({ step: 1, });
       this.close();
+      this._setLoading(false);
     };
 
     let days = DAYSOFWEEK.map((day, i) => {
@@ -105,11 +108,13 @@ class PickupModal extends DefaultForm {
                       basicForm: {},
                       recurrenceForm: {},
                   });
+      this._setLoading(false);
       this.close();
     }
 
     const failure = (data) => {
       toastr.error("Please try again or refresh the page.", "Sorry, something went wrong.");
+      this._setLoading(false);
     }; // do not clear form
 
     this.state.basicForm.location_id = this.state.location_id;
@@ -152,6 +157,10 @@ class PickupModal extends DefaultForm {
     }
   }
 
+  _setLoading = (loading) => {
+    this.setState({ confirmationLoading : loading });
+  }
+
   _getStep = () => {
     switch (this.state.step) {
       case 0:
@@ -175,7 +184,9 @@ class PickupModal extends DefaultForm {
                   recurrenceData = {this.state.recurrenceForm}
                   prevStep       = {this._prevStep}
                   isEdit         = {this.props.isEdit}
-                  handleUpdates  = {this._handleUpdates} />
+                  handleUpdates  = {this._handleUpdates}
+                  setLoading     = {this._setLoading} 
+                  loading        = {this.state.confirmationLoading} />
     }
   }
 

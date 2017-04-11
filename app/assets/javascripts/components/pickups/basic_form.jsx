@@ -40,7 +40,13 @@ class BasicForm extends DefaultForm {
   }
 
   _getToday = () => {
-    return moment().format("L");
+    let now = moment();
+    if (now.day() == "0") {
+      now.add(1, "days");
+    } else if (now.day() == "6") {
+      now.add(2, "days");
+    }
+    return now.format("L");
   }
 
   _setOneTime = () => {
@@ -69,7 +75,7 @@ class BasicForm extends DefaultForm {
   _addTwoHours = (time) => {
     let timeMoment = moment(time, 'LT');
     timeMoment.add(2, "hours");
-    return timeMoment.format('LT');
+    return timeMoment.format('hh:mm A');
   }
 
   _updateTime = (start_time) => {
@@ -80,7 +86,8 @@ class BasicForm extends DefaultForm {
     let pickupDayStr = this._getDayStr(this.state.start_date_display);
     let pickupDay = this._getDay(this.state.start_date_display);
 
-    this.state.day = pickupDay - 1;
+    this.state.day = pickupDay;
+    this.state.isOneTime = true;
 
     recurrenceForm = {};
     for (let day of DAYSOFWEEK) {
@@ -109,7 +116,6 @@ class BasicForm extends DefaultForm {
   _nextStep = (e) => {
     this.state.isNextStep = true;
     this._validate();
-
     // Format start date
     this.state.start_date = this._formatDate(this.state.start_date_display);
     // Set end time - two hours after start time
@@ -117,9 +123,10 @@ class BasicForm extends DefaultForm {
 
     if (this.state.frequency === "one_time") {
       this._createRecurrence();
-    } else if (!this.props.isEdit) {
+    } else if (!this.props.isEdit && this.state.isOneTime) { // Change when models are reformatted
       this.props.nextStep({}, "recurrenceForm", false);
-    } 
+      this.state.isOneTime = false;
+    }
     this.props.nextStep(this.state, "basicForm", this.state.validated, this.state.frequency);
   }
 
@@ -154,10 +161,9 @@ class BasicForm extends DefaultForm {
       this.state.validated = false;
       toastr.error("Pickups cannot occur before the current time!");
     } else if (recurrenceMoment.diff(moment(), "minutes") <= 60) {
-      let warningStr = "Warning";
-      let detailStr = "In the future, please schedule your pickup at least an hour in advance!"
-                      + " \nYour pickup on " + recurrenceMoment.format("L") + " at "
-                       + recurrenceMoment.format("hh:mm:A") + " will still occur.";
+      let warningStr = "Please schedule your pickup at least an hour in advance.";
+      let detailStr = "We'll do our best to fulfill your pickup on " + recurrenceMoment.format("L") + " at "
+                       + recurrenceMoment.format("hh:mm:A") + ".";
       toastr.error(detailStr, warningStr);
     }
   }
@@ -184,9 +190,9 @@ class BasicForm extends DefaultForm {
               <div className="col-md-5" hidden={this.props.isEdit}>
                 <fieldset className="input-container">
                   <label htmlFor="comments" className="label label--newline">Pickup Frequency</label>
-                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)} 
+                  <div className={`button button--margin` + (this.state.frequency === "weekly" ? ` button--text-green` : ``)}
                        onClick={this._setOneTime}>One Time</div>
-                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)} 
+                  <div className={`button button--margin` + (this.state.frequency === "one_time" ? ` button--text-green` : ``)}
                        onClick={this._setWeekly}>Weekly</div>
                 </fieldset>
               </div>
@@ -196,19 +202,18 @@ class BasicForm extends DefaultForm {
               <div className="col-md-7">
                 <fieldset className="input-container">
                   <label className="label label--newline">{this.state.frequency === "weekly" ? "Start Date" : "Pickup Date"}</label>
-                  <input type="text" data-provide='datepicker' 
-                         data-date-start-date={this._getToday()} 
+                  <input type="text" data-provide='datepicker'
+                         data-date-start-date={this._getToday()}
                          data-date-days-of-week-disabled="06"
                          value={this.state.start_date_display}
-                         name="start_date_display" 
+                         name="start_date_display"
                          onSelect={this._updateState}
-                         className="input" 
+                         className="input"
                          placeholder="Click to select a day" />
                 </fieldset>
               </div>
               <div className="col-md-5" hidden={this.state.frequency === "weekly"}>
                 <TimeDropdown
-                  label = "Pickup Time"
                   details = "9:00AM - 5:00PM"
                   input_id = "start"
                   form_name = "start_time"

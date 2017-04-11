@@ -11,7 +11,7 @@ var DAYSOFWEEK = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 class WeekOverview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showCancelModal : false, 
+    this.state = { showCancelModal : false,
                    cancelData : {}
                  };
   }
@@ -21,7 +21,7 @@ class WeekOverview extends React.Component {
     let date = target.attr('data-date');
     let recurrence_id = target.attr('data-rid');
     let pickup_id = target.attr('data-pid');
-    let frequency = target.attr('data-freq'); 
+    let frequency = target.attr('data-freq');
     let params = {
         "date"          : date,
         "recurrence_id" : recurrence_id,
@@ -35,15 +35,15 @@ class WeekOverview extends React.Component {
         buttonText  : ["Delete Pickup"],
         onClicks    : [this._deletePickup],
         metadata    : params,
-      }; 
+      };
     } else if (frequency === "weekly") {
       this.state.cancelData = {
         header      : "You're cancelling a pickup occurrence.",
         detail      : "Do you want to delete all occurrences of this pickup, or only the selected occurrence?",
-        buttonText  : ["Delete Pickup", "Delete Selected"],
+        buttonText  : ["Delete All", "Delete Selected"],
         onClicks    : [this._deletePickup, this._createCancellation],
         metadata    : params,
-      }; 
+      };
     }
     // Display cancel modal
     this.setState({ showCancelModal : true });
@@ -96,10 +96,8 @@ class WeekOverview extends React.Component {
   }
 
   _createCancellation = (params) => {
-    toastr.error("This feature has not yet been fully implemented. " +
-      "It will be available shortly, but for now please delete the entire pickup.", "Under Construction");
-    // Requester.post(APIConstants.cancellations.create(), params,
-    //               this.props.fetchUpdates);
+    Requester.post(APIConstants.cancellations.create(), params,
+                  this.props.fetchUpdates);
   }
 
   _hideModal = () => {
@@ -124,16 +122,16 @@ class WeekOverview extends React.Component {
       let recurrenceDate = pickupListMoment.format();
 
       if (!isPastEvent) {
-        cancelButton = <button data-rid={recurrence.id} 
-                               data-pid={pickup.id} 
-                               data-date={recurrenceDate} 
-                               data-freq={recurrence.frequency} 
-                               onClick={this._cancelPickup} 
+        cancelButton = <button data-rid={recurrence.id}
+                               data-pid={pickup.id}
+                               data-date={recurrenceDate}
+                               data-freq={recurrence.frequency}
+                               onClick={this._cancelPickup}
                                className="cancelButton button-link">Cancel</button>
       }
 
       let editButton = <button data-id={pickup.id}
-                               onClick={this._editPickup} 
+                               onClick={this._editPickup}
                                className="editButton button-link">Edit</button>
 
       return (
@@ -141,7 +139,7 @@ class WeekOverview extends React.Component {
           <h4 className="name">{pickup.title}</h4>
           <p className="time">{timeString}</p>
           <p className="repeating">{recurrence.frequency === "weekly" ? "Repeating pickup" : "One-time pickup"}</p>
-          {/*editButton*/}
+          {editButton}
           {cancelButton}
         </div>
       )

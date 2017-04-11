@@ -72,7 +72,6 @@ class RecurrenceInput extends DefaultForm {
           <div className="row marginTop-sm">
             <div className="col-md-6">
               <TimeDropdown
-                label = "Pickup Time"
                 details = "9:00AM - 5:00PM"
                 input_id = "start"
                 form_name = "start_time"

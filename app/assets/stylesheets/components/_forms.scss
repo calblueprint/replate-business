@@ -154,19 +154,29 @@ h3 {
   font-size: 14px;
 }
 
-.label.confirmation {
+.confirmation.label {
   color: black;
   font-size: 18px;
 }
 
-.confirmation.info-row {
+.info-row--between {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.info-row--around {
+  display: flex;
+  flex-flow: row wrap;
   margin-top: 5px;
 }
 
 .confirmation-container {
-  padding: 5px;
   margin-top: 8px;
+}
+
+.label-container {
+  margin-top: 7px;
+  margin-left: 15px;
 }

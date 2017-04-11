@@ -48,9 +48,7 @@ class Recurrence < ActiveRecord::Base
   # Notifies Replate if a pickup is cancelled. Only called if the pickup is the current day
   def cancel_notification
     if self.deliver_today?
-      # self.onfleet_cancel TODO
-      args = {:date => Date.today, :tasks =>[self]}
-      ExportAllRecurrences.new(args).export_cancelled_task
+      self.onfleet_cancel
     end
   end
 

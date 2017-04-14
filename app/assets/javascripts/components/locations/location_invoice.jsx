@@ -4,9 +4,12 @@ class LocationInvoice extends React.Component {
 		this.state = {
 			tasks: [],
 			showModal: false,
-			useSaved: false,
+			useSavedLocation: false,
+			useSavedBusiness: false,
 			business: {},
+			location: {},
 			totalCharge: 0,
+
 			
 		}
 		this._handleSubmit = this._handleSubmit.bind(this);
@@ -42,7 +45,7 @@ class LocationInvoice extends React.Component {
 		console.log(this.card);
 		var form = this;
 		var state = this.state;
-		if (this.state.useSaved) {
+		if (this.state.useSavedBusiness) {
 			const taskUpdateSuccess = (response) => {
 		    	this._fetchTasks();
 		  }
@@ -51,7 +54,7 @@ class LocationInvoice extends React.Component {
 		    Requester.update(APIConstants.locations.tasks(this.props.location.id),{}, taskUpdateSuccess);
 	    }
 	   
-	    Requester.post(APIConstants.businesses.charge(state.business.id),{useSaved: this.state.useSaved, chargeAmount: this.state.tasks.length * 30},paySuccess); 
+	    Requester.post(APIConstants.businesses.charge(state.business.id),{useSaved: this.state.useSavedBusiness, chargeAmount: this.state.tasks.length * 30},paySuccess); 
 	    form._closeModal();
 		}
 		else {
@@ -73,7 +76,7 @@ class LocationInvoice extends React.Component {
 		    			Requester.update(APIConstants.businesses.update(state.business.id),{stripe_customer_id: response.stripe_customer_id});
 		    		}
 		    	}
-		    	Requester.post(APIConstants.businesses.charge(state.business.id),{stripeToken:result.token.id, useSaved: state.useSaved, chargeAmount: state.tasks.length * 30},updateBusiness); //always charge with id
+		    	Requester.post(APIConstants.businesses.charge(state.business.id),{stripeToken:result.token.id, useSaved: state.useSavedBusiness, chargeAmount: state.tasks.length * 30},updateBusiness); //always charge with id
 		    	form._closeModal();
 		      //stripeTokenHandler(result.token);
 		    }
@@ -92,8 +95,13 @@ class LocationInvoice extends React.Component {
 		setBusiness = (response) => {
 			this.setState({business: response});		
 		}		
+		setLocation = (response) => {
+			this.setState({location: response});		
+		}
+
 		Requester.get(APIConstants.locations.tasks(this.props.location.id), setTasks);
 		Requester.get(APIConstants.businesses.show(this.props.business.id), setBusiness);
+		Requester.get(APIConstants.businesses.show(this.props.location.id), setLocation);
 
 	}
 
@@ -150,21 +158,37 @@ class LocationInvoice extends React.Component {
 					<div id = "card-element">
 
 					</div>
-					{this.state.business.stripe_customer_id && 
+					{this.state.location.stripe_customer_id && 
 						<div>
-							We've detected you have a saved card. Would you like to pay with this card?
+							We've detected you have a saved card for this location. Would you like to pay with this card?
 							
 
 						<input
             name="useSaved"
             type="checkbox"
-            checked={this.state.useSaved}
+            checked={this.state.useSavedLocation}
             onChange={this._useOldCard}
             />
             Yes
 						</div>
 						
 					}
+					{this.state.business.stripe_customer_id && 
+						<div>
+							We've detected you have a saved card for this business. Would you like to pay with this card?
+							
+
+						<input
+            name="useSaved"
+            type="checkbox"
+            checked={this.state.useSavedBusiness}
+            onChange={this._useOldCard}
+            />
+            Yes
+						</div>
+						
+					}
+
 
 					<div id="card-errors"></div>
 				</Modal.Body>

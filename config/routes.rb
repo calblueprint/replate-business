@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get '/locations/:id/week/:today', to: 'locations#this_week'
     resources :sessions, :only => [:create]
     post '/businesses/:id/charge', to: 'businesses#charge'
+    post '/locations/:id/charge', to: 'locations#charge'
     get '/locations/:id/tasks', to: 'locations#find_tasks'
     patch '/locations/:id/tasks', to: 'locations#mark_tasks_paid'
   end

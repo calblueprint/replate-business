@@ -52,6 +52,36 @@ class API::LocationsController < ApplicationController
     render_json_message(:ok, message: 'Tasks marked as paid!')
   end
 
+  def charge
+    location = Location.find(params[:id])
+    puts Figaro.env.stripe_api_key
+    Stripe.api_key = Figaro.env.stripe_api_key
+    useSaved = params[:useSaved]
+    amount = params[:chargeAmount]
+    if location.stripe_customer_id != nil and useSaved
+      puts "using saved"
+      charge = Stripe::Charge.create(
+      :amount => amount * 100, # $15.00 this time
+      :currency => "usd",
+      :customer => location.stripe_customer_id, # Previously stored, then retrieved
+      )
+      render :json => {}
+    else
+      token = params[:stripeToken]
+      customer = Stripe::Customer.create(
+      :email => "paying.user@example.com",
+      :source => token,
+      )
+      charge = Stripe::Charge.create(
+      :amount => amount * 100,
+      :currency => "usd",
+      :customer => customer.id,
+      )
+      stripeid = {:stripe_customer_id => customer.id}
+      render :json => stripeid
+    end
+  end
+
   def location_params
     params.permit(
       :addr_name,

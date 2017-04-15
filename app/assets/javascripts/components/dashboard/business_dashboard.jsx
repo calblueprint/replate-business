@@ -1,6 +1,7 @@
 /**
  * Renders the home business dashboard view
  * @prop business_id - the current business that is signed in
+ * @prop is_admin - the admin has a different view of the business because they can delete businesses
  */
 class BusinessDashboard extends React.Component {
   constructor(props) {
@@ -8,6 +9,11 @@ class BusinessDashboard extends React.Component {
     this.state = {
       business: {},
     };
+    if (props.is_admin != null) {
+      this.state.is_admin = props.is_admin;
+    } else {
+      this.state.is_admin = false;
+    }
   }
 
   componentDidMount() {
@@ -70,5 +76,6 @@ class BusinessDashboard extends React.Component {
 }
 
 BusinessDashboard.propTypes = {
-  business_id: React.PropTypes.number.isRequired,
+  business_id : React.PropTypes.number.isRequired,
+  is_admin    : React.PropTypes.bool,
 }

@@ -4,12 +4,15 @@ class LocationInvoice extends React.Component {
 		this.state = {
 			tasks: [],
 			showModal: false,
-			useSavedLocation: false,
-			useSavedBusiness: false,
+			useSavedBusinessCard: false,
+			useSavedLocationCard: false,
 			business: {},
 			location: {},
 			totalCharge: 0,
-
+			nextStep: false,
+			stripeToken:null,
+			storeLocationCard:false,
+			storeBusinessCard:false,
 			
 		}
 		this._handleSubmit = this._handleSubmit.bind(this);
@@ -32,8 +35,12 @@ class LocationInvoice extends React.Component {
 		}
 	}
 
-	_closeModal = () => {
+	_closeModal1 = () => {
 		this.setState({showModal: false});
+	}
+
+	_closeModal2 = () => {
+		this.setState({nextStep: false});
 	}
 
 	_openModal = () => {
@@ -45,27 +52,20 @@ class LocationInvoice extends React.Component {
 		console.log(this.card);
 		var form = this;
 		var state = this.state;
-		if (this.state.useSavedBusiness) {
-			const taskUpdateSuccess = (response) => {
-		    	this._fetchTasks();
-		  }
+		if (this.state.useSavedBusinessCard) {
+			
 		  
-			paySuccess = (response) => {
-		    Requester.update(APIConstants.locations.tasks(this.props.location.id),{}, taskUpdateSuccess);
-	    }
-	   
-	    Requester.post(APIConstants.businesses.charge(state.business.id),{useSaved: this.state.useSavedBusiness, chargeAmount: this.state.tasks.length * 30},paySuccess); 
-	    form._closeModal();
+	    form._closeModal1();
+		    form.setState({nextStep:true});
 		}
 		else {
 		
 			this.stripe.createToken(this.card).then(function(result) {
 		    if (result.error) {
-		      // Inform the user if there was an error
 		      var errorElement = document.getElementById('card-errors');
 		      errorElement.textContent = result.error.message;
 		    } else {
-		      // Send the token to your server
+
 		    	const taskUpdateSuccess = (response) => {
 		    		form._fetchTasks();
 		    	}
@@ -76,11 +76,63 @@ class LocationInvoice extends React.Component {
 		    			Requester.update(APIConstants.businesses.update(state.business.id),{stripe_customer_id: response.stripe_customer_id});
 		    		}
 		    	}
-		    	Requester.post(APIConstants.businesses.charge(state.business.id),{stripeToken:result.token.id, useSaved: state.useSavedBusiness, chargeAmount: state.tasks.length * 30},updateBusiness); //always charge with id
-		    	form._closeModal();
-		      //stripeTokenHandler(result.token);
+		    	form._closeModal1();
+		    	form.setState({nextStep:true});
+		    	form.setState({stripeToken:result.token.id});
 		    }
 		  });
+		}
+	}
+
+	_handleCharge = () => {
+		const updateSuccess = (response) => {
+			this._closeModal2();
+		  this._fetchTasks();
+			
+		}
+		updateBusiness = (response) => {
+  		Requester.update(APIConstants.locations.tasks(this.props.location.id),{},updateSuccess);
+  		if (response.stripe_customer_id != null) {
+  			Requester.update(APIConstants.businesses.update(this.state.business.id),{stripe_customer_id: response.stripe_customer_id});
+  		}
+  	}
+  	updateLocation = (response) => {
+  		Requester.update(APIConstants.locations.tasks(this.props.location.id),{},updateSuccess);
+  		if (response.stripe_customer_id != null) {
+  			Requester.update(APIConstants.locations.update(this.state.location.id),{stripe_customer_id: response.stripe_customer_id});
+  		}
+  	}
+
+		if (this.state.storeBusinessCard) {
+					
+			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateBusiness);
+		}
+
+		if (this.state.storeLocationCard) {
+			
+			if (this.state.storeBusinessCard) {
+				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: 0},updateLocation);
+				 //no double charge
+			}
+			else {
+				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+				this._fetchTasks();
+			}
+		}
+
+		if (this.state.useSavedBusinessCard) {
+			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true, chargeAmount: this.state.tasks.length * 30},updateBusiness);
+			
+		}
+
+		if (this.state.useSavedLocationCard) {
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+			
+		}
+		if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
+			console.log("yo");
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+
 		}
 	}
 
@@ -94,20 +146,29 @@ class LocationInvoice extends React.Component {
 		}
 		setBusiness = (response) => {
 			this.setState({business: response});		
-		}		
-		setLocation = (response) => {
-			this.setState({location: response});		
 		}
-
+		setLocation = (response) => {
+			this.setState({location: response});
+		}		
 		Requester.get(APIConstants.locations.tasks(this.props.location.id), setTasks);
+		Requester.get(APIConstants.locations.show(this.props.location.id), setLocation);
 		Requester.get(APIConstants.businesses.show(this.props.business.id), setBusiness);
-		Requester.get(APIConstants.businesses.show(this.props.location.id), setLocation);
 
 	}
 
-	_useOldCard = (e) => {
-		this.setState({useSaved: e.target.checked});
+	_useOldBusinessCard = (e) => {
+		this.setState({useSavedBusinessCard: e.target.checked});
 	}
+	_useOldLocationCard = (e) => {
+		this.setState({useSavedLocationCard: e.target.checked});
+	}
+	_storeLocationCard = (e) => {
+		this.setState({storeLocationCard: e.target.checked});
+	}
+	_storeBusinessCard = (e) => {
+		this.setState({storeBusinessCard: e.target.checked});
+	}
+
 
 	_calculateChargeAmount = () => {
 		var totalCharge = 0;
@@ -142,7 +203,7 @@ class LocationInvoice extends React.Component {
         bsSize="small"
         className="pickup-creation-modal"
         show={this.state.showModal}
-        onHide={this._closeModal}
+        onHide={this._closeModal1}
         
       	>
 				<Modal.Header>
@@ -158,37 +219,36 @@ class LocationInvoice extends React.Component {
 					<div id = "card-element">
 
 					</div>
-					{this.state.location.stripe_customer_id && 
-						<div>
-							We've detected you have a saved card for this location. Would you like to pay with this card?
-							
-
-						<input
-            name="useSaved"
-            type="checkbox"
-            checked={this.state.useSavedLocation}
-            onChange={this._useOldCard}
-            />
-            Yes
-						</div>
-						
-					}
 					{this.state.business.stripe_customer_id && 
 						<div>
 							We've detected you have a saved card for this business. Would you like to pay with this card?
 							
 
 						<input
-            name="useSaved"
+            name="useSavedBusinessCard"
             type="checkbox"
-            checked={this.state.useSavedBusiness}
-            onChange={this._useOldCard}
+            checked={this.state.useSavedBusinessCard}
+            onChange={this._useOldBusinessCard}
             />
             Yes
 						</div>
 						
 					}
+					{this.state.location.stripe_customer_id && 
+						<div>
+							We've detected you have a saved card for this location. Would you like to pay with this card?
+							
 
+						<input
+            name="useSavedLocationCard"
+            type="checkbox"
+            checked={this.state.useSavedLocationCard}
+            onChange={this._useOldLocationCard}
+            />
+            Yes
+						</div>
+						
+					}
 
 					<div id="card-errors"></div>
 				</Modal.Body>
@@ -203,6 +263,74 @@ class LocationInvoice extends React.Component {
             className="button marginLeft-sm"
             onClick={this._handleSubmit}
           >Submit Payment</button>
+        </Modal.Footer>
+				</Modal>
+
+				<Modal
+        bsSize="small"
+        className="ezt"
+        show={this.state.nextStep}
+        onHide={this._closeModal2}
+      	>
+				<Modal.Header>
+				<div className="form-row">
+					<label htmlFor="card-element">
+					bop
+					</label>
+					<br></br>
+					You owe {this._calculateChargeAmount()} dollars for the current invoice.
+				</div>
+				</Modal.Header>
+				<Modal.Body>
+					{!this.state.location.email &&
+						<div>
+							Your location has no email, so this card cannot be saved to this location. Add an email to this location in "Settings".
+
+						</div>
+
+					}
+					{!(this.state.useSavedLocationCard) && this.state.location.email && 
+						<div>
+							
+							Would you like to store this new credit card as the default card for this location?
+
+						<input
+            name="storeLocationCard"
+            type="checkbox"
+            checked={this.state.storeLocationCard}
+            onChange={this._storeLocationCard}
+            />
+            Yes
+						</div>
+					}
+							{!(this.state.useSavedBusinessCard) &&
+								<div>
+							Would you like to store this new credit card as the default card for your business {this.state.business.company_name}?
+
+						<input
+            name="storeBusinessCard"
+            type="checkbox"
+            checked={this.state.storeBusinessCard}
+            onChange={this._storeBusinessCard}
+            />
+            Yes
+						</div>
+						
+					}
+
+					<div id="card-errors"></div>
+				</Modal.Body>
+				<Modal.Footer>
+          <button
+            type="button"
+            className="button button--text-black"
+            onClick={this._closeModal2}
+          >Close</button>
+          <button
+            type="button"
+            className="button marginLeft-sm"
+            onClick={this._handleCharge}
+          >Confirm Payment</button>
         </Modal.Footer>
 				</Modal>
 			</div>

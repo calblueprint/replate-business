@@ -67,18 +67,31 @@ class API::LocationsController < ApplicationController
       )
       render :json => {}
     else
+      store = params[:store]
       token = params[:stripeToken]
-      customer = Stripe::Customer.create(
-      :email => "paying.user@example.com",
-      :source => token,
-      )
-      charge = Stripe::Charge.create(
-      :amount => amount * 100,
-      :currency => "usd",
-      :customer => customer.id,
-      )
-      stripeid = {:stripe_customer_id => customer.id}
-      render :json => stripeid
+      if store
+        
+        customer = Stripe::Customer.create(
+          :email => location.email,
+          :source => token,
+        )
+        charge = Stripe::Charge.create(
+          :amount => amount * 100,
+          :currency => "usd",
+          :customer => customer.id,
+        )
+        stripeid = {:stripe_customer_id => customer.id}
+        render :json => stripeid
+      else
+        charge = Stripe::Charge.create(
+          :amount => amount * 100,
+          :currency => "usd",
+          :description => "for replate",
+          :source => token,
+        )
+        render :json => {}
+      end
+      
     end
   end
 

@@ -12,7 +12,7 @@ class BusinessesController < ApplicationController
     @business = current_business
   end
 
-  def show
+  def show      
     @business = Business.find(params[:id])
   end
 end

@@ -13,6 +13,11 @@ class API::BusinessesController < ApplicationController
     end
   end
 
+  def index
+    @businesses = Business.order("LOWER(company_name)")
+    render json: @businesses, each_serializer: BusinessSerializer, root: false
+  end
+
   def business_params
     params.permit(
       :company_name,

@@ -15,4 +15,15 @@
 class Task < ActiveRecord::Base
   belongs_to :location
   enum status: [:unassigned, :assigned, :active, :completed, :failed, :cancelled]
+
+  def self.parse(tray_string)
+  	trays = tray_string.split(",")
+  	num_trays = 0
+  	trays.each do |tray|
+  		tray.strip!
+  		x = /\d+/.match(tray).try(:[], 0)
+  		num_trays += Integer(x)
+  	end
+  	return num_trays
+  end
 end

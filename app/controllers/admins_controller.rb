@@ -8,6 +8,10 @@ class AdminsController < ApplicationController
     @business_ids = business_ids
   end
 
+  def search 
+
+  end
+
   def show
     redirect_to admin_dashboard_path
   end

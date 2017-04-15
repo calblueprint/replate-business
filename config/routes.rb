@@ -12,9 +12,8 @@ Rails.application.routes.draw do
   devise_for :admins
 
   devise_scope :admins do
-
-    get '/signup', to: 'devise/registrations#new'
-    post '/signup', to: 'registrations#create'
+    get 'admin/search' => 'admins#search'
+    get 'businesses/:id' => 'businesses#show'
   end
 
   # Static Pages
@@ -27,7 +26,7 @@ Rails.application.routes.draw do
   get 'admin_dashboard' => 'admins#home'
 
   resources :admins
-  resources :businesses
+  resources :businesses, :only => [:home]
   resources :locations, :only => [:show]
   get '/locations', to: 'locations#index'
   resources :pickups, :only => [:show]
@@ -49,5 +48,8 @@ Rails.application.routes.draw do
     post '/locations/:id/charge', to: 'locations#charge'
     get '/locations/:id/tasks', to: 'locations#find_tasks'
     patch '/locations/:id/tasks', to: 'locations#mark_tasks_paid'
+    devise_scope :admins do
+      resources :businesses, :only => [:index]
+    end
   end
 end

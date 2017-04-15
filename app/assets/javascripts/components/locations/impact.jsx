@@ -5,11 +5,28 @@
  class Impact extends React.Component {
    constructor(props) {
      super(props);
-     this.state = { tasks: [], };
+     this.state = {
+       tasks: [],
+      //  showModal: false;
+      };
    }
 
    componentWillReceiveProps(nextProps) {
      this.state.tasks = nextProps.tasks;
+   }
+
+
+   close = (e) => {
+     var initial = this.state.initialState;
+     this.state = initial;
+     this.setState({initialState: initial});
+     this.setState({ showModal: false });
+     document.getElementById('map').innerHTML = '';
+
+   }
+
+   openModal = () => {
+     this.setState({ showModal: true });
    }
 
    render() {
@@ -40,6 +57,7 @@
                      <th className="table-header">Scheduled Date</th>
                      <th className="table-header">Driver ID</th>
                      <th className="table-header">Trays Donated</th>
+                     <th className ="table-header">Photo</th>
                    </tr>
                  </thead>
                  <tbody>
@@ -68,17 +86,21 @@
    render() {
      let scheduled_date = moment(this.props.item.scheduled_date).format('MMMM Do YYYY, h:mm a');
       return (
-     <tr className="table-row impact-row">
-       <td className="tasks-date-col">
-         { scheduled_date }
-       </td>
-       <td className="driver-id-col">
-         { this.props.item.driver }
-       </td>
-       <td>
-         { this.props.item.trays_donated }
-       </td>
-     </tr>
+         <tr className="table-row impact-row">
+           <td className="tasks-date-col">
+             { scheduled_date }
+           </td>
+           <td className="driver-id-col">
+             { this.props.item.driver }
+           </td>
+           <td>
+             { this.props.item.trays_donated }
+           </td>
+
+           <td>
+             
+           </td>
+       </tr>
    );
  }
 }

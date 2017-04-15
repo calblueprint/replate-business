@@ -17,6 +17,8 @@ class Task < ActiveRecord::Base
   enum status: [:unassigned, :assigned, :active, :completed, :failed, :cancelled]
 
   def self.parse(tray_string)
+  	# parse("1 tray, 2 bags of food, 23 pounds of potatoes")
+  	# >>> 26
   	trays = tray_string.split(",")
   	num_trays = 0
   	trays.each do |tray|

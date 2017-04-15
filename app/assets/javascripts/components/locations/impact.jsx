@@ -5,38 +5,14 @@
  class Impact extends React.Component {
    constructor(props) {
      super(props);
-     this.state = {
-          tasks: [{
-              scheduled_date: "12/5/2017",
-              driver_id: 235,
-              trays_donated: 4,
-            }, {
-              scheduled_date: "11/9/2017",
-              driver_id: 532,
-              trays_donated: 29,
-            }, {
-              scheduled_date: "11/17/2017",
-              driver_id: 5235,
-              trays_donated: 12,
-            }, {
-              scheduled_date: "11/12/2016",
-              driver_id: 1234,
-              trays_donated: 15,
-            }
-          ]
-      };
-    }
+     this.state = { tasks: [], };
+   }
 
-    // _fetchImpactUpdates = () => {
-    //   const success = (data) => {
-    //     this.setState({task: data})
-    //   }
-    //   Requester.get(APIConstants.tasks.update(
-    //     this.props.location_id), success)
-    // }
+   componentWillReceiveProps(nextProps) {
+     this.state.tasks = nextProps.tasks;
+   }
 
-
-     render() {
+   render() {
        let empty;
        if (this.state.tasks.length == 0) {
          empty = (
@@ -90,13 +66,14 @@
   */
  class ImpactData extends React.Component {
    render() {
+     let scheduled_date = moment(this.props.item.scheduled_date).format('MMMM Do YYYY, h:mm a');
       return (
      <tr className="table-row impact-row">
        <td className="tasks-date-col">
-         { this.props.item.scheduled_date }
+         { scheduled_date }
        </td>
        <td className="driver-id-col">
-         { this.props.item.driver_id }
+         { this.props.item.driver }
        </td>
        <td>
          { this.props.item.trays_donated }

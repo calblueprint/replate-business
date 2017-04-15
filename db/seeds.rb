@@ -133,14 +133,13 @@ def make_tasks
  1.upto(5) do |n|
    task = Task.create(
      status: 3,
-     location_id: 'nhed6lRTknGd~IgCOD4MjWNK',
+     location_id: n,
      scheduled_date: Time.now,
-     driver: "bob"
+     driver: 3,
      trays_donated: 5,
      description: "pickup front of building",
-     on_fleet_id: 6
    )
-   task.id = n
+   task.id = n-1
    task.location = Location.find(n)
 
    task.save

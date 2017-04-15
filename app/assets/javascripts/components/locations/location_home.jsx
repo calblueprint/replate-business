@@ -32,16 +32,28 @@ class LocationHome extends React.Component {
       tabMapping: tabMapping,
       thisWeekSchedule: {},
       nextWeekSchedule: {},
+      tasks: [],
     };
+    this._fetchImpactUpdates();
   }
 
   componentDidMount() {
     this._fetchUpdates();
   }
 
+  _fetchImpactUpdates = () => {
+    const success = (data) => {
+      this.setState({ tasks : data });
+    }
+
+    Requester.get(APIConstants.locations.getTasks(
+      this.props.location.id), success)
+  }
+
   _onTabChange = (eventKey) => {
     window.location.hash = Object.keys(this.state.tabMapping)[eventKey - 1]
     this.setState({activeTab: eventKey})
+    this._fetchImpactUpdates();
   }
 
   _fullAddress = () => {
@@ -132,7 +144,8 @@ class LocationHome extends React.Component {
                               fetchUpdates = {this._fetchUpdates} />
           </Tab>
           <Tab eventKey={4} title= "Impact" tableClassName="tab-icon impact-tab">
-              <Impact         location_id = {this.state.location_id} />
+              <Impact         location_id = {this.props.location.id}
+                              tasks       = {this.state.tasks}/>
 
            </Tab>
         </Tabs>

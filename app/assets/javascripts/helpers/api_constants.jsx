@@ -15,9 +15,10 @@ class ApiConstants {
 
   get locations() {
     return {
-      update : (id) => `/api/locations/${id}`,
-      create : `/api/locations`,
-      week   : (id, today) => `/api/locations/${id}/week/${today}`,
+      update   : (id) => `/api/locations/${id}`,
+      create   : `/api/locations`,
+      week     : (id, today) => `/api/locations/${id}/week/${today}`,
+      getTasks : (id) => `/api/locations/get-tasks/${id}`,
     }
   }
 
@@ -32,14 +33,14 @@ class ApiConstants {
 	get recurrences() {
     return {
       update : (id) => `/api/recurrences/${id}`,
-      create : `/api/recurrences`
+      create : `/api/recurrences`,
     }
   }
 
   get task() {
     return {
-      update : (id) => `/api/task/${id}`,
-      create : `/api/task`
+      update : (id) => `/api/tasks/${id}`,
+      create : `/api/tasks`,
     }
   }
 

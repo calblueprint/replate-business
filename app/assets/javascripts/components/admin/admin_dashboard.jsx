@@ -1,7 +1,7 @@
 /**
  * Renders the home admin dashboard view
  * @prop admin - the current admin that is signed in
- * @prop business_id - array of businesses ids
+ * @prop business_ids - array of businesses ids
  */
 
 class AdminDashboard extends React.Component {
@@ -30,5 +30,5 @@ class AdminDashboard extends React.Component {
 }
 
 AdminDashboard.propTypes = {
-  business_id: React.PropTypes.number.isRequired
+  business_ids: React.PropTypes.array.isRequired
 }

@@ -22,6 +22,8 @@ class Recurrence < ActiveRecord::Base
   enum frequency: [:one_time, :weekly]
   enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
+  before_destroy :onfleet_cancel
+
   def location
     self.pickup.location
   end
@@ -122,7 +124,9 @@ class Recurrence < ActiveRecord::Base
   end
 
   def onfleet_cancel
-    MaenMailer.export_cancellation(self, Date.today).deliver_now
+    if self.deliver_today?
+      MaenMailer.export_cancellation(self, Date.today).deliver_now
+    end
     o_id = self.onfleet_id
     if o_id
       # Try to remove from onfleet: will only be removed if task
@@ -133,6 +137,16 @@ class Recurrence < ActiveRecord::Base
         t.update(status: 'cancelled') if task
         return
       end
+    end
+  end
+
+  def onfleet_update
+    if self.deliver_today?
+      MaenMailer.onfleet_update(self, Date.today).deliver_now
+    end
+    o_id = self.onfleet_id
+    if o_id
+      resp = OnfleetAPI.update_single_task(self, Date.today, o_id)
     end
   end
 end

@@ -33,8 +33,8 @@ class API::RecurrencesController < ApplicationController
 
   def update
     recurrence = Recurrence.find(params[:id])
-
     if recurrence.update(recurrence_params)
+      recurrence.onfleet_update
       render_json_message(:ok, message: 'Recurrence successfully updated!')
     else
       render_json_message(:forbidden, errors: recurrence.errors.full_messages)

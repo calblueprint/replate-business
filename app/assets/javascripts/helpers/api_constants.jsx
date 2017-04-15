@@ -41,6 +41,8 @@ class ApiConstants {
     return {
       update : (id) => `/api/tasks/${id}`,
       create : `/api/tasks`,
+    }
+  }
 
   get admin() {
     return {

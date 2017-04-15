@@ -1,3 +1,9 @@
+nav.nav.nav-splash-active
+  .container
+    a href="/": .logo
+    ul.nav-items-container
+      li.nav-item = link_to "Pricing", business_path, class: "button button--text-white"
+      li.nav-item = button_to "Home", root_path, :method => "get", :class => "button button--text-white marginRight-sm"
 = page_heading "Create Account"
 
 .container

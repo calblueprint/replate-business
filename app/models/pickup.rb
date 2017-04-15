@@ -13,4 +13,10 @@
 class Pickup < ActiveRecord::Base
   belongs_to :location
   has_many :recurrences, :dependent => :destroy
+
+  def cancel_notification
+    self.recurrences.each do |recurrence|
+    	recurrence.cancel_notification
+    end
+  end
 end

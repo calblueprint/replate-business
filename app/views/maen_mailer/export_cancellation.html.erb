@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello Maen,</h1>
+    <p>
+      The following pickup set for today <%= @date.strftime("%m/%d/%Y") %> has been cancelled from Onfleet:
+      <br><br>
+      Client:
+      <br>
+        <%= @recurrence.business.company_name %>
+      <br><br>
+      Original delivery time:
+      <br>
+        start time: <%= @recurrence.start_time %>
+      <br>
+        end time: <%= @recurrence.end_time %>
+      <br><br>
+      Location:
+      <br>
+        <%= @recurrence.location.address %>
+      <br><br>
+      Pickup details:
+      <br>
+        <%= @recurrence.pickup.title %>
+      <br>
+        <%= @recurrence.pickup.comments %>
+      <br><br>
+    </p>
+    <p>Replate</p>
+  </body>
+</html>

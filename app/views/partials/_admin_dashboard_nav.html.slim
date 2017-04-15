@@ -1,6 +1,11 @@
 nav.nav.dashboard-nav
   .container
+<<<<<<< HEAD
     = link_to "Replate Admin Dashboard", admin_path, class: "home-link"
+=======
+    = link_to "Replate Admin Dashboard", admin_dashboard_path, class: "home-link"
+    = link_to "Search", admin_search_path, class: "marginLeft-sm"
+>>>>>>> 958b5a05130b739553f07da930374a064c0b5e59
     .nav-right
       - if current_admin
         = link_to "Replate Homepage", root_path, class: "marginRight-sm"

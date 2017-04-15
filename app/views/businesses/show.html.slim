@@ -1,0 +1,7 @@
+= render "partials/admin_dashboard_nav"
+= page_heading "AdminDashboard"
+
+.container.dashboard-container
+  = react_component "BusinessDashboard", { \
+    business_id: @business.id,            \
+  }

@@ -33,6 +33,9 @@ class LocationHome extends React.Component {
       thisWeekSchedule: {},
       nextWeekSchedule: {},
       tasks: [],
+      showEditModal: false,
+      basicForm: {},
+      recurrenceForm: {},
     };
     this._fetchImpactUpdates();
   }
@@ -56,17 +59,31 @@ class LocationHome extends React.Component {
     this._fetchImpactUpdates();
   }
 
+  _setForms = (basicForm, recurrenceForm) => {
+    this.setState({ basicForm : basicForm,
+                    recurrenceForm : recurrenceForm,
+                  });
+  }
+
+  _showEditModal = () => {
+    this.setState({ showEditModal : true });
+  }
+
+  _hideEditModal = () => {
+    this.setState({ showEditModal : false });
+  }
+
   _fullAddress = () => {
-    loc = this.props.location;
+    let loc = this.props.location;
     return `${loc.number} ${loc.street} ${loc.city}, ${loc.state} ${loc.zip}`;
   }
 
   _fetchUpdates = () => {
     const loadThisWeekSchedule = (schedule) => {
-      this.setState({thisWeekSchedule: schedule});
+      this.setState({ thisWeekSchedule : schedule });
     }
     const loadNextWeekSchedule = (schedule) => {
-      this.setState({nextWeekSchedule: schedule});
+      this.setState({ nextWeekSchedule : schedule });
     }
     Requester.get(APIConstants.locations.week(this.props.location.id, this._getToday()),
                   loadThisWeekSchedule);
@@ -83,16 +100,8 @@ class LocationHome extends React.Component {
     return moment().format("YY-MM-DD");
   }
 
-  _getTodayMoment() {
-    return moment();
-  }
-
   _getNextWeek() {
     return moment().add(1, 'weeks').format("YY-MM-DD");
-  }
-
-  _getNextWeekMoment() {
-    return moment().add(1, 'weeks');
   }
 
   render() {
@@ -112,9 +121,20 @@ class LocationHome extends React.Component {
 
             <div className="location-page-buttons">
               <button className="button button--outline feedback-btn">Leave Feedback</button>
-              <PickupCreationModal
+              <PickupModal
                   location_id = {this.props.location.id}
-                  success     = {this._fetchUpdates} />
+                  success = {this._fetchUpdates}
+                  basicForm = {{}}
+                  recurrenceForm = {{}}
+                  isEdit = {false}/>
+              <PickupModal
+                  location_id = {this.props.location.id}
+                  success = {this._fetchUpdates}
+                  basicForm = {this.state.basicForm}
+                  recurrenceForm = {this.state.recurrenceForm}
+                  isEdit = {true}
+                  showModal = {this.state.showEditModal}
+                  hideEditModal = {this._hideEditModal}/>
             </div>
           </div>
         </div>
@@ -125,16 +145,20 @@ class LocationHome extends React.Component {
               animation={false}
               id={1}>
           <Tab eventKey={1} title="Pickups" tabClassName="tab-icon pickup-tab">
-            <WeekOverview today = {this._getTodayMoment()}
-                          reference = {this._getTodayMoment()}
+            <WeekOverview today = {moment()}
+                          reference = {moment()}
                           schedule = {this.state.thisWeekSchedule}
                           isThisWeek = {true}
-                          fetchUpdates = {this._fetchUpdates}/>
-            <WeekOverview today = {this._getTodayMoment()}
-                          reference = {this._getNextWeekMoment()}
+                          fetchUpdates = {this._fetchUpdates}
+                          setForms = {this._setForms.bind(this)}
+                          showEditModal = {this._showEditModal}/>
+            <WeekOverview today = {moment()}
+                          reference = {moment().add(1, 'weeks')}
                           schedule = {this.state.nextWeekSchedule}
                           isThisWeek = {false}
-                          fetchUpdates = {this._fetchUpdates}/>
+                          fetchUpdates = {this._fetchUpdates}
+                          setForms = {this._setForms.bind(this)}
+                          showEditModal = {this._showEditModal}/>
           </Tab>
           <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
             <DonationHistory location = {this.state.location} />

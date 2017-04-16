@@ -46,29 +46,54 @@ class LocationSettings extends React.Component {
     });
   }
 
-  _addRedBorder = (input) => {
-    input.parentNode.classList.add("fail");
+  _addRedBorder = (input, type) => {
+    input.parentNode.classList.add(type);
     input.classList.add("red-border");
   }
 
-  _removeRedBorder = (input) => {
-    input.parentNode.classList.remove("fail");
+  _removeRedBorder = (input, type) => {
+    input.parentNode.classList.remove(type);
     input.classList.remove("red-border");
   }
+
+  _validateEmail = (input) => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(input);
+  }
   
-  _attemptSave = () => {
+  _attemptSave = () => { //email not right, email same as business, or returns err
     const locationGetSuccess = (resp) => {
       this.setState({location: resp});
     }
     const success = (data) => {
-      this.setState({editable: false,});
+      
       Requester.get(APIConstants.locations.show(this.state.location.id),locationGetSuccess);
+      this._removeRedBorder(document.getElementsByName("email")[0],"updateerror");
+      this._removeRedBorder(document.getElementsByName("email")[0],"invalid");
+      this._removeRedBorder(document.getElementsByName("email")[0],"same");
+      this.setState({editable: false,});
     }
-    const fail = () => {
-
+    const fail = (data) => {
+      this._addRedBorder(document.getElementsByName("email")[0],"updateerror");
+    }
+    if (this.state.email) {
+      var validated = this._validateEmail(this.state.email);
+      if (validated == false) {
+        this._addRedBorder(document.getElementsByName("email")[0],"invalid");
+        
+      }
+      else {
+        if (this.state.email == this.props.business.email) {
+          this._addRedBorder(document.getElementsByName("email")[0],"same");
+        }
+        else {
+          Requester.update(APIConstants.locations.update(this.state.location.id),this.state,success,fail);
+        }
+      }
+    } else {
+      Requester.update(APIConstants.locations.update(this.state.location.id),this.state,success,fail);
     }
     
-    Requester.update(APIConstants.locations.update(this.state.location.id),this.state,success,fail);
   }
   _setFile = (e) => {
     const files = e.target.files;

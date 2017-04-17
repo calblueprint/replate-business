@@ -15,6 +15,7 @@ class LocationHome extends React.Component {
       history: 2,
       invoice: 3,
       settings: 4,
+      impact: 5,
     }
 
     let active = 1;
@@ -32,19 +33,31 @@ class LocationHome extends React.Component {
       tabMapping: tabMapping,
       thisWeekSchedule: {},
       nextWeekSchedule: {},
+      tasks: [],
       showEditModal: false,
       basicForm: {},
       recurrenceForm: {},
     };
+    this._fetchImpactUpdates();
   }
 
   componentDidMount() {
     this._fetchUpdates();
   }
 
+  _fetchImpactUpdates = () => {
+    const success = (data) => {
+      this.setState({ tasks : data });
+    }
+
+    Requester.get(APIConstants.locations.getTasks(
+      this.props.location.id), success)
+  }
+
   _onTabChange = (eventKey) => {
     window.location.hash = Object.keys(this.state.tabMapping)[eventKey - 1]
     this.setState({activeTab: eventKey})
+    this._fetchImpactUpdates();
   }
 
   _setForms = (basicForm, recurrenceForm) => {
@@ -111,13 +124,13 @@ class LocationHome extends React.Component {
               <button className="button button--outline feedback-btn">Leave Feedback</button>
               <PickupModal
                   location_id = {this.props.location.id}
-                  success = {this._fetchUpdates} 
+                  success = {this._fetchUpdates}
                   basicForm = {{}}
                   recurrenceForm = {{}}
                   isEdit = {false}/>
               <PickupModal
                   location_id = {this.props.location.id}
-                  success = {this._fetchUpdates} 
+                  success = {this._fetchUpdates}
                   basicForm = {this.state.basicForm}
                   recurrenceForm = {this.state.recurrenceForm}
                   isEdit = {true}
@@ -158,6 +171,11 @@ class LocationHome extends React.Component {
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates} />
           </Tab>
+          <Tab eventKey={4} title= "Impact" tableClassName="tab-icon impact-tab">
+              <Impact         location_id = {this.props.location.id}
+                              tasks       = {this.state.tasks}/>
+
+           </Tab>
         </Tabs>
       </div>
     )

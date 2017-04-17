@@ -2,6 +2,7 @@ class API::LocationsController < ApplicationController
   respond_to :json
 
   def show
+    puts "\n \n <<<<<<<<<<>>>>>>>>>>> \n \n"
     @location = Location.find(params[:id])
     render json: @location, each_serializer: LocationSerializer, root: false
   end
@@ -39,6 +40,7 @@ class API::LocationsController < ApplicationController
     pickups = location.this_week(params[:today])
     render json: pickups, root: false
   end
+
 
   def find_tasks
     location = Location.find(params[:id])
@@ -93,6 +95,12 @@ class API::LocationsController < ApplicationController
       end
       
     end
+  end
+
+  def get_tasks
+    location = Location.find(params[:id])
+    tasks    = location.tasks
+    render json: tasks, root: false
   end
 
   def location_params

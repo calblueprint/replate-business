@@ -124,6 +124,8 @@ ActiveRecord::Schema.define(version: 20170411012802) do
     t.integer  "location_id",                    null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.text     "description"
+    t.integer  "trays_donated"
     t.boolean  "paid",           default: false, null: false
   end
 

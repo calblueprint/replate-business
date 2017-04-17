@@ -42,7 +42,9 @@ Rails.application.routes.draw do
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
     resources :cancellations, :only => [:create, :destroy]
+    resources :tasks, :only => [:show, :create, :update, :destroy]
     get '/locations/:id/week/:today', to: 'locations#this_week'
+    get '/locations/get-tasks/:id/', to: 'locations#get_tasks'
     resources :sessions, :only => [:create]
     post '/businesses/:id/charge', to: 'businesses#charge'
     post '/locations/:id/charge', to: 'locations#charge'

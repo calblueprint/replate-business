@@ -17,6 +17,7 @@ class LocationSettings extends React.Component {
     this.setState({ location: nextProps.location });
   }
 
+
   _setFile = (e) => {
     const files = e.target.files;
     if (!files || !files[0]) {

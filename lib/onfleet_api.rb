@@ -6,13 +6,9 @@ module OnfleetAPI
   @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(date, time, recurrence)
+  def self.make_time(date, time)
     # Onfleet takes unix time in milliseconds
-    l = recurrence.location.address
-    loc = Geokit::Geocoders::GoogleGeocoder.geocode(l)
-    lat = loc.lat
-    long = loc.lng
-    Time.zone = Timezone.lookup(loc.lat, loc.lng).name
+    Time.zone = TZInfo::Timezone.get('America/Los_Angeles')
     t = Time.zone.local(date.year, date.month, date.day)
     t = Time.zone.parse(time, t).utc
     puts t
@@ -49,19 +45,24 @@ module OnfleetAPI
     }
   end
 
-  def self.build_data(recurrence, date)
-    l = build_destination(recurrence.location)
-    b = build_recipients(recurrence.business)
+  def self.build_task(recurrence, date)
     p = recurrence.pickup
-    c = build_container(recurrence)
-    com_after = make_time(date, recurrence.start_time, recurrence)
-    com_before = make_time(date, recurrence.end_time, recurrence)
+    com_after = make_time(date, recurrence.start_time)
+    com_before = make_time(date, recurrence.end_time)
     task = {
       :completeAfter => com_after,
       :completeBefore => com_before,
       :pickupTask => true,
       :notes => p.comments
     }
+  end
+
+  def self.build_data(recurrence, date)
+    l = build_destination(recurrence.location)
+    b = build_recipients(recurrence.business)
+    c = build_container(recurrence)
+    t = build_task(recurrence, date)
+    task = t
     task[:container] = c
     task[:recipients] = b
     task[:destination] = l
@@ -81,6 +82,18 @@ module OnfleetAPI
   def self.get_task(id)
     HTTParty.get("#{@url}/#{id}",
                  :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.update_task(recurrence, date, id)
+    data = build_task(recurrence, date)
+    puts "<<<<<<<< API PUT of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
+    HTTParty.put("#{@url}/#{id}",
+                 :body => data.to_json,
+                 :basic_auth => @basic_auth).parsed_response
+  end
+
+  def self.update_single_task(recurrence, date, id)
+    resp = update_task(recurrence, date, id)
   end
 
   def self.get_task_shortid(id)
@@ -120,29 +133,13 @@ module OnfleetAPI
       recurrence.create_task(args)
       if recurrence.frequency == 'one_time'
         puts 'On Demand Task:'
-      else
-        recurrence.update(onfleet_id: resp['id'])
       end
+      recurrence.update(onfleet_id: resp['id'])
     end
     puts resp
     resp
   end
 
-  def self.update_single_task(task)
-    if task.onfleet_id
-      resp = get_task(task.onfleet_id)
-      state = resp['state'].to_i
-      task.update(status: state)
-    end
-  end
-
-  def self.update_batch_task
-    # tasks where status is not complete, failed, or cancelled
-    tasks = Task.where.not('status= 3 OR status= 4 OR status= 5')
-    tasks.each do |t|
-      update_single_task(t)
-    end
-  end
 end
 
 # puts OnfleetAPI.test

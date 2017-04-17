@@ -7,6 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 $offices = ["Main Office", "NYC Office", "SF Office"]
 NUM_BIZ = 5
+# $tasks =
+#
+# def make_tasks
+#   1.upto(5)
+#
+
+
 
 def make_businesses
   1.upto(NUM_BIZ) do |n|
@@ -137,6 +144,24 @@ def make_recurrences
     end
   end
 end
+
+def make_tasks
+ 1.upto(5) do |n|
+   task = Task.create(
+     status: 3,
+     location_id: n,
+     scheduled_date: Time.now,
+     driver: 3,
+     trays_donated: 5,
+     description: "pickup front of building",
+   )
+   task.id = n-1
+   task.location = Location.find(n)
+
+   task.save
+ end
+end
+
 
 def make_cancellations
   recurrences = Recurrence.all

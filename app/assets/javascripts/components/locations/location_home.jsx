@@ -165,7 +165,8 @@ class LocationHome extends React.Component {
           </Tab>
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
-                              fetchUpdates = {this._fetchUpdates} />
+                              fetchUpdates = {this._fetchUpdates}
+                              business = {this.props.business} />
           </Tab>
           <Tab eventKey={4} title= "Impact" tableClassName="tab-icon impact-tab">
               <Impact         location_id = {this.props.location.id}

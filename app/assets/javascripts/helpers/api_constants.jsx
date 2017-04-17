@@ -15,6 +15,7 @@ class ApiConstants {
 
   get locations() {
     return {
+      show: (id) => `/api/locations/${id}`,
       update   : (id) => `/api/locations/${id}`,
       create   : `/api/locations`,
       week     : (id, today) => `/api/locations/${id}/week/${today}`,

@@ -18,6 +18,7 @@ class LocationSettings extends React.Component {
     this.setState({ location: nextProps.location });
   }
 
+
   _handleChange = (e) => {
     let target = $(e.target);
     this.setState({ [target.attr('name')]: target.val() });
@@ -95,6 +96,7 @@ class LocationSettings extends React.Component {
     }
     
   }
+
   _setFile = (e) => {
     const files = e.target.files;
     if (!files || !files[0]) {

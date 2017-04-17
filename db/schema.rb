@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170402192907) do
+ActiveRecord::Schema.define(version: 20170417182230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20170402192907) do
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
+  add_index "locations", ["email"], name: "index_locations_on_email", unique: true, using: :btree
 
   create_table "pickups", force: :cascade do |t|
     t.string   "title",       null: false
@@ -125,6 +126,8 @@ ActiveRecord::Schema.define(version: 20170402192907) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.boolean  "paid",           default: false, null: false
+    t.text     "description"
+    t.integer  "trays_donated"
   end
 
   add_index "tasks", ["location_id"], name: "index_tasks_on_location_id", using: :btree

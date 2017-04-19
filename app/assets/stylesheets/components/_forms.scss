@@ -138,6 +138,28 @@ h3 {
   color: red;
 }
 
+.fail::after {
+  content: "Your address is not valid";
+}
+.fail {
+  color: red;
+}
+
+.same::after {
+  content: "This location's email cannot be the same as your businesses.";
+}
+.same {
+  color: red;
+}
+
+.updateerror::after {
+  content: "Update error. Your email address must be unique.";
+}
+.updateerror {
+  color: red;
+}
+
+
 .red-border {
   border: 1px solid red;
 }

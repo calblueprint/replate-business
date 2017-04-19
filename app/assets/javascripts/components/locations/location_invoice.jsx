@@ -13,11 +13,13 @@ class LocationInvoice extends React.Component {
 			stripeToken:null,
 			storeLocationCard:false,
 			storeBusinessCard:false,
+      card: {},
 			
 		}
 		this._handleSubmit = this._handleSubmit.bind(this);
 	}
 	componentWillMount() {
+    console.log("fetch tasks run");
 		this._fetchTasks();
 	}
 	
@@ -27,12 +29,13 @@ class LocationInvoice extends React.Component {
 			this.stripe = stripe;
 			const elements = stripe.elements();
 			var card = elements.create('card');
-			console.log(card);
 			this.card = card;
-			//this.setState({card: card});
-
 			card.mount('#card-element');
+      if (this.state.useSavedLocationCard || this.state.useSavedBusinessCard) {
+        card.unmount();
+      }
 		}
+    
 	}
 
 	_closeModal1 = () => {
@@ -49,17 +52,13 @@ class LocationInvoice extends React.Component {
   }
 
 	_handleSubmit = () => {
-		console.log(this.card);
 		var form = this;
 		var state = this.state;
-		if (this.state.useSavedBusinessCard) {
-			
-		  
+		if (this.state.useSavedBusinessCard || this.state.useSavedLocationCard) {
 	    form._closeModal1();
-		    form.setState({nextStep:true});
+		  form.setState({nextStep:true});
 		}
 		else {
-		
 			this.stripe.createToken(this.card).then(function(result) {
 		    if (result.error) {
 		      var errorElement = document.getElementById('card-errors');
@@ -111,6 +110,7 @@ class LocationInvoice extends React.Component {
 		if (this.state.storeLocationCard) {
 			
 			if (this.state.storeBusinessCard) {
+        console.log("hi");
 				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: 0},updateLocation);
 				 //no double charge
 			}
@@ -130,9 +130,7 @@ class LocationInvoice extends React.Component {
 			
 		}
 		if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
-			console.log("yo");
 			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
-
 		}
 	}
 
@@ -179,7 +177,6 @@ class LocationInvoice extends React.Component {
 			}
 		}
 		return totalCharge;
-		//this.setState({totalCharge:totalCharge})
 	}
 
 	render() {
@@ -191,6 +188,10 @@ class LocationInvoice extends React.Component {
 				{this.state.tasks.map((tsk) =>
 				  <div key = {tsk.id}>Task {tsk.id} was {tsk.status} and {tsk.paid ? 'paid for.' : 'not paid for.'}</div>
 				)}
+
+        {this.state.tasks.length == 0 && 
+          <div> You have no completed tasks. </div>
+        }
 				<br>
 				</br>
 				<button
@@ -275,21 +276,20 @@ class LocationInvoice extends React.Component {
 				<Modal.Header>
 				<div className="form-row">
 					<label htmlFor="card-element">
-					bop
 					</label>
 					<br></br>
 					You owe {this._calculateChargeAmount()} dollars for the current invoice.
 				</div>
 				</Modal.Header>
 				<Modal.Body>
-					{!this.state.location.email &&
+					{!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
 						<div>
 							Your location has no email, so this card cannot be saved to this location. Add an email to this location in "Settings".
 
 						</div>
 
 					}
-					{!(this.state.useSavedLocationCard) && this.state.location.email && 
+					{!(this.state.useSavedLocationCard) && this.state.location.email && !(this.state.useSavedBusinessCard) &&
 						<div>
 							
 							Would you like to store this new credit card as the default card for this location?
@@ -303,7 +303,7 @@ class LocationInvoice extends React.Component {
             Yes
 						</div>
 					}
-							{!(this.state.useSavedBusinessCard) &&
+							{!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
 								<div>
 							Would you like to store this new credit card as the default card for your business {this.state.business.company_name}?
 

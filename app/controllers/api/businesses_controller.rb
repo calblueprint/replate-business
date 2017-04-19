@@ -30,6 +30,8 @@ class API::BusinessesController < ApplicationController
     else
       store = params[:store]
       token = params[:stripeToken]
+      puts store
+      puts token
       if store
         customer = Stripe::Customer.create(
         :email => business.email,

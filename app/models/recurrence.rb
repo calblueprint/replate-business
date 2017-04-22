@@ -56,12 +56,11 @@ class Recurrence < ActiveRecord::Base
 
   # Temporary assignment method since no load balancing drivers yet
   def assign_driver
-    # if self.location.state == 'California'
-    #   self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
-    # else
-    #   self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
-    # end
-    self.driver_id = '4zeEx71*c6skdFCtr0aNyh1Y'
+    if self.location.state == 'California'
+      self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
+    else
+      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
+    end
   end
 
   def self.get_date_after(date, day)

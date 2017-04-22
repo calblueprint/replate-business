@@ -29,7 +29,6 @@ class API::LocationsController < ApplicationController
   def update
     begin 
   		location = Location.find(params[:id])
-      puts params
       a = location.update(location_params)
     rescue
       render_json_message(:forbidden)
@@ -38,7 +37,6 @@ class API::LocationsController < ApplicationController
 		if a
 	    render_json_message(:ok, message: 'Request successfully updated!')
 		else
-      puts "adfasdf"
 			render_json_message(:forbidden, errors: location.errors.full_messages)
 		end
 	end

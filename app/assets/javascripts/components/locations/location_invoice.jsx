@@ -19,7 +19,6 @@ class LocationInvoice extends React.Component {
 		this._handleSubmit = this._handleSubmit.bind(this);
 	}
 	componentWillMount() {
-    console.log("fetch tasks run");
 		this._fetchTasks();
 	}
 	
@@ -110,12 +109,10 @@ class LocationInvoice extends React.Component {
 		if (this.state.storeLocationCard) {
 			
 			if (this.state.storeBusinessCard) {
-        console.log("hi");
 				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: 0},updateLocation);
-				 //no double charge
 			}
 			else {
-				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateLocation);
 				this._fetchTasks();
 			}
 		}
@@ -126,11 +123,11 @@ class LocationInvoice extends React.Component {
 		}
 
 		if (this.state.useSavedLocationCard) {
-			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: this.state.tasks.length * 30},updateLocation);
 			
 		}
 		if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
-			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: this.state.tasks.length * 30},updateLocation); //no double charge
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: this.state.tasks.length * 30},updateLocation);
 		}
 	}
 

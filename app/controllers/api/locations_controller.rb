@@ -29,7 +29,6 @@ class API::LocationsController < ApplicationController
   def update
     begin 
   		location = Location.find(params[:id])
-      puts params
       a = location.update(location_params)
     rescue
       render_json_message(:forbidden)
@@ -38,7 +37,6 @@ class API::LocationsController < ApplicationController
 		if a
 	    render_json_message(:ok, message: 'Request successfully updated!')
 		else
-      puts "adfasdf"
 			render_json_message(:forbidden, errors: location.errors.full_messages)
 		end
 	end
@@ -64,12 +62,10 @@ class API::LocationsController < ApplicationController
 
   def charge
     location = Location.find(params[:id])
-    puts Figaro.env.stripe_api_key
     Stripe.api_key = Figaro.env.stripe_api_key
     useSaved = params[:useSaved]
     amount = params[:chargeAmount]
     if location.stripe_customer_id != nil and useSaved
-      puts "using saved"
       charge = Stripe::Charge.create(
       :amount => amount * 100, # $15.00 this time
       :currency => "usd",
@@ -79,8 +75,6 @@ class API::LocationsController < ApplicationController
     else
       store = params[:store]
       token = params[:stripeToken]
-      puts store
-      puts token
       if store
         
         customer = Stripe::Customer.create(

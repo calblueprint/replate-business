@@ -131,13 +131,6 @@ h3 {
   color: red;
 }
 
-.code::after {
-  content: "Invalid sign up code";
-}
-.code {
-  color: red;
-}
-
 .fail::after {
   content: "Your address is not valid";
 }

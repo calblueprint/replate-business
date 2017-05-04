@@ -316,6 +316,26 @@
   .splash-section-description {
     text-align: left;
   }
+
+  .splash-mobile-link {
+    margin-top: 15px;
+    margin-left: auto;
+
+    .mobile-icon {
+      display: inline-block;
+      opacity: 0.55;
+      padding: 0 20px;
+      vertical-align: middle;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    img {
+      width: 180px;
+    }
+  }
 }
 
 .splash-marketplace-skew {

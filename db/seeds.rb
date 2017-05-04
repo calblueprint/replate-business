@@ -132,7 +132,7 @@ end
 def make_tasks
  1.upto(5) do |n|
    task = Task.create(
-     status: 3,
+     status: 0,
      location_id: n,
      scheduled_date: Time.now,
      driver: 3,

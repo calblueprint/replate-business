@@ -125,16 +125,7 @@ module OnfleetAPI
     end
     result
   end
-#     t.datetime "scheduled_date",              null: false
-    # t.string   "onfleet_id"
-    # t.integer  "status",                      null: false
-    # t.integer  "driver",                      null: false
-    # t.integer  "location_id",                 null: false
-    # t.datetime "created_at",                  null: false
-    # t.datetime "updated_at",                  null: false
-    # t.text     "description"
-    # t.integer  "trays_donated"
-    # t.string   "short_id",
+
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
     puts resp.parsed_response
@@ -156,18 +147,11 @@ module OnfleetAPI
         puts "O noes not found!"
       when 300...600
         # error message to propogate
-        puts "ZOMG ERROR #{response.code}"
+        resp = resp.parsed_response
+        message = resp['message']['cause']
+        puts "ZOMG ERROR #{resp}"
+        recurrence.errors.add(:base, message)
     end
-    # if resp.key?('id')
-    #   args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
-    #   recurrence.create_task(args)
-    #   if recurrence.frequency == 'one_time'
-    #     puts 'On Demand Task:'
-    #   end
-    #   recurrence.update(onfleet_id: resp['id'])
-    # end
-    # puts resp
-    # resp
   end
 
 end

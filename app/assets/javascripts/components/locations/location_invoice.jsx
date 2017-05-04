@@ -8,12 +8,13 @@ class LocationInvoice extends React.Component {
 			useSavedLocationCard: false,
 			business: {},
 			location: {},
-			totalCharge: 0,
 			nextStep: false,
 			stripeToken:null,
 			storeLocationCard:false,
 			storeBusinessCard:false,
       card: {},
+      unpaidTasks: 0,
+      chargeAmount: 0,
 			
 		}
 		this._handleSubmit = this._handleSubmit.bind(this);
@@ -24,7 +25,7 @@ class LocationInvoice extends React.Component {
 	
 	componentDidUpdate() {
 		if (this.state.showModal) {
-			const stripe = Stripe('pk_test_efPPBgAwLzezAOkbl7J0fzfu');
+			const stripe = Stripe('pk_test_yKQDRasL7OS0xW6aNyNpTEVu');
 			this.stripe = stripe;
 			const elements = stripe.elements();
 			var card = elements.create('card');
@@ -34,6 +35,7 @@ class LocationInvoice extends React.Component {
         card.unmount();
       }
 		}
+    //this._calculateChargeAmount();
     
 	}
 
@@ -47,6 +49,7 @@ class LocationInvoice extends React.Component {
 
 	_openModal = () => {
     this.setState({ showModal: true });
+    this._calculateChargeAmount();
 
   }
 
@@ -83,8 +86,13 @@ class LocationInvoice extends React.Component {
 	}
 
 	_handleCharge = () => {
+    var chargeAmount = this.state.chargeAmount;
 		const updateSuccess = (response) => {
-			this._closeModal2();
+      var text = document.createTextNode('Payment succeeded.');
+      var child = document.getElementsByClassName('modal-footer');
+      child = child[child.length - 1];
+      child.parentNode.insertBefore(text, child);
+      this._calculateChargeAmount();
 		  this._fetchTasks();
 			
 		}
@@ -100,10 +108,16 @@ class LocationInvoice extends React.Component {
   			Requester.update(APIConstants.locations.update(this.state.location.id),{stripe_customer_id: response.stripe_customer_id});
   		}
   	}
+    updateFailed = (response) => {
+      var text = document.createTextNode('Payment failed.');
+      var child = document.getElementsByClassName('modal-footer');
+      child = child[child.length - 1];
+      child.parentNode.insertBefore(text, child);
+    }
 
 		if (this.state.storeBusinessCard) {
 					
-			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateBusiness);
+			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateBusiness,updateFailed);
 		}
 
 		if (this.state.storeLocationCard) {
@@ -112,22 +126,22 @@ class LocationInvoice extends React.Component {
 				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: 0},updateLocation);
 			}
 			else {
-				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: this.state.tasks.length * 30},updateLocation);
+				Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateLocation,updateFailed);
 				this._fetchTasks();
 			}
 		}
 
 		if (this.state.useSavedBusinessCard) {
-			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true, chargeAmount: this.state.tasks.length * 30},updateBusiness);
+			Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true, chargeAmount: chargeAmount},updateBusiness,updateFailed);
 			
 		}
 
 		if (this.state.useSavedLocationCard) {
-			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: this.state.tasks.length * 30},updateLocation);
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: chargeAmount},updateLocation,updateFailed);
 			
 		}
 		if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
-			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: this.state.tasks.length * 30},updateLocation);
+			Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: chargeAmount},updateLocation,updateFailed);
 		}
 	}
 
@@ -166,14 +180,21 @@ class LocationInvoice extends React.Component {
 
 
 	_calculateChargeAmount = () => {
-		var totalCharge = 0;
+		var unpaidTasks = 0;
+    var totalCharge = 0;
 		var costPerCharge = 30;
+    if (this.state.location.is_large) {
+      costPerCharge = 40;
+    }
 		for (var a = 0; a < this.state.tasks.length; a++) {
 			if (!this.state.tasks[a].paid) {
+        unpaidTasks++;
 				totalCharge+=costPerCharge
 			}
 		}
-		return totalCharge;
+    this.setState({chargeAmount:totalCharge});
+    this.setState({unpaidTasks:unpaidTasks});
+		
 	}
 
 	render() {
@@ -182,6 +203,9 @@ class LocationInvoice extends React.Component {
 	
 		return (
 			<div>
+        <div>
+          You have {this.state.unpaidTasks} unpaid pickups.
+        </div>
 				{this.state.tasks.map((tsk) =>
 				  <div key = {tsk.id}>Task {tsk.id} was {tsk.status} and {tsk.paid ? 'paid for.' : 'not paid for.'}</div>
 				)}
@@ -189,6 +213,11 @@ class LocationInvoice extends React.Component {
         {this.state.tasks.length == 0 && 
           <div> You have no completed tasks. </div>
         }
+
+        <div> 
+          Your price per pickup is {this.state.location.is_large ? '40$' : '30$'} because this location has {this.state.location.is_large ? '>100' : '<100'} employees.
+        </div>
+        
 				<br>
 				</br>
 				<button
@@ -210,7 +239,7 @@ class LocationInvoice extends React.Component {
 					Credit/Debit Card
 					</label>
 					<br></br>
-					You owe {this._calculateChargeAmount()} dollars for the current invoice.
+					You owe {this.state.chargeAmount} dollars for the current invoice.
 				</div>
 				</Modal.Header>
 				<Modal.Body>
@@ -275,7 +304,7 @@ class LocationInvoice extends React.Component {
 					<label htmlFor="card-element">
 					</label>
 					<br></br>
-					You owe {this._calculateChargeAmount()} dollars for the current invoice.
+					You owe {this.state.chargeAmount} dollars for the current invoice.
 				</div>
 				</Modal.Header>
 				<Modal.Body>

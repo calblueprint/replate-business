@@ -65,39 +65,42 @@ class API::LocationsController < ApplicationController
     Stripe.api_key = Figaro.env.stripe_api_key
     useSaved = params[:useSaved]
     amount = params[:chargeAmount]
-    if location.stripe_customer_id != nil and useSaved
-      charge = Stripe::Charge.create(
-      :amount => amount * 100, # $15.00 this time
-      :currency => "usd",
-      :customer => location.stripe_customer_id, # Previously stored, then retrieved
-      )
-      render :json => {}
-    else
-      store = params[:store]
-      token = params[:stripeToken]
-      if store
-        
-        customer = Stripe::Customer.create(
-          :email => location.email,
-          :source => token,
-        )
+    begin
+      if location.stripe_customer_id != nil and useSaved
         charge = Stripe::Charge.create(
-          :amount => amount * 100,
-          :currency => "usd",
-          :customer => customer.id,
-        )
-        stripeid = {:stripe_customer_id => customer.id}
-        render :json => stripeid
-      else
-        charge = Stripe::Charge.create(
-          :amount => amount * 100,
-          :currency => "usd",
-          :description => "for replate",
-          :source => token,
+        :amount => amount * 100, # $15.00 this time
+        :currency => "usd",
+        :customer => location.stripe_customer_id, # Previously stored, then retrieved
         )
         render :json => {}
+      else
+        store = params[:store]
+        token = params[:stripeToken]
+        if store
+          
+          customer = Stripe::Customer.create(
+            :email => location.email,
+            :source => token,
+          )
+          charge = Stripe::Charge.create(
+            :amount => amount * 100,
+            :currency => "usd",
+            :customer => customer.id,
+          )
+          stripeid = {:stripe_customer_id => customer.id}
+          render :json => stripeid
+        else
+          charge = Stripe::Charge.create(
+            :amount => amount * 100,
+            :currency => "usd",
+            :description => "for replate",
+            :source => token,
+          )
+          render :json => {}
+        end    
       end
-      
+    rescue
+      render_json_message(:forbidden)
     end
   end
 
@@ -121,7 +124,8 @@ class API::LocationsController < ApplicationController
       :lat,
       :lon,
       :email,
-      :stripe_customer_id
+      :stripe_customer_id,
+      :is_large
     )
 
   end

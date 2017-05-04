@@ -19,40 +19,44 @@ class API::BusinessesController < ApplicationController
     Stripe.api_key = Figaro.env.stripe_api_key
     useSaved = params[:useSaved]
     amount = params[:chargeAmount]
-    if business.stripe_customer_id != nil and useSaved
-      puts "using saved"
-      charge = Stripe::Charge.create(
-      :amount => amount * 100, # $15.00 this time
-      :currency => "usd",
-      :customer => business.stripe_customer_id, # Previously stored, then retrieved
-      )
-      render :json => {}
-    else
-      store = params[:store]
-      token = params[:stripeToken]
-      puts store
-      puts token
-      if store
-        customer = Stripe::Customer.create(
-        :email => business.email,
-        :source => token,
-        )
+    begin
+      if business.stripe_customer_id != nil and useSaved
+        puts "using saved"
         charge = Stripe::Charge.create(
-        :amount => amount * 100,
+        :amount => amount * 100, # $15.00 this time
         :currency => "usd",
-        :customer => customer.id,
-        )
-        stripeid = {:stripe_customer_id => customer.id}
-        render :json => stripeid
-      else
-        charge = Stripe::Charge.create(
-          :amount => amount * 100,
-          :currency => "usd",
-          :description => "for replate",
-          :source => token,
+        :customer => business.stripe_customer_id, # Previously stored, then retrieved
         )
         render :json => {}
+      else
+        store = params[:store]
+        token = params[:stripeToken]
+        puts store
+        puts token
+        if store
+          customer = Stripe::Customer.create(
+          :email => business.email,
+          :source => token,
+          )
+          charge = Stripe::Charge.create(
+          :amount => amount * 100,
+          :currency => "usd",
+          :customer => customer.id,
+          )
+          stripeid = {:stripe_customer_id => customer.id}
+          render :json => stripeid
+        else
+          charge = Stripe::Charge.create(
+            :amount => amount * 100,
+            :currency => "usd",
+            :description => "for replate",
+            :source => token,
+          )
+          render :json => {}
+        end
       end
+    rescue
+      render_json_message(:forbidden)
     end
   end
 

@@ -31,7 +31,8 @@ class LocationSerializer < ActiveModel::Serializer
              :state,
              :zip,
              :email,
-             :stripe_customer_id
+             :stripe_customer_id,
+             :is_large
 
   has_many :pickups
 

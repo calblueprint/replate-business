@@ -160,6 +160,15 @@ def make_tasks
 
    task.save
  end
+ t = Task.create(
+     status: 3,
+     location_id: 1,
+     scheduled_date: Time.now,
+     driver: 3,
+     trays_donated: 5,
+     description: "pickup front of building",
+   )
+ t.save
 end
 
 

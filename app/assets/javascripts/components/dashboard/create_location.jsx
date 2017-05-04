@@ -10,15 +10,20 @@ class LocationCreationForm extends DefaultForm {
     this.state = {
       business_id : this.props.business_id,
       loading: false,
+      is_large: false,
     }
     this.state.initialState = {
       business_id : this.props.business_id,
       loading: false,
+      is_large: false,
     }
     this.initMap = this.initMap.bind(this);
   }
 
   _attemptCreate = (e) => {
+    if (this.state.is_large) {
+      this.setState({is_large:true});
+    }
     this.setState({ loading: true, });
 
     const success = (data) => {
@@ -134,6 +139,9 @@ class LocationCreationForm extends DefaultForm {
             <label className="label label--newline">Office Address</label>
             <input ref={(input) => { this.locationInput = input}} className="input address">
 
+            </input>
+            <label className="label label--newline">Does this location have more than 100 employees?</label>
+            <input name="is_large" type="checkbox" onChange={this._handleChange} checked={this.state.is_large}>
             </input>
 
             <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>

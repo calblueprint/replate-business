@@ -59,7 +59,7 @@ class BusinessTable extends React.Component {
         return <BusinessTableRow business={business} key={index} />
       });
     } else {
-      businesses = <tr>
+      businesses = <tr className="table-row">
                  <td className="roster-loading" colSpan={6}>
                      No Results
                  </td>
@@ -67,20 +67,20 @@ class BusinessTable extends React.Component {
     }
 
     return(
-      <div className="content-wrapper roster-page container">
-          <div className="roster-header">
-            <h1 className="roster-title">Businesses</h1>
-            <div className="roster-header-controls">
+      <div className="business-table-page">
+          <div className="business-table-header">
+            <h1 className="business-table-title">Businesses</h1>
+            <div className="business-table-header-controls">
               <div className="searchbar">
                 <input type="text" name="first_name" className="form-control"
                   onChange={(e) => this.onSearchChange(e)}
-                  placeholder="Search for a person" />
+                  placeholder="Search for a business or email" />
               </div>
             </div>
           </div>
-          <div className="roster-container">
-            <table className="interactive roster-table">
-              <thead id="table-head">
+          <div className="business-table-container">
+            <table className="interactive business-table-table table">
+              <thead className="table-header">
                 <tr>
                   <th>Company Name</th>
                   <th>Email</th>

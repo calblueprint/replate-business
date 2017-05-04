@@ -145,7 +145,9 @@ module OnfleetAPI
         args = {:status => 'incomplete', \
                 :scheduled_date => date, \
                 :onfleet_id => resp['id'], \
-                :location_id => location_id}
+                :location_id => location_id, \
+                :driver => resp['worker'], \
+                :short_id => resp['shortId']}
 
         task = Task.new(args)
         task.save

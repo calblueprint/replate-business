@@ -161,20 +161,18 @@ class LocationHome extends React.Component {
                           setForms = {this._setForms.bind(this)}
                           showEditModal = {this._showEditModal}/>
           </Tab>
-          <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
-            <DonationHistory location = {this.state.location} />
-          </Tab>
-          <Tab eventKey={3} title="Invoice">
-          { this.state.activeTab == 3 && 
+          <Tab eventKey={2} title="Invoice" tabClassName="tab-icon history-tab">
+            { this.state.activeTab == 2 && 
             <LocationInvoice location = {this.props.location} business = {this.props.business}/>
           }
           </Tab>
-          <Tab eventKey={4} title="Settings" tabClassName="tab-icon settings-tab">
+          
+          <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates}
                               business = {this.props.business} />
           </Tab>
-          <Tab eventKey={5} title= "Impact" tableClassName="tab-icon impact-tab">
+          <Tab eventKey={4} title= "Impact" tableClassName="tab-icon impact-tab">
               <Impact         location_id = {this.props.location.id}
                               tasks       = {this.state.tasks}/>
 

@@ -94,6 +94,9 @@ class LocationInvoice extends React.Component {
       child.parentNode.insertBefore(text, child);
       this._calculateChargeAmount();
 		  this._fetchTasks();
+      setTimeout(() => 
+        { this._closeModal2();
+      },2000);
 			
 		}
 		updateBusiness = (response) => {

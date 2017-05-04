@@ -45,6 +45,10 @@ class HomeLogin extends DefaultForm {
     Requester.post(APIConstants.sessions.create, this._formFields(), success, failure);
   }
 
+  _forgotPassword = () => {
+    window.location = "/businesses/password/new";
+  }
+
   render() {
     return (
       <div>
@@ -104,6 +108,11 @@ class HomeLogin extends DefaultForm {
             </div>
           </Modal.Body>
           <Modal.Footer>
+            <button
+              type="button"
+              className="button button--text-black marginRight-xs"
+              onClick={this._forgotPassword}
+            >Forgot Password?</button>
             <button
               type="button"
               className="button button--text-black"

@@ -151,7 +151,8 @@ class LocationInvoice extends React.Component {
 			for (prop in response) {
 			  arr.push(response[prop]);
 			}	
-			this.setState({tasks: arr});		
+			this.setState({tasks: arr});	
+      this._calculateChargeAmount();	
 		}
 		setBusiness = (response) => {
 			this.setState({business: response});		
@@ -217,7 +218,7 @@ class LocationInvoice extends React.Component {
         <div> 
           Your price per pickup is {this.state.location.is_large ? '40$' : '30$'} because this location has {this.state.location.is_large ? '>100' : '<100'} employees.
         </div>
-        
+
 				<br>
 				</br>
 				<button
@@ -283,7 +284,7 @@ class LocationInvoice extends React.Component {
           <button
             type="button"
             className="button button--text-black"
-            onClick={this._closeModal}
+            onClick={this._closeModal1}
           >Close</button>
           <button
             type="button"

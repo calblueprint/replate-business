@@ -21,9 +21,6 @@ class LocationCreationForm extends DefaultForm {
   }
 
   _attemptCreate = (e) => {
-    if (this.state.is_large) {
-      this.setState({is_large:true});
-    }
     this.setState({ loading: true, });
 
     const success = (data) => {
@@ -100,6 +97,7 @@ class LocationCreationForm extends DefaultForm {
         });
   }
 
+
   close = (e) => {
     var initial = this.state.initialState;
     this.state = initial;
@@ -107,6 +105,16 @@ class LocationCreationForm extends DefaultForm {
     this.setState({ showModal: false });
     document.getElementById('map').innerHTML = '';
 
+  }
+
+  _handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -141,7 +149,7 @@ class LocationCreationForm extends DefaultForm {
 
             </input>
             <label className="label label--newline">Does this location have more than 100 employees?</label>
-            <input name="is_large" type="checkbox" onChange={this._handleChange} checked={this.state.is_large}>
+            <input name="is_large" type="checkbox" onChange={this._handleInputChange} checked={this.state.is_large}>
             </input>
 
             <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>

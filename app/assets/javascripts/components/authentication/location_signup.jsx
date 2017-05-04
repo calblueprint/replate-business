@@ -11,6 +11,7 @@ class LocationSignup extends DefaultForm {
     this.state = {
       business_id: this.props.businessID,
       file: DEFAULT_FILE,
+      is_large: false,
     };
     this.initMap = this.initMap.bind(this);
   }
@@ -84,6 +85,7 @@ class LocationSignup extends DefaultForm {
   }
 
   _saveLocationData = () => {
+
     const data = { addr_name:this.state.addr_name,
       number:this.state.number,
       street:this.state.street,
@@ -94,6 +96,12 @@ class LocationSignup extends DefaultForm {
       lat:this.state.lat,
       lon:this.state.lon
 
+    }
+    if (this.state.is_large) {
+      data["is_large"] = true;
+    }
+    else {
+      data["is_large"] = false;
     }
     this.props.save(data);
   }
@@ -123,6 +131,16 @@ class LocationSignup extends DefaultForm {
         </div>
       )
     }
+  }
+
+  _handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -155,6 +173,11 @@ class LocationSignup extends DefaultForm {
         <input ref={(input) => { this.locationInput = input}} className="input address" id="addr">
 
         </input>
+        <label className="label label--newline">Does this location have more than 100 employees?</label>
+        <input name="is_large" type="checkbox" onChange={this._handleInputChange} checked={this.state.is_large}>
+        </input>
+        <br>
+        </br>
         <div id = "map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
 
         </div>

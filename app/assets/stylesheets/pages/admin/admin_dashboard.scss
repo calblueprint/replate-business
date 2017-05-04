@@ -1,26 +1,26 @@
-.roster-page {
+.business-table-page {
   padding-bottom: 40px;
 
-  .roster-container {
+  .business-table-container {
     align-self: center;
     padding: 5px;
     width: 100%;
   }
 
-  .roster-header {
+  .business-table-header {
     align-items: center;
     display: flex;
     margin-bottom: 40px;
     padding-top: 20px;
   }
 
-  .roster-title {
+  .business-table-title {
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 30px;
   }
 
-  .roster-header-controls {
+  .business-table-header-controls {
     align-items: center;
     display: flex;
     margin-left: auto;
@@ -53,7 +53,7 @@
     }
   }
 
-  .roster-table {
+  .business-table-table {
     width: 100%;
 
     .name-col {
@@ -62,7 +62,7 @@
     }
   }
 
-  .roster-loading {
+  .business-table-loading {
     color: black;
     font-size: 15px;
     font-weight: 600;

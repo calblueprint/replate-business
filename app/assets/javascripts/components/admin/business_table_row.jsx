@@ -16,7 +16,7 @@ class BusinessTableRow extends React.Component {
     const { business } = this.props;
     
     return (
-      <tr onClick={() => this.linkToProfile()}>
+      <tr className="table-row" onClick={() => this.linkToProfile()}>
         <td>{business.company_name}</td>
         <td>{business.email}</td>
         <td>{business.phone}</td>

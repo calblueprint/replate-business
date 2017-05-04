@@ -54,7 +54,6 @@ class ApiConstants {
     }
   }
 
-  // fetchBusiness uses this route!
   get businesses() {
     return {
       show: (id) => `/api/businesses/${id}`,

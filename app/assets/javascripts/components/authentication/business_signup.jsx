@@ -115,14 +115,7 @@ class BusinessSignup extends DefaultForm {
       var confirm = document.getElementById('password_confirmation');
       this._removeRedBorder(confirm,"nomatch");
     }
-    // Uncomment if we need a signup code in the future.
-    // if ((!'beta_code' in data)|| data.beta_code != "REPLATE-6KC1P") {
-    //   this._addRedBorder(document.getElementById('beta_code'),"code");
-    //   error = true;
-    // }
-    // else {
-    //   this._removeRedBorder(document.getElementById('beta_code'),"code");
-    // }
+
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })
       

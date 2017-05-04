@@ -14,7 +14,7 @@
 
 class Task < ActiveRecord::Base
   belongs_to :location
-  enum status: [:unassigned, :assigned, :active, :completed, :failed, :cancelled]
+  enum status: [:incomplete, :complete, :cancelled]
 
   def self.parse(str)
   	# parse("49: 1 tray, 2 bags of food, 23 pounds of potatoes")

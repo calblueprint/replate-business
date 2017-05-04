@@ -72,7 +72,7 @@ module OnfleetAPI
   def self.post_task(recurrence, date)
     data = build_data(recurrence, date)
     puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
-    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth)
   end
 
   def self.delete_task(id)
@@ -125,19 +125,47 @@ module OnfleetAPI
     end
     result
   end
-
+#     t.datetime "scheduled_date",              null: false
+    # t.string   "onfleet_id"
+    # t.integer  "status",                      null: false
+    # t.integer  "driver",                      null: false
+    # t.integer  "location_id",                 null: false
+    # t.datetime "created_at",                  null: false
+    # t.datetime "updated_at",                  null: false
+    # t.text     "description"
+    # t.integer  "trays_donated"
+    # t.string   "short_id",
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
-    if resp.key?('id')
-      args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
-      recurrence.create_task(args)
-      if recurrence.frequency == 'one_time'
-        puts 'On Demand Task:'
-      end
-      recurrence.update(onfleet_id: resp['id'])
+    puts resp.parsed_response
+    case resp.code
+      when 200
+        resp = resp.parsed_response
+        location_id = recurrence.location.id
+        args = {:status => 'incomplete', \
+                :scheduled_date => date, \
+                :onfleet_id => resp['id'], \
+                :location_id => location_id}
+
+        task = Task.new(args)
+        task.save
+      when 404
+        # resource not found
+        puts "O noes not found!"
+      when 300...600
+        # error message to propogate
+        puts "ZOMG ERROR #{response.code}"
     end
-    puts resp
-    resp
+    # if resp.key?('id')
+    #   args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
+    #   recurrence.create_task(args)
+    #   if recurrence.frequency == 'one_time'
+    #     puts 'On Demand Task:'
+    #   end
+    #   recurrence.update(onfleet_id: resp['id'])
+    # end
+    # puts resp
+    # resp
   end
 
 end

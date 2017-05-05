@@ -88,7 +88,7 @@ section.splash-business-section
 
 section.splash-marketplace-section
   .splash-marketplace-skew
-    .splash-marketplace-img.img-container: img src=image_url("splash/trays.jpg") alt=""/
+    .splash-marketplace-img.img-container: img src=image_url("splash/replate-marketplace.jpg") alt=""/
   .container
     .splash-marketplace-text-container
       h1.splash-section-title
@@ -96,8 +96,15 @@ section.splash-marketplace-section
         | For Individuals
       p.splash-section-description
         | Don’t let your extra food go to waste! Post any edible and quality meal, big or small, to our open marketplace and connect directly to a person who needs it.
-      .splash-business-button-container.marginTopBot-xl
-        p.marketplace-beta-notification.marginBot-md Replate Marketplace is currently in beta. Enter your email below to get notified when it launches!
+      ul.splash-mobile-link
+        li.mobile-icon
+          a href="https://itunes.apple.com/us/app/re-plate/id1128344715?ls=1&mt=8"
+            img src=image_url("splash/apple-store-icon.png")
+        li.mobile-icon
+          a href="https://play.google.com/store/apps/details?id=com.visni.replate"
+            img src=image_url("splash/google-play-icon.png")
+      .splash-business-button-container.marginTopBot-sm
+        p.marketplace-beta-notification.marginBot-md Replate Marketplace is currently in beta. It is currently restricted to UC Berkeley campus. Enter your email below if you are interested in testing it!
         form
           input.input.input--lg.marginRight-xs type="email" placeholder="email@example.com" style="max-width: 300px;"
           input.button.button--lg type="submit"
@@ -141,6 +148,9 @@ footer.splash-footer
       li.footer-link
         = link_to terms_path, class: "link link--white link--no-underline"
           | Terms of Service
+      li.footer-link
+        a href="https://hello.pledgeling.com/widgets/donate/acd59a640b8aad7efbbc0d9c47d30b34#amounts"
+          | Donate
     ul.footer-social-container
       li.footer-social-icon
         a href="https://twitter.com/replateyourmeal"

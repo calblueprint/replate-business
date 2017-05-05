@@ -72,7 +72,7 @@ module OnfleetAPI
   def self.post_task(recurrence, date)
     data = build_data(recurrence, date)
     puts "<<<<<<<< API POST of recurrence with id=#{recurrence.id} to onfleet >>>>>>>>"
-    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth).parsed_response
+    HTTParty.post(@url, :body => data.to_json, :basic_auth => @basic_auth)
   end
 
   def self.delete_task(id)
@@ -128,16 +128,30 @@ module OnfleetAPI
 
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
-    if resp.key?('id')
-      args = {:status => 'assigned', :date => date, :onfleet_id => resp['id']}
-      recurrence.create_task(args)
-      if recurrence.frequency == 'one_time'
-        puts 'On Demand Task:'
-      end
-      recurrence.update(onfleet_id: resp['id'])
+    puts resp.parsed_response
+    case resp.code
+      when 200
+        resp = resp.parsed_response
+        location_id = recurrence.location.id
+        args = {:status => 'incomplete', \
+                :scheduled_date => date, \
+                :onfleet_id => resp['id'], \
+                :location_id => location_id, \
+                :driver => resp['worker'], \
+                :short_id => resp['shortId']}
+
+        task = Task.new(args)
+        task.save
+      when 404
+        # resource not found
+        puts "O noes not found!"
+      when 300...600
+        # error message to propogate
+        resp = resp.parsed_response
+        message = resp['message']['cause']
+        puts "ZOMG ERROR #{resp}"
+        recurrence.errors.add(:base, message)
     end
-    puts resp
-    resp
   end
 
 end

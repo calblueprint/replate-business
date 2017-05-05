@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   # Api definition
   namespace :api, defaults: { format: :json } do
-    resources :businesses, :only => [:show, :create, :update, :destroy]
+    resources :businesses, :only => [:show, :create, :update, :destroy, :charge]
     resources :locations, :only => [:show, :create, :update, :destroy]
     resources :pickups, :only => [:show, :create, :update, :destroy]
     resources :recurrences, :only => [:create, :update, :destroy]
@@ -46,7 +46,10 @@ Rails.application.routes.draw do
     get '/locations/:id/week/:today', to: 'locations#this_week'
     get '/locations/get-tasks/:id/', to: 'locations#get_tasks'
     resources :sessions, :only => [:create]
-
+    post '/businesses/:id/charge', to: 'businesses#charge'
+    post '/locations/:id/charge', to: 'locations#charge'
+    get '/locations/:id/tasks', to: 'locations#find_tasks'
+    patch '/locations/:id/tasks', to: 'locations#mark_tasks_paid'
     devise_scope :admins do
       resources :businesses, :only => [:index]
     end

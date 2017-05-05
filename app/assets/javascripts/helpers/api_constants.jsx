@@ -20,6 +20,8 @@ class ApiConstants {
       create   : `/api/locations`,
       week     : (id, today) => `/api/locations/${id}/week/${today}`,
       getTasks : (id) => `/api/locations/get-tasks/${id}`,
+      tasks  : (id) => `/api/locations/${id}/tasks`,
+      charge : (id) => `/api/locations/${id}/charge`,
     }
   }
 
@@ -56,6 +58,7 @@ class ApiConstants {
     return {
       show: (id) => `/api/businesses/${id}`,
       update : (id) => `/api/businesses/${id}`,
+      charge : (id) => `/api/businesses/${id}/charge`,
     }
   }
 }

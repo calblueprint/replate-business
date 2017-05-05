@@ -104,6 +104,22 @@ def make_pickups
   end
 end
 
+def make_tasks
+  1.upto(5) do |n|
+    task = Task.create(
+      status: 3,
+      location_id: n,
+      scheduled_date: Time.now,
+      driver: "bob",
+      paid: false
+    )
+    task.id = n
+    task.location = Location.find(n)
+    
+    task.save
+  end
+end
+
 def randomtime
   start_time = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM"].sample
   end_time = ["1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"].sample
@@ -144,6 +160,15 @@ def make_tasks
 
    task.save
  end
+ t = Task.create(
+     status: 3,
+     location_id: 1,
+     scheduled_date: Time.now,
+     driver: 3,
+     trays_donated: 5,
+     description: "pickup front of building",
+   )
+ t.save
 end
 
 

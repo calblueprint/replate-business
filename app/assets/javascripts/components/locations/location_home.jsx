@@ -13,8 +13,9 @@ class LocationHome extends React.Component {
     const tabMapping = {
       pickups: 1,
       history: 2,
-      settings: 3,
-      impact: 4,
+      invoice: 3,
+      settings: 4,
+      impact: 5,
     }
 
     let active = 1;
@@ -160,9 +161,12 @@ class LocationHome extends React.Component {
                           setForms = {this._setForms.bind(this)}
                           showEditModal = {this._showEditModal}/>
           </Tab>
-          <Tab eventKey={2} title="History" tabClassName="tab-icon history-tab">
-            <DonationHistory location = {this.state.location} />
+          <Tab eventKey={2} title="Invoice" tabClassName="tab-icon history-tab">
+            { this.state.activeTab == 2 && 
+            <LocationInvoice location = {this.props.location} business = {this.props.business}/>
+          }
           </Tab>
+          
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates}

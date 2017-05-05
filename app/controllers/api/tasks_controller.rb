@@ -7,7 +7,7 @@ class API::TasksController < ApplicationController
     else
       render_json_message(:forbidden, errors: task.errors.full_messages)
     end
-end
+  end
 
   def show
     @task = Task.find(params[:id])
@@ -44,5 +44,6 @@ end
       :description,
       :trays_donateds
       )
-    end
   end
+end
+

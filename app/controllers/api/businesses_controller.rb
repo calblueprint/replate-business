@@ -13,6 +13,53 @@ class API::BusinessesController < ApplicationController
     end
   end
 
+  def charge
+    business = Business.find(params[:id])
+    puts Figaro.env.stripe_api_key
+    Stripe.api_key = Figaro.env.stripe_api_key
+    useSaved = params[:useSaved]
+    amount = params[:chargeAmount]
+    begin
+      if business.stripe_customer_id != nil and useSaved
+        puts "using saved"
+        charge = Stripe::Charge.create(
+        :amount => amount * 100, # $15.00 this time
+        :currency => "usd",
+        :customer => business.stripe_customer_id, # Previously stored, then retrieved
+        )
+        render :json => {}
+      else
+        store = params[:store]
+        token = params[:stripeToken]
+        puts store
+        puts token
+        if store
+          customer = Stripe::Customer.create(
+          :email => business.email,
+          :source => token,
+          )
+          charge = Stripe::Charge.create(
+          :amount => amount * 100,
+          :currency => "usd",
+          :customer => customer.id,
+          )
+          stripeid = {:stripe_customer_id => customer.id}
+          render :json => stripeid
+        else
+          charge = Stripe::Charge.create(
+            :amount => amount * 100,
+            :currency => "usd",
+            :description => "for replate",
+            :source => token,
+          )
+          render :json => {}
+        end
+      end
+    rescue
+      render_json_message(:forbidden)
+    end
+  end
+
   def index
     @businesses = Business.order("LOWER(company_name)")
     render json: @businesses, each_serializer: BusinessSerializer, root: false
@@ -23,7 +70,8 @@ class API::BusinessesController < ApplicationController
       :company_name,
       :website_url,
       :phone,
-      :email
+      :email,
+      :stripe_customer_id
     )
   end
 end

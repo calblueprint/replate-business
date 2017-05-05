@@ -54,6 +54,20 @@ class Location < ActiveRecord::Base
   	return pickups
   end
 
+  def get_tasks
+    tsks = {}
+    count = 0
+    if not self.tasks.empty?
+      puts "hi"
+      self.tasks.each do |task|
+        tsks[count] = task
+        count = count + 1
+      end
+    end
+    puts "runnin"
+    return tsks
+  end
+
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
 end

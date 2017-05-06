@@ -161,7 +161,7 @@ def make_tasks
    task.save
  end
  t = Task.create(
-     status: 3,
+     status: 1,
      location_id: 1,
      scheduled_date: Time.now,
      driver: 3,

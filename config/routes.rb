@@ -53,5 +53,6 @@ Rails.application.routes.draw do
     devise_scope :admins do
       resources :businesses, :only => [:index]
     end
+    post 'onfleets/', to: 'onfleets#update_task'
   end
 end

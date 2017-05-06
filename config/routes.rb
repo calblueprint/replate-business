@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     devise_scope :admins do
       resources :businesses, :only => [:index]
     end
-    post 'onfleets/', to: 'onfleets#update_task'
+    post 'onfleet/', to: 'onfleet#update_task'
+    get 'onfleet/', to: 'onfleet#create_webhook'
   end
 end

@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 20170504193555) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "onfleet_id"
-    t.string   "stripe_customer_id"
   end
 
   add_index "businesses", ["email"], name: "index_businesses_on_email", unique: true, using: :btree

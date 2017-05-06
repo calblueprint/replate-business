@@ -50,7 +50,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.48.1'
   gem 'letter_opener'
 end
 

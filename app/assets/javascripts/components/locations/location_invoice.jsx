@@ -40,7 +40,6 @@ class LocationInvoice extends React.Component {
         card.unmount();
       }
     }
-    //this._calculateChargeAmount();
     
   }
 

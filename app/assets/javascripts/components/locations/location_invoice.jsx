@@ -99,8 +99,14 @@ class LocationInvoice extends React.Component {
       child.parentNode.insertBefore(text, child);
       this._calculateChargeAmount();
       this._fetchTasks();
+      this.setState({useSavedBusinessCard: false,
+      useSavedLocationCard: false,storeLocationCard:false,
+      storeBusinessCard:false,});
       setTimeout(() => 
         { this._closeModal2();
+          this.setState({useSavedBusinessCard: false,
+      useSavedLocationCard: false,storeLocationCard:false,
+      storeBusinessCard:false,});
       },2000);
       
     }
@@ -116,27 +122,38 @@ class LocationInvoice extends React.Component {
         Requester.update(APIConstants.locations.update(this.state.location.id),{stripe_customer_id: response.stripe_customer_id});
       }
     }
+
+    updateBoth = (response) => {
+      Requester.update(APIConstants.locations.tasks(this.props.location.id),{},updateSuccess);
+      if (response.stripe_customer_id != null) {
+        Requester.update(APIConstants.businesses.update(this.state.business.id),{stripe_customer_id: response.stripe_customer_id});
+        Requester.update(APIConstants.locations.update(this.state.location.id),{stripe_customer_id: response.stripe_customer_id});
+
+      }
+    }
     updateFailed = (response) => {
       var text = document.createTextNode('Payment failed.');
       var child = document.getElementsByClassName('modal-footer');
       child = child[child.length - 1];
       child.parentNode.insertBefore(text, child);
+      this.setState({useSavedBusinessCard: false,
+      useSavedLocationCard: false,storeLocationCard:false,
+      storeBusinessCard:false,});
     }
 
-    if (this.state.storeBusinessCard) {
+    if (this.state.storeBusinessCard && !this.state.storeLocationCard) {
           
       Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateBusiness,updateFailed);
     }
 
-    if (this.state.storeLocationCard) {
-      
-      if (this.state.storeBusinessCard) {
-        Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: 0},updateLocation);
-      }
-      else {
+    if (this.state.storeLocationCard && !this.state.storeBusinessCard) {
         Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateLocation,updateFailed);
         this._fetchTasks();
-      }
+      
+    }
+    if (this.state.storeLocationCard && this.state.storeBusinessCard) {
+      Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateBoth,updateFailed);
+
     }
 
     if (this.state.useSavedBusinessCard) {
@@ -151,6 +168,7 @@ class LocationInvoice extends React.Component {
     if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
       Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: chargeAmount},updateLocation,updateFailed);
     }
+
   }
 
   _fetchTasks = () => { 
@@ -201,7 +219,7 @@ class LocationInvoice extends React.Component {
         totalCharge+=costPerCharge
       }
     }
-    this.setState({chargeAmount:totalCharge});
+    this.setState({chargeAmount:50});
     this.setState({unpaidTasks:unpaidTasks});
     
   }

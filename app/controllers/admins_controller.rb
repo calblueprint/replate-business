@@ -4,16 +4,16 @@ class AdminsController < ApplicationController
     if !admin_signed_in?
       redirect_to new_admin_session_path
     end
-    
+
     @business_ids = business_ids
   end
 
-  def search 
+  def search
 
   end
 
   def show
-    redirect_to admin_dashboard_path
+    redirect_to rails_admin_path
   end
 
   private

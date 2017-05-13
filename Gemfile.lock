@@ -295,6 +295,7 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    zip-codes (0.2.1)
 
 PLATFORMS
   ruby
@@ -345,6 +346,7 @@ DEPENDENCIES
   tzinfo
   uglifier (= 2.7.2)
   web-console (~> 2.0)
+  zip-codes
 
 RUBY VERSION
    ruby 2.2.5p319

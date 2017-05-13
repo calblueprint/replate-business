@@ -18,9 +18,10 @@ module OnfleetAPI
   end
 
   def self.build_destination(location)
+    addr_string = location.number + ' ' + location.street + " " + location.city + ", " + location.state
     {
       :address => {
-        :name => location.addr_name,
+        :name => location.addr_name + ', ' + addr_string,
         :number => location.number,
         :street => location.street,
         :apartment => location.apt_number ? location.apt_number : '',

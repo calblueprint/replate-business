@@ -46,7 +46,6 @@ class BusinessSignup extends DefaultForm {
   _saveBusinessData = () => {
     var error = false;
     const data = this._formFields();
-    console.log(data);
     if (!('company_name' in data) || !(data.company_name)) {
       this._addRedBorder(document.getElementById('company_name'),"blank");
       error = true;
@@ -118,9 +117,6 @@ class BusinessSignup extends DefaultForm {
 
     if (this.state.agreeTOS) {
       this.setState({ tosAlert: false, })
-      
-      console.log(data);
-      
       
       if (!error) {
         this.props.save(data);

@@ -22,6 +22,7 @@ gem 'json'
 gem 'geokit'
 gem 'timezone'
 gem 'tzinfo'
+gem 'responders', '~> 2.0'
 
 # Uploading
 gem 'paperclip', '5.1.0'

@@ -5,6 +5,9 @@ class PagesController < ApplicationController
     @recipients = ['arriba-juntos', 'bowery-mission', 'city-team', 'ecap', 'ecumenical-hunger-program', 'larkin-street', 'life-moves', 'new-york-city-rescue-mission', 'project-homeless-connect', 'recovery-cafe', 'saint-pauls-house', 'samaritan-house', 'society-of-saint-vincent-de-paul']
   end
 
+  def about_us
+  end
+
   def business
   end
 

@@ -56,7 +56,6 @@
           if (request.status === 200 && resolve) {
             resolve(JSON.parse(request.response));
           } else if (reject) {
-            console.log("y");
             reject(JSON.parse(request.response));
           }
         }

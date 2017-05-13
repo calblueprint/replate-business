@@ -1,5 +1,5 @@
 class MaenMailer < ApplicationMailer
-  @maen_email = 'maen@re-plate.org'
+  @@maen_email = 'maen@re-plate.org'
 
   def export_tasks(task_csv, date)
     @date = date

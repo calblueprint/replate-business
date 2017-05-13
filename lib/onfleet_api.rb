@@ -19,7 +19,7 @@ module OnfleetAPI
     addr_string = location.number + ' ' + location.street + " " + location.city + ", " + location.state
     {
       :address => {
-        :name => location.addr_name + '; ' + addr_string,
+        :name => location.addr_name + ', ' + addr_string,
         :number => location.number,
         :street => location.street,
         :apartment => location.apt_number ? location.apt_number : '',

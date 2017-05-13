@@ -23,6 +23,7 @@ gem 'geokit'
 gem 'timezone'
 gem 'tzinfo'
 gem 'responders', '~> 2.0'
+gem 'zip-codes'
 
 # Uploading
 gem 'paperclip', '5.1.0'

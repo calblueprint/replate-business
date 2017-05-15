@@ -91,7 +91,7 @@ class Recurrence < ActiveRecord::Base
         end
       end
     end
-    
+
     today = Date.today
     first_recurrence_date = Recurrence.get_date_after(start_date, self.day)
     same_week = first_recurrence_date.strftime('%U') == reference.strftime('%U')
@@ -130,10 +130,10 @@ class Recurrence < ActiveRecord::Base
     if o_id
       # Try to remove from onfleet: will only be removed if task
       # is not completed
-      resp = OnfleetAPI.delete_task(o_id)
-      unless resp
+      removed = OnfleetAPI.cancel_single_task(o_id)
+      if removed
         t = Task.where(onfleet_id: o_id).first
-        t.update(status: 'cancelled') if task
+        t.update(status: 'cancelled') if t
         return
       end
     end

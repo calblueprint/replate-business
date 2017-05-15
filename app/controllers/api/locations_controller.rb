@@ -8,11 +8,17 @@ class API::LocationsController < ApplicationController
 
   def create
     location = Location.new(location_params)
-      if location.save
-        render_json_message(:ok, message: 'Location successfully created!')
-      else
-        render_json_message(:forbidden, errors: location.errors.full_messages)
-      end
+    begin
+      saved = location.save!
+    rescue ActiveRecord::RecordInvalid => invalid
+      render_json_message(:forbidden, errors: invalid.record.errors.full_messages)
+      return
+    end
+    if saved
+      render_json_message(:ok, message: 'Location successfully created!')
+    else
+      render_json_message(:forbidden, errors: location.errors.full_messages)
+    end
   end
 
   def destroy

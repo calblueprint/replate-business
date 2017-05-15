@@ -100,56 +100,56 @@ h3 {
   content: "cannot be blank";
 }
 .blank {
-  color: red;
+  color: $alert;
 }
 
 .nomatch::after {
   content: "Passwords do not match";
 }
 .nomatch {
-  color: red;
+  color: $alert;
 }
 
 .short::after {
   content: "Password must be longer than 8 characters";
 }
 .short {
-  color: red;
+  color: $alert;
 }
 
 .phone_short::after {
   content: "Phone number must have 10 numbers";
 }
 .phone_short {
-  color: red;
+  color: $alert;
 }
 
 .invalid::after {
   content: "Email is not valid";
 }
 .invalid {
-  color: red;
+  color: $alert;
 }
 
 .fail::after {
   content: "Your address is not valid";
 }
 .fail {
-  color: red;
+  color: $alert;
 }
 
 .same::after {
   content: "This location's email cannot be the same as your businesses.";
 }
 .same {
-  color: red;
+  color: $alert;
 }
 
 .updateerror::after {
   content: "Update error. Your email address must be unique.";
 }
 .updateerror {
-  color: red;
+  color: $alert;
 }
 
 

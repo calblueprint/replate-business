@@ -6,19 +6,22 @@ module OnfleetAPI
   @url = 'https://onfleet.com/api/v2/tasks'
   @basic_auth = {:username => Figaro.env.ONFLEET_API_KEY, :password =>''}
 
-  def self.make_time(date, time)
+  def self.make_time(date, time, location)
     # Onfleet takes unix time in milliseconds
-    Time.zone = TZInfo::Timezone.get('America/Los_Angeles')
-    t = Time.zone.local(date.year, date.month, date.day)
-    t = Time.zone.parse(time, t).utc
-    puts t
-    t.to_i * 1000
+    zip = location.zip
+    timezone = ZipCodes.identify(zip)[:time_zone]
+    Time.use_zone(timezone) do
+      t = Time.zone.local(date.year, date.month, date.day)
+      t = Time.zone.parse(time, t)
+      t.to_i * 1000
+    end
   end
 
   def self.build_destination(location)
+    addr_string = location.number + ' ' + location.street + " " + location.city + ", " + location.state
     {
       :address => {
-        :name => location.addr_name,
+        :name => location.addr_name + ', ' + addr_string,
         :number => location.number,
         :street => location.street,
         :apartment => location.apt_number ? location.apt_number : '',
@@ -47,8 +50,8 @@ module OnfleetAPI
 
   def self.build_task(recurrence, date)
     p = recurrence.pickup
-    com_after = make_time(date, recurrence.start_time)
-    com_before = make_time(date, recurrence.end_time)
+    com_after = make_time(date, recurrence.start_time, recurrence.location)
+    com_before = make_time(date, recurrence.end_time, recurrence.location)
     task = {
       :completeAfter => com_after,
       :completeBefore => com_before,

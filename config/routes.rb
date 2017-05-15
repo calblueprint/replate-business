@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # Static Pages
   root 'pages#home'
   get 'business' => 'pages#business'
+  get 'about_us' => 'pages#about_us'
   get 'styles' => 'pages#style'
   get 'terms' => 'pages#terms'
 

@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 20170504193555) do
     t.datetime "updated_at",                     null: false
     t.text     "description"
     t.integer  "trays_donated"
-    t.string   "short_id",       default: "",    null: false
     t.boolean  "paid",           default: false, null: false
+    t.string   "short_id",       default: "",    null: false
   end
 
   add_index "tasks", ["location_id"], name: "index_tasks_on_location_id", using: :btree

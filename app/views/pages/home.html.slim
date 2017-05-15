@@ -2,6 +2,7 @@ nav.nav.nav-splash
   .container
     a href="/": .logo
     ul.nav-items-container
+      li.nav-item = link_to "About Us", about_us_path, class: "button button--text-white"
       li.nav-item = link_to "Pricing", business_path, class: "button button--text-white"
       - if !current_business and !current_admin
         li.nav-item = button_to "Create Account", signup_path, :method => "get", :class => "button button--text-white marginRight-sm"

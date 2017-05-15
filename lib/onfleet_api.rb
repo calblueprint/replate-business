@@ -79,7 +79,8 @@ module OnfleetAPI
   end
 
   def self.delete_task(id)
-    HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth).parsed_response
+    puts "<<<<<<<< API DELETE of recurrence with id=#{id} from onfleet >>>>>>>>"
+    HTTParty.delete("#{@url}/#{id}", :basic_auth => @basic_auth)
   end
 
   def self.get_task(id)
@@ -129,6 +130,16 @@ module OnfleetAPI
     result
   end
 
+  def self.cancel_single_task(onfleet_id)
+    resp = delete_task(onfleet_id)
+    puts resp.parsed_response
+    case resp.code
+      when 200
+        return true
+    end
+    return false
+  end
+
   def self.post_single_task(recurrence, date)
     resp = post_task(recurrence, date)
     puts resp.parsed_response
@@ -145,6 +156,7 @@ module OnfleetAPI
 
         task = Task.new(args)
         task.save
+        recurrence.update(onfleet_id: resp['id'])
       when 404
         # resource not found
         puts "O noes not found!"

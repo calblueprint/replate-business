@@ -27,6 +27,6 @@ class Business < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :locations, dependent: destroy
+  has_many :locations, :dependent => :destroy
   validates_presence_of :company_name, :phone
 end

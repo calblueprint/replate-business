@@ -20,3 +20,6 @@
 
 #Ignore DS_store
 .DS_Store
+
+#Ignore ruby-version
+.ruby-version

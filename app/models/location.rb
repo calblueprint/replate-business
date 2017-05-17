@@ -60,7 +60,7 @@ class Location < ActiveRecord::Base
     count = 0
     if not self.tasks.empty?
       self.tasks.each do |task|
-        if task.status=="complete"
+        if task.status != "cancelled"
           tsks[count] = task
           count = count + 1
         end

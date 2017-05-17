@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/administration_dashboard', as: 'rails_admin'
   devise_for :businesses, :controllers => { registrations: 'registrations', sessions: 'sessions' }
 
   devise_scope :business do

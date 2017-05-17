@@ -4,5 +4,6 @@ nav.nav.dashboard-nav
     = link_to "Search", admin_search_path, class: "marginLeft-sm"
     .nav-right
       - if current_admin
+        = link_to "Administration Dashboard", rails_admin_path, class: "marginRight-sm"
         = link_to "Replate Homepage", root_path, class: "marginRight-sm"
         = link_to "Sign Out", destroy_admin_session_path, class: "hover-alert", method: :delete

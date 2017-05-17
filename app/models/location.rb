@@ -60,8 +60,10 @@ class Location < ActiveRecord::Base
     count = 0
     if not self.tasks.empty?
       self.tasks.each do |task|
-        tsks[count] = task
-        count = count + 1
+        if task.status=="complete"
+          tsks[count] = task
+          count = count + 1
+        end
       end
     end
     return tsks

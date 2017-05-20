@@ -29,7 +29,6 @@ class LocationCreationForm extends DefaultForm {
       this.close();
     }
     const fail = (data) => {
-      console.log(data);
       var para = document.createElement("p");
       var node = document.createTextNode(data.errors[0]);
       para.className = "validation-msg";

@@ -22,7 +22,7 @@ class FormEditToggle extends React.Component {
       buttonContainer = (
         <div className="edit-button-container">
           <input name="editable" type="button" value="Edit"
-            className="button button--outline button--sm"
+            className="button button--outline"
             onClick={this.props.update} />
         </div>
       )

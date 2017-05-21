@@ -281,25 +281,19 @@ class LocationInvoice extends React.Component {
           </div>
         </div>
         <Modal
-        bsSize="small"
-        className="pickup-creation-modal"
-        show={this.state.showModal}
-        onHide={this._closeModal1}
-        
-        >
+          bsSize="small"
+          className="pickup-creation-modal"
+          show={this.state.showModal}
+          onHide={this._closeModal1}>
         <Modal.Header>
         <div className="form-row">
-          <label htmlFor="card-element">
-          Credit/Debit Card
-          </label>
+          <Modal.Title>Credit/Debit Card</Modal.Title>
           <br></br>
           You owe {this.state.chargeAmount} dollars for the current invoice.
         </div>
         </Modal.Header>
         <Modal.Body>
-          <div id = "card-element">
-
-          </div>
+          <div id="card-element"/>
           {this.state.business.stripe_customer_id && 
             <div>
               We've detected you have a saved card for this business. Would you like to pay with this card?
@@ -320,12 +314,12 @@ class LocationInvoice extends React.Component {
               We've detected you have a saved card for this location. Would you like to pay with this card?
               
 
-            <input
-            name="useSavedLocationCard"
-            type="checkbox"
-            checked={this.state.useSavedLocationCard}
-            onChange={this._useOldLocationCard}
-            />
+              <input
+              name="useSavedLocationCard"
+              type="checkbox"
+              checked={this.state.useSavedLocationCard}
+              onChange={this._useOldLocationCard}
+              />
             Yes
             </div>
             

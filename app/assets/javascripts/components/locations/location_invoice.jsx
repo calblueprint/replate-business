@@ -137,7 +137,6 @@ class LocationInvoice extends React.Component {
       var child = document.getElementsByClassName('modal-body');
       child = child[child.length - 1];
       span.setAttribute('class', 'validation-msg marginTop-xxl');
-      console.log(child.childNodes)
       if (child.childNodes.length <= 3) {
         child.appendChild(span);
       }

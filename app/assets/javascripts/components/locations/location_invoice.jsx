@@ -30,7 +30,7 @@ class LocationInvoice extends React.Component {
   
   componentDidUpdate() {
     if (this.state.showModal) {
-      const stripe = Stripe('pk_live_hAhjglc2Ex4zqKzpHslPr2C8');
+      const stripe = Stripe('pk_test_yKQDRasL7OS0xW6aNyNpTEVu');
       this.stripe = stripe;
       const elements = stripe.elements();
       var card = elements.create('card');
@@ -131,10 +131,16 @@ class LocationInvoice extends React.Component {
       }
     }
     updateFailed = (response) => {
-      var text = document.createTextNode('Payment failed.');
-      var child = document.getElementsByClassName('modal-footer');
+      var text = document.createTextNode('Payment failed. Please check your payment info or try another card.');
+      var span = document.createElement("span");
+      span.appendChild(text);
+      var child = document.getElementsByClassName('modal-body');
       child = child[child.length - 1];
-      child.parentNode.insertBefore(text, child);
+      span.setAttribute('class', 'validation-msg marginTop-xxl');
+      console.log(child.childNodes)
+      if (child.childNodes.length <= 3) {
+        child.appendChild(span);
+      }
       this.setState({useSavedBusinessCard: false,
       useSavedLocationCard: false,storeLocationCard:false,
       storeBusinessCard:false,});
@@ -349,47 +355,39 @@ class LocationInvoice extends React.Component {
         >
         <Modal.Header>
         <div className="form-row">
-          <label htmlFor="card-element">
-          </label>
+          <label htmlFor="card-element"/>
+          <Modal.Title>Payment Confirmation</Modal.Title>
           <br></br>
-          You owe {this.state.chargeAmount} dollars for the current invoice.
+          Pay {this.state.chargeAmount} dollars for the current invoice.
         </div>
         </Modal.Header>
         <Modal.Body>
-          {!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
-            <div>
-              Your location has no email, so this card cannot be saved to this location. Add an email to this location in "Settings".
-
-            </div>
-
-          }
           {!(this.state.useSavedLocationCard) && this.state.location.email && !(this.state.useSavedBusinessCard) &&
-            <div>
-              
-              Would you like to store this new credit card as the default card for this location?
-
-            <input
-            name="storeLocationCard"
-            type="checkbox"
-            checked={this.state.storeLocationCard}
-            onChange={this._storeLocationCard}
-            />
-            Yes
+            <div>  
+              <input
+                name="storeLocationCard"
+                type="checkbox"
+                checked={this.state.storeLocationCard}
+                onChange={this._storeLocationCard}
+              />
+              Set this card as the default payment for this location 
             </div>
           }
-              {!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
-                <div>
-              Would you like to store this new credit card as the default card for your business {this.state.business.company_name}?
-
-            <input
-            name="storeBusinessCard"
-            type="checkbox"
-            checked={this.state.storeBusinessCard}
-            onChange={this._storeBusinessCard}
-            />
-            Yes
+          {!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
+            <div className="small-msg">
+              <input
+                name="storeBusinessCard"
+                type="checkbox"
+                checked={this.state.storeBusinessCard}
+                onChange={this._storeBusinessCard}
+              />
+              Set this card as the default payment for {this.state.business.company_name}
+            </div> 
+          }
+          {!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
+            <div className="info-msg marginTop-xs">
+              Your location does not have an email associated with it, so a card cannot be saved to this location. Add an email to this location in "Settings".
             </div>
-            
           }
 
           <div id="card-errors"></div>

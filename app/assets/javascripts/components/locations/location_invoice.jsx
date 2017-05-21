@@ -131,10 +131,15 @@ class LocationInvoice extends React.Component {
       }
     }
     updateFailed = (response) => {
-      var text = document.createTextNode('Payment failed.');
-      var child = document.getElementsByClassName('modal-footer');
+      var text = document.createTextNode('Payment failed. Please check your payment info or try another card.');
+      var span = document.createElement("span");
+      span.appendChild(text);
+      var child = document.getElementsByClassName('modal-body');
       child = child[child.length - 1];
-      child.parentNode.insertBefore(text, child);
+      span.setAttribute('class', 'validation-msg marginTop-xxl');
+      if (child.childNodes.length <= 3) {
+        child.appendChild(span);
+      }
       this.setState({useSavedBusinessCard: false,
       useSavedLocationCard: false,storeLocationCard:false,
       storeBusinessCard:false,});
@@ -263,13 +268,13 @@ class LocationInvoice extends React.Component {
         <div className="col-md-4">
           <h1 className="history-title marginBot-md">More Info</h1>
           <div className="stats-container">
-            You've donated { this.state.tasks.length } times!
+            You've donated { this.state.tasks.length } { this.state.tasks.length > 1 ? `times` : `time` }!
           </div>
           <div>
-          You have {this.state.unpaidTasks} unpaid pickups.
+          You have { this.state.unpaidTasks } unpaid { this.state.unpaidTasks > 1 ? `pickups` : `pickup` }.
           </div>
           <div> 
-          Your price per pickup is {this.state.location.is_large ? '40$' : '30$'} because this location has {this.state.location.is_large ? '>100' : '<100'} employees.
+          Your price per pickup is {this.state.location.is_large ? '$40' : '$30'} because this location has {this.state.location.is_large ? '> 100' : '< 100'} employees.
           </div>
           <div className="history-button-container marginTop-md">
             <button
@@ -281,25 +286,19 @@ class LocationInvoice extends React.Component {
           </div>
         </div>
         <Modal
-        bsSize="small"
-        className="pickup-creation-modal"
-        show={this.state.showModal}
-        onHide={this._closeModal1}
-        
-        >
+          bsSize="small"
+          className="pickup-creation-modal"
+          show={this.state.showModal}
+          onHide={this._closeModal1}>
         <Modal.Header>
         <div className="form-row">
-          <label htmlFor="card-element">
-          Credit/Debit Card
-          </label>
+          <Modal.Title>Credit/Debit Card</Modal.Title>
           <br></br>
           You owe {this.state.chargeAmount} dollars for the current invoice.
         </div>
         </Modal.Header>
         <Modal.Body>
-          <div id = "card-element">
-
-          </div>
+          <div id="card-element"/>
           {this.state.business.stripe_customer_id && 
             <div>
               We've detected you have a saved card for this business. Would you like to pay with this card?
@@ -320,12 +319,12 @@ class LocationInvoice extends React.Component {
               We've detected you have a saved card for this location. Would you like to pay with this card?
               
 
-            <input
-            name="useSavedLocationCard"
-            type="checkbox"
-            checked={this.state.useSavedLocationCard}
-            onChange={this._useOldLocationCard}
-            />
+              <input
+              name="useSavedLocationCard"
+              type="checkbox"
+              checked={this.state.useSavedLocationCard}
+              onChange={this._useOldLocationCard}
+              />
             Yes
             </div>
             
@@ -355,47 +354,39 @@ class LocationInvoice extends React.Component {
         >
         <Modal.Header>
         <div className="form-row">
-          <label htmlFor="card-element">
-          </label>
+          <label htmlFor="card-element"/>
+          <Modal.Title>Payment Confirmation</Modal.Title>
           <br></br>
-          You owe {this.state.chargeAmount} dollars for the current invoice.
+          Pay {this.state.chargeAmount} dollars for the current invoice.
         </div>
         </Modal.Header>
         <Modal.Body>
-          {!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
-            <div>
-              Your location has no email, so this card cannot be saved to this location. Add an email to this location in "Settings".
-
-            </div>
-
-          }
           {!(this.state.useSavedLocationCard) && this.state.location.email && !(this.state.useSavedBusinessCard) &&
-            <div>
-              
-              Would you like to store this new credit card as the default card for this location?
-
-            <input
-            name="storeLocationCard"
-            type="checkbox"
-            checked={this.state.storeLocationCard}
-            onChange={this._storeLocationCard}
-            />
-            Yes
+            <div>  
+              <input
+                name="storeLocationCard"
+                type="checkbox"
+                checked={this.state.storeLocationCard}
+                onChange={this._storeLocationCard}
+              />
+              Set this card as the default payment for this location 
             </div>
           }
-              {!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
-                <div>
-              Would you like to store this new credit card as the default card for your business {this.state.business.company_name}?
-
-            <input
-            name="storeBusinessCard"
-            type="checkbox"
-            checked={this.state.storeBusinessCard}
-            onChange={this._storeBusinessCard}
-            />
-            Yes
+          {!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
+            <div className="small-msg">
+              <input
+                name="storeBusinessCard"
+                type="checkbox"
+                checked={this.state.storeBusinessCard}
+                onChange={this._storeBusinessCard}
+              />
+              Set this card as the default payment for {this.state.business.company_name}
+            </div> 
+          }
+          {!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
+            <div className="info-msg marginTop-xs">
+              Your location does not have an email associated with it, so a card cannot be saved to this location. Add an email to this location in "Settings".
             </div>
-            
           }
 
           <div id="card-errors"></div>
@@ -427,7 +418,7 @@ class HistoryRow extends React.Component {
     return (
       <tr className="table-row history-row">
         <td className="history-date-col">
-          { this.props.item.scheduled_date }
+          { moment(this.props.item.scheduled_date).format('LLL') }
         </td>
         <td className={`history-status ` + this.props.item.paid}>
           { this.props.item.paid ? "Paid" : "Unpaid" }

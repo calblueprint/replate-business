@@ -30,7 +30,7 @@ class DeleteLocationModal extends DefaultModal {
 
     return (
       <div>
-        <button className="button button--text-alert" onClick={this.openModal}>
+        <button className="button button--outline-alert" onClick={this.openModal}>
           Delete Location
         </button>
         <Modal

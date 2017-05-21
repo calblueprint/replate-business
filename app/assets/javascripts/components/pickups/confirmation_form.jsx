@@ -47,9 +47,9 @@ class ConfirmationForm extends DefaultForm {
 
     let recurrences = DAYSOFWEEK.map((day, i) => {
       if (this.props.recurrenceData[day].active) {
-        let startTime = moment(this.props.recurrenceData[day].input.start_time, "hh:mm:A").format("h:mm a");
-        let endTime = moment(this.props.recurrenceData[day].input.end_time, "hh:mm:A").format("h:mm a");
-        let pickupTimeWindow = startTime + "-" + endTime;
+        let startTime = moment(this.props.recurrenceData[day].input.start_time, "hh:mm:A").format("h:mm A");
+        let endTime = moment(this.props.recurrenceData[day].input.end_time, "hh:mm:A").format("h:mm A");
+        let pickupTimeWindow = startTime + " - " + endTime;
         return <div className="confirmation-container info-row--around" key={i}>
                   <h3 className="confirmation label">{this._capitalize(day)}</h3>
                   <div className="label-container">

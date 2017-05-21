@@ -263,13 +263,13 @@ class LocationInvoice extends React.Component {
         <div className="col-md-4">
           <h1 className="history-title marginBot-md">More Info</h1>
           <div className="stats-container">
-            You've donated { this.state.tasks.length } times!
+            You've donated { this.state.tasks.length } { this.state.tasks.length > 1 ? `times` : `time` }!
           </div>
           <div>
-          You have {this.state.unpaidTasks} unpaid pickups.
+          You have { this.state.unpaidTasks } unpaid { this.state.unpaidTasks > 1 ? `pickups` : `pickup` }.
           </div>
           <div> 
-          Your price per pickup is {this.state.location.is_large ? '40$' : '30$'} because this location has {this.state.location.is_large ? '>100' : '<100'} employees.
+          Your price per pickup is {this.state.location.is_large ? '$40' : '$30'} because this location has {this.state.location.is_large ? '> 100' : '< 100'} employees.
           </div>
           <div className="history-button-container marginTop-md">
             <button
@@ -427,7 +427,7 @@ class HistoryRow extends React.Component {
     return (
       <tr className="table-row history-row">
         <td className="history-date-col">
-          { this.props.item.scheduled_date }
+          { moment(this.props.item.scheduled_date).format('LLL') }
         </td>
         <td className={`history-status ` + this.props.item.paid}>
           { this.props.item.paid ? "Paid" : "Unpaid" }

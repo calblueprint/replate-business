@@ -30,7 +30,7 @@ class LocationInvoice extends React.Component {
   
   componentDidUpdate() {
     if (this.state.showModal) {
-      const stripe = Stripe('pk_test_yKQDRasL7OS0xW6aNyNpTEVu');
+      const stripe = Stripe('pk_live_hAhjglc2Ex4zqKzpHslPr2C8');
       this.stripe = stripe;
       const elements = stripe.elements();
       var card = elements.create('card');

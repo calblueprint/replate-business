@@ -85,6 +85,21 @@
   }
 }
 
+.button--outline-alert {
+  background: transparent;
+  border-color: $alert-60;
+  color: $alert;
+
+  &:hover {
+    border-color: $alert;
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: $alert-10;
+  }
+}
+
 .button--ghost {
   background: transparent;
   border-color: $snow-40;

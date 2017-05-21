@@ -21,6 +21,7 @@ class WeekOverview extends React.Component {
     let date = target.attr('data-date');
     let recurrence_id = target.attr('data-rid');
     let pickup_id = target.attr('data-pid');
+    let pickup_title = target.attr('data-ptitle');
     let frequency = target.attr('data-freq');
     let params = {
         "date"          : date,
@@ -30,7 +31,7 @@ class WeekOverview extends React.Component {
 
     if (frequency === "one_time") {
       this.state.cancelData = {
-        header      : "You're cancelling a one time pickup.",
+        header      : "You're cancelling " + pickup_title + ".",
         detail      : "Are you sure you want to continue?",
         buttonText  : ["Delete Pickup"],
         onClicks    : [this._deletePickup],
@@ -38,7 +39,7 @@ class WeekOverview extends React.Component {
       };
     } else if (frequency === "weekly") {
       this.state.cancelData = {
-        header      : "You're cancelling a pickup occurrence.",
+        header      : "You're cancelling an occurrence of " + pickup_title + ".",
         detail      : "Do you want to delete all occurrences of this pickup, or only the selected occurrence?",
         buttonText  : ["Delete All", "Delete Selected"],
         onClicks    : [this._deletePickup, this._createCancellation],
@@ -125,6 +126,7 @@ class WeekOverview extends React.Component {
       if (!isPastEvent) {
         cancelButton = <button data-rid={recurrence.id}
                                data-pid={pickup.id}
+                               data-ptitle={pickup.title}
                                data-date={recurrenceDate}
                                data-freq={recurrence.frequency}
                                onClick={this._cancelPickup}

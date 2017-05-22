@@ -149,6 +149,7 @@ class LocationSettings extends React.Component {
             <input type="submit" />
           </form>
           {uploadMsg}
+          <br/>
         </div>
 
         <div className="location-settings-input-col">
@@ -161,6 +162,8 @@ class LocationSettings extends React.Component {
             update={ this._toggleEdit }
             save={ this._attemptSave}
             className={ "marginTop-md" } />
+
+          <br/>
           
           <DeleteLocationModal location={this.state.location} />
         </div>

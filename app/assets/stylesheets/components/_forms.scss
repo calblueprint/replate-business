@@ -157,6 +157,15 @@ h3 {
   border: 1px solid red;
 }
 
+.small-msg {
+  font-size: 14px;
+}
+
+.info-msg {
+  color: $silver;
+  font-size: 14px;
+}
+
 .validation-msg {
   color: $alert;
   font-size: 14px;

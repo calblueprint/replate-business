@@ -25,7 +25,7 @@ class Location < ActiveRecord::Base
   has_many :tasks, :dependent => :destroy
   belongs_to :business
   has_attached_file :photo
-  validates :email, uniqueness: true
+  validates :email, uniqueness: true, allow_nil: true
 
   def address
     [self.number, self.street, self.city, self.state, self.zip].join(" ")

@@ -122,8 +122,8 @@ module OnfleetAPI
         next
       end
       all << r
-      data = post_single_task(r, date)
-      failed[r] = data['message'] if data.key?('message')
+      resp = post_single_task(r, date)
+      failed[r] = resp.parsed_response['message'] unless resp.code == 200
       # Throttling requires max 10 requests per second
       sleep 0.1
     end
@@ -167,6 +167,7 @@ module OnfleetAPI
         puts "ZOMG ERROR #{resp}"
         recurrence.errors.add(:base, message)
     end
+    resp
   end
 
 end

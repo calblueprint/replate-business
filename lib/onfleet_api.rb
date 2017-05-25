@@ -145,25 +145,25 @@ module OnfleetAPI
     puts resp.parsed_response
     case resp.code
       when 200
-        resp = resp.parsed_response
+        resp_parse = resp.parsed_response
         location_id = recurrence.location.id
         args = {:status => 'incomplete', \
                 :scheduled_date => date, \
-                :onfleet_id => resp['id'], \
+                :onfleet_id => resp_parse['id'], \
                 :location_id => location_id, \
-                :driver => resp['worker'], \
-                :short_id => resp['shortId']}
+                :driver => resp_parse['worker'], \
+                :short_id => resp_parse['shortId']}
 
         task = Task.new(args)
         task.save
-        recurrence.update(onfleet_id: resp['id'])
+        recurrence.update(onfleet_id: resp_parse['id'])
       when 404
         # resource not found
         puts "O noes not found!"
       when 300...600
         # error message to propogate
-        resp = resp.parsed_response
-        message = resp['message']['cause']
+        resp_parse = resp.parsed_response
+        message = resp_parse['message']['cause']
         puts "ZOMG ERROR #{resp}"
         recurrence.errors.add(:base, message)
     end

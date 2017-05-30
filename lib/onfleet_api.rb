@@ -122,8 +122,8 @@ module OnfleetAPI
         next
       end
       all << r
-      data = post_single_task(r, date)
-      failed[r] = data['message'] if data.key?('message')
+      resp = post_single_task(r, date)
+      failed[r] = resp.parsed_response['message'] unless resp.code == 200
       # Throttling requires max 10 requests per second
       sleep 0.1
     end
@@ -145,28 +145,29 @@ module OnfleetAPI
     puts resp.parsed_response
     case resp.code
       when 200
-        resp = resp.parsed_response
+        resp_parse = resp.parsed_response
         location_id = recurrence.location.id
         args = {:status => 'incomplete', \
                 :scheduled_date => date, \
-                :onfleet_id => resp['id'], \
+                :onfleet_id => resp_parse['id'], \
                 :location_id => location_id, \
-                :driver => resp['worker'], \
-                :short_id => resp['shortId']}
+                :driver => resp_parse['worker'], \
+                :short_id => resp_parse['shortId']}
 
         task = Task.new(args)
         task.save
-        recurrence.update(onfleet_id: resp['id'])
+        recurrence.update(onfleet_id: resp_parse['id'])
       when 404
         # resource not found
         puts "O noes not found!"
       when 300...600
         # error message to propogate
-        resp = resp.parsed_response
-        message = resp['message']['cause']
+        resp_parse = resp.parsed_response
+        message = resp_parse['message']['cause']
         puts "ZOMG ERROR #{resp}"
         recurrence.errors.add(:base, message)
     end
+    resp
   end
 
 end

@@ -29,18 +29,12 @@ class LocationCreationForm extends DefaultForm {
       this.close();
     }
     const fail = (data) => {
-      var para = document.createElement("p");
-      var node = document.createTextNode(data.errors[0]);
-      para.className = "validation-msg";
-      para.appendChild(node);
-
-      var element = document.getElementsByClassName("modal-header")[0];
-      
-      element.appendChild(para);
+      toastr.error("Location not valid, must have a specific address.");
       this.setState({loading: false, });
     }
 
     // Allow loading animation to persist for 500ms
+    console.log(APIConstants.locations.create)
     setTimeout(() => {
       this._attemptAction(APIConstants.locations.create, this.state, success, fail);
     }, 500)

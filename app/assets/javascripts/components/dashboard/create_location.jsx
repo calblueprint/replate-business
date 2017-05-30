@@ -34,7 +34,6 @@ class LocationCreationForm extends DefaultForm {
     }
 
     // Allow loading animation to persist for 500ms
-    console.log(APIConstants.locations.create)
     setTimeout(() => {
       this._attemptAction(APIConstants.locations.create, this.state, success, fail);
     }, 500)

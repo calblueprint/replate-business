@@ -13,41 +13,48 @@ class SignupForm extends DefaultForm {
   }
 
   _saveBusiness = (b) => {
-    this.setState({
-      business: b,
-      view: 2,
-    })
-    window.scrollTo(0, 0);
+    this.state.business = b;
+    this._createBusiness();
   }
 
   _createBusiness = () => {
     const success = (id) => {
-      this._createLocation(id.data)
+      this.state.business_id = id.data;
+      this.setState({ loading: false, view: 2, });
+      window.scrollTo(0, 0);
+    };
+    const fail = (id) => {
+      toastr.error("Email is already in use.")
+      this.setState({ loading: false, });
     };
 
-    this.setState({
-      loading: true,
-    });
+    this.setState({ loading: true, });
 
     this._attemptAction(APIConstants.sessions.signup,
-      { business: this.state.business }, success.bind(this));
+      { business: this.state.business }, success, fail);
   }
 
   _saveLocation = (l) => {
     // After saving the location, callback to create business
-    this.setState({ location: l }, this._createBusiness)
+    this.state.location = l
+    this.setState({ loading: true})
+    this._createLocation(this.state.business_id);
   }
 
   _createLocation = (businessID) => {
     const success = () => {
       window.location = "/dashboard";
     };
+    const fail = () => {
+      toastr.error("Location not valid, must have a specific address.");
+      this.setState({ loading: false, });
+    };
 
     let params = this.state.location;
     params["business_id"] = businessID;
 
     this._attemptAction(APIConstants.locations.create,
-      params, success.bind(this));
+      params, success, fail);
   }
 
   render() {

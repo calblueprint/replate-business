@@ -10,9 +10,8 @@ class API::LocationsController < ApplicationController
     location = Location.new(location_params)
     begin
       saved = location.save!
-    rescue ActiveRecord::RecordInvalid => invalid
-      render_json_message(:forbidden, errors: invalid.record.errors.full_messages)
-      return
+    rescue ActiveRecord::StatementInvalid => invalid
+      return render_json_message(:forbidden, errors: "Invalid location")
     end
     if saved
       render_json_message(:ok, message: 'Location successfully created!')

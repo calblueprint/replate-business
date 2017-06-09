@@ -27,7 +27,8 @@ module OnfleetAPI
         :apartment => location.apt_number ? location.apt_number : '',
         :city => location.city,
         :state => location.state,
-        :country => location.country
+        :country => location.country,
+        :postalCode => location.zip
       }
     }
   end

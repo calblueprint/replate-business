@@ -109,7 +109,8 @@ module OnfleetAPI
   def self.cannot_post(recurrence, date)
     # any conditions that if are true, require that post cannot happen
     recurrence.cancellations.where(date: date).size > 0 ||
-    recurrence.start_day > date
+    recurrence.start_day > date ||
+    (recurrence.start_day < date && recurrence.frequency == "one_time")
   end
 
   def self.post_batch_task(day, date)

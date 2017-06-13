@@ -31,6 +31,6 @@ class MaenMailer < ApplicationMailer
   end
 
   def maen_email
-    'maen@re-plate.org'
+    'maen@re-plate.org, info@re-plate.org'
   end
 end

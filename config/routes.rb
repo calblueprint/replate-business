@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get '/locations', to: 'locations#index'
   resources :pickups, :only => [:show]
   resources :recurrences, :only => [:show]
-
+  resources :onfleet_webhooks
   #Export
   get 'export' => 'recurrences#export'
 

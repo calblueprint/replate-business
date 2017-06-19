@@ -56,4 +56,9 @@ Rails.application.routes.draw do
       resources :businesses, :only => [:index]
     end
   end
+
+  get '*path' => redirect('/')
 end
+
+
+

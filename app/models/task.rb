@@ -26,11 +26,12 @@ class Task < ActiveRecord::Base
   end
 
   def completed?
-    if self.status == :incomplete
+    if self.status == "incomplete"
       onfleet_check = HTTParty.get(
         "https://onfleet.com/api/v2/tasks/#{self.onfleet_id}",
-        basic_auth: { username => Figaro.env.ONFLEET_API_KEY, password: "" },
+        basic_auth: { username: Figaro.env.ONFLEET_API_KEY, password: "" },
         headers: { 'Content-Type' => 'application/json' })
+      puts "bunny"
       if onfleet_check.parsed_response['state'] == 3
         self.status = 1
         self.save

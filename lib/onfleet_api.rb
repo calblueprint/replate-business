@@ -1,4 +1,3 @@
-# hello
 require 'json'
 require 'httparty'
 
@@ -163,7 +162,7 @@ module OnfleetAPI
         # resource not found
         puts "O noes not found!"
       when 300...600
-        # error message to propogate
+        # error message to propagate
         resp_parse = resp.parsed_response
         message = resp_parse['message']['cause']
         puts "ZOMG ERROR #{resp}"
@@ -174,4 +173,4 @@ module OnfleetAPI
 
 end
 
-# puts OnfleetAPI.test
+

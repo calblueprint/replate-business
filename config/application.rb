@@ -29,6 +29,7 @@ module Replate
     # Enable React addons
     config.react.addons = true
 
+
     # Enable experimental features for Babel
     config.react.jsx_transform_options = {
       stage: 0

@@ -1,4 +1,3 @@
-# hello
 require 'json'
 require 'httparty'
 
@@ -27,7 +26,8 @@ module OnfleetAPI
         :apartment => location.apt_number ? location.apt_number : '',
         :city => location.city,
         :state => location.state,
-        :country => location.country
+        :country => location.country,
+        :postalCode => location.zip
       }
     }
   end
@@ -108,7 +108,8 @@ module OnfleetAPI
   def self.cannot_post(recurrence, date)
     # any conditions that if are true, require that post cannot happen
     recurrence.cancellations.where(date: date).size > 0 ||
-    recurrence.start_day > date
+    recurrence.start_day > date ||
+    (recurrence.start_day < date && recurrence.frequency == "one_time")
   end
 
   def self.post_batch_task(day, date)
@@ -161,7 +162,7 @@ module OnfleetAPI
         # resource not found
         puts "O noes not found!"
       when 300...600
-        # error message to propogate
+        # error message to propagate
         resp_parse = resp.parsed_response
         message = resp_parse['message']['cause']
         puts "ZOMG ERROR #{resp}"
@@ -172,4 +173,4 @@ module OnfleetAPI
 
 end
 
-# puts OnfleetAPI.test
+

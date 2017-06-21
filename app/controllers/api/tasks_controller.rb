@@ -17,7 +17,7 @@ class API::TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-    if business.update business_params
+    if task.update task_params
       render_json_message(:ok, message: 'Task successfully updated!')
     else
       render_json_message(:forbidden, errors: task.errors.full_messages)

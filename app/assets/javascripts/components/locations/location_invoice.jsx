@@ -178,6 +178,7 @@ class LocationInvoice extends React.Component {
       var arr = [];
       for (prop in response) {
         if (response[prop]['status'] == "complete"){
+          console.log(response[prop])
           arr.push(response[prop])
         };
       }

@@ -19,15 +19,15 @@ class LocationInvoice extends React.Component {
       card: {},
       unpaidTasks: 0,
       chargeAmount: 0,
-      
+
     }
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-    componentWillMount() {
+  componentWillMount() {
     this._fetchTasks();
   }
-  
+
   componentDidUpdate() {
     if (this.state.showModal) {
       const stripe = Stripe('pk_live_hAhjglc2Ex4zqKzpHslPr2C8');
@@ -40,7 +40,7 @@ class LocationInvoice extends React.Component {
         card.unmount();
       }
     }
-    
+
   }
 
   _closeModal1 = () => {
@@ -54,7 +54,6 @@ class LocationInvoice extends React.Component {
   _openModal = () => {
     this.setState({ showModal: true });
     this._calculateChargeAmount();
-
   }
 
   _handleSubmit = () => {
@@ -70,11 +69,10 @@ class LocationInvoice extends React.Component {
           var errorElement = document.getElementById('card-errors');
           errorElement.textContent = result.error.message;
         } else {
-
           const taskUpdateSuccess = (response) => {
             form._fetchTasks();
           }
-          
+
           updateBusiness = (response) => {
             Requester.update(APIConstants.locations.tasks(form.props.location.id),{},taskUpdateSuccess);
             if (response.stripe_customer_id != null) {
@@ -101,13 +99,13 @@ class LocationInvoice extends React.Component {
       this.setState({useSavedBusinessCard: false,
       useSavedLocationCard: false,storeLocationCard:false,
       storeBusinessCard:false,});
-      setTimeout(() => 
+      setTimeout(() =>
         { this._closeModal2();
           this.setState({useSavedBusinessCard: false,
       useSavedLocationCard: false,storeLocationCard:false,
       storeBusinessCard:false,});
       },2000);
-      
+
     }
     updateBusiness = (response) => {
       Requester.update(APIConstants.locations.tasks(this.props.location.id),{},updateSuccess);
@@ -146,14 +144,14 @@ class LocationInvoice extends React.Component {
     }
 
     if (this.state.storeBusinessCard && !this.state.storeLocationCard) {
-          
+
       Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateBusiness,updateFailed);
     }
 
     if (this.state.storeLocationCard && !this.state.storeBusinessCard) {
         Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateLocation,updateFailed);
         this._fetchTasks();
-      
+
     }
     if (this.state.storeLocationCard && this.state.storeBusinessCard) {
       Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:true, useSaved: false, chargeAmount: chargeAmount},updateBoth,updateFailed);
@@ -162,12 +160,12 @@ class LocationInvoice extends React.Component {
 
     if (this.state.useSavedBusinessCard) {
       Requester.post(APIConstants.businesses.charge(this.state.business.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true, chargeAmount: chargeAmount},updateBusiness,updateFailed);
-      
+
     }
 
     if (this.state.useSavedLocationCard) {
       Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, store:false, useSaved: true,  chargeAmount: chargeAmount},updateLocation,updateFailed);
-      
+
     }
     if (!(this.state.storeBusinessCard || this.state.storeLocationCard || this.state.useSavedLocationCard || this.state.useSavedBusinessCard)) {
       Requester.post(APIConstants.locations.charge(this.state.location.id),{stripeToken:this.state.stripeToken, useSaved: false, store:false, chargeAmount: chargeAmount},updateLocation,updateFailed);
@@ -175,21 +173,23 @@ class LocationInvoice extends React.Component {
 
   }
 
-  _fetchTasks = () => { 
-    setTasks = (response) => {    
+  _fetchTasks = () => {
+    setTasks = (response) => {
       var arr = [];
       for (prop in response) {
         arr.push(response[prop]);
-      } 
-      this.setState({tasks: arr});  
-      this._calculateChargeAmount();  
+        // Add logic here
+        //console.log(response[prop]['status']);
+      }
+      this.setState({tasks: arr});
+      this._calculateChargeAmount();
     }
     setBusiness = (response) => {
-      this.setState({business: response});    
+      this.setState({business: response});
     }
     setLocation = (response) => {
       this.setState({location: response});
-    }   
+    }
     Requester.get(APIConstants.locations.tasks(this.props.location.id), setTasks);
     Requester.get(APIConstants.locations.show(this.props.location.id), setLocation);
     Requester.get(APIConstants.businesses.show(this.props.business.id), setBusiness);
@@ -225,7 +225,7 @@ class LocationInvoice extends React.Component {
     }
     this.setState({chargeAmount:totalCharge});
     this.setState({unpaidTasks:unpaidTasks});
-    
+
   }
 
   render() {
@@ -256,7 +256,7 @@ class LocationInvoice extends React.Component {
                 <tr>
                   <th className="table-header">Date</th>
                   <th className="table-header">Paid</th>
-                  
+
                 </tr>
               </thead>
               <tbody>
@@ -273,7 +273,7 @@ class LocationInvoice extends React.Component {
           <div>
           You have { this.state.unpaidTasks } unpaid { this.state.unpaidTasks > 1 ? `pickups` : `pickup` }.
           </div>
-          <div> 
+          <div>
           Your price per pickup is {this.state.location.is_large ? '$40' : '$30'} because this location has {this.state.location.is_large ? '> 100' : '< 100'} employees.
           </div>
           <div className="history-button-container marginTop-md">
@@ -299,10 +299,10 @@ class LocationInvoice extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <div id="card-element"/>
-          {this.state.business.stripe_customer_id && 
+          {this.state.business.stripe_customer_id &&
             <div>
               We've detected you have a saved card for this business. Would you like to pay with this card?
-              
+
 
             <input
             name="useSavedBusinessCard"
@@ -312,12 +312,12 @@ class LocationInvoice extends React.Component {
             />
             Yes
             </div>
-            
+
           }
-          {this.state.location.stripe_customer_id && 
+          {this.state.location.stripe_customer_id &&
             <div>
               We've detected you have a saved card for this location. Would you like to pay with this card?
-              
+
 
               <input
               name="useSavedLocationCard"
@@ -327,7 +327,7 @@ class LocationInvoice extends React.Component {
               />
             Yes
             </div>
-            
+
           }
 
           <div id="card-errors"></div>
@@ -362,14 +362,14 @@ class LocationInvoice extends React.Component {
         </Modal.Header>
         <Modal.Body>
           {!(this.state.useSavedLocationCard) && this.state.location.email && !(this.state.useSavedBusinessCard) &&
-            <div>  
+            <div>
               <input
                 name="storeLocationCard"
                 type="checkbox"
                 checked={this.state.storeLocationCard}
                 onChange={this._storeLocationCard}
               />
-              Set this card as the default payment for this location 
+              Set this card as the default payment for this location
             </div>
           }
           {!(this.state.useSavedBusinessCard) && !(this.state.useSavedLocationCard) &&
@@ -381,7 +381,7 @@ class LocationInvoice extends React.Component {
                 onChange={this._storeBusinessCard}
               />
               Set this card as the default payment for {this.state.business.company_name}
-            </div> 
+            </div>
           }
           {!this.state.location.email && !(this.state.useSavedLocationCard) && !(this.state.useSavedBusinessCard) &&
             <div className="info-msg marginTop-xs">
@@ -423,7 +423,7 @@ class HistoryRow extends React.Component {
         <td className={`history-status ` + this.props.item.paid}>
           { this.props.item.paid ? "Paid" : "Unpaid" }
         </td>
-        
+
       </tr>
     );
   }

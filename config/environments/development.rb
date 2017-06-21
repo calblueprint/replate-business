@@ -22,6 +22,8 @@ Rails.application.configure do
     authentication: "plain",
     enable_starttls_auto: true
   }
+  # Allow Onfleet to access console
+  config.web_console.whitelisted_ips = '54.84.188.171'
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

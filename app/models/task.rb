@@ -24,4 +24,20 @@ class Task < ActiveRecord::Base
   	descriptive_string = split[1].strip
   	return { "pounds" => Integer(estimate), "descriptive_string" => descriptive_string }
   end
+
+  def completed?
+    if self.status == "incomplete"
+      onfleet_check = HTTParty.get(
+        "https://onfleet.com/api/v2/tasks/#{self.onfleet_id}",
+        basic_auth: { username: Figaro.env.ONFLEET_API_KEY, password: "" },
+        headers: { 'Content-Type' => 'application/json' })
+      if onfleet_check.parsed_response['state'] == 3
+        self.status = 1
+        self.save
+      end
+    end
+    #Throttling for the api (must keep under 10 calls per second)
+    sleep 0.1
+    self.status
+  end
 end

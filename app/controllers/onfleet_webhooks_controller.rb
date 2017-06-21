@@ -13,6 +13,7 @@ class OnfleetWebhooksController < ApplicationController
     task_completed = Task.find_by(short_id: task_short_id)
     if task_completed
       task_completed.status = 1
+      task_completed.description = params['data']['task']['completionDetails']['notes']
       unless task_completed.save
         puts "<------Task: #{task_completed.id} didn't save as completed ----->"
       end

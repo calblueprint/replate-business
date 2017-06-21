@@ -31,12 +31,12 @@ class Task < ActiveRecord::Base
         "https://onfleet.com/api/v2/tasks/#{self.onfleet_id}",
         basic_auth: { username: Figaro.env.ONFLEET_API_KEY, password: "" },
         headers: { 'Content-Type' => 'application/json' })
-      puts "bunny"
       if onfleet_check.parsed_response['state'] == 3
         self.status = 1
         self.save
       end
     end
+    #Throttling for the api (must keep under 10 calls per second)
     sleep 0.1
     self.status
   end

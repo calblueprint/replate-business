@@ -1,8 +1,6 @@
 class OnfleetWebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    puts "%" * 50
-    puts params
     if params['check']
       render :json => params['check']
     else
@@ -11,7 +9,7 @@ class OnfleetWebhooksController < ApplicationController
   end
 
   def create
-    task_short_id = params['data']['task']["shortId"]
+    task_short_id = params['data']['task']['shortId']
     task_completed = Task.find_by(short_id: task_short_id)
     if task_completed
       task_completed.status = 1

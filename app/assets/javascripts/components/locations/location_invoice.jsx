@@ -177,9 +177,10 @@ class LocationInvoice extends React.Component {
     setTasks = (response) => {
       var arr = [];
       for (prop in response) {
-        arr.push(response[prop]);
-        // Add logic here
-        //console.log(response[prop]['status']);
+        if (response[prop]['status'] == "complete"){
+          console.log(response[prop])
+          arr.push(response[prop])
+        };
       }
       this.setState({tasks: arr});
       this._calculateChargeAmount();

@@ -17,5 +17,12 @@ namespace :daily_onfleet_task do
       args = {:date => tomorrow_date, :tasks => posted}
       ExportAllRecurrences.new(args).export_all
     end
+    if Time.now.wday < 6
+      yesterday_created = Recurrence.where("created_at > ?", (DateTime.now-1)).where("day = ?", Time.now.wday).where(onfleet_id: nil)
+      for recurrence in yesterday_created
+        OnfleetAPI.post_single_task(recurrence, Date.today)
+      end
+
+    end
   end
 end

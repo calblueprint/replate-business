@@ -33,6 +33,7 @@ class Task < ActiveRecord::Base
         headers: { 'Content-Type' => 'application/json' })
       if onfleet_check.parsed_response['state'] == 3
         self.status = 1
+        self.description = onfleet_check.parsed_response['completionDetails']['notes']
         self.save
       end
     end

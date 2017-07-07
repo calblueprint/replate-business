@@ -30,13 +30,13 @@ RSpec.describe Business, type: :model do
   end
 
   it"is invalid without a email"do
-    business = Business.new(email: nil)
+    business = FactoryGirl.build(:business,email: nil)
     business.valid?
     expect(business.errors[:email]).to include("can't be blank")
   end
 
   it"is invalid without a company_name"do
-    business = Business.new(company_name: nil)
+    business = FactoryGirl.build(:business,company_name: nil)
     business.valid?
     expect(business.errors[:company_name]).to include("can't be blank")
   end

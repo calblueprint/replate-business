@@ -26,4 +26,9 @@ RSpec.describe Location, type: :model do
   it "has a valid factory" do
     expect(FactoryGirl.build(:location)).to be_valid
   end
+  it"is invalid without a addr_name"do
+    location = FactoryGirl.build(:location, addr_name: nil)
+    location.valid?
+    expect(location.errors[:addr_name]).to include("can't be blank")
+  end
 end

@@ -25,6 +25,7 @@ FactoryGirl.define do
       number "611"
       street "West Temple"
       city "Salt Lake City"
+      apt_number "A"
       state "Utah"
       zip "84101"
       country "United States"

@@ -22,15 +22,15 @@
 
 FactoryGirl.define do
   factory :location do
-      number "611"
-      street "West Temple"
-      city "Salt Lake City"
-      apt_number "A"
-      state "Utah"
-      zip "84101"
-      country "United States"
-      addr_name "TEST DO NOT DELIVER"
-      lat 40.760800
-      lon -111.891000
+    number '611'
+    street 'West Temple'
+    city 'Salt Lake City'
+    apt_number 'A'
+    state 'Utah'
+    zip '84101'
+    country 'United States'
+    addr_name 'TEST DO NOT DELIVER'
+    lat 40.760800
+    lon -111.891000
   end
 end

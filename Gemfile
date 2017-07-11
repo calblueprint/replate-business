@@ -22,6 +22,7 @@ gem 'json'
 gem 'geokit'
 gem 'rails_admin', '~> 1.1.1'
 gem 'responders', '~> 2.0'
+gem 'simplecov', :require => false, :group => :test
 gem 'timezone'
 gem 'tzinfo'
 gem 'zip-codes'

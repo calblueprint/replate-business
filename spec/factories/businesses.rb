@@ -23,11 +23,11 @@
 
 FactoryGirl.define do
   factory :business do
-      sequence(:email) { |n| "johndoe#{n}@example.com"}
-      password "password"
-      password_confirmation "password"
-      company_name Faker::Company.name
-      phone '925-222-2342'
-      onfleet_id "siouhasdfo"
+    sequence(:email) { |n| "johndoe#{n}@example.com" }
+    password 'password'
+    password_confirmation 'password'
+    company_name Faker::Company.name
+    phone '925-222-2342'
+    onfleet_id 'siouhasdfo'
   end
 end

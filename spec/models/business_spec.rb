@@ -24,5 +24,19 @@
 require 'rails_helper'
 
 RSpec.describe Business, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'has a valid factory' do
+    expect(build(:business)).to be_valid
+  end
+
+  it 'is invalid without a email' do
+    business = build(:business, email: nil)
+    business.valid?
+    expect(business.errors[:email]).to include("can't be blank")
+  end
+
+  it 'is invalid without a company_name' do
+    business = build(:business, company_name: nil)
+    business.valid?
+    expect(business.errors[:company_name]).to include("can't be blank")
+  end
 end

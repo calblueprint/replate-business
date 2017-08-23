@@ -50,6 +50,9 @@ gem 'uglifier', '2.7.2'
 # Stripe
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
+# Invoiced
+gem 'invoiced', '~> 0.12.0'
+
 group :development, :test do
   gem 'better_errors'
   gem 'quiet_assets'

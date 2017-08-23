@@ -29,4 +29,26 @@ class Business < ActiveRecord::Base
 
   has_many :locations, :dependent => :destroy
   validates_presence_of :company_name, :phone
+
+
+  def invoice
+    tasks = self.locations.collect{|x| x.tasks.where(paid: false).where(status: 1).where(invoice_number: nil)}.flatten
+    items_builder = []
+
+    tasks.each{|t|
+      item = {}
+      item[:name] = t.scheduled_date.strftime("Pickup on %a  %m/%d/%Y")
+      item[:quantity] = 1
+      if t.location.is_large
+        item[:unit_cost] = 40
+      else
+        item[:unit_cost] = 30
+      end
+
+       items_builder << item
+     }
+     return items_builder
+  end
+
+
 end

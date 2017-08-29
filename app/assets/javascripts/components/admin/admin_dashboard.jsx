@@ -14,6 +14,7 @@ class AdminDashboard extends React.Component {
 
   render() {
     let businesses;
+    console.log(this)
     businesses = this.props.business_ids.map((id) => {
       return (
         <BusinessDashboard

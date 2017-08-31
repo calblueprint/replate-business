@@ -2,7 +2,7 @@
  * Renders the home business dashboard view
  * @prop business_id - the current business that is signed in
  */
-class InvoiceButton extends React.Component {
+class ViewInvoiceButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,9 +24,9 @@ class InvoiceButton extends React.Component {
   }
 
    handleClick = () => {
-    var invoiceUrl = window.loinvoiceUrlion.href;
+    var invoiceUrl = window.location.href;
     invoiceUrl = invoiceUrl.split('/').slice(0,-1).join('/')
-
+    //  add final route to invoiceUrl
     window.open(invoiceUrl)
   }
 

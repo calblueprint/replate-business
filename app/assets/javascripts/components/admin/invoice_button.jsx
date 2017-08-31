@@ -24,10 +24,10 @@ class InvoiceButton extends React.Component {
   }
 
    handleClick = () => {
-    var cat = window.location.href;
-    cat = cat.split('/').slice(0,-1).join('/')
+    var invoiceUrl = window.location.href;
+    invoiceUrl = invoiceUrl.split('/').slice(0,-1).join('/')
     console.log('this is:', window.location.href)
-    window.open(cat)
+    // window.open(invoiceUrl)
   }
 
 

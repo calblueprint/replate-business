@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   resources :pickups, :only => [:show]
   resources :recurrences, :only => [:show]
   resources :onfleet_webhooks
+  resources :invoiced
   #Export
   get 'export' => 'recurrences#export'
 

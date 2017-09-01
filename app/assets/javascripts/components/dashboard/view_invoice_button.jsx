@@ -41,7 +41,3 @@ class ViewInvoiceButton extends React.Component {
 
   }
 }
-
-BusinessDashboard.propTypes = {
-  business_id: React.PropTypes.number.isRequired,
-}

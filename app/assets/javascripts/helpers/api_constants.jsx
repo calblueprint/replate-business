@@ -25,6 +25,10 @@ class ApiConstants {
     }
   }
 
+  get invoiced(){
+
+  }
+
   get pickups() {
     return {
       update  : (id) => `/api/pickups/${id}`,

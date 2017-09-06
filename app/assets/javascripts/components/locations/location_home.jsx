@@ -12,10 +12,10 @@ class LocationHome extends React.Component {
     super(props);
     const tabMapping = {
       pickups: 1,
-      history: 2,
-      invoice: 3,
-      settings: 4,
-      impact: 5,
+      invoice: 2,
+      settings: 3,
+      impact: 4,
+      history: 5
     }
 
     let active = 1;

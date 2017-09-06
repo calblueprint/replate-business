@@ -25,7 +25,6 @@ class ViewInvoiceButton extends React.Component {
 
    handleClick = () => {
     var invoiceUrl = window.location.href;
-    invoiceUrl = invoiceUrl.split('/').slice(0,-1).join('/')
     //  add final route to invoiceUrl
     window.open(invoiceUrl)
   }

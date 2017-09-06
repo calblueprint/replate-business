@@ -25,8 +25,11 @@ class InvoiceButton extends React.Component {
 
    handleClick = () => {
     var invoiceUrl = window.location.href;
-    invoiceUrl = invoiceUrl.split('/').slice(0,-1).join('/')
-
+    var params = {}
+    params["business"] = this.state.business.id;
+    // this._attemptAction(APIConstants.invoiced.create,
+    //     params, success, fail);
+    Requester.post(APIConstants.invoiced.create(), params)
   }
 
 

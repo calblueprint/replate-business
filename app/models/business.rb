@@ -62,11 +62,14 @@ class Business < ActiveRecord::Base
 
   def make_invoice
     invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, true)
-    invoicey = invoiced.Invoice.create(
-      customer: invoiced_id,
-      payment_terms: 'NET 14',
-      items: invoice_data
-    )
+    if invoice_data != []
+      invoicey = invoiced.Invoice.create(
+        customer: invoiced_id,
+        payment_terms: 'NET 14',
+        items: invoice_data
+      )
+    end
+
     tasks = locations.collect { |x| x.tasks.where(paid: false, status: 1, invoice_number: nil) }.flatten
     tasks.each do |task|
       task.invoice_number = invoicey[:id]

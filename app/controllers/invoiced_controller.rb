@@ -17,7 +17,12 @@ class InvoicedController < ApplicationController
   end
 
   def webhook
-    puts params
+    invoice_number = params['data']['object']['id']
+    invoice_tasks = Task.where(invoice_number: invoice_number)
+    invoice_tasks.each do |task|
+      task.paid = true
+      task.save
+    end
     render nothing: true, status: :ok
   end
 

@@ -33,8 +33,11 @@ Rails.application.routes.draw do
   get '/locations', to: 'locations#index'
   resources :pickups, :only => [:show]
   resources :recurrences, :only => [:show]
-  resources :onfleet_webhooks
-  resources :invoiced
+  resources :onfleet_webhooks, :only => [:index, :create]
+  resources :invoiced, :only => [:index, :create, :webhook] do
+    # route to receive Invoiced webhook
+    post 'webhook', on: :collection
+  end
   #Export
   get 'export' => 'recurrences#export'
 

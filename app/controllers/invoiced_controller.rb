@@ -1,4 +1,5 @@
 class InvoicedController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:webhook]
 
   def index
     if params['business']
@@ -14,6 +15,12 @@ class InvoicedController < ApplicationController
     business.make_invoice
     render :nothing => true
   end
+
+  def webhook
+    puts params
+    render nothing: true, status: :ok
+  end
+
 
 end
 

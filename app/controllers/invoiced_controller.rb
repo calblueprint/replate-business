@@ -17,6 +17,7 @@ class InvoicedController < ApplicationController
   end
 
   def webhook
+    # Refactor to call event from API first so as to avoid messy nonsense
     invoice_number = params['data']['object']['id']
     invoice_tasks = Task.where(invoice_number: invoice_number)
     invoice_tasks.each do |task|

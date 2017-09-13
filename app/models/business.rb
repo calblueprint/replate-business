@@ -32,19 +32,7 @@ class Business < ActiveRecord::Base
 
   def invoice_data
     tasks = locations.collect { |x| x.tasks.where(paid: false, status: 1, invoice_number: nil) }.flatten
-    items_builder = []
-    tasks.each { |t|
-      item = {}
-      item[:name] = t.scheduled_date.strftime('Pickup on %a  %m/%d/%Y ') + 'Location: ' + t.location.addr_name
-      item[:quantity] = 1
-      item[:unit_cost] = if t.location.is_large
-                           40
-                         else
-                           30
-                         end
-      items_builder << item
-    }
-     items_builder
+    InvoicedAPI.invoice_data(tasks)
   end
 
   def set_invoiced_id
@@ -66,7 +54,8 @@ class Business < ActiveRecord::Base
       invoicey = invoiced.Invoice.create(
         customer: invoiced_id,
         payment_terms: 'NET 14',
-        items: invoice_data
+        items: invoice_data,
+        autopay: false
       )
     end
 

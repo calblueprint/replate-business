@@ -54,4 +54,10 @@ module InvoicedAPI
     end
     items_builder
   end
+
+  def self.customers
+    customers, metadata = @invoiced.Customer.list()
+    puts "x" * 1000
+    customers.each{|x| puts x.name + ":   " + (x.id).to_s }
+  end
 end

@@ -13,6 +13,7 @@ gem 'faker', '1.6.6'
 gem 'figaro', '1.1.1'
 gem 'has_scope', '0.6.0'
 gem 'jbuilder', '~> 2.0'
+gem 'jwt'
 gem 'kaminari', '0.16.3'
 gem 'nokogiri'
 gem 'pg', '0.18.4'
@@ -49,6 +50,9 @@ gem 'uglifier', '2.7.2'
 
 # Stripe
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
+# Invoiced
+gem 'invoiced', '~> 0.12.0'
 
 group :development, :test do
   gem 'better_errors'

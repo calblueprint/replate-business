@@ -143,7 +143,7 @@ def make_tasks
      scheduled_date: Time.now,
      driver: 3,
      trays_donated: 5,
-     description: "pickup front of building",
+     description: "#{rand(1..50)}, #{["ready", "loose"].sample}, 11 trays with chicken and mashed potatoes and salad and One container of green goddess dressing, 150",
    )
    task.id = n-1
    task.location = Location.find(n)
@@ -156,7 +156,7 @@ def make_tasks
      scheduled_date: Time.now,
      driver: 3,
      trays_donated: 5,
-     description: "pickup front of building",
+     description: "#{rand(1..50)}, #{["ready", "loose"].sample}, 11 trays with chicken and mashed potatoes and salad and One container of green goddess dressing, 150",
    )
  t.save
 end

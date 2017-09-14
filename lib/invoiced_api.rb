@@ -2,7 +2,7 @@ require 'jwt'
 require 'invoiced'
 
 module InvoicedAPI
-  @invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, true)
+  @invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY)
 
   def self.signin_url(business)
     # Gets the invoice sign in for client

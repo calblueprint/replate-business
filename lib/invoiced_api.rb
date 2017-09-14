@@ -2,7 +2,7 @@ require 'jwt'
 require 'invoiced'
 
 module InvoicedAPI
-  @invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, true)
+  @invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, !Rails.env.production?)
 
   def self.signin_url(business)
     # Gets the invoice sign in for client
@@ -19,6 +19,7 @@ module InvoicedAPI
   end
 
   def self.paid_tasks(tasks)
+
     invoices = tasks.uniq.pluck(:invoice_number)
     invoices.each do |i|
       if !i.nil?
@@ -43,6 +44,8 @@ module InvoicedAPI
   end
 
   def self.invoice_data(tasks)
+    puts "*" * 100
+    puts Rails.env.test?
     items_builder = []
     tasks.each do |t|
       item = {}
@@ -53,5 +56,11 @@ module InvoicedAPI
       items_builder << item
     end
     items_builder
+  end
+
+  def self.customers
+    customers, metadata = @invoiced.Customer.list()
+    puts "x" * 1000
+    customers.each{|x| puts x.name + ":   " + (x.id).to_s }
   end
 end

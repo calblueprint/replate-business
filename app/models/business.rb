@@ -36,7 +36,7 @@ class Business < ActiveRecord::Base
   end
 
   def set_invoiced_id
-      invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY)
+      invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, !Rails.env.production?)
       return if self.invoiced_id
       response = invoiced.Customer.create(
         name: company_name,
@@ -49,7 +49,7 @@ class Business < ActiveRecord::Base
   end
 
   def make_invoice
-    invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY)
+    invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, !Rails.env.production?)
     if invoice_data != []
       invoicey = invoiced.Invoice.create(
         customer: invoiced_id,

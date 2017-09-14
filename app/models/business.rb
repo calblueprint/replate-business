@@ -36,7 +36,7 @@ class Business < ActiveRecord::Base
   end
 
   def set_invoiced_id
-      invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, true)
+      invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY)
       return if self.invoiced_id
       response = invoiced.Customer.create(
         name: company_name,

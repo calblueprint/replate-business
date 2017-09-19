@@ -178,7 +178,6 @@ class LocationInvoice extends React.Component {
       var arr = [];
       for (prop in response) {
         if (response[prop]['status'] == "complete"){
-          console.log(response[prop])
           arr.push(response[prop])
         };
       }
@@ -214,10 +213,7 @@ class LocationInvoice extends React.Component {
   _calculateChargeAmount = () => {
     var unpaidTasks = 0;
     var totalCharge = 0;
-    var costPerCharge = 30;
-    if (this.state.location.is_large) {
-      costPerCharge = 40;
-    }
+    var costPerCharge = this.state.location.pickup_price;
     for (var a = 0; a < this.state.tasks.length; a++) {
       if (!this.state.tasks[a].paid) {
         unpaidTasks++;
@@ -275,7 +271,8 @@ class LocationInvoice extends React.Component {
           You have { this.state.unpaidTasks } unpaid { this.state.unpaidTasks > 1 ? `pickups` : `pickup` }.
           </div>
           <div>
-          Your price per pickup is {this.state.location.is_large ? '$40' : '$30'} because this location has {this.state.location.is_large ? '> 100' : '< 100'} employees.
+          Your price per pickup is ${this.state.location.pickup_price}
+
           </div>
           <div className="history-button-container marginTop-md">
             <button

@@ -63,7 +63,7 @@ class API::LocationsController < ApplicationController
     location = Location.find(params[:id])
     t = Task.where(:location_id => location.id).where(paid: false)
     t.update_all(paid: true)
-    if l.business.invoiced_id?
+    if location.business.invoiced_id?
       InvoicedAPI.paid_tasks(t)
     end
     render_json_message(:ok, message: 'Tasks marked as paid!')

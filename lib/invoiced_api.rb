@@ -44,8 +44,6 @@ module InvoicedAPI
   end
 
   def self.invoice_data(tasks)
-    puts "*" * 100
-    puts Rails.env.test?
     items_builder = []
     tasks.each do |t|
       item = {}

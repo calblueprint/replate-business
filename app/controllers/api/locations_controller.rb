@@ -9,6 +9,7 @@ class API::LocationsController < ApplicationController
   def create
     location = Location.new(location_params)
     begin
+      location.pickup_price = location.is_large ? 40 : 30
       saved = location.save!
     rescue ActiveRecord::StatementInvalid => invalid
       return render_json_message(:forbidden, errors: "Invalid location")
@@ -61,8 +62,10 @@ class API::LocationsController < ApplicationController
   def mark_tasks_paid
     location = Location.find(params[:id])
     t = Task.where(:location_id => location.id).where(paid: false)
-    InvoicedAPI.paid_tasks(t)
-    Task.where(:location_id => location.id).update_all(paid: true)
+    t.update_all(paid: true)
+    if location.business.invoiced_id?
+      InvoicedAPI.paid_tasks(t)
+    end
     render_json_message(:ok, message: 'Tasks marked as paid!')
   end
 

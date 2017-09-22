@@ -29,7 +29,7 @@ class Business < ActiveRecord::Base
 
   has_many :locations, :dependent => :destroy
   validates_presence_of :company_name, :phone
-
+  after_create :set_invoiced_id
   def invoice_data
     tasks = locations.collect { |x| x.tasks.where(paid: false, status: 1, invoice_number: nil) }.flatten
     InvoicedAPI.invoice_data(tasks)

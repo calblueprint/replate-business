@@ -38,16 +38,16 @@ class LocationCreationForm extends DefaultForm {
       this._attemptAction(APIConstants.locations.create, this.state, success, fail);
     }, 500)
   }
-
+  
 
   open = (e) => {
     this.setState({ showModal: true });
   }
 
   initMap = (e) => {
-
+        
         var locationForm = this;
-        if (document.getElementById('map').innerHTML||!e) {
+        if (document.getElementById('map').innerHTML||!e) {  
           return;
         }
         var map = new google.maps.Map(this.mapDiv, {
@@ -58,8 +58,8 @@ class LocationCreationForm extends DefaultForm {
           position: {lat:37.791569, lng:-122.389938},
           map: map
         });
-
-        var autocomplete = new google.maps.places.Autocomplete(this.locationInput);
+      
+        var autocomplete = new google.maps.places.Autocomplete(this.locationInput);       
         autocomplete.bindTo('bounds', map);
         autocomplete.addListener('place_changed', function() {
           var place = autocomplete.getPlace();
@@ -80,7 +80,7 @@ class LocationCreationForm extends DefaultForm {
             if (place.address_components[i].types.includes('street_number')) {
               locationForm.setState({ number:place.address_components[i].long_name });
             }
-            else if (place.address_components[i].types.includes('route')) {
+            else if (place.address_components[i].types.includes('route')) {           
               locationForm.setState({ street:place.address_components[i].long_name });
             }
             else if (place.address_components[i].types.includes('locality')) {
@@ -157,7 +157,7 @@ class LocationCreationForm extends DefaultForm {
             </input>
 
             <div className="modal-content" id="map" ref={(input) => { this.mapDiv = input; this.initMap(input);}}>
-
+              
             </div>
           </Modal.Body>
           <Modal.Footer>

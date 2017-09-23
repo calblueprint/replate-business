@@ -28,8 +28,7 @@ module OnfleetAPI
         :state => location.state,
         :country => location.country,
         :postalCode => location.zip
-      },
-      :location => [ location.lon, location.lat]
+      }
     }
   end
 

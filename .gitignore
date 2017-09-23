@@ -23,6 +23,3 @@
 
 #Ignore ruby-version
 .ruby-version
-
-#Ignore simplecov data
-coverage

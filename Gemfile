@@ -13,7 +13,6 @@ gem 'faker', '1.6.6'
 gem 'figaro', '1.1.1'
 gem 'has_scope', '0.6.0'
 gem 'jbuilder', '~> 2.0'
-gem 'jwt'
 gem 'kaminari', '0.16.3'
 gem 'nokogiri'
 gem 'pg', '0.18.4'
@@ -23,7 +22,6 @@ gem 'json'
 gem 'geokit'
 gem 'rails_admin', '~> 1.1.1'
 gem 'responders', '~> 2.0'
-gem 'simplecov', :require => false, :group => :test
 gem 'timezone'
 gem 'tzinfo'
 gem 'zip-codes'
@@ -50,9 +48,6 @@ gem 'uglifier', '2.7.2'
 
 # Stripe
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
-
-# Invoiced
-gem 'invoiced', '~> 0.12.0'
 
 group :development, :test do
   gem 'better_errors'

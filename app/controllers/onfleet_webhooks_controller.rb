@@ -1,5 +1,5 @@
 class OnfleetWebhooksController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:index, :create]
+  skip_before_action :verify_authenticity_token
   def index
     if params['check']
       render :json => params['check']
@@ -18,6 +18,7 @@ class OnfleetWebhooksController < ApplicationController
         puts "<------Task: #{task_completed.id} didn't save as completed ----->"
       end
     end
+
     render :nothing => true
   end
 

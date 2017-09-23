@@ -12,10 +12,10 @@ class LocationHome extends React.Component {
     super(props);
     const tabMapping = {
       pickups: 1,
-      invoice: 2,
-      settings: 3,
-      impact: 4,
-      history: 5
+      history: 2,
+      invoice: 3,
+      settings: 4,
+      impact: 5,
     }
 
     let active = 1;
@@ -29,7 +29,6 @@ class LocationHome extends React.Component {
 
     this.state = {
       location: {},
-      business: {},
       activeTab: active,
       tabMapping: tabMapping,
       thisWeekSchedule: {},
@@ -44,16 +43,8 @@ class LocationHome extends React.Component {
 
   componentDidMount() {
     this._fetchUpdates();
-    this._fetchBusinessData();
   }
 
-  _fetchBusinessData = () => {
-    const success = (data) => {
-      this.setState({ business: data });
-    }
-    Requester.get(APIConstants.businesses.update(
-      this.props.location.business_id), success);
-  }
   _fetchImpactUpdates = () => {
     const success = (data) => {
       this.setState({ tasks : data });
@@ -171,8 +162,8 @@ class LocationHome extends React.Component {
                           showEditModal = {this._showEditModal}/>
           </Tab>
           <Tab eventKey={2} title="Invoice" tabClassName="tab-icon history-tab">
-            { this.state.activeTab == 2 &&
-            <LocationInvoice location = {this.props.location} business = {this.state.business}/>
+            { this.state.activeTab == 2 && 
+            <LocationInvoice location = {this.props.location} business = {this.props.business}/>
           }
           </Tab>
           {/*<Tab eventKey={3} title= "Impact" tableClassName="tab-icon impact-tab">
@@ -182,7 +173,7 @@ class LocationHome extends React.Component {
           <Tab eventKey={3} title="Settings" tabClassName="tab-icon settings-tab">
             <LocationSettings location      = {this.state.location}
                               fetchUpdates = {this._fetchUpdates}
-                              business = {this.state.business} />
+                              business = {this.props.business} />
           </Tab>
         </Tabs>
       </div>

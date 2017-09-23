@@ -59,7 +59,7 @@ class Recurrence < ActiveRecord::Base
     if self.location.state == 'California'
       self.driver_id = 'Wxi7dpU3VBVSQoEnG3CgMRjG'
     else
-      self.driver_id = 'YAiywdAnoWpwoL3vDyr0T6uP'
+      self.driver_id = 'rgU76yPZh2Qbo~ZYIsosqEUn'
     end
   end
 

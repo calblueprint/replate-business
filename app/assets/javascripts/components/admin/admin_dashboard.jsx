@@ -14,10 +14,15 @@ class AdminDashboard extends React.Component {
 
   render() {
     let businesses;
+
     businesses = this.props.business_ids.map((id) => {
       return (
+        <div>
+        <InvoiceButton
+          business_id = {id} />
         <BusinessDashboard
           business_id = {id} />
+          </div>
         )
       })
 

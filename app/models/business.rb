@@ -29,4 +29,40 @@ class Business < ActiveRecord::Base
 
   has_many :locations, :dependent => :destroy
   validates_presence_of :company_name, :phone
+  after_create :set_invoiced_id
+  def invoice_data
+    tasks = locations.collect { |x| x.tasks.where(paid: false, status: 1, invoice_number: nil) }.flatten
+    InvoicedAPI.invoice_data(tasks)
+  end
+
+  def set_invoiced_id
+      invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, !Rails.env.production?)
+      return if self.invoiced_id
+      response = invoiced.Customer.create(
+        name: company_name,
+        email: email,
+        phone: phone
+      )
+      puts response
+      self.invoiced_id = response.id
+      self.save
+  end
+
+  def make_invoice
+    invoiced = Invoiced::Client.new(Figaro.env.INVOICED_API_KEY, !Rails.env.production?)
+    if invoice_data != []
+      invoicey = invoiced.Invoice.create(
+        customer: invoiced_id,
+        payment_terms: 'NET 14',
+        items: invoice_data,
+        autopay: false
+      )
+    end
+
+    tasks = locations.collect { |x| x.tasks.where(paid: false, status: 1, invoice_number: nil) }.flatten
+    tasks.each do |task|
+      task.invoice_number = invoicey[:id]
+      task.save
+    end
+  end
 end

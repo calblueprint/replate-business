@@ -9,6 +9,7 @@ class API::LocationsController < ApplicationController
   def create
     location = Location.new(location_params)
     begin
+      location.pickup_price = location.is_large ? 40 : 30
       saved = location.save!
     rescue ActiveRecord::StatementInvalid => invalid
       return render_json_message(:forbidden, errors: "Invalid location")
@@ -31,7 +32,7 @@ class API::LocationsController < ApplicationController
 	end
 
   def update
-    begin 
+    begin
   		location = Location.find(params[:id])
       a = location.update(location_params)
     rescue
@@ -60,7 +61,11 @@ class API::LocationsController < ApplicationController
 
   def mark_tasks_paid
     location = Location.find(params[:id])
-    Task.where(:location_id => location.id).update_all(paid: true)
+    t = Task.where(:location_id => location.id).where(paid: false)
+    t.update_all(paid: true)
+    if location.business.invoiced_id?
+      InvoicedAPI.paid_tasks(t)
+    end
     render_json_message(:ok, message: 'Tasks marked as paid!')
   end
 
@@ -81,7 +86,7 @@ class API::LocationsController < ApplicationController
         store = params[:store]
         token = params[:stripeToken]
         if store
-          
+
           customer = Stripe::Customer.create(
             :email => location.email,
             :source => token,
@@ -101,7 +106,7 @@ class API::LocationsController < ApplicationController
             :source => token,
           )
           render :json => {}
-        end    
+        end
       end
     rescue
       render_json_message(:forbidden)

@@ -1,4 +1,4 @@
-#Replate
+# Replate
 
 <img src="http://i.imgur.com/6CMNP9Z.png" height="120" alt="Replate logo" /><br />
 [Replate](http://re-plate.org) is a nonprofit organization that uses technology to eliminate food waste and hunger in the community. It enables people and businesses to donate surplus food to other nonprofits or people in need. Blueprint is working with Replate to build a web application that will allow businesses to sign up and request donation pickups directly.
@@ -16,4 +16,27 @@ This application requires
 
 Getting Started
 ---
-First time dev? Check out the setup guide [here](docs/README.md)!
+
+### Initial Set Up
+```
+git clone git@github.com:calblueprint/replate-business.git
+cd replate-business
+
+bundle install
+```
+
+Ensure your application is configured with the proper `application.yml` `database.yml` files. Start up your postgresql server then run:
+
+```
+rake db:create
+rake db:migrate
+rake db:seed
+```
+
+### Running Your Application
+
+```
+rails server 
+```
+
+Happy developing!
